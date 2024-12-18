@@ -22,7 +22,7 @@ public class Movie { // 클래스 이름을 대문자로 수정
     private String movieCountry;
     private String moviePlot;
     private String movieTrailerUrl;
-    private String moviePoster;
+    private String moviePosterUrl;
     private Double movieImdbScore; // DECIMAL(2,1) -> Double로 수정
     private Integer movieRottenScore;
     private LocalDateTime movieRegAt;

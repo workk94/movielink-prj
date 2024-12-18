@@ -34,7 +34,7 @@
 
 
                                     <div class="info-poster">
-                                        <img alt="" th:src="${movie.moviePoster}"/>
+                                        <img alt="" th:src="${movie.moviePosterUrl}"/>
                                     </div>
                                     <p class="info-title" th:text="${movie.movieNm}">영화 제목</p>
                                 </a>
@@ -131,7 +131,7 @@
                                     <img
                                             alt="영화 포스터"
                                             class="movie-poster"
-                                            th:src="${movie.moviePoster}"
+                                            th:src="${movie.moviePosterUrl}"
                                     />
                                     <p class="movie-title" th:text="${movie.movieNm}">영화 제목</p>
                                 </div>
