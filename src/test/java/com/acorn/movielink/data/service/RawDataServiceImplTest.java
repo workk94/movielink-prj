@@ -15,13 +15,13 @@ class RawDataServiceImplTest {
 
     @Test
     void test(){
-        List<RAWDataDTO> list = service.findDataBetween("20240101", "20240102");
+        List<RAWDataDTO> list = service.findDataBetween("20240101", "20240101");
         list.forEach(System.out::println);
     }
 
     @Test
     void test2(){
-        int result = service.deleteDataBetween("20241210", "20241211");
+        int result = service.deleteDataBetween("20240101", "20241206");
         assertTrue(result >= 1);
     }
 
