@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.acorn.movielink.RawDataMapper">
+
+    <resultMap id="RawDataResultMap" type="com.acorn.movielink.data.dto.RAWDataDTO">
+        <result property="rnum" column="rnum"/>
+        <result property="ranking" column="ranking"/>
+        <result property="rankInten" column="rank_inten"/>
+        <result property="rankOldAndNew" column="rank_old_and_new"/>
+        <result property="movieCd" column="movie_cd"/>
+        <result property="movieNm" column="movie_nm"/>
+        <result property="openDt" column="open_dt"/>
+        <result property="salesAmt" column="sales_amt"/>
+        <result property="salesShare" column="sales_share"/>
+        <result property="salesInten" column="sales_inten"/>
+        <result property="salesChange" column="sales_change"/>
+        <result property="salesAcc" column="sales_acc"/>
+        <result property="audiCnt" column="audi_cnt"/>
+        <result property="audiInten" column="audi_inten"/>
+        <result property="audiChange" column="audi_change"/>
+        <result property="audiAcc" column="audi_acc"/>
+        <result property="scrnCnt" column="scrn_cnt"/>
+        <result property="showCnt" column="show_cnt"/>
+        <result property="boxOfficeDt" column="box_office_dt"/>
+    </resultMap>
+
+    <select id="findDataBetween" parameterType="map" resultMap="RawDataResultMap">
+        SELECT *
+        FROM  raw_data_test
+        WHERE box_office_dt BETWEEN #{startDate} AND #{endDate}
+    </select>
+
+    <delete id="deleteDataBetween" parameterType="map">
+        DELETE
+        FROM  raw_data_test
+        WHERE box_office_dt BETWEEN #{startDate} AND #{endDate}
+    </delete>
+
+    <select id="selectMovieCode" resultType="java.lang.String">
+        select distinct movie_cd from raw_data_test
+    </select>
+
+    <insert id="insertBatch" parameterType="java.util.List">
+        INSERT INTO raw_data_test (
+        rnum, ranking, rank_inten, rank_old_and_new, movie_cd, movie_nm, open_dt,
+        sales_amt, sales_share, sales_inten, sales_change, sales_acc, audi_cnt,
+        audi_inten, audi_change, audi_acc, scrn_cnt, show_cnt, box_office_dt, raw_data_create_at
+        )
+        VALUES
+        <foreach collection="list" item="item" separator=",">
+            (
+            #{item.rnum}, #{item.ranking}, #{item.rankInten}, #{item.rankOldAndNew}, #{item.movieCd}, #{item.movieNm}, #{item.openDt},
+            #{item.salesAmt}, #{item.salesShare}, #{item.salesInten}, #{item.salesChange}, #{item.salesAcc}, #{item.audiCnt},
+            #{item.audiInten}, #{item.audiChange}, #{item.audiAcc}, #{item.scrnCnt}, #{item.showCnt}, #{item.boxOfficeDt}, NOW()
+            )
+        </foreach>
+    </insert>
+</mapper>
