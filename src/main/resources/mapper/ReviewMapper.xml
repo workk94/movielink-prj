@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.acorn.movielink.login.repository.ReviewMapper">
+    <resultMap id="ReviewResultMap" type="com.acorn.movielink.login.dto.Review">
+        <id property="reviewId" column="review_id"/>
+        <result property="memId" column="mem_id"/>
+        <result property="movieId" column="movie_id"/>
+        <result property="reviewTitle" column="review_title"/>
+        <result property="reviewContent" column="review_content"/>
+        <result property="reviewRating" column="review_rating"/>
+        <result property="reviewRegAt" column="review_reg_at"/>
+        <result property="reviewLikeCnt" column="review_like_cnt"/>
+        <result property="movieNm" column="movieNm"/>
+        <result property="memNn" column="memNn"/>
+    </resultMap>
+
+
+    <select id="getLatestReviews" resultMap="ReviewResultMap">
+        SELECT
+        r.review_id,
+        r.mem_id,
+        r.movie_id,
+        r.review_title,
+        r.review_content,
+        r.review_rating,
+        r.review_reg_at,
+        r.review_like_cnt,
+        m.movie_nm AS movieNm,
+        m.movie_poster AS moviePoster,
+        mem.mem_nn AS memNn
+        FROM REVIEW r
+        JOIN MOVIE m ON r.movie_id = m.movie_id
+        JOIN MEMBER mem ON r.mem_id = mem.mem_id
+        ORDER BY r.review_reg_at DESC
+        LIMIT 10
+    </select>
+
+
+</mapper>

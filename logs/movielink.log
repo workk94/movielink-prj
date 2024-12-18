@@ -1,0 +1,1099 @@
+2024-12-18T13:28:02.047+09:00  INFO 12572 --- [movielink] [restartedMain] c.acorn.movielink.MovielinkApplication   : Starting MovielinkApplication using Java 17.0.11 with PID 12572 (C:\Users\82105\OneDrive\바탕 화면\movie_link\build\classes\java\main started by 82105 in C:\Users\82105\OneDrive\바탕 화면\movie_link)
+2024-12-18T13:28:02.050+09:00 DEBUG 12572 --- [movielink] [restartedMain] c.acorn.movielink.MovielinkApplication   : Running with Spring Boot v3.4.0, Spring v6.2.0
+2024-12-18T13:28:02.052+09:00  INFO 12572 --- [movielink] [restartedMain] c.acorn.movielink.MovielinkApplication   : No active profile set, falling back to 1 default profile: "default"
+2024-12-18T13:28:02.366+09:00  INFO 12572 --- [movielink] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2024-12-18T13:28:02.367+09:00  INFO 12572 --- [movielink] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2024-12-18T13:28:04.082+09:00  INFO 12572 --- [movielink] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2024-12-18T13:28:04.102+09:00  INFO 12572 --- [movielink] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2024-12-18T13:28:04.103+09:00  INFO 12572 --- [movielink] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.33]
+2024-12-18T13:28:04.178+09:00  INFO 12572 --- [movielink] [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2024-12-18T13:28:04.179+09:00  INFO 12572 --- [movielink] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1812 ms
+2024-12-18T13:28:04.603+09:00  WARN 12572 --- [movielink] [restartedMain] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'securityConfig' defined in file [C:\Users\82105\OneDrive\바탕 화면\movie_link\build\classes\java\main\com\acorn\movielink\config\SecurityConfig.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'customUserDetailsService' defined in file [C:\Users\82105\OneDrive\바탕 화면\movie_link\build\classes\java\main\com\acorn\movielink\login\service\CustomUserDetailsService.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'memberService' defined in file [C:\Users\82105\OneDrive\바탕 화면\movie_link\build\classes\java\main\com\acorn\movielink\login\service\MemberService.class]: Unsatisfied dependency expressed through constructor parameter 1: Error creating bean with name 'memberMapper' defined in file [C:\Users\82105\OneDrive\바탕 화면\movie_link\build\classes\java\main\com\acorn\movielink\login\repository\MemberMapper.class]: Cannot resolve reference to bean 'sqlSessionTemplate' while setting bean property 'sqlSessionTemplate'
+2024-12-18T13:28:04.613+09:00  INFO 12572 --- [movielink] [restartedMain] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
+2024-12-18T13:28:04.631+09:00  INFO 12572 --- [movielink] [restartedMain] .s.b.a.l.ConditionEvaluationReportLogger : 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2024-12-18T13:28:04.667+09:00 ERROR 12572 --- [movielink] [restartedMain] o.s.boot.SpringApplication               : Application run failed
+
+org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'securityConfig' defined in file [C:\Users\82105\OneDrive\바탕 화면\movie_link\build\classes\java\main\com\acorn\movielink\config\SecurityConfig.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'customUserDetailsService' defined in file [C:\Users\82105\OneDrive\바탕 화면\movie_link\build\classes\java\main\com\acorn\movielink\login\service\CustomUserDetailsService.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'memberService' defined in file [C:\Users\82105\OneDrive\바탕 화면\movie_link\build\classes\java\main\com\acorn\movielink\login\service\MemberService.class]: Unsatisfied dependency expressed through constructor parameter 1: Error creating bean with name 'memberMapper' defined in file [C:\Users\82105\OneDrive\바탕 화면\movie_link\build\classes\java\main\com\acorn\movielink\login\repository\MemberMapper.class]: Cannot resolve reference to bean 'sqlSessionTemplate' while setting bean property 'sqlSessionTemplate'
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:804) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.ConstructorResolver.autowireConstructor(ConstructorResolver.java:240) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireConstructor(AbstractAutowireCapableBeanFactory.java:1371) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1208) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:563) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:523) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:336) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:288) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:334) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.instantiateSingleton(DefaultListableBeanFactory.java:1122) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingleton(DefaultListableBeanFactory.java:1093) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:1030) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:987) ~[spring-context-6.2.0.jar:6.2.0]
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:627) ~[spring-context-6.2.0.jar:6.2.0]
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146) ~[spring-boot-3.4.0.jar:3.4.0]
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:752) ~[spring-boot-3.4.0.jar:3.4.0]
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:439) ~[spring-boot-3.4.0.jar:3.4.0]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:318) ~[spring-boot-3.4.0.jar:3.4.0]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1361) ~[spring-boot-3.4.0.jar:3.4.0]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1350) ~[spring-boot-3.4.0.jar:3.4.0]
+	at com.acorn.movielink.MovielinkApplication.main(MovielinkApplication.java:10) ~[main/:na]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:na]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77) ~[na:na]
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568) ~[na:na]
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:50) ~[spring-boot-devtools-3.4.0.jar:3.4.0]
+Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'customUserDetailsService' defined in file [C:\Users\82105\OneDrive\바탕 화면\movie_link\build\classes\java\main\com\acorn\movielink\login\service\CustomUserDetailsService.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'memberService' defined in file [C:\Users\82105\OneDrive\바탕 화면\movie_link\build\classes\java\main\com\acorn\movielink\login\service\MemberService.class]: Unsatisfied dependency expressed through constructor parameter 1: Error creating bean with name 'memberMapper' defined in file [C:\Users\82105\OneDrive\바탕 화면\movie_link\build\classes\java\main\com\acorn\movielink\login\repository\MemberMapper.class]: Cannot resolve reference to bean 'sqlSessionTemplate' while setting bean property 'sqlSessionTemplate'
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:804) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.ConstructorResolver.autowireConstructor(ConstructorResolver.java:240) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireConstructor(AbstractAutowireCapableBeanFactory.java:1371) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1208) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:563) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:523) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:336) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:288) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:334) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:254) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1626) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1514) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:913) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:791) ~[spring-beans-6.2.0.jar:6.2.0]
+	... 26 common frames omitted
+Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'memberService' defined in file [C:\Users\82105\OneDrive\바탕 화면\movie_link\build\classes\java\main\com\acorn\movielink\login\service\MemberService.class]: Unsatisfied dependency expressed through constructor parameter 1: Error creating bean with name 'memberMapper' defined in file [C:\Users\82105\OneDrive\바탕 화면\movie_link\build\classes\java\main\com\acorn\movielink\login\repository\MemberMapper.class]: Cannot resolve reference to bean 'sqlSessionTemplate' while setting bean property 'sqlSessionTemplate'
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:804) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.ConstructorResolver.autowireConstructor(ConstructorResolver.java:240) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireConstructor(AbstractAutowireCapableBeanFactory.java:1371) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1208) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:563) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:523) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:336) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:288) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:334) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1568) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1514) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:913) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:791) ~[spring-beans-6.2.0.jar:6.2.0]
+	... 40 common frames omitted
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'memberMapper' defined in file [C:\Users\82105\OneDrive\바탕 화면\movie_link\build\classes\java\main\com\acorn\movielink\login\repository\MemberMapper.class]: Cannot resolve reference to bean 'sqlSessionTemplate' while setting bean property 'sqlSessionTemplate'
+	at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveReference(BeanDefinitionValueResolver.java:377) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveValueIfNecessary(BeanDefinitionValueResolver.java:135) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.applyPropertyValues(AbstractAutowireCapableBeanFactory.java:1701) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1450) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:600) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:523) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:336) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:288) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:334) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1568) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1514) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:913) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:791) ~[spring-beans-6.2.0.jar:6.2.0]
+	... 53 common frames omitted
+Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'sqlSessionTemplate' defined in class path resource [org/mybatis/spring/boot/autoconfigure/MybatisAutoConfiguration.class]: Unsatisfied dependency expressed through method 'sqlSessionTemplate' parameter 0: Error creating bean with name 'sqlSessionFactory' defined in class path resource [org/mybatis/spring/boot/autoconfigure/MybatisAutoConfiguration.class]: Failed to instantiate [org.apache.ibatis.session.SqlSessionFactory]: Factory method 'sqlSessionFactory' threw exception with message: Failed to parse mapping resource: 'file [C:\Users\82105\OneDrive\바탕 화면\movie_link\build\resources\main\mapper\ReviewMapper.xml]'
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:804) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiateUsingFactoryMethod(ConstructorResolver.java:546) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateUsingFactoryMethod(AbstractAutowireCapableBeanFactory.java:1351) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1181) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:563) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:523) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:336) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:288) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:334) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveReference(BeanDefinitionValueResolver.java:365) ~[spring-beans-6.2.0.jar:6.2.0]
+	... 66 common frames omitted
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'sqlSessionFactory' defined in class path resource [org/mybatis/spring/boot/autoconfigure/MybatisAutoConfiguration.class]: Failed to instantiate [org.apache.ibatis.session.SqlSessionFactory]: Factory method 'sqlSessionFactory' threw exception with message: Failed to parse mapping resource: 'file [C:\Users\82105\OneDrive\바탕 화면\movie_link\build\resources\main\mapper\ReviewMapper.xml]'
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiate(ConstructorResolver.java:657) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiateUsingFactoryMethod(ConstructorResolver.java:645) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateUsingFactoryMethod(AbstractAutowireCapableBeanFactory.java:1351) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1181) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:563) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:523) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:336) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:288) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:334) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1568) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1514) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:913) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:791) ~[spring-beans-6.2.0.jar:6.2.0]
+	... 76 common frames omitted
+Caused by: org.springframework.beans.BeanInstantiationException: Failed to instantiate [org.apache.ibatis.session.SqlSessionFactory]: Factory method 'sqlSessionFactory' threw exception with message: Failed to parse mapping resource: 'file [C:\Users\82105\OneDrive\바탕 화면\movie_link\build\resources\main\mapper\ReviewMapper.xml]'
+	at org.springframework.beans.factory.support.SimpleInstantiationStrategy.lambda$instantiate$0(SimpleInstantiationStrategy.java:199) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.SimpleInstantiationStrategy.instantiateWithFactoryMethod(SimpleInstantiationStrategy.java:88) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.SimpleInstantiationStrategy.instantiate(SimpleInstantiationStrategy.java:168) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiate(ConstructorResolver.java:653) ~[spring-beans-6.2.0.jar:6.2.0]
+	... 89 common frames omitted
+Caused by: java.io.IOException: Failed to parse mapping resource: 'file [C:\Users\82105\OneDrive\바탕 화면\movie_link\build\resources\main\mapper\ReviewMapper.xml]'
+	at org.mybatis.spring.SqlSessionFactoryBean.buildSqlSessionFactory(SqlSessionFactoryBean.java:695) ~[mybatis-spring-3.0.4.jar:3.0.4]
+	at org.mybatis.spring.SqlSessionFactoryBean.afterPropertiesSet(SqlSessionFactoryBean.java:572) ~[mybatis-spring-3.0.4.jar:3.0.4]
+	at org.mybatis.spring.SqlSessionFactoryBean.getObject(SqlSessionFactoryBean.java:712) ~[mybatis-spring-3.0.4.jar:3.0.4]
+	at org.mybatis.spring.boot.autoconfigure.MybatisAutoConfiguration.sqlSessionFactory(MybatisAutoConfiguration.java:189) ~[mybatis-spring-boot-starter-3.0.4.jar:3.0.4]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:na]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77) ~[na:na]
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568) ~[na:na]
+	at org.springframework.beans.factory.support.SimpleInstantiationStrategy.lambda$instantiate$0(SimpleInstantiationStrategy.java:171) ~[spring-beans-6.2.0.jar:6.2.0]
+	... 92 common frames omitted
+Caused by: org.apache.ibatis.builder.BuilderException: Error parsing Mapper XML. The XML location is 'file [C:\Users\82105\OneDrive\바탕 화면\movie_link\build\resources\main\mapper\ReviewMapper.xml]'. Cause: org.apache.ibatis.builder.BuilderException: Error resolving class. Cause: org.apache.ibatis.type.TypeException: Could not resolve type alias 'com.acorn.demo.login.dto.Review'.  Cause: java.lang.ClassNotFoundException: Cannot find class: com.acorn.demo.login.dto.Review
+	at org.apache.ibatis.builder.xml.XMLMapperBuilder.configurationElement(XMLMapperBuilder.java:125) ~[mybatis-3.5.17.jar:3.5.17]
+	at org.apache.ibatis.builder.xml.XMLMapperBuilder.parse(XMLMapperBuilder.java:98) ~[mybatis-3.5.17.jar:3.5.17]
+	at org.mybatis.spring.SqlSessionFactoryBean.buildSqlSessionFactory(SqlSessionFactoryBean.java:693) ~[mybatis-spring-3.0.4.jar:3.0.4]
+	... 100 common frames omitted
+Caused by: org.apache.ibatis.builder.BuilderException: Error resolving class. Cause: org.apache.ibatis.type.TypeException: Could not resolve type alias 'com.acorn.demo.login.dto.Review'.  Cause: java.lang.ClassNotFoundException: Cannot find class: com.acorn.demo.login.dto.Review
+	at org.apache.ibatis.builder.BaseBuilder.resolveClass(BaseBuilder.java:103) ~[mybatis-3.5.17.jar:3.5.17]
+	at org.apache.ibatis.builder.xml.XMLMapperBuilder.resultMapElement(XMLMapperBuilder.java:222) ~[mybatis-3.5.17.jar:3.5.17]
+	at org.apache.ibatis.builder.xml.XMLMapperBuilder.resultMapElement(XMLMapperBuilder.java:214) ~[mybatis-3.5.17.jar:3.5.17]
+	at org.apache.ibatis.builder.xml.XMLMapperBuilder.resultMapElements(XMLMapperBuilder.java:206) ~[mybatis-3.5.17.jar:3.5.17]
+	at org.apache.ibatis.builder.xml.XMLMapperBuilder.configurationElement(XMLMapperBuilder.java:121) ~[mybatis-3.5.17.jar:3.5.17]
+	... 102 common frames omitted
+Caused by: org.apache.ibatis.type.TypeException: Could not resolve type alias 'com.acorn.demo.login.dto.Review'.  Cause: java.lang.ClassNotFoundException: Cannot find class: com.acorn.demo.login.dto.Review
+	at org.apache.ibatis.type.TypeAliasRegistry.resolveAlias(TypeAliasRegistry.java:128) ~[mybatis-3.5.17.jar:3.5.17]
+	at org.apache.ibatis.builder.BaseBuilder.resolveAlias(BaseBuilder.java:132) ~[mybatis-3.5.17.jar:3.5.17]
+	at org.apache.ibatis.builder.BaseBuilder.resolveClass(BaseBuilder.java:101) ~[mybatis-3.5.17.jar:3.5.17]
+	... 106 common frames omitted
+Caused by: java.lang.ClassNotFoundException: Cannot find class: com.acorn.demo.login.dto.Review
+	at org.apache.ibatis.io.ClassLoaderWrapper.classForName(ClassLoaderWrapper.java:226) ~[mybatis-3.5.17.jar:3.5.17]
+	at org.apache.ibatis.io.ClassLoaderWrapper.classForName(ClassLoaderWrapper.java:103) ~[mybatis-3.5.17.jar:3.5.17]
+	at org.apache.ibatis.io.Resources.classForName(Resources.java:322) ~[mybatis-3.5.17.jar:3.5.17]
+	at org.apache.ibatis.type.TypeAliasRegistry.resolveAlias(TypeAliasRegistry.java:124) ~[mybatis-3.5.17.jar:3.5.17]
+	... 108 common frames omitted
+
+2024-12-18T13:28:46.723+09:00  INFO 18164 --- [movielink] [restartedMain] c.acorn.movielink.MovielinkApplication   : Starting MovielinkApplication using Java 17.0.11 with PID 18164 (C:\Users\82105\OneDrive\바탕 화면\movie_link\build\classes\java\main started by 82105 in C:\Users\82105\OneDrive\바탕 화면\movie_link)
+2024-12-18T13:28:46.726+09:00 DEBUG 18164 --- [movielink] [restartedMain] c.acorn.movielink.MovielinkApplication   : Running with Spring Boot v3.4.0, Spring v6.2.0
+2024-12-18T13:28:46.727+09:00  INFO 18164 --- [movielink] [restartedMain] c.acorn.movielink.MovielinkApplication   : No active profile set, falling back to 1 default profile: "default"
+2024-12-18T13:28:47.049+09:00  INFO 18164 --- [movielink] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2024-12-18T13:28:47.049+09:00  INFO 18164 --- [movielink] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2024-12-18T13:28:48.700+09:00  INFO 18164 --- [movielink] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2024-12-18T13:28:48.716+09:00  INFO 18164 --- [movielink] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2024-12-18T13:28:48.716+09:00  INFO 18164 --- [movielink] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.33]
+2024-12-18T13:28:48.784+09:00  INFO 18164 --- [movielink] [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2024-12-18T13:28:48.785+09:00  INFO 18164 --- [movielink] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1735 ms
+2024-12-18T13:28:49.242+09:00  WARN 18164 --- [movielink] [restartedMain] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'securityConfig' defined in file [C:\Users\82105\OneDrive\바탕 화면\movie_link\build\classes\java\main\com\acorn\movielink\config\SecurityConfig.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'customUserDetailsService' defined in file [C:\Users\82105\OneDrive\바탕 화면\movie_link\build\classes\java\main\com\acorn\movielink\login\service\CustomUserDetailsService.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'memberService' defined in file [C:\Users\82105\OneDrive\바탕 화면\movie_link\build\classes\java\main\com\acorn\movielink\login\service\MemberService.class]: Unsatisfied dependency expressed through constructor parameter 1: Error creating bean with name 'memberMapper' defined in file [C:\Users\82105\OneDrive\바탕 화면\movie_link\build\classes\java\main\com\acorn\movielink\login\repository\MemberMapper.class]: Cannot resolve reference to bean 'sqlSessionTemplate' while setting bean property 'sqlSessionTemplate'
+2024-12-18T13:28:49.245+09:00  INFO 18164 --- [movielink] [restartedMain] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
+2024-12-18T13:28:49.261+09:00  INFO 18164 --- [movielink] [restartedMain] .s.b.a.l.ConditionEvaluationReportLogger : 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2024-12-18T13:28:49.288+09:00 ERROR 18164 --- [movielink] [restartedMain] o.s.boot.SpringApplication               : Application run failed
+
+org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'securityConfig' defined in file [C:\Users\82105\OneDrive\바탕 화면\movie_link\build\classes\java\main\com\acorn\movielink\config\SecurityConfig.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'customUserDetailsService' defined in file [C:\Users\82105\OneDrive\바탕 화면\movie_link\build\classes\java\main\com\acorn\movielink\login\service\CustomUserDetailsService.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'memberService' defined in file [C:\Users\82105\OneDrive\바탕 화면\movie_link\build\classes\java\main\com\acorn\movielink\login\service\MemberService.class]: Unsatisfied dependency expressed through constructor parameter 1: Error creating bean with name 'memberMapper' defined in file [C:\Users\82105\OneDrive\바탕 화면\movie_link\build\classes\java\main\com\acorn\movielink\login\repository\MemberMapper.class]: Cannot resolve reference to bean 'sqlSessionTemplate' while setting bean property 'sqlSessionTemplate'
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:804) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.ConstructorResolver.autowireConstructor(ConstructorResolver.java:240) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireConstructor(AbstractAutowireCapableBeanFactory.java:1371) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1208) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:563) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:523) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:336) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:288) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:334) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.instantiateSingleton(DefaultListableBeanFactory.java:1122) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingleton(DefaultListableBeanFactory.java:1093) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:1030) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:987) ~[spring-context-6.2.0.jar:6.2.0]
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:627) ~[spring-context-6.2.0.jar:6.2.0]
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146) ~[spring-boot-3.4.0.jar:3.4.0]
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:752) ~[spring-boot-3.4.0.jar:3.4.0]
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:439) ~[spring-boot-3.4.0.jar:3.4.0]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:318) ~[spring-boot-3.4.0.jar:3.4.0]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1361) ~[spring-boot-3.4.0.jar:3.4.0]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1350) ~[spring-boot-3.4.0.jar:3.4.0]
+	at com.acorn.movielink.MovielinkApplication.main(MovielinkApplication.java:10) ~[main/:na]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:na]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77) ~[na:na]
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568) ~[na:na]
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:50) ~[spring-boot-devtools-3.4.0.jar:3.4.0]
+Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'customUserDetailsService' defined in file [C:\Users\82105\OneDrive\바탕 화면\movie_link\build\classes\java\main\com\acorn\movielink\login\service\CustomUserDetailsService.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'memberService' defined in file [C:\Users\82105\OneDrive\바탕 화면\movie_link\build\classes\java\main\com\acorn\movielink\login\service\MemberService.class]: Unsatisfied dependency expressed through constructor parameter 1: Error creating bean with name 'memberMapper' defined in file [C:\Users\82105\OneDrive\바탕 화면\movie_link\build\classes\java\main\com\acorn\movielink\login\repository\MemberMapper.class]: Cannot resolve reference to bean 'sqlSessionTemplate' while setting bean property 'sqlSessionTemplate'
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:804) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.ConstructorResolver.autowireConstructor(ConstructorResolver.java:240) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireConstructor(AbstractAutowireCapableBeanFactory.java:1371) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1208) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:563) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:523) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:336) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:288) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:334) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:254) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1626) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1514) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:913) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:791) ~[spring-beans-6.2.0.jar:6.2.0]
+	... 26 common frames omitted
+Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'memberService' defined in file [C:\Users\82105\OneDrive\바탕 화면\movie_link\build\classes\java\main\com\acorn\movielink\login\service\MemberService.class]: Unsatisfied dependency expressed through constructor parameter 1: Error creating bean with name 'memberMapper' defined in file [C:\Users\82105\OneDrive\바탕 화면\movie_link\build\classes\java\main\com\acorn\movielink\login\repository\MemberMapper.class]: Cannot resolve reference to bean 'sqlSessionTemplate' while setting bean property 'sqlSessionTemplate'
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:804) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.ConstructorResolver.autowireConstructor(ConstructorResolver.java:240) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireConstructor(AbstractAutowireCapableBeanFactory.java:1371) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1208) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:563) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:523) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:336) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:288) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:334) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1568) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1514) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:913) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:791) ~[spring-beans-6.2.0.jar:6.2.0]
+	... 40 common frames omitted
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'memberMapper' defined in file [C:\Users\82105\OneDrive\바탕 화면\movie_link\build\classes\java\main\com\acorn\movielink\login\repository\MemberMapper.class]: Cannot resolve reference to bean 'sqlSessionTemplate' while setting bean property 'sqlSessionTemplate'
+	at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveReference(BeanDefinitionValueResolver.java:377) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveValueIfNecessary(BeanDefinitionValueResolver.java:135) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.applyPropertyValues(AbstractAutowireCapableBeanFactory.java:1701) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1450) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:600) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:523) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:336) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:288) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:334) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1568) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1514) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:913) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:791) ~[spring-beans-6.2.0.jar:6.2.0]
+	... 53 common frames omitted
+Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'sqlSessionTemplate' defined in class path resource [org/mybatis/spring/boot/autoconfigure/MybatisAutoConfiguration.class]: Unsatisfied dependency expressed through method 'sqlSessionTemplate' parameter 0: Error creating bean with name 'sqlSessionFactory' defined in class path resource [org/mybatis/spring/boot/autoconfigure/MybatisAutoConfiguration.class]: Failed to instantiate [org.apache.ibatis.session.SqlSessionFactory]: Factory method 'sqlSessionFactory' threw exception with message: Failed to parse mapping resource: 'file [C:\Users\82105\OneDrive\바탕 화면\movie_link\build\resources\main\mapper\ReviewMapper.xml]'
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:804) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiateUsingFactoryMethod(ConstructorResolver.java:546) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateUsingFactoryMethod(AbstractAutowireCapableBeanFactory.java:1351) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1181) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:563) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:523) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:336) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:288) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:334) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveReference(BeanDefinitionValueResolver.java:365) ~[spring-beans-6.2.0.jar:6.2.0]
+	... 66 common frames omitted
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'sqlSessionFactory' defined in class path resource [org/mybatis/spring/boot/autoconfigure/MybatisAutoConfiguration.class]: Failed to instantiate [org.apache.ibatis.session.SqlSessionFactory]: Factory method 'sqlSessionFactory' threw exception with message: Failed to parse mapping resource: 'file [C:\Users\82105\OneDrive\바탕 화면\movie_link\build\resources\main\mapper\ReviewMapper.xml]'
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiate(ConstructorResolver.java:657) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiateUsingFactoryMethod(ConstructorResolver.java:645) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateUsingFactoryMethod(AbstractAutowireCapableBeanFactory.java:1351) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1181) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:563) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:523) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:336) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:288) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:334) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1568) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1514) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:913) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:791) ~[spring-beans-6.2.0.jar:6.2.0]
+	... 76 common frames omitted
+Caused by: org.springframework.beans.BeanInstantiationException: Failed to instantiate [org.apache.ibatis.session.SqlSessionFactory]: Factory method 'sqlSessionFactory' threw exception with message: Failed to parse mapping resource: 'file [C:\Users\82105\OneDrive\바탕 화면\movie_link\build\resources\main\mapper\ReviewMapper.xml]'
+	at org.springframework.beans.factory.support.SimpleInstantiationStrategy.lambda$instantiate$0(SimpleInstantiationStrategy.java:199) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.SimpleInstantiationStrategy.instantiateWithFactoryMethod(SimpleInstantiationStrategy.java:88) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.SimpleInstantiationStrategy.instantiate(SimpleInstantiationStrategy.java:168) ~[spring-beans-6.2.0.jar:6.2.0]
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiate(ConstructorResolver.java:653) ~[spring-beans-6.2.0.jar:6.2.0]
+	... 89 common frames omitted
+Caused by: java.io.IOException: Failed to parse mapping resource: 'file [C:\Users\82105\OneDrive\바탕 화면\movie_link\build\resources\main\mapper\ReviewMapper.xml]'
+	at org.mybatis.spring.SqlSessionFactoryBean.buildSqlSessionFactory(SqlSessionFactoryBean.java:695) ~[mybatis-spring-3.0.4.jar:3.0.4]
+	at org.mybatis.spring.SqlSessionFactoryBean.afterPropertiesSet(SqlSessionFactoryBean.java:572) ~[mybatis-spring-3.0.4.jar:3.0.4]
+	at org.mybatis.spring.SqlSessionFactoryBean.getObject(SqlSessionFactoryBean.java:712) ~[mybatis-spring-3.0.4.jar:3.0.4]
+	at org.mybatis.spring.boot.autoconfigure.MybatisAutoConfiguration.sqlSessionFactory(MybatisAutoConfiguration.java:189) ~[mybatis-spring-boot-starter-3.0.4.jar:3.0.4]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:na]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77) ~[na:na]
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568) ~[na:na]
+	at org.springframework.beans.factory.support.SimpleInstantiationStrategy.lambda$instantiate$0(SimpleInstantiationStrategy.java:171) ~[spring-beans-6.2.0.jar:6.2.0]
+	... 92 common frames omitted
+Caused by: org.apache.ibatis.builder.BuilderException: Error parsing Mapper XML. The XML location is 'file [C:\Users\82105\OneDrive\바탕 화면\movie_link\build\resources\main\mapper\ReviewMapper.xml]'. Cause: org.apache.ibatis.builder.BuilderException: Error resolving class. Cause: org.apache.ibatis.type.TypeException: Could not resolve type alias 'com.acorn.demo.login.dto.Review'.  Cause: java.lang.ClassNotFoundException: Cannot find class: com.acorn.demo.login.dto.Review
+	at org.apache.ibatis.builder.xml.XMLMapperBuilder.configurationElement(XMLMapperBuilder.java:125) ~[mybatis-3.5.17.jar:3.5.17]
+	at org.apache.ibatis.builder.xml.XMLMapperBuilder.parse(XMLMapperBuilder.java:98) ~[mybatis-3.5.17.jar:3.5.17]
+	at org.mybatis.spring.SqlSessionFactoryBean.buildSqlSessionFactory(SqlSessionFactoryBean.java:693) ~[mybatis-spring-3.0.4.jar:3.0.4]
+	... 100 common frames omitted
+Caused by: org.apache.ibatis.builder.BuilderException: Error resolving class. Cause: org.apache.ibatis.type.TypeException: Could not resolve type alias 'com.acorn.demo.login.dto.Review'.  Cause: java.lang.ClassNotFoundException: Cannot find class: com.acorn.demo.login.dto.Review
+	at org.apache.ibatis.builder.BaseBuilder.resolveClass(BaseBuilder.java:103) ~[mybatis-3.5.17.jar:3.5.17]
+	at org.apache.ibatis.builder.xml.XMLMapperBuilder.resultMapElement(XMLMapperBuilder.java:222) ~[mybatis-3.5.17.jar:3.5.17]
+	at org.apache.ibatis.builder.xml.XMLMapperBuilder.resultMapElement(XMLMapperBuilder.java:214) ~[mybatis-3.5.17.jar:3.5.17]
+	at org.apache.ibatis.builder.xml.XMLMapperBuilder.resultMapElements(XMLMapperBuilder.java:206) ~[mybatis-3.5.17.jar:3.5.17]
+	at org.apache.ibatis.builder.xml.XMLMapperBuilder.configurationElement(XMLMapperBuilder.java:121) ~[mybatis-3.5.17.jar:3.5.17]
+	... 102 common frames omitted
+Caused by: org.apache.ibatis.type.TypeException: Could not resolve type alias 'com.acorn.demo.login.dto.Review'.  Cause: java.lang.ClassNotFoundException: Cannot find class: com.acorn.demo.login.dto.Review
+	at org.apache.ibatis.type.TypeAliasRegistry.resolveAlias(TypeAliasRegistry.java:128) ~[mybatis-3.5.17.jar:3.5.17]
+	at org.apache.ibatis.builder.BaseBuilder.resolveAlias(BaseBuilder.java:132) ~[mybatis-3.5.17.jar:3.5.17]
+	at org.apache.ibatis.builder.BaseBuilder.resolveClass(BaseBuilder.java:101) ~[mybatis-3.5.17.jar:3.5.17]
+	... 106 common frames omitted
+Caused by: java.lang.ClassNotFoundException: Cannot find class: com.acorn.demo.login.dto.Review
+	at org.apache.ibatis.io.ClassLoaderWrapper.classForName(ClassLoaderWrapper.java:226) ~[mybatis-3.5.17.jar:3.5.17]
+	at org.apache.ibatis.io.ClassLoaderWrapper.classForName(ClassLoaderWrapper.java:103) ~[mybatis-3.5.17.jar:3.5.17]
+	at org.apache.ibatis.io.Resources.classForName(Resources.java:322) ~[mybatis-3.5.17.jar:3.5.17]
+	at org.apache.ibatis.type.TypeAliasRegistry.resolveAlias(TypeAliasRegistry.java:124) ~[mybatis-3.5.17.jar:3.5.17]
+	... 108 common frames omitted
+
+2024-12-18T13:29:34.137+09:00  INFO 15988 --- [movielink] [restartedMain] c.acorn.movielink.MovielinkApplication   : Starting MovielinkApplication using Java 17.0.11 with PID 15988 (C:\Users\82105\OneDrive\바탕 화면\movie_link\build\classes\java\main started by 82105 in C:\Users\82105\OneDrive\바탕 화면\movie_link)
+2024-12-18T13:29:34.140+09:00 DEBUG 15988 --- [movielink] [restartedMain] c.acorn.movielink.MovielinkApplication   : Running with Spring Boot v3.4.0, Spring v6.2.0
+2024-12-18T13:29:34.141+09:00  INFO 15988 --- [movielink] [restartedMain] c.acorn.movielink.MovielinkApplication   : No active profile set, falling back to 1 default profile: "default"
+2024-12-18T13:29:34.442+09:00  INFO 15988 --- [movielink] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2024-12-18T13:29:34.442+09:00  INFO 15988 --- [movielink] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2024-12-18T13:29:36.018+09:00  INFO 15988 --- [movielink] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2024-12-18T13:29:36.033+09:00  INFO 15988 --- [movielink] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2024-12-18T13:29:36.034+09:00  INFO 15988 --- [movielink] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.33]
+2024-12-18T13:29:36.094+09:00  INFO 15988 --- [movielink] [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2024-12-18T13:29:36.094+09:00  INFO 15988 --- [movielink] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1651 ms
+2024-12-18T13:29:36.809+09:00  INFO 15988 --- [movielink] [restartedMain] eAuthenticationProviderManagerConfigurer : Global AuthenticationManager configured with AuthenticationProvider bean with name authenticationProvider
+2024-12-18T13:29:36.810+09:00  WARN 15988 --- [movielink] [restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used by Spring Security for automatically configuring username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider. If the current configuration is intentional, to turn off this warning, increase the logging level of 'org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer' to ERROR
+2024-12-18T13:29:37.057+09:00  WARN 15988 --- [movielink] [restartedMain] o.s.w.s.resource.ResourceHandlerUtils    : Appended trailing slash to static resource location: file:///C:/test/upload/profile-images/
+2024-12-18T13:29:37.097+09:00 DEBUG 15988 --- [movielink] [restartedMain] c.acorn.movielink.config.SecurityConfig  : SecurityFilterChain 초기화 완료
+2024-12-18T13:29:37.163+09:00 DEBUG 15988 --- [movielink] [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with filters: DisableEncodeUrlFilter, WebAsyncManagerIntegrationFilter, SecurityContextHolderFilter, HeaderWriterFilter, CsrfFilter, LogoutFilter, OAuth2AuthorizationRequestRedirectFilter, OAuth2LoginAuthenticationFilter, UsernamePasswordAuthenticationFilter, RequestCacheAwareFilter, SecurityContextHolderAwareRequestFilter, AnonymousAuthenticationFilter, ExceptionTranslationFilter, AuthorizationFilter
+2024-12-18T13:29:37.662+09:00  INFO 15988 --- [movielink] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2024-12-18T13:29:37.700+09:00  INFO 15988 --- [movielink] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2024-12-18T13:29:37.713+09:00  INFO 15988 --- [movielink] [restartedMain] c.acorn.movielink.MovielinkApplication   : Started MovielinkApplication in 4.125 seconds (process running for 4.583)
+2024-12-18T13:29:44.608+09:00  INFO 15988 --- [movielink] [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2024-12-18T13:29:44.609+09:00  INFO 15988 --- [movielink] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2024-12-18T13:29:44.611+09:00  INFO 15988 --- [movielink] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2024-12-18T13:29:44.637+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Securing GET /
+2024-12-18T13:29:44.655+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Secured GET /
+2024-12-18T13:29:44.685+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-1] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-12-18T13:29:44.686+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-1] c.a.m.login.service.MemberService        : 최신 리뷰 10개 조회 요청
+2024-12-18T13:29:44.712+09:00  INFO 15988 --- [movielink] [http-nio-8080-exec-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2024-12-18T13:29:44.943+09:00  INFO 15988 --- [movielink] [http-nio-8080-exec-1] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@3ad2ae5e
+2024-12-18T13:29:44.946+09:00  INFO 15988 --- [movielink] [http-nio-8080-exec-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2024-12-18T13:29:45.058+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-1] c.a.m.login.service.MemberService        : 쿼리 결과: [Review(reviewId=1, memId=1, movieId=6, reviewTitle=놀란보고 놀람, reviewContent=인터스텔라는 신이다., reviewRating=10, reviewRegAt=2024-12-16T14:00, reviewLikeCnt=0, movieNm=Inception, memNn=꼬르야), Review(reviewId=2, memId=1, movieId=6, reviewTitle=놀란보고 놀람, reviewContent=인터스텔라는 신이다., reviewRating=10, reviewRegAt=2024-12-16T14:00, reviewLikeCnt=0, movieNm=Inception, memNn=꼬르야), Review(reviewId=3, memId=1, movieId=6, reviewTitle=놀란보고 놀람, reviewContent=인터스텔라는 신이다., reviewRating=10, reviewRegAt=2024-12-16T14:00, reviewLikeCnt=0, movieNm=Inception, memNn=꼬르야), Review(reviewId=4, memId=1, movieId=6, reviewTitle=놀란보고 놀람, reviewContent=인터스텔라는 신이다., reviewRating=10, reviewRegAt=2024-12-16T14:00, reviewLikeCnt=0, movieNm=Inception, memNn=꼬르야)]
+2024-12-18T13:29:45.097+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-1] org.thymeleaf.TemplateEngine             : [THYMELEAF] INITIALIZING TEMPLATE ENGINE
+2024-12-18T13:29:45.424+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-1] org.thymeleaf.TemplateEngine.CONFIG      : Initializing Thymeleaf Template engine configuration...
+[THYMELEAF] TEMPLATE ENGINE CONFIGURATION:
+[THYMELEAF] * Thymeleaf version: 3.1.2.RELEASE (built 2023-07-30T19:25:50+0000)
+[THYMELEAF] * Cache Manager implementation: org.thymeleaf.cache.StandardCacheManager
+[THYMELEAF] * Template resolvers:
+[THYMELEAF]     * org.thymeleaf.spring6.templateresolver.SpringResourceTemplateResolver
+[THYMELEAF] * Message resolvers:
+[THYMELEAF]     * org.thymeleaf.spring6.messageresolver.SpringMessageResolver
+[THYMELEAF] * Link builders:
+[THYMELEAF]     * org.thymeleaf.linkbuilder.StandardLinkBuilder
+[THYMELEAF] * Dialect [1 of 3]: SpringStandard (org.thymeleaf.spring6.dialect.SpringStandardDialect)
+[THYMELEAF]     * Prefix: "th"
+[THYMELEAF]     * Processors for Template Mode: HTML
+[THYMELEAF]         * Element Tag Processors by [matching element and attribute name] [precedence]:
+[THYMELEAF]             * [* {th:include,data-th-include}] [100]: org.thymeleaf.standard.processor.StandardIncludeTagProcessor
+[THYMELEAF]             * [* {th:insert,data-th-insert}] [100]: org.thymeleaf.standard.processor.StandardInsertTagProcessor
+[THYMELEAF]             * [* {th:replace,data-th-replace}] [100]: org.thymeleaf.standard.processor.StandardReplaceTagProcessor
+[THYMELEAF]             * [* {th:each,data-th-each}] [200]: org.thymeleaf.standard.processor.StandardEachTagProcessor
+[THYMELEAF]             * [* {th:switch,data-th-switch}] [250]: org.thymeleaf.standard.processor.StandardSwitchTagProcessor
+[THYMELEAF]             * [* {th:case,data-th-case}] [275]: org.thymeleaf.standard.processor.StandardCaseTagProcessor
+[THYMELEAF]             * [* {th:if,data-th-if}] [300]: org.thymeleaf.standard.processor.StandardIfTagProcessor
+[THYMELEAF]             * [* {th:unless,data-th-unless}] [400]: org.thymeleaf.standard.processor.StandardUnlessTagProcessor
+[THYMELEAF]             * [* {th:object,data-th-object}] [500]: org.thymeleaf.spring6.processor.SpringObjectTagProcessor
+[THYMELEAF]             * [* {th:with,data-th-with}] [600]: org.thymeleaf.standard.processor.StandardWithTagProcessor
+[THYMELEAF]             * [* {th:attr,data-th-attr}] [700]: org.thymeleaf.standard.processor.StandardAttrTagProcessor
+[THYMELEAF]             * [* {th:attrprepend,data-th-attrprepend}] [800]: org.thymeleaf.standard.processor.StandardAttrprependTagProcessor
+[THYMELEAF]             * [* {th:attrappend,data-th-attrappend}] [900]: org.thymeleaf.standard.processor.StandardAttrappendTagProcessor
+[THYMELEAF]             * [* {th:method,data-th-method}] [990]: org.thymeleaf.spring6.processor.SpringMethodTagProcessor
+[THYMELEAF]             * [* {th:alt-title,data-th-alt-title}] [990]: org.thymeleaf.standard.processor.StandardAltTitleTagProcessor
+[THYMELEAF]             * [* {th:lang-xmllang,data-th-lang-xmllang}] [990]: org.thymeleaf.standard.processor.StandardLangXmlLangTagProcessor
+[THYMELEAF]             * [* {th:action,data-th-action}] [1000]: org.thymeleaf.spring6.processor.SpringActionTagProcessor
+[THYMELEAF]             * [* {th:href,data-th-href}] [1000]: org.thymeleaf.spring6.processor.SpringHrefTagProcessor
+[THYMELEAF]             * [* {th:src,data-th-src}] [1000]: org.thymeleaf.spring6.processor.SpringSrcTagProcessor
+[THYMELEAF]             * [* {th:reversed,data-th-reversed}] [1000]: org.thymeleaf.standard.processor.StandardConditionalFixedValueTagProcessor
+[THYMELEAF]             * [* {th:ismap,data-th-ismap}] [1000]: org.thymeleaf.standard.processor.StandardConditionalFixedValueTagProcessor
+[THYMELEAF]             * [* {th:controls,data-th-controls}] [1000]: org.thymeleaf.standard.processor.StandardConditionalFixedValueTagProcessor
+[THYMELEAF]             * [* {th:autoplay,data-th-autoplay}] [1000]: org.thymeleaf.standard.processor.StandardConditionalFixedValueTagProcessor
+[THYMELEAF]             * [* {th:pubdate,data-th-pubdate}] [1000]: org.thymeleaf.standard.processor.StandardConditionalFixedValueTagProcessor
+[THYMELEAF]             * [* {th:seamless,data-th-seamless}] [1000]: org.thymeleaf.standard.processor.StandardConditionalFixedValueTagProcessor
+[THYMELEAF]             * [* {th:declare,data-th-declare}] [1000]: org.thymeleaf.standard.processor.StandardConditionalFixedValueTagProcessor
+[THYMELEAF]             * [* {th:default,data-th-default}] [1000]: org.thymeleaf.standard.processor.StandardConditionalFixedValueTagProcessor
+[THYMELEAF]             * [* {th:autofocus,data-th-autofocus}] [1000]: org.thymeleaf.standard.processor.StandardConditionalFixedValueTagProcessor
+[THYMELEAF]             * [* {th:nowrap,data-th-nowrap}] [1000]: org.thymeleaf.standard.processor.StandardConditionalFixedValueTagProcessor
+[THYMELEAF]             * [* {th:selected,data-th-selected}] [1000]: org.thymeleaf.standard.processor.StandardConditionalFixedValueTagProcessor
+[THYMELEAF]             * [* {th:formnovalidate,data-th-formnovalidate}] [1000]: org.thymeleaf.standard.processor.StandardConditionalFixedValueTagProcessor
+[THYMELEAF]             * [* {th:disabled,data-th-disabled}] [1000]: org.thymeleaf.standard.processor.StandardConditionalFixedValueTagProcessor
+[THYMELEAF]             * [* {th:async,data-th-async}] [1000]: org.thymeleaf.standard.processor.StandardConditionalFixedValueTagProcessor
+[THYMELEAF]             * [* {th:required,data-th-required}] [1000]: org.thymeleaf.standard.processor.StandardConditionalFixedValueTagProcessor
+[THYMELEAF]             * [* {th:readonly,data-th-readonly}] [1000]: org.thymeleaf.standard.processor.StandardConditionalFixedValueTagProcessor
+[THYMELEAF]             * [* {th:defer,data-th-defer}] [1000]: org.thymeleaf.standard.processor.StandardConditionalFixedValueTagProcessor
+[THYMELEAF]             * [* {th:novalidate,data-th-novalidate}] [1000]: org.thymeleaf.standard.processor.StandardConditionalFixedValueTagProcessor
+[THYMELEAF]             * [* {th:hidden,data-th-hidden}] [1000]: org.thymeleaf.standard.processor.StandardConditionalFixedValueTagProcessor
+[THYMELEAF]             * [* {th:scoped,data-th-scoped}] [1000]: org.thymeleaf.standard.processor.StandardConditionalFixedValueTagProcessor
+[THYMELEAF]             * [* {th:checked,data-th-checked}] [1000]: org.thymeleaf.standard.processor.StandardConditionalFixedValueTagProcessor
+[THYMELEAF]             * [* {th:multiple,data-th-multiple}] [1000]: org.thymeleaf.standard.processor.StandardConditionalFixedValueTagProcessor
+[THYMELEAF]             * [* {th:loop,data-th-loop}] [1000]: org.thymeleaf.standard.processor.StandardConditionalFixedValueTagProcessor
+[THYMELEAF]             * [* {th:open,data-th-open}] [1000]: org.thymeleaf.standard.processor.StandardConditionalFixedValueTagProcessor
+[THYMELEAF]             * [* {th:onclick,data-th-onclick}] [1000]: org.thymeleaf.standard.processor.StandardDOMEventAttributeTagProcessor
+[THYMELEAF]             * [* {th:onplay,data-th-onplay}] [1000]: org.thymeleaf.standard.processor.StandardDOMEventAttributeTagProcessor
+[THYMELEAF]             * [* {th:onmousewheel,data-th-onmousewheel}] [1000]: org.thymeleaf.standard.processor.StandardDOMEventAttributeTagProcessor
+[THYMELEAF]             * [* {th:onkeypress,data-th-onkeypress}] [1000]: org.thymeleaf.standard.processor.StandardDOMEventAttributeTagProcessor
+[THYMELEAF]             * [* {th:onstorage,data-th-onstorage}] [1000]: org.thymeleaf.standard.processor.StandardDOMEventAttributeTagProcessor
+[THYMELEAF]             * [* {th:onforminput,data-th-onforminput}] [1000]: org.thymeleaf.standard.processor.StandardDOMEventAttributeTagProcessor
+[THYMELEAF]             * [* {th:onpopstate,data-th-onpopstate}] [1000]: org.thymeleaf.standard.processor.StandardDOMEventAttributeTagProcessor
+[THYMELEAF]             * [* {th:onshow,data-th-onshow}] [1000]: org.thymeleaf.standard.processor.StandardDOMEventAttributeTagProcessor
+[THYMELEAF]             * [* {th:onstalled,data-th-onstalled}] [1000]: org.thymeleaf.standard.processor.StandardDOMEventAttributeTagProcessor
+[THYMELEAF]             * [* {th:onemptied,data-th-onemptied}] [1000]: org.thymeleaf.standard.processor.StandardDOMEventAttributeTagProcessor
+[THYMELEAF]             * [* {th:ondragstart,data-th-ondragstart}] [1000]: org.thymeleaf.standard.processor.StandardDOMEventAttributeTagProcessor
+[THYMELEAF]             * [* {th:ondragover,data-th-ondragover}] [1000]: org.thymeleaf.standard.processor.StandardDOMEventAttributeTagProcessor
+[THYMELEAF]             * [* {th:ondragenter,data-th-ondragenter}] [1000]: org.thymeleaf.standard.processor.StandardDOMEventAttributeTagProcessor
+[THYMELEAF]             * [* {th:onreadystatechange,data-th-onreadystatechange}] [1000]: org.thymeleaf.standard.processor.StandardDOMEventAttributeTagProcessor
+[THYMELEAF]             * [* {th:onscroll,data-th-onscroll}] [1000]: org.thymeleaf.standard.processor.StandardDOMEventAttributeTagProcessor
+[THYMELEAF]             * [* {th:onerror,data-th-onerror}] [1000]: org.thymeleaf.standard.processor.StandardDOMEventAttributeTagProcessor
+[THYMELEAF]             * [* {th:ontimeupdate,data-th-ontimeupdate}] [1000]: org.thymeleaf.standard.processor.StandardDOMEventAttributeTagProcessor
+[THYMELEAF]             * [* {th:onloadedmetadata,data-th-onloadedmetadata}] [1000]: org.thymeleaf.standard.processor.StandardDOMEventAttributeTagProcessor
+[THYMELEAF]             * [* {th:onplaying,data-th-onplaying}] [1000]: org.thymeleaf.standard.processor.StandardDOMEventAttributeTagProcessor
+[THYMELEAF]             * [* {th:oncontextmenu,data-th-oncontextmenu}] [1000]: org.thymeleaf.standard.processor.StandardDOMEventAttributeTagProcessor
+[THYMELEAF]             * [* {th:oncanplay,data-th-oncanplay}] [1000]: org.thymeleaf.standard.processor.StandardDOMEventAttributeTagProcessor
+[THYMELEAF]             * [* {th:onloadeddata,data-th-onloadeddata}] [1000]: org.thymeleaf.standard.processor.StandardDOMEventAttributeTagProcessor
+[THYMELEAF]             * [* {th:onseeking,data-th-onseeking}] [1000]: org.thymeleaf.standard.processor.StandardDOMEventAttributeTagProcessor
+[THYMELEAF]             * [* {th:onchange,data-th-onchange}] [1000]: org.thymeleaf.standard.processor.StandardDOMEventAttributeTagProcessor
+[THYMELEAF]             * [* {th:ondrop,data-th-ondrop}] [1000]: org.thymeleaf.standard.processor.StandardDOMEventAttributeTagProcessor
+[THYMELEAF]             * [* {th:onvolumechange,data-th-onvolumechange}] [1000]: org.thymeleaf.standard.processor.StandardDOMEventAttributeTagProcessor
+[THYMELEAF]             * [* {th:onload,data-th-onload}] [1000]: org.thymeleaf.standard.processor.StandardDOMEventAttributeTagProcessor
+[THYMELEAF]             * [* {th:ondragend,data-th-ondragend}] [1000]: org.thymeleaf.standard.processor.StandardDOMEventAttributeTagProcessor
+[THYMELEAF]             * [* {th:onmousemove,data-th-onmousemove}] [1000]: org.thymeleaf.standard.processor.StandardDOMEventAttributeTagProcessor
+[THYMELEAF]             * [* {th:ononline,data-th-ononline}] [1000]: org.thymeleaf.standard.processor.StandardDOMEventAttributeTagProcessor
+[THYMELEAF]             * [* {th:onkeydown,data-th-onkeydown}] [1000]: org.thymeleaf.standard.processor.StandardDOMEventAttributeTagProcessor
+[THYMELEAF]             * [* {th:onmouseover,data-th-onmouseover}] [1000]: org.thymeleaf.standard.processor.StandardDOMEventAttributeTagProcessor
+[THYMELEAF]             * [* {th:ondragleave,data-th-ondragleave}] [1000]: org.thymeleaf.standard.processor.StandardDOMEventAttributeTagProcessor
+[THYMELEAF]             * [* {th:onkeyup,data-th-onkeyup}] [1000]: org.thymeleaf.standard.processor.StandardDOMEventAttributeTagProcessor
+[THYMELEAF]             * [* {th:oncanplaythrough,data-th-oncanplaythrough}] [1000]: org.thymeleaf.standard.processor.StandardDOMEventAttributeTagProcessor
+[THYMELEAF]             * [* {th:onloadstart,data-th-onloadstart}] [1000]: org.thymeleaf.standard.processor.StandardDOMEventAttributeTagProcessor
+[THYMELEAF]             * [* {th:onfocus,data-th-onfocus}] [1000]: org.thymeleaf.standard.processor.StandardDOMEventAttributeTagProcessor
+[THYMELEAF]             * [* {th:onsubmit,data-th-onsubmit}] [1000]: org.thymeleaf.standard.processor.StandardDOMEventAttributeTagProcessor
+[THYMELEAF]             * [* {th:oninput,data-th-oninput}] [1000]: org.thymeleaf.standard.processor.StandardDOMEventAttributeTagProcessor
+[THYMELEAF]             * [* {th:onbeforeprint,data-th-onbeforeprint}] [1000]: org.thymeleaf.standard.processor.StandardDOMEventAttributeTagProcessor
+[THYMELEAF]             * [* {th:onmessage,data-th-onmessage}] [1000]: org.thymeleaf.standard.processor.StandardDOMEventAttributeTagProcessor
+[THYMELEAF]             * [* {th:onratechange,data-th-onratechange}] [1000]: org.thymeleaf.standard.processor.StandardDOMEventAttributeTagProcessor
+[THYMELEAF]             * [* {th:onprogress,data-th-onprogress}] [1000]: org.thymeleaf.standard.processor.StandardDOMEventAttributeTagProcessor
+[THYMELEAF]             * [* {th:onselect,data-th-onselect}] [1000]: org.thymeleaf.standard.processor.StandardDOMEventAttributeTagProcessor
+[THYMELEAF]             * [* {th:ondrag,data-th-ondrag}] [1000]: org.thymeleaf.standard.processor.StandardDOMEventAttributeTagProcessor
+[THYMELEAF]             * [* {th:onblur,data-th-onblur}] [1000]: org.thymeleaf.standard.processor.StandardDOMEventAttributeTagProcessor
+[THYMELEAF]             * [* {th:onmouseup,data-th-onmouseup}] [1000]: org.thymeleaf.standard.processor.StandardDOMEventAttributeTagProcessor
+[THYMELEAF]             * [* {th:onredo,data-th-onredo}] [1000]: org.thymeleaf.standard.processor.StandardDOMEventAttributeTagProcessor
+[THYMELEAF]             * [* {th:onresize,data-th-onresize}] [1000]: org.thymeleaf.standard.processor.StandardDOMEventAttributeTagProcessor
+[THYMELEAF]             * [* {th:onpause,data-th-onpause}] [1000]: org.thymeleaf.standard.processor.StandardDOMEventAttributeTagProcessor
+[THYMELEAF]             * [* {th:onreset,data-th-onreset}] [1000]: org.thymeleaf.standard.processor.StandardDOMEventAttributeTagProcessor
+[THYMELEAF]             * [* {th:onafterprint,data-th-onafterprint}] [1000]: org.thymeleaf.standard.processor.StandardDOMEventAttributeTagProcessor
+[THYMELEAF]             * [* {th:ondblclick,data-th-ondblclick}] [1000]: org.thymeleaf.standard.processor.StandardDOMEventAttributeTagProcessor
+[THYMELEAF]             * [* {th:onundo,data-th-onundo}] [1000]: org.thymeleaf.standard.processor.StandardDOMEventAttributeTagProcessor
+[THYMELEAF]             * [* {th:onsuspend,data-th-onsuspend}] [1000]: org.thymeleaf.standard.processor.StandardDOMEventAttributeTagProcessor
+[THYMELEAF]             * [* {th:onbeforeunload,data-th-onbeforeunload}] [1000]: org.thymeleaf.standard.processor.StandardDOMEventAttributeTagProcessor
+[THYMELEAF]             * [* {th:onabort,data-th-onabort}] [1000]: org.thymeleaf.standard.processor.StandardDOMEventAttributeTagProcessor
+[THYMELEAF]             * [* {th:onseeked,data-th-onseeked}] [1000]: org.thymeleaf.standard.processor.StandardDOMEventAttributeTagProcessor
+[THYMELEAF]             * [* {th:onmouseout,data-th-onmouseout}] [1000]: org.thymeleaf.standard.processor.StandardDOMEventAttributeTagProcessor
+[THYMELEAF]             * [* {th:onunload,data-th-onunload}] [1000]: org.thymeleaf.standard.processor.StandardDOMEventAttributeTagProcessor
+[THYMELEAF]             * [* {th:onoffline,data-th-onoffline}] [1000]: org.thymeleaf.standard.processor.StandardDOMEventAttributeTagProcessor
+[THYMELEAF]             * [* {th:onhashchange,data-th-onhashchange}] [1000]: org.thymeleaf.standard.processor.StandardDOMEventAttributeTagProcessor
+[THYMELEAF]             * [* {th:onformchange,data-th-onformchange}] [1000]: org.thymeleaf.standard.processor.StandardDOMEventAttributeTagProcessor
+[THYMELEAF]             * [* {th:ondurationchange,data-th-ondurationchange}] [1000]: org.thymeleaf.standard.processor.StandardDOMEventAttributeTagProcessor
+[THYMELEAF]             * [* {th:onwaiting,data-th-onwaiting}] [1000]: org.thymeleaf.standard.processor.StandardDOMEventAttributeTagProcessor
+[THYMELEAF]             * [* {th:onmousedown,data-th-onmousedown}] [1000]: org.thymeleaf.standard.processor.StandardDOMEventAttributeTagProcessor
+[THYMELEAF]             * [* {th:oninvalid,data-th-oninvalid}] [1000]: org.thymeleaf.standard.processor.StandardDOMEventAttributeTagProcessor
+[THYMELEAF]             * [* {th:onended,data-th-onended}] [1000]: org.thymeleaf.standard.processor.StandardDOMEventAttributeTagProcessor
+[THYMELEAF]             * [* {th:inline,data-th-inline}] [1000]: org.thymeleaf.standard.processor.StandardInlineHTMLTagProcessor
+[THYMELEAF]             * [* {th:name,data-th-name}] [1000]: org.thymeleaf.standard.processor.StandardNonRemovableAttributeTagProcessor
+[THYMELEAF]             * [* {th:type,data-th-type}] [1000]: org.thymeleaf.standard.processor.StandardNonRemovableAttributeTagProcessor
+[THYMELEAF]             * [* {th:width,data-th-width}] [1000]: org.thymeleaf.standard.processor.StandardRemovableAttributeTagProcessor
+[THYMELEAF]             * [* {th:icon,data-th-icon}] [1000]: org.thymeleaf.standard.processor.StandardRemovableAttributeTagProcessor
+[THYMELEAF]             * [* {th:min,data-th-min}] [1000]: org.thymeleaf.standard.processor.StandardRemovableAttributeTagProcessor
+[THYMELEAF]             * [* {th:scope,data-th-scope}] [1000]: org.thymeleaf.standard.processor.StandardRemovableAttributeTagProcessor
+[THYMELEAF]             * [* {th:optimum,data-th-optimum}] [1000]: org.thymeleaf.standard.processor.StandardRemovableAttributeTagProcessor
+[THYMELEAF]             * [* {th:background,data-th-background}] [1000]: org.thymeleaf.standard.processor.StandardRemovableAttributeTagProcessor
+[THYMELEAF]             * [* {th:codebase,data-th-codebase}] [1000]: org.thymeleaf.standard.processor.StandardRemovableAttributeTagProcessor
+[THYMELEAF]             * [* {th:datetime,data-th-datetime}] [1000]: org.thymeleaf.standard.processor.StandardRemovableAttributeTagProcessor
+[THYMELEAF]             * [* {th:classid,data-th-classid}] [1000]: org.thymeleaf.standard.processor.StandardRemovableAttributeTagProcessor
+[THYMELEAF]             * [* {th:sandbox,data-th-sandbox}] [1000]: org.thymeleaf.standard.processor.StandardRemovableAttributeTagProcessor
+[THYMELEAF]             * [* {th:cellpadding,data-th-cellpadding}] [1000]: org.thymeleaf.standard.processor.StandardRemovableAttributeTagProcessor
+[THYMELEAF]             * [* {th:for,data-th-for}] [1000]: org.thymeleaf.standard.processor.StandardRemovableAttributeTagProcessor
+[THYMELEAF]             * [* {th:form,data-th-form}] [1000]: org.thymeleaf.standard.processor.StandardRemovableAttributeTagProcessor
+[THYMELEAF]             * [* {th:scrolling,data-th-scrolling}] [1000]: org.thymeleaf.standard.processor.StandardRemovableAttributeTagProcessor
+[THYMELEAF]             * [* {th:rules,data-th-rules}] [1000]: org.thymeleaf.standard.processor.StandardRemovableAttributeTagProcessor
+[THYMELEAF]             * [* {th:headers,data-th-headers}] [1000]: org.thymeleaf.standard.processor.StandardRemovableAttributeTagProcessor
+[THYMELEAF]             * [* {th:challenge,data-th-challenge}] [1000]: org.thymeleaf.standard.processor.StandardRemovableAttributeTagProcessor
+[THYMELEAF]             * [* {th:keytype,data-th-keytype}] [1000]: org.thymeleaf.standard.processor.StandardRemovableAttributeTagProcessor
+[THYMELEAF]             * [* {th:title,data-th-title}] [1000]: org.thymeleaf.standard.processor.StandardRemovableAttributeTagProcessor
+[THYMELEAF]             * [* {th:axis,data-th-axis}] [1000]: org.thymeleaf.standard.processor.StandardRemovableAttributeTagProcessor
+[THYMELEAF]             * [* {th:media,data-th-media}] [1000]: org.thymeleaf.standard.processor.StandardRemovableAttributeTagProcessor
+[THYMELEAF]             * [* {th:accesskey,data-th-accesskey}] [1000]: org.thymeleaf.standard.processor.StandardRemovableAttributeTagProcessor
+[THYMELEAF]             * [* {th:cols,data-th-cols}] [1000]: org.thymeleaf.standard.processor.StandardRemovableAttributeTagProcessor
+[THYMELEAF]             * [* {th:high,data-th-high}] [1000]: org.thymeleaf.standard.processor.StandardRemovableAttributeTagProcessor
+[THYMELEAF]             * [* {th:border,data-th-border}] [1000]: org.thymeleaf.standard.processor.StandardRemovableAttributeTagProcessor
+[THYMELEAF]             * [* {th:dir,data-th-dir}] [1000]: org.thymeleaf.standard.processor.StandardRemovableAttributeTagProcessor
+[THYMELEAF]             * [* {th:accept,data-th-accept}] [1000]: org.thymeleaf.standard.processor.StandardRemovableAttributeTagProcessor
+[THYMELEAF]             * [* {th:autocomplete,data-th-autocomplete}] [1000]: org.thymeleaf.standard.processor.StandardRemovableAttributeTagProcessor
+[THYMELEAF]             * [* {th:marginheight,data-th-marginheight}] [1000]: org.thymeleaf.standard.processor.StandardRemovableAttributeTagProcessor
+[THYMELEAF]             * [* {th:usemap,data-th-usemap}] [1000]: org.thymeleaf.standard.processor.StandardRemovableAttributeTagProcessor
+[THYMELEAF]             * [* {th:poster,data-th-poster}] [1000]: org.thymeleaf.standard.processor.StandardRemovableAttributeTagProcessor
+[THYMELEAF]             * [* {th:sizes,data-th-sizes}] [1000]: org.thymeleaf.standard.processor.StandardRemovableAttributeTagProcessor
+[THYMELEAF]             * [* {th:formenctype,data-th-formenctype}] [1000]: org.thymeleaf.standard.processor.StandardRemovableAttributeTagProcessor
+[THYMELEAF]             * [* {th:size,data-th-size}] [1000]: org.thymeleaf.standard.processor.StandardRemovableAttributeTagProcessor
+[THYMELEAF]             * [* {th:dropzone,data-th-dropzone}] [1000]: org.thymeleaf.standard.processor.StandardRemovableAttributeTagProcessor
+[THYMELEAF]             * [* {th:formtarget,data-th-formtarget}] [1000]: org.thymeleaf.standard.processor.StandardRemovableAttributeTagProcessor
+[THYMELEAF]             * [* {th:bgcolor,data-th-bgcolor}] [1000]: org.thymeleaf.standard.processor.StandardRemovableAttributeTagProcessor
+[THYMELEAF]             * [* {th:placeholder,data-th-placeholder}] [1000]: org.thymeleaf.standard.processor.StandardRemovableAttributeTagProcessor
+[THYMELEAF]             * [* {th:frame,data-th-frame}] [1000]: org.thymeleaf.standard.processor.StandardRemovableAttributeTagProcessor
+[THYMELEAF]             * [* {th:align,data-th-align}] [1000]: org.thymeleaf.standard.processor.StandardRemovableAttributeTagProcessor
+[THYMELEAF]             * [* {th:abbr,data-th-abbr}] [1000]: org.thymeleaf.standard.processor.StandardRemovableAttributeTagProcessor
+[THYMELEAF]             * [* {th:alt,data-th-alt}] [1000]: org.thymeleaf.standard.processor.StandardRemovableAttributeTagProcessor
+[THYMELEAF]             * [* {th:archive,data-th-archive}] [1000]: org.thymeleaf.standard.processor.StandardRemovableAttributeTagProcessor
+[THYMELEAF]             * [* {th:compact,data-th-compact}] [1000]: org.thymeleaf.standard.processor.StandardRemovableAttributeTagProcessor
+[THYMELEAF]             * [* {th:contenteditable,data-th-contenteditable}] [1000]: org.thymeleaf.standard.processor.StandardRemovableAttributeTagProcessor
+[THYMELEAF]             * [* {th:low,data-th-low}] [1000]: org.thymeleaf.standard.processor.StandardRemovableAttributeTagProcessor
+[THYMELEAF]             * [* {th:longdesc,data-th-longdesc}] [1000]: org.thymeleaf.standard.processor.StandardRemovableAttributeTagProcessor
+[THYMELEAF]             * [* {th:summary,data-th-summary}] [1000]: org.thymeleaf.standard.processor.StandardRemovableAttributeTagProcessor
+[THYMELEAF]             * [* {th:valuetype,data-th-valuetype}] [1000]: org.thymeleaf.standard.processor.StandardRemovableAttributeTagProcessor
+[THYMELEAF]             * [* {th:audio,data-th-audio}] [1000]: org.thymeleaf.standard.processor.StandardRemovableAttributeTagProcessor
+[THYMELEAF]             * [* {th:codetype,data-th-codetype}] [1000]: org.thymeleaf.standard.processor.StandardRemovableAttributeTagProcessor
+[THYMELEAF]             * [* {th:charset,data-th-charset}] [1000]: org.thymeleaf.standard.processor.StandardRemovableAttributeTagProcessor
+[THYMELEAF]             * [* {th:span,data-th-span}] [1000]: org.thymeleaf.standard.processor.StandardRemovableAttributeTagProcessor
+[THYMELEAF]             * [* {th:kind,data-th-kind}] [1000]: org.thymeleaf.standard.processor.StandardRemovableAttributeTagProcessor
+[THYMELEAF]             * [* {th:rows,data-th-rows}] [1000]: org.thymeleaf.standard.processor.StandardRemovableAttributeTagProcessor
+[THYMELEAF]             * [* {th:style,data-th-style}] [1000]: org.thymeleaf.standard.processor.StandardRemovableAttributeTagProcessor
+[THYMELEAF]             * [* {th:rowspan,data-th-rowspan}] [1000]: org.thymeleaf.standard.processor.StandardRemovableAttributeTagProcessor
+[THYMELEAF]             * [* {th:list,data-th-list}] [1000]: org.thymeleaf.standard.processor.StandardRemovableAttributeTagProcessor
+[THYMELEAF]             * [* {th:formaction,data-th-formaction}] [1000]: org.thymeleaf.standard.processor.StandardRemovableAttributeTagProcessor
+[THYMELEAF]             * [* {th:tabindex,data-th-tabindex}] [1000]: org.thymeleaf.standard.processor.StandardRemovableAttributeTagProcessor
+[THYMELEAF]             * [* {th:rel,data-th-rel}] [1000]: org.thymeleaf.standard.processor.StandardRemovableAttributeTagProcessor
+[THYMELEAF]             * [* {th:enctype,data-th-enctype}] [1000]: org.thymeleaf.standard.processor.StandardRemovableAttributeTagProcessor
+[THYMELEAF]             * [* {th:http-equiv,data-th-http-equiv}] [1000]: org.thymeleaf.standard.processor.StandardRemovableAttributeTagProcessor
+[THYMELEAF]             * [* {th:rev,data-th-rev}] [1000]: org.thymeleaf.standard.processor.StandardRemovableAttributeTagProcessor
+[THYMELEAF]             * [* {th:target,data-th-target}] [1000]: org.thymeleaf.standard.processor.StandardRemovableAttributeTagProcessor
+[THYMELEAF]             * [* {th:hspace,data-th-hspace}] [1000]: org.thymeleaf.standard.processor.StandardRemovableAttributeTagProcessor
+[THYMELEAF]             * [* {th:hreflang,data-th-hreflang}] [1000]: org.thymeleaf.standard.processor.StandardRemovableAttributeTagProcessor
+[THYMELEAF]             * [* {th:max,data-th-max}] [1000]: org.thymeleaf.standard.processor.StandardRemovableAttributeTagProcessor
+[THYMELEAF]             * [* {th:content,data-th-content}] [1000]: org.thymeleaf.standard.processor.StandardRemovableAttributeTagProcessor
+[THYMELEAF]             * [* {th:frameborder,data-th-frameborder}] [1000]: org.thymeleaf.standard.processor.StandardRemovableAttributeTagProcessor
+[THYMELEAF]             * [* {th:preload,data-th-preload}] [1000]: org.thymeleaf.standard.processor.StandardRemovableAttributeTagProcessor
+[THYMELEAF]             * [* {th:wrap,data-th-wrap}] [1000]: org.thymeleaf.standard.processor.StandardRemovableAttributeTagProcessor
+[THYMELEAF]             * [* {th:lang,data-th-lang}] [1000]: org.thymeleaf.standard.processor.StandardRemovableAttributeTagProcessor
+[THYMELEAF]             * [* {th:data,data-th-data}] [1000]: org.thymeleaf.standard.processor.StandardRemovableAttributeTagProcessor
+[THYMELEAF]             * [* {th:standby,data-th-standby}] [1000]: org.thymeleaf.standard.processor.StandardRemovableAttributeTagProcessor
+[THYMELEAF]             * [* {th:srclang,data-th-srclang}] [1000]: org.thymeleaf.standard.processor.StandardRemovableAttributeTagProcessor
+[THYMELEAF]             * [* {th:colspan,data-th-colspan}] [1000]: org.thymeleaf.standard.processor.StandardRemovableAttributeTagProcessor
+[THYMELEAF]             * [* {th:step,data-th-step}] [1000]: org.thymeleaf.standard.processor.StandardRemovableAttributeTagProcessor
+[THYMELEAF]             * [* {th:marginwidth,data-th-marginwidth}] [1000]: org.thymeleaf.standard.processor.StandardRemovableAttributeTagProcessor
+[THYMELEAF]             * [* {th:formmethod,data-th-formmethod}] [1000]: org.thymeleaf.standard.processor.StandardRemovableAttributeTagProcessor
+[THYMELEAF]             * [* {th:pattern,data-th-pattern}] [1000]: org.thymeleaf.standard.processor.StandardRemovableAttributeTagProcessor
+[THYMELEAF]             * [* {th:cite,data-th-cite}] [1000]: org.thymeleaf.standard.processor.StandardRemovableAttributeTagProcessor
+[THYMELEAF]             * [* {th:cellspacing,data-th-cellspacing}] [1000]: org.thymeleaf.standard.processor.StandardRemovableAttributeTagProcessor
+[THYMELEAF]             * [* {th:radiogroup,data-th-radiogroup}] [1000]: org.thymeleaf.standard.processor.StandardRemovableAttributeTagProcessor
+[THYMELEAF]             * [* {th:spellcheck,data-th-spellcheck}] [1000]: org.thymeleaf.standard.processor.StandardRemovableAttributeTagProcessor
+[THYMELEAF]             * [* {th:class,data-th-class}] [1000]: org.thymeleaf.standard.processor.StandardRemovableAttributeTagProcessor
+[THYMELEAF]             * [* {th:maxlength,data-th-maxlength}] [1000]: org.thymeleaf.standard.processor.StandardRemovableAttributeTagProcessor
+[THYMELEAF]             * [* {th:manifest,data-th-manifest}] [1000]: org.thymeleaf.standard.processor.StandardRemovableAttributeTagProcessor
+[THYMELEAF]             * [* {th:label,data-th-label}] [1000]: org.thymeleaf.standard.processor.StandardRemovableAttributeTagProcessor
+[THYMELEAF]             * [* {th:scheme,data-th-scheme}] [1000]: org.thymeleaf.standard.processor.StandardRemovableAttributeTagProcessor
+[THYMELEAF]             * [* {th:accept-charset,data-th-accept-charset}] [1000]: org.thymeleaf.standard.processor.StandardRemovableAttributeTagProcessor
+[THYMELEAF]             * [* {th:height,data-th-height}] [1000]: org.thymeleaf.standard.processor.StandardRemovableAttributeTagProcessor
+[THYMELEAF]             * [* {th:draggable,data-th-draggable}] [1000]: org.thymeleaf.standard.processor.StandardRemovableAttributeTagProcessor
+[THYMELEAF]             * [* {th:start,data-th-start}] [1000]: org.thymeleaf.standard.processor.StandardRemovableAttributeTagProcessor
+[THYMELEAF]             * [* {th:vspace,data-th-vspace}] [1000]: org.thymeleaf.standard.processor.StandardRemovableAttributeTagProcessor
+[THYMELEAF]             * [* {th:id,data-th-id}] [1000]: org.thymeleaf.standard.processor.StandardRemovableAttributeTagProcessor
+[THYMELEAF]             * [* {th:contextmenu,data-th-contextmenu}] [1000]: org.thymeleaf.standard.processor.StandardRemovableAttributeTagProcessor
+[THYMELEAF]             * [* {th:xmlbase,data-th-xmlbase}] [1000]: org.thymeleaf.standard.processor.StandardXmlBaseTagProcessor
+[THYMELEAF]             * [* {th:xmllang,data-th-xmllang}] [1000]: org.thymeleaf.standard.processor.StandardXmlLangTagProcessor
+[THYMELEAF]             * [* {xmlns:th}] [1000]: org.thymeleaf.standard.processor.StandardXmlNsTagProcessor
+[THYMELEAF]             * [* {th:xmlspace,data-th-xmlspace}] [1000]: org.thymeleaf.standard.processor.StandardXmlSpaceTagProcessor
+[THYMELEAF]             * [{option} *] [1005]: org.thymeleaf.spring6.processor.SpringOptionInSelectFieldTagProcessor
+[THYMELEAF]             * [* {th:value,data-th-value}] [1010]: org.thymeleaf.spring6.processor.SpringValueTagProcessor
+[THYMELEAF]             * [* {th:classappend,data-th-classappend}] [1100]: org.thymeleaf.standard.processor.StandardClassappendTagProcessor
+[THYMELEAF]             * [* {th:styleappend,data-th-styleappend}] [1100]: org.thymeleaf.standard.processor.StandardStyleappendTagProcessor
+[THYMELEAF]             * [* {th:text,data-th-text}] [1300]: org.thymeleaf.standard.processor.StandardTextTagProcessor
+[THYMELEAF]             * [* {th:utext,data-th-utext}] [1400]: org.thymeleaf.standard.processor.StandardUtextTagProcessor
+[THYMELEAF]             * [* {th:fragment,data-th-fragment}] [1500]: org.thymeleaf.standard.processor.StandardFragmentTagProcessor
+[THYMELEAF]             * [* {th:assert,data-th-assert}] [1550]: org.thymeleaf.standard.processor.StandardAssertTagProcessor
+[THYMELEAF]             * [* {th:remove,data-th-remove}] [1600]: org.thymeleaf.standard.processor.StandardRemoveTagProcessor
+[THYMELEAF]             * [* {th:errors,data-th-errors}] [1700]: org.thymeleaf.spring6.processor.SpringErrorsTagProcessor
+[THYMELEAF]             * [{input} {th:field,data-th-field}] [1700]: org.thymeleaf.spring6.processor.SpringInputCheckboxFieldTagProcessor
+[THYMELEAF]             * [{input} {th:field,data-th-field}] [1700]: org.thymeleaf.spring6.processor.SpringInputFileFieldTagProcessor
+[THYMELEAF]             * [{input} {th:field,data-th-field}] [1700]: org.thymeleaf.spring6.processor.SpringInputGeneralFieldTagProcessor
+[THYMELEAF]             * [{input} {th:field,data-th-field}] [1700]: org.thymeleaf.spring6.processor.SpringInputPasswordFieldTagProcessor
+[THYMELEAF]             * [{input} {th:field,data-th-field}] [1700]: org.thymeleaf.spring6.processor.SpringInputRadioFieldTagProcessor
+[THYMELEAF]             * [{option} {th:field,data-th-field}] [1700]: org.thymeleaf.spring6.processor.SpringOptionFieldTagProcessor
+[THYMELEAF]             * [{select} {th:field,data-th-field}] [1700]: org.thymeleaf.spring6.processor.SpringSelectFieldTagProcessor
+[THYMELEAF]             * [{textarea} {th:field,data-th-field}] [1700]: org.thymeleaf.spring6.processor.SpringTextareaFieldTagProcessor
+[THYMELEAF]             * [* {th:uerrors,data-th-uerrors}] [1700]: org.thymeleaf.spring6.processor.SpringUErrorsTagProcessor
+[THYMELEAF]             * [* {th:errorclass,data-th-errorclass}] [1800]: org.thymeleaf.spring6.processor.SpringErrorClassTagProcessor
+[THYMELEAF]             * [* {th:ref,data-th-ref}] [10000]: org.thymeleaf.standard.processor.StandardRefAttributeTagProcessor
+[THYMELEAF]             * [{th:block,th-block} *] [100000]: org.thymeleaf.standard.processor.StandardBlockTagProcessor
+[THYMELEAF]             * [* th:*] [2147483647]: org.thymeleaf.standard.processor.StandardDefaultAttributesTagProcessor
+[THYMELEAF]         * Text Processors by [precedence]:
+[THYMELEAF]             * [1000]: org.thymeleaf.standard.processor.StandardInliningTextProcessor
+[THYMELEAF]         * DOCTYPE Processors by [precedence]:
+[THYMELEAF]             * [1000]: org.thymeleaf.standard.processor.StandardTranslationDocTypeProcessor
+[THYMELEAF]         * CDATA Section Processors by [precedence]:
+[THYMELEAF]             * [1000]: org.thymeleaf.standard.processor.StandardInliningCDATASectionProcessor
+[THYMELEAF]         * Comment Processors by [precedence]:
+[THYMELEAF]             * [1000]: org.thymeleaf.standard.processor.StandardInliningCommentProcessor
+[THYMELEAF]             * [1100]: org.thymeleaf.standard.processor.StandardConditionalCommentProcessor
+[THYMELEAF]     * Processors for Template Mode: XML
+[THYMELEAF]         * Element Tag Processors by [matching element and attribute name] [precedence]:
+[THYMELEAF]             * [* {th:include}] [100]: org.thymeleaf.standard.processor.StandardIncludeTagProcessor
+[THYMELEAF]             * [* {th:insert}] [100]: org.thymeleaf.standard.processor.StandardInsertTagProcessor
+[THYMELEAF]             * [* {th:replace}] [100]: org.thymeleaf.standard.processor.StandardReplaceTagProcessor
+[THYMELEAF]             * [* {th:each}] [200]: org.thymeleaf.standard.processor.StandardEachTagProcessor
+[THYMELEAF]             * [* {th:switch}] [250]: org.thymeleaf.standard.processor.StandardSwitchTagProcessor
+[THYMELEAF]             * [* {th:case}] [275]: org.thymeleaf.standard.processor.StandardCaseTagProcessor
+[THYMELEAF]             * [* {th:if}] [300]: org.thymeleaf.standard.processor.StandardIfTagProcessor
+[THYMELEAF]             * [* {th:unless}] [400]: org.thymeleaf.standard.processor.StandardUnlessTagProcessor
+[THYMELEAF]             * [* {th:object}] [500]: org.thymeleaf.standard.processor.StandardObjectTagProcessor
+[THYMELEAF]             * [* {th:with}] [600]: org.thymeleaf.standard.processor.StandardWithTagProcessor
+[THYMELEAF]             * [* {th:attr}] [700]: org.thymeleaf.standard.processor.StandardAttrTagProcessor
+[THYMELEAF]             * [* {th:attrprepend}] [800]: org.thymeleaf.standard.processor.StandardAttrprependTagProcessor
+[THYMELEAF]             * [* {th:attrappend}] [900]: org.thymeleaf.standard.processor.StandardAttrappendTagProcessor
+[THYMELEAF]             * [* {th:inline}] [1000]: org.thymeleaf.standard.processor.StandardInlineXMLTagProcessor
+[THYMELEAF]             * [* {xmlns:th}] [1000]: org.thymeleaf.standard.processor.StandardXmlNsTagProcessor
+[THYMELEAF]             * [* {th:text}] [1300]: org.thymeleaf.standard.processor.StandardTextTagProcessor
+[THYMELEAF]             * [* {th:utext}] [1400]: org.thymeleaf.standard.processor.StandardUtextTagProcessor
+[THYMELEAF]             * [* {th:fragment}] [1500]: org.thymeleaf.standard.processor.StandardFragmentTagProcessor
+[THYMELEAF]             * [* {th:assert}] [1550]: org.thymeleaf.standard.processor.StandardAssertTagProcessor
+[THYMELEAF]             * [* {th:remove}] [1600]: org.thymeleaf.standard.processor.StandardRemoveTagProcessor
+[THYMELEAF]             * [* {th:ref}] [10000]: org.thymeleaf.standard.processor.StandardRefAttributeTagProcessor
+[THYMELEAF]             * [{th:block} *] [100000]: org.thymeleaf.standard.processor.StandardBlockTagProcessor
+[THYMELEAF]             * [* th:*] [2147483647]: org.thymeleaf.standard.processor.StandardDefaultAttributesTagProcessor
+[THYMELEAF]         * Text Processors by [precedence]:
+[THYMELEAF]             * [1000]: org.thymeleaf.standard.processor.StandardInliningTextProcessor
+[THYMELEAF]         * CDATA Section Processors by [precedence]:
+[THYMELEAF]             * [1000]: org.thymeleaf.standard.processor.StandardInliningCDATASectionProcessor
+[THYMELEAF]         * Comment Processors by [precedence]:
+[THYMELEAF]             * [1000]: org.thymeleaf.standard.processor.StandardInliningCommentProcessor
+[THYMELEAF]     * Processors for Template Mode: TEXT
+[THYMELEAF]         * Element Tag Processors by [matching element and attribute name] [precedence]:
+[THYMELEAF]             * [* {th:insert}] [100]: org.thymeleaf.standard.processor.StandardInsertTagProcessor
+[THYMELEAF]             * [* {th:replace}] [100]: org.thymeleaf.standard.processor.StandardReplaceTagProcessor
+[THYMELEAF]             * [* {th:each}] [200]: org.thymeleaf.standard.processor.StandardEachTagProcessor
+[THYMELEAF]             * [* {th:switch}] [250]: org.thymeleaf.standard.processor.StandardSwitchTagProcessor
+[THYMELEAF]             * [* {th:case}] [275]: org.thymeleaf.standard.processor.StandardCaseTagProcessor
+[THYMELEAF]             * [* {th:if}] [300]: org.thymeleaf.standard.processor.StandardIfTagProcessor
+[THYMELEAF]             * [* {th:unless}] [400]: org.thymeleaf.standard.processor.StandardUnlessTagProcessor
+[THYMELEAF]             * [* {th:object}] [500]: org.thymeleaf.standard.processor.StandardObjectTagProcessor
+[THYMELEAF]             * [* {th:with}] [600]: org.thymeleaf.standard.processor.StandardWithTagProcessor
+[THYMELEAF]             * [* {th:inline}] [1000]: org.thymeleaf.standard.processor.StandardInlineTextualTagProcessor
+[THYMELEAF]             * [* {th:text}] [1300]: org.thymeleaf.standard.processor.StandardTextTagProcessor
+[THYMELEAF]             * [* {th:utext}] [1400]: org.thymeleaf.standard.processor.StandardUtextTagProcessor
+[THYMELEAF]             * [* {th:assert}] [1550]: org.thymeleaf.standard.processor.StandardAssertTagProcessor
+[THYMELEAF]             * [* {th:remove}] [1600]: org.thymeleaf.standard.processor.StandardRemoveTagProcessor
+[THYMELEAF]             * [* 100000] [org.thymeleaf.standard.processor.StandardBlockTagProcessor]: {}
+[THYMELEAF]             * [{th:block} *] [100000]: org.thymeleaf.standard.processor.StandardBlockTagProcessor
+[THYMELEAF]         * Text Processors by [precedence]:
+[THYMELEAF]             * [1000]: org.thymeleaf.standard.processor.StandardInliningTextProcessor
+[THYMELEAF]     * Processors for Template Mode: JAVASCRIPT
+[THYMELEAF]         * Element Tag Processors by [matching element and attribute name] [precedence]:
+[THYMELEAF]             * [* {th:insert}] [100]: org.thymeleaf.standard.processor.StandardInsertTagProcessor
+[THYMELEAF]             * [* {th:replace}] [100]: org.thymeleaf.standard.processor.StandardReplaceTagProcessor
+[THYMELEAF]             * [* {th:each}] [200]: org.thymeleaf.standard.processor.StandardEachTagProcessor
+[THYMELEAF]             * [* {th:switch}] [250]: org.thymeleaf.standard.processor.StandardSwitchTagProcessor
+[THYMELEAF]             * [* {th:case}] [275]: org.thymeleaf.standard.processor.StandardCaseTagProcessor
+[THYMELEAF]             * [* {th:if}] [300]: org.thymeleaf.standard.processor.StandardIfTagProcessor
+[THYMELEAF]             * [* {th:unless}] [400]: org.thymeleaf.standard.processor.StandardUnlessTagProcessor
+[THYMELEAF]             * [* {th:object}] [500]: org.thymeleaf.standard.processor.StandardObjectTagProcessor
+[THYMELEAF]             * [* {th:with}] [600]: org.thymeleaf.standard.processor.StandardWithTagProcessor
+[THYMELEAF]             * [* {th:inline}] [1000]: org.thymeleaf.standard.processor.StandardInlineTextualTagProcessor
+[THYMELEAF]             * [* {th:text}] [1300]: org.thymeleaf.standard.processor.StandardTextTagProcessor
+[THYMELEAF]             * [* {th:utext}] [1400]: org.thymeleaf.standard.processor.StandardUtextTagProcessor
+[THYMELEAF]             * [* {th:assert}] [1550]: org.thymeleaf.standard.processor.StandardAssertTagProcessor
+[THYMELEAF]             * [* {th:remove}] [1600]: org.thymeleaf.standard.processor.StandardRemoveTagProcessor
+[THYMELEAF]             * [{th:block} *] [100000]: org.thymeleaf.standard.processor.StandardBlockTagProcessor
+[THYMELEAF]             * [* 100000] [org.thymeleaf.standard.processor.StandardBlockTagProcessor]: {}
+[THYMELEAF]         * Text Processors by [precedence]:
+[THYMELEAF]             * [1000]: org.thymeleaf.standard.processor.StandardInliningTextProcessor
+[THYMELEAF]     * Processors for Template Mode: CSS
+[THYMELEAF]         * Element Tag Processors by [matching element and attribute name] [precedence]:
+[THYMELEAF]             * [* {th:insert}] [100]: org.thymeleaf.standard.processor.StandardInsertTagProcessor
+[THYMELEAF]             * [* {th:replace}] [100]: org.thymeleaf.standard.processor.StandardReplaceTagProcessor
+[THYMELEAF]             * [* {th:each}] [200]: org.thymeleaf.standard.processor.StandardEachTagProcessor
+[THYMELEAF]             * [* {th:switch}] [250]: org.thymeleaf.standard.processor.StandardSwitchTagProcessor
+[THYMELEAF]             * [* {th:case}] [275]: org.thymeleaf.standard.processor.StandardCaseTagProcessor
+[THYMELEAF]             * [* {th:if}] [300]: org.thymeleaf.standard.processor.StandardIfTagProcessor
+[THYMELEAF]             * [* {th:unless}] [400]: org.thymeleaf.standard.processor.StandardUnlessTagProcessor
+[THYMELEAF]             * [* {th:object}] [500]: org.thymeleaf.standard.processor.StandardObjectTagProcessor
+[THYMELEAF]             * [* {th:with}] [600]: org.thymeleaf.standard.processor.StandardWithTagProcessor
+[THYMELEAF]             * [* {th:inline}] [1000]: org.thymeleaf.standard.processor.StandardInlineTextualTagProcessor
+[THYMELEAF]             * [* {th:text}] [1300]: org.thymeleaf.standard.processor.StandardTextTagProcessor
+[THYMELEAF]             * [* {th:utext}] [1400]: org.thymeleaf.standard.processor.StandardUtextTagProcessor
+[THYMELEAF]             * [* {th:assert}] [1550]: org.thymeleaf.standard.processor.StandardAssertTagProcessor
+[THYMELEAF]             * [* {th:remove}] [1600]: org.thymeleaf.standard.processor.StandardRemoveTagProcessor
+[THYMELEAF]             * [{th:block} *] [100000]: org.thymeleaf.standard.processor.StandardBlockTagProcessor
+[THYMELEAF]             * [* 100000] [org.thymeleaf.standard.processor.StandardBlockTagProcessor]: {}
+[THYMELEAF]         * Text Processors by [precedence]:
+[THYMELEAF]             * [1000]: org.thymeleaf.standard.processor.StandardInliningTextProcessor
+[THYMELEAF]     * Expression Objects:
+[THYMELEAF]         * #ctx
+[THYMELEAF]         * #root
+[THYMELEAF]         * #vars
+[THYMELEAF]         * #object
+[THYMELEAF]         * #locale
+[THYMELEAF]         * #conversions
+[THYMELEAF]         * #uris
+[THYMELEAF]         * #temporals
+[THYMELEAF]         * #calendars
+[THYMELEAF]         * #dates
+[THYMELEAF]         * #bools
+[THYMELEAF]         * #numbers
+[THYMELEAF]         * #objects
+[THYMELEAF]         * #strings
+[THYMELEAF]         * #arrays
+[THYMELEAF]         * #lists
+[THYMELEAF]         * #sets
+[THYMELEAF]         * #maps
+[THYMELEAF]         * #aggregates
+[THYMELEAF]         * #messages
+[THYMELEAF]         * #ids
+[THYMELEAF]         * #execInfo
+[THYMELEAF]         * #request
+[THYMELEAF]         * #response
+[THYMELEAF]         * #session
+[THYMELEAF]         * #servletContext
+[THYMELEAF]         * #fields
+[THYMELEAF]         * #themes
+[THYMELEAF]         * #mvc
+[THYMELEAF]         * #requestdatavalues
+[THYMELEAF]     * Execution Attributes:
+[THYMELEAF]         * "StandardExpressionParser": Standard Expression Parser
+[THYMELEAF]         * "StandardJavaScriptSerializer": org.thymeleaf.standard.serializer.StandardJavaScriptSerializer@434fb168
+[THYMELEAF]         * "StandardCSSSerializer": org.thymeleaf.standard.serializer.StandardCSSSerializer@7ddc0469
+[THYMELEAF]         * "EnableSpringELCompiler": false
+[THYMELEAF]         * "StandardVariableExpressionEvaluator": SpringEL
+[THYMELEAF]         * "StandardConversionService": org.thymeleaf.spring6.expression.SpringStandardConversionService@775f2de2
+[THYMELEAF] * Dialect [2 of 3]: SpringSecurity (org.thymeleaf.extras.springsecurity6.dialect.SpringSecurityDialect)
+[THYMELEAF]     * Prefix: "sec"
+[THYMELEAF]     * Processors for Template Mode: HTML
+[THYMELEAF]         * Element Tag Processors by [matching element and attribute name] [precedence]:
+[THYMELEAF]             * [* {sec:authorize-acl,data-sec-authorize-acl}] [300]: org.thymeleaf.extras.springsecurity6.dialect.processor.AuthorizeAclAttrProcessor
+[THYMELEAF]             * [* {sec:authorize-expr,data-sec-authorize-expr}] [300]: org.thymeleaf.extras.springsecurity6.dialect.processor.AuthorizeAttrProcessor
+[THYMELEAF]             * [* {sec:authorize,data-sec-authorize}] [300]: org.thymeleaf.extras.springsecurity6.dialect.processor.AuthorizeAttrProcessor
+[THYMELEAF]             * [* {sec:authorize-url,data-sec-authorize-url}] [300]: org.thymeleaf.extras.springsecurity6.dialect.processor.AuthorizeUrlAttrProcessor
+[THYMELEAF]             * [* {xmlns:sec}] [1000]: org.thymeleaf.standard.processor.StandardXmlNsTagProcessor
+[THYMELEAF]             * [* {sec:authentication,data-sec-authentication}] [1300]: org.thymeleaf.extras.springsecurity6.dialect.processor.AuthenticationAttrProcessor
+[THYMELEAF]     * Processors for Template Mode: XML
+[THYMELEAF]         * Element Tag Processors by [matching element and attribute name] [precedence]:
+[THYMELEAF]             * [* {sec:authorize-acl}] [300]: org.thymeleaf.extras.springsecurity6.dialect.processor.AuthorizeAclAttrProcessor
+[THYMELEAF]             * [* {sec:authorize-expr}] [300]: org.thymeleaf.extras.springsecurity6.dialect.processor.AuthorizeAttrProcessor
+[THYMELEAF]             * [* {sec:authorize}] [300]: org.thymeleaf.extras.springsecurity6.dialect.processor.AuthorizeAttrProcessor
+[THYMELEAF]             * [* {sec:authorize-url}] [300]: org.thymeleaf.extras.springsecurity6.dialect.processor.AuthorizeUrlAttrProcessor
+[THYMELEAF]             * [* {xmlns:sec}] [1000]: org.thymeleaf.standard.processor.StandardXmlNsTagProcessor
+[THYMELEAF]             * [* {sec:authentication}] [1300]: org.thymeleaf.extras.springsecurity6.dialect.processor.AuthenticationAttrProcessor
+[THYMELEAF]     * Processors for Template Mode: TEXT
+[THYMELEAF]         * Element Tag Processors by [matching element and attribute name] [precedence]:
+[THYMELEAF]             * [* {sec:authorize-acl}] [300]: org.thymeleaf.extras.springsecurity6.dialect.processor.AuthorizeAclAttrProcessor
+[THYMELEAF]             * [* {sec:authorize}] [300]: org.thymeleaf.extras.springsecurity6.dialect.processor.AuthorizeAttrProcessor
+[THYMELEAF]             * [* {sec:authorize-expr}] [300]: org.thymeleaf.extras.springsecurity6.dialect.processor.AuthorizeAttrProcessor
+[THYMELEAF]             * [* {sec:authorize-url}] [300]: org.thymeleaf.extras.springsecurity6.dialect.processor.AuthorizeUrlAttrProcessor
+[THYMELEAF]             * [* {xmlns:sec}] [1000]: org.thymeleaf.standard.processor.StandardXmlNsTagProcessor
+[THYMELEAF]             * [* {sec:authentication}] [1300]: org.thymeleaf.extras.springsecurity6.dialect.processor.AuthenticationAttrProcessor
+[THYMELEAF]     * Processors for Template Mode: JAVASCRIPT
+[THYMELEAF]         * Element Tag Processors by [matching element and attribute name] [precedence]:
+[THYMELEAF]             * [* {sec:authorize-acl}] [300]: org.thymeleaf.extras.springsecurity6.dialect.processor.AuthorizeAclAttrProcessor
+[THYMELEAF]             * [* {sec:authorize}] [300]: org.thymeleaf.extras.springsecurity6.dialect.processor.AuthorizeAttrProcessor
+[THYMELEAF]             * [* {sec:authorize-expr}] [300]: org.thymeleaf.extras.springsecurity6.dialect.processor.AuthorizeAttrProcessor
+[THYMELEAF]             * [* {sec:authorize-url}] [300]: org.thymeleaf.extras.springsecurity6.dialect.processor.AuthorizeUrlAttrProcessor
+[THYMELEAF]             * [* {xmlns:sec}] [1000]: org.thymeleaf.standard.processor.StandardXmlNsTagProcessor
+[THYMELEAF]             * [* {sec:authentication}] [1300]: org.thymeleaf.extras.springsecurity6.dialect.processor.AuthenticationAttrProcessor
+[THYMELEAF]     * Processors for Template Mode: CSS
+[THYMELEAF]         * Element Tag Processors by [matching element and attribute name] [precedence]:
+[THYMELEAF]             * [* {sec:authorize-acl}] [300]: org.thymeleaf.extras.springsecurity6.dialect.processor.AuthorizeAclAttrProcessor
+[THYMELEAF]             * [* {sec:authorize}] [300]: org.thymeleaf.extras.springsecurity6.dialect.processor.AuthorizeAttrProcessor
+[THYMELEAF]             * [* {sec:authorize-expr}] [300]: org.thymeleaf.extras.springsecurity6.dialect.processor.AuthorizeAttrProcessor
+[THYMELEAF]             * [* {sec:authorize-url}] [300]: org.thymeleaf.extras.springsecurity6.dialect.processor.AuthorizeUrlAttrProcessor
+[THYMELEAF]             * [* {xmlns:sec}] [1000]: org.thymeleaf.standard.processor.StandardXmlNsTagProcessor
+[THYMELEAF]             * [* {sec:authentication}] [1300]: org.thymeleaf.extras.springsecurity6.dialect.processor.AuthenticationAttrProcessor
+[THYMELEAF]     * Expression Objects:
+[THYMELEAF]         * #authentication
+[THYMELEAF]         * #authorization
+[THYMELEAF] * Dialect [3 of 3]: Layout (nz.net.ultraq.thymeleaf.layoutdialect.LayoutDialect)
+[THYMELEAF]     * Prefix: "layout"
+[THYMELEAF]     * Processors for Template Mode: HTML
+[THYMELEAF]         * Element Tag Processors by [matching element and attribute name] [precedence]:
+[THYMELEAF]             * [* {layout:title-pattern,data-layout-title-pattern}] [1]: nz.net.ultraq.thymeleaf.layoutdialect.decorators.TitlePatternProcessor
+[THYMELEAF]             * [* {layout:collect,data-layout-collect}] [1]: nz.net.ultraq.thymeleaf.layoutdialect.fragments.CollectFragmentProcessor
+[THYMELEAF]             * [* {layout:fragment,data-layout-fragment}] [1]: nz.net.ultraq.thymeleaf.layoutdialect.fragments.FragmentProcessor
+[THYMELEAF]             * [* {xmlns:layout}] [1000]: org.thymeleaf.standard.processor.StandardXmlNsTagProcessor
+[THYMELEAF]         * Element Model Processors by [matching element and attribute name] [precedence]:
+[THYMELEAF]             * [* {layout:decorate,data-layout-decorate}] [0]: nz.net.ultraq.thymeleaf.layoutdialect.decorators.DecorateProcessor
+[THYMELEAF]             * [* {layout:include,data-layout-include}] [0]: nz.net.ultraq.thymeleaf.layoutdialect.includes.IncludeProcessor
+[THYMELEAF]             * [* {layout:insert,data-layout-insert}] [0]: nz.net.ultraq.thymeleaf.layoutdialect.includes.InsertProcessor
+[THYMELEAF]             * [* {layout:replace,data-layout-replace}] [0]: nz.net.ultraq.thymeleaf.layoutdialect.includes.ReplaceProcessor
+[THYMELEAF]     * Processors for Template Mode: XML
+[THYMELEAF]         * Element Tag Processors by [matching element and attribute name] [precedence]:
+[THYMELEAF]             * [* {layout:collect}] [1]: nz.net.ultraq.thymeleaf.layoutdialect.fragments.CollectFragmentProcessor
+[THYMELEAF]             * [* {layout:fragment}] [1]: nz.net.ultraq.thymeleaf.layoutdialect.fragments.FragmentProcessor
+[THYMELEAF]             * [* {xmlns:layout}] [1000]: org.thymeleaf.standard.processor.StandardXmlNsTagProcessor
+[THYMELEAF]         * Element Model Processors by [matching element and attribute name] [precedence]:
+[THYMELEAF]             * [* {layout:decorate}] [0]: nz.net.ultraq.thymeleaf.layoutdialect.decorators.DecorateProcessor
+[THYMELEAF]             * [* {layout:include}] [0]: nz.net.ultraq.thymeleaf.layoutdialect.includes.IncludeProcessor
+[THYMELEAF]             * [* {layout:insert}] [0]: nz.net.ultraq.thymeleaf.layoutdialect.includes.InsertProcessor
+[THYMELEAF]             * [* {layout:replace}] [0]: nz.net.ultraq.thymeleaf.layoutdialect.includes.ReplaceProcessor
+[THYMELEAF] TEMPLATE ENGINE CONFIGURED OK
+2024-12-18T13:29:45.437+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-1] org.thymeleaf.TemplateEngine             : [THYMELEAF] TEMPLATE ENGINE INITIALIZED
+2024-12-18T13:29:45.820+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-2] o.s.security.web.FilterChainProxy        : Securing GET /css/main.css
+2024-12-18T13:29:45.821+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-4] o.s.security.web.FilterChainProxy        : Securing GET /img/search.svg
+2024-12-18T13:29:45.820+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-3] o.s.security.web.FilterChainProxy        : Securing GET /css/style.css
+2024-12-18T13:29:45.820+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-5] o.s.security.web.FilterChainProxy        : Securing GET /img/cine_link_logo.svg
+2024-12-18T13:29:45.823+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-5] o.s.security.web.FilterChainProxy        : Secured GET /img/cine_link_logo.svg
+2024-12-18T13:29:45.824+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-3] o.s.security.web.FilterChainProxy        : Secured GET /css/style.css
+2024-12-18T13:29:45.824+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-2] o.s.security.web.FilterChainProxy        : Secured GET /css/main.css
+2024-12-18T13:29:45.826+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-4] o.s.security.web.FilterChainProxy        : Secured GET /img/search.svg
+2024-12-18T13:29:45.847+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-3] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-12-18T13:29:45.847+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-4] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-12-18T13:29:45.849+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-5] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-12-18T13:29:45.849+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-2] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-12-18T13:29:45.903+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-8] o.s.security.web.FilterChainProxy        : Securing GET /img/list.svg
+2024-12-18T13:29:45.904+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-9] o.s.security.web.FilterChainProxy        : Securing GET /img/shortform.svg
+2024-12-18T13:29:45.904+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-9] o.s.security.web.FilterChainProxy        : Secured GET /img/shortform.svg
+2024-12-18T13:29:45.904+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-8] o.s.security.web.FilterChainProxy        : Secured GET /img/list.svg
+2024-12-18T13:29:45.904+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-7] o.s.security.web.FilterChainProxy        : Securing GET /img/home.svg
+2024-12-18T13:29:45.905+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Securing GET /img/mypage.svg
+2024-12-18T13:29:45.907+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Secured GET /img/mypage.svg
+2024-12-18T13:29:45.908+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-9] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-12-18T13:29:45.910+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-7] o.s.security.web.FilterChainProxy        : Secured GET /img/home.svg
+2024-12-18T13:29:45.912+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-1] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-12-18T13:29:45.912+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-8] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-12-18T13:29:45.910+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-10] o.s.security.web.FilterChainProxy        : Securing GET /img/community.svg
+2024-12-18T13:29:45.916+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-6] o.s.security.web.FilterChainProxy        : Securing GET /img/bell.svg
+2024-12-18T13:29:45.920+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-6] o.s.security.web.FilterChainProxy        : Secured GET /img/bell.svg
+2024-12-18T13:29:45.918+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-7] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-12-18T13:29:45.920+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-10] o.s.security.web.FilterChainProxy        : Secured GET /img/community.svg
+2024-12-18T13:29:45.927+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-4] o.s.security.web.FilterChainProxy        : Securing GET /img/arrow-right.svg
+2024-12-18T13:29:45.928+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-4] o.s.security.web.FilterChainProxy        : Secured GET /img/arrow-right.svg
+2024-12-18T13:29:45.928+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-5] o.s.security.web.FilterChainProxy        : Securing GET /img/chart_number_1.svg
+2024-12-18T13:29:45.929+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-5] o.s.security.web.FilterChainProxy        : Secured GET /img/chart_number_1.svg
+2024-12-18T13:29:45.933+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-4] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-12-18T13:29:45.934+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-5] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-12-18T13:29:45.940+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-6] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-12-18T13:29:45.943+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-3] o.s.security.web.FilterChainProxy        : Securing GET /poster3.jpg
+2024-12-18T13:29:45.953+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-3] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-12-18T13:29:45.951+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-2] o.s.security.web.FilterChainProxy        : Securing GET /img/add.svg
+2024-12-18T13:29:45.955+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-2] o.s.security.web.FilterChainProxy        : Secured GET /img/add.svg
+2024-12-18T13:29:45.957+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-10] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-12-18T13:29:45.963+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-2] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-12-18T13:29:45.969+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-9] o.s.security.web.FilterChainProxy        : Securing GET /img/chart_number_2.svg
+2024-12-18T13:29:45.970+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Securing GET /poster1.jpg
+2024-12-18T13:29:45.970+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-1] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-12-18T13:29:45.971+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-9] o.s.security.web.FilterChainProxy        : Secured GET /img/chart_number_2.svg
+2024-12-18T13:29:45.970+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-8] o.s.security.web.FilterChainProxy        : Securing GET /img/chart_number_3.svg
+2024-12-18T13:29:45.973+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-8] o.s.security.web.FilterChainProxy        : Secured GET /img/chart_number_3.svg
+2024-12-18T13:29:45.975+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-7] o.s.security.web.FilterChainProxy        : Securing GET /uploads/inception_poster.jpg
+2024-12-18T13:29:45.976+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-7] o.s.security.web.FilterChainProxy        : Secured GET /uploads/inception_poster.jpg
+2024-12-18T13:29:45.976+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-4] o.s.security.web.FilterChainProxy        : Securing GET /arrow-right.svg
+2024-12-18T13:29:45.976+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-4] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-12-18T13:29:45.980+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-9] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-12-18T13:29:45.981+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-8] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-12-18T13:29:45.990+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-7] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-12-18T13:29:45.996+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-5] o.s.security.web.FilterChainProxy        : Securing GET /img/search.svg
+2024-12-18T13:29:46.001+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-5] o.s.security.web.FilterChainProxy        : Secured GET /img/search.svg
+2024-12-18T13:29:46.002+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-6] o.s.security.web.FilterChainProxy        : Securing GET /img/arrow-left.svg
+2024-12-18T13:29:46.004+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-6] o.s.security.web.FilterChainProxy        : Secured GET /img/arrow-left.svg
+2024-12-18T13:29:46.012+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-5] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-12-18T13:29:46.013+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-6] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-12-18T13:29:46.016+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-10] o.s.security.web.FilterChainProxy        : Securing GET /fonts/AppleSDGothicNeoM.ttf
+2024-12-18T13:29:46.017+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-10] o.s.security.web.FilterChainProxy        : Secured GET /fonts/AppleSDGothicNeoM.ttf
+2024-12-18T13:29:46.018+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-2] o.s.security.web.FilterChainProxy        : Securing GET /img/refresh.svg
+2024-12-18T13:29:46.019+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-2] o.s.security.web.FilterChainProxy        : Secured GET /img/refresh.svg
+2024-12-18T13:29:46.020+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-7] o.s.security.web.FilterChainProxy        : Securing GET /error
+2024-12-18T13:29:46.021+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-7] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-12-18T13:29:46.024+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-2] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-12-18T13:29:46.043+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-1] o.s.s.w.s.HttpSessionRequestCache        : Saved request http://localhost:8080/poster1.jpg?continue to session
+2024-12-18T13:29:46.043+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-4] o.s.s.w.s.HttpSessionRequestCache        : Saved request http://localhost:8080/arrow-right.svg?continue to session
+2024-12-18T13:29:46.043+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-3] o.s.s.w.s.HttpSessionRequestCache        : Saved request http://localhost:8080/poster3.jpg?continue to session
+2024-12-18T13:29:46.043+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-7] o.s.s.w.s.HttpSessionRequestCache        : Saved request http://localhost:8080/error?continue to session
+2024-12-18T13:29:46.049+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-4] s.w.a.DelegatingAuthenticationEntryPoint : Trying to match using And [Not [RequestHeaderRequestMatcher [expectedHeaderName=X-Requested-With, expectedHeaderValue=XMLHttpRequest]], MediaTypeRequestMatcher [contentNegotiationStrategy=org.springframework.web.accept.ContentNegotiationManager@613ce422, matchingMediaTypes=[application/xhtml+xml, image/*, text/html, text/plain], useEquals=false, ignoredMediaTypes=[*/*]]]
+2024-12-18T13:29:46.049+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-1] s.w.a.DelegatingAuthenticationEntryPoint : Trying to match using And [Not [RequestHeaderRequestMatcher [expectedHeaderName=X-Requested-With, expectedHeaderValue=XMLHttpRequest]], MediaTypeRequestMatcher [contentNegotiationStrategy=org.springframework.web.accept.ContentNegotiationManager@613ce422, matchingMediaTypes=[application/xhtml+xml, image/*, text/html, text/plain], useEquals=false, ignoredMediaTypes=[*/*]]]
+2024-12-18T13:29:46.049+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-4] s.w.a.DelegatingAuthenticationEntryPoint : Match found! Executing org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint@3f0a9e2c
+2024-12-18T13:29:46.049+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-1] s.w.a.DelegatingAuthenticationEntryPoint : Match found! Executing org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint@3f0a9e2c
+2024-12-18T13:29:46.049+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-3] s.w.a.DelegatingAuthenticationEntryPoint : Trying to match using And [Not [RequestHeaderRequestMatcher [expectedHeaderName=X-Requested-With, expectedHeaderValue=XMLHttpRequest]], MediaTypeRequestMatcher [contentNegotiationStrategy=org.springframework.web.accept.ContentNegotiationManager@613ce422, matchingMediaTypes=[application/xhtml+xml, image/*, text/html, text/plain], useEquals=false, ignoredMediaTypes=[*/*]]]
+2024-12-18T13:29:46.049+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-7] s.w.a.DelegatingAuthenticationEntryPoint : Trying to match using And [Not [RequestHeaderRequestMatcher [expectedHeaderName=X-Requested-With, expectedHeaderValue=XMLHttpRequest]], MediaTypeRequestMatcher [contentNegotiationStrategy=org.springframework.web.accept.ContentNegotiationManager@613ce422, matchingMediaTypes=[application/xhtml+xml, image/*, text/html, text/plain], useEquals=false, ignoredMediaTypes=[*/*]]]
+2024-12-18T13:29:46.051+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-3] s.w.a.DelegatingAuthenticationEntryPoint : Match found! Executing org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint@3f0a9e2c
+2024-12-18T13:29:46.051+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-7] s.w.a.DelegatingAuthenticationEntryPoint : Match found! Executing org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint@3f0a9e2c
+2024-12-18T13:29:46.052+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-1] o.s.s.web.DefaultRedirectStrategy        : Redirecting to http://localhost:8080/login
+2024-12-18T13:29:46.052+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-3] o.s.s.web.DefaultRedirectStrategy        : Redirecting to http://localhost:8080/login
+2024-12-18T13:29:46.052+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-4] o.s.s.web.DefaultRedirectStrategy        : Redirecting to http://localhost:8080/login
+2024-12-18T13:29:46.052+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-10] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-12-18T13:29:46.054+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-10] o.s.security.web.FilterChainProxy        : Securing GET /error
+2024-12-18T13:29:46.055+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-10] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-12-18T13:29:46.056+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-7] o.s.s.web.DefaultRedirectStrategy        : Redirecting to http://localhost:8080/login
+2024-12-18T13:29:46.056+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-10] o.s.s.w.s.HttpSessionRequestCache        : Saved request http://localhost:8080/error?continue to session
+2024-12-18T13:29:46.056+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-10] s.w.a.DelegatingAuthenticationEntryPoint : Trying to match using And [Not [RequestHeaderRequestMatcher [expectedHeaderName=X-Requested-With, expectedHeaderValue=XMLHttpRequest]], MediaTypeRequestMatcher [contentNegotiationStrategy=org.springframework.web.accept.ContentNegotiationManager@613ce422, matchingMediaTypes=[application/xhtml+xml, image/*, text/html, text/plain], useEquals=false, ignoredMediaTypes=[*/*]]]
+2024-12-18T13:29:46.057+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-10] s.w.a.DelegatingAuthenticationEntryPoint : Trying to match using And [Not [RequestHeaderRequestMatcher [expectedHeaderName=X-Requested-With, expectedHeaderValue=XMLHttpRequest]], MediaTypeRequestMatcher [contentNegotiationStrategy=org.springframework.web.accept.ContentNegotiationManager@613ce422, matchingMediaTypes=[application/xhtml+xml, image/*, text/html, text/plain], useEquals=false, ignoredMediaTypes=[*/*]]]
+2024-12-18T13:29:46.057+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-10] s.w.a.DelegatingAuthenticationEntryPoint : No match found. Using default entry point org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint@3f0a9e2c
+2024-12-18T13:29:46.057+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-10] o.s.s.web.DefaultRedirectStrategy        : Redirecting to http://localhost:8080/login
+2024-12-18T13:29:46.062+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-9] o.s.security.web.FilterChainProxy        : Securing GET /login
+2024-12-18T13:29:46.062+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-9] o.s.security.web.FilterChainProxy        : Secured GET /login
+2024-12-18T13:29:46.064+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-9] c.a.m.login.controller.AuthController    : 로그인 폼 요청
+2024-12-18T13:29:46.076+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-9] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-12-18T13:29:46.093+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-8] o.s.security.web.FilterChainProxy        : Securing GET /login
+2024-12-18T13:29:46.093+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-8] o.s.security.web.FilterChainProxy        : Secured GET /login
+2024-12-18T13:29:46.093+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-8] c.a.m.login.controller.AuthController    : 로그인 폼 요청
+2024-12-18T13:29:46.111+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-8] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-12-18T13:29:46.125+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-5] o.s.security.web.FilterChainProxy        : Securing GET /login
+2024-12-18T13:29:46.126+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-5] o.s.security.web.FilterChainProxy        : Secured GET /login
+2024-12-18T13:29:46.127+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-5] c.a.m.login.controller.AuthController    : 로그인 폼 요청
+2024-12-18T13:29:46.141+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-5] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-12-18T13:29:46.153+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-6] o.s.security.web.FilterChainProxy        : Securing GET /login
+2024-12-18T13:29:46.154+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-6] o.s.security.web.FilterChainProxy        : Secured GET /login
+2024-12-18T13:29:46.155+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-6] c.a.m.login.controller.AuthController    : 로그인 폼 요청
+2024-12-18T13:29:46.161+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-6] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-12-18T13:29:46.171+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-2] o.s.security.web.FilterChainProxy        : Securing GET /login
+2024-12-18T13:29:46.171+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-2] o.s.security.web.FilterChainProxy        : Secured GET /login
+2024-12-18T13:29:46.172+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-2] c.a.m.login.controller.AuthController    : 로그인 폼 요청
+2024-12-18T13:29:46.179+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-2] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-12-18T13:29:47.540+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-3] o.s.security.web.FilterChainProxy        : Securing GET /login
+2024-12-18T13:29:47.540+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-3] o.s.security.web.FilterChainProxy        : Secured GET /login
+2024-12-18T13:29:47.541+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-3] c.a.m.login.controller.AuthController    : 로그인 폼 요청
+2024-12-18T13:29:47.547+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-3] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-12-18T13:29:47.566+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-7] o.s.security.web.FilterChainProxy        : Securing GET /img/cine_link_logo.svg
+2024-12-18T13:29:47.566+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Securing GET /img/search.svg
+2024-12-18T13:29:47.566+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-4] o.s.security.web.FilterChainProxy        : Securing GET /css/style.css
+2024-12-18T13:29:47.567+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Secured GET /img/search.svg
+2024-12-18T13:29:47.567+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-4] o.s.security.web.FilterChainProxy        : Secured GET /css/style.css
+2024-12-18T13:29:47.567+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-7] o.s.security.web.FilterChainProxy        : Secured GET /img/cine_link_logo.svg
+2024-12-18T13:29:47.570+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-1] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-12-18T13:29:47.571+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-7] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-12-18T13:29:47.571+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-4] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-12-18T13:29:47.579+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-9] o.s.security.web.FilterChainProxy        : Securing GET /img/home.svg
+2024-12-18T13:29:47.579+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-8] o.s.security.web.FilterChainProxy        : Securing GET /img/list.svg
+2024-12-18T13:29:47.579+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-8] o.s.security.web.FilterChainProxy        : Secured GET /img/list.svg
+2024-12-18T13:29:47.579+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-9] o.s.security.web.FilterChainProxy        : Secured GET /img/home.svg
+2024-12-18T13:29:47.580+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-5] o.s.security.web.FilterChainProxy        : Securing GET /img/shortform.svg
+2024-12-18T13:29:47.579+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-10] o.s.security.web.FilterChainProxy        : Securing GET /img/bell.svg
+2024-12-18T13:29:47.580+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-5] o.s.security.web.FilterChainProxy        : Secured GET /img/shortform.svg
+2024-12-18T13:29:47.580+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-2] o.s.security.web.FilterChainProxy        : Securing GET /img/mypage.svg
+2024-12-18T13:29:47.581+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-6] o.s.security.web.FilterChainProxy        : Securing GET /img/community.svg
+2024-12-18T13:29:47.581+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-6] o.s.security.web.FilterChainProxy        : Secured GET /img/community.svg
+2024-12-18T13:29:47.582+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-8] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-12-18T13:29:47.580+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-10] o.s.security.web.FilterChainProxy        : Secured GET /img/bell.svg
+2024-12-18T13:29:47.583+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-5] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-12-18T13:29:47.582+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-9] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-12-18T13:29:47.583+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-2] o.s.security.web.FilterChainProxy        : Secured GET /img/mypage.svg
+2024-12-18T13:29:47.586+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-10] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-12-18T13:29:47.586+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-6] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-12-18T13:29:47.587+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Securing GET /img/kakao.svg
+2024-12-18T13:29:47.588+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Secured GET /img/kakao.svg
+2024-12-18T13:29:47.588+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-3] o.s.security.web.FilterChainProxy        : Securing GET /img/arrow_back.svg
+2024-12-18T13:29:47.588+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-3] o.s.security.web.FilterChainProxy        : Secured GET /img/arrow_back.svg
+2024-12-18T13:29:47.589+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-2] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-12-18T13:29:47.591+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-1] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-12-18T13:29:47.591+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-3] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-12-18T13:29:47.601+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-7] o.s.security.web.FilterChainProxy        : Securing GET /fonts/AppleSDGothicNeoM.ttf
+2024-12-18T13:29:47.601+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-7] o.s.security.web.FilterChainProxy        : Secured GET /fonts/AppleSDGothicNeoM.ttf
+2024-12-18T13:29:47.603+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-7] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-12-18T13:29:47.604+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-7] o.s.security.web.FilterChainProxy        : Securing GET /error
+2024-12-18T13:29:47.605+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-7] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-12-18T13:29:47.605+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-7] o.s.s.w.s.HttpSessionRequestCache        : Saved request http://localhost:8080/error?continue to session
+2024-12-18T13:29:47.606+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-7] s.w.a.DelegatingAuthenticationEntryPoint : Trying to match using And [Not [RequestHeaderRequestMatcher [expectedHeaderName=X-Requested-With, expectedHeaderValue=XMLHttpRequest]], MediaTypeRequestMatcher [contentNegotiationStrategy=org.springframework.web.accept.ContentNegotiationManager@613ce422, matchingMediaTypes=[application/xhtml+xml, image/*, text/html, text/plain], useEquals=false, ignoredMediaTypes=[*/*]]]
+2024-12-18T13:29:47.606+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-7] s.w.a.DelegatingAuthenticationEntryPoint : Trying to match using And [Not [RequestHeaderRequestMatcher [expectedHeaderName=X-Requested-With, expectedHeaderValue=XMLHttpRequest]], MediaTypeRequestMatcher [contentNegotiationStrategy=org.springframework.web.accept.ContentNegotiationManager@613ce422, matchingMediaTypes=[application/xhtml+xml, image/*, text/html, text/plain], useEquals=false, ignoredMediaTypes=[*/*]]]
+2024-12-18T13:29:47.607+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-7] s.w.a.DelegatingAuthenticationEntryPoint : No match found. Using default entry point org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint@3f0a9e2c
+2024-12-18T13:29:47.607+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-7] o.s.s.web.DefaultRedirectStrategy        : Redirecting to http://localhost:8080/login
+2024-12-18T13:29:47.612+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-4] o.s.security.web.FilterChainProxy        : Securing GET /login
+2024-12-18T13:29:47.613+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-4] o.s.security.web.FilterChainProxy        : Secured GET /login
+2024-12-18T13:29:47.613+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-4] c.a.m.login.controller.AuthController    : 로그인 폼 요청
+2024-12-18T13:29:47.621+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-4] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2024-12-18T13:29:55.913+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-8] o.s.security.web.FilterChainProxy        : Securing POST /login
+2024-12-18T13:29:56.047+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-8] c.a.m.login.service.MemberService        : 이메일로 회원 검색 요청: test@naver.com
+2024-12-18T13:29:56.055+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-8] c.a.m.login.service.MemberService        : 쿼리 결과: Optional[Member(memId=1, memEmail=test@naver.com, memPw=$2a$10$DKHwk4vMeN6W1s04wGIkNuJavmSYKhPV3oPp60sR0Bg80ei86hCku, memTel=01057579174, memNn=꼬르야, memProfileOriginFileNm=monster.png, memProfileConvertedFileNm=profile_1_1734397310053.png, memProfileFilePath=/uploads/profile_1_1734397310053.png, memPoint=0, memCreatedAt=2024-12-16T11:10:45, memUpdatedAt=2024-12-18T13:07:39, memIsBanned=false, memType=0, memSnsId=null, genreIds=null, likedPersons=null, profileImage=null)]
+2024-12-18T13:29:56.063+09:00  INFO 15988 --- [movielink] [http-nio-8080-exec-8] c.a.m.login.service.MemberService        : 회원 검색 성공: test@naver.com
+2024-12-18T13:29:56.171+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-8] o.s.s.a.dao.DaoAuthenticationProvider    : Authenticated user
+2024-12-18T13:29:56.171+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-8] .s.ChangeSessionIdAuthenticationStrategy : Changed session id from CD5436A9221DBCF47B0CEF7B9AE3E459
+2024-12-18T13:29:56.172+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-8] o.s.s.w.csrf.CsrfAuthenticationStrategy  : Replaced CSRF Token
+2024-12-18T13:29:56.173+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-8] w.c.HttpSessionSecurityContextRepository : Stored SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=org.springframework.security.core.userdetails.User [Username=test@naver.com, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[ROLE_USER]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=CD5436A9221DBCF47B0CEF7B9AE3E459], Granted Authorities=[ROLE_USER]]] to HttpSession [org.apache.catalina.session.StandardSessionFacade@629adb0d]
+2024-12-18T13:29:56.174+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-8] w.a.UsernamePasswordAuthenticationFilter : Set SecurityContextHolder to UsernamePasswordAuthenticationToken [Principal=org.springframework.security.core.userdetails.User [Username=test@naver.com, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[ROLE_USER]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=CD5436A9221DBCF47B0CEF7B9AE3E459], Granted Authorities=[ROLE_USER]]
+2024-12-18T13:29:56.175+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-8] c.a.m.login.service.MemberService        : 이메일로 회원 검색 요청: test@naver.com
+2024-12-18T13:29:56.179+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-8] c.a.m.login.service.MemberService        : 쿼리 결과: Optional[Member(memId=1, memEmail=test@naver.com, memPw=$2a$10$DKHwk4vMeN6W1s04wGIkNuJavmSYKhPV3oPp60sR0Bg80ei86hCku, memTel=01057579174, memNn=꼬르야, memProfileOriginFileNm=monster.png, memProfileConvertedFileNm=profile_1_1734397310053.png, memProfileFilePath=/uploads/profile_1_1734397310053.png, memPoint=0, memCreatedAt=2024-12-16T11:10:45, memUpdatedAt=2024-12-18T13:07:39, memIsBanned=false, memType=0, memSnsId=null, genreIds=null, likedPersons=null, profileImage=null)]
+2024-12-18T13:29:56.180+09:00  INFO 15988 --- [movielink] [http-nio-8080-exec-8] c.a.m.login.service.MemberService        : 회원 검색 성공: test@naver.com
+2024-12-18T13:29:56.180+09:00  INFO 15988 --- [movielink] [http-nio-8080-exec-8] m.l.s.CustomAuthenticationSuccessHandler : 일반 회원 test@naver.com 가 로그인했습니다.
+2024-12-18T13:29:56.185+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-5] o.s.security.web.FilterChainProxy        : Securing GET /
+2024-12-18T13:29:56.186+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-5] o.s.security.web.FilterChainProxy        : Secured GET /
+2024-12-18T13:29:56.187+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-5] w.c.HttpSessionSecurityContextRepository : Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=org.springframework.security.core.userdetails.User [Username=test@naver.com, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[ROLE_USER]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=CD5436A9221DBCF47B0CEF7B9AE3E459], Granted Authorities=[ROLE_USER]]]
+2024-12-18T13:29:56.187+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-5] c.a.m.login.service.MemberService        : 최신 리뷰 10개 조회 요청
+2024-12-18T13:29:56.193+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-5] c.a.m.login.service.MemberService        : 쿼리 결과: [Review(reviewId=1, memId=1, movieId=6, reviewTitle=놀란보고 놀람, reviewContent=인터스텔라는 신이다., reviewRating=10, reviewRegAt=2024-12-16T14:00, reviewLikeCnt=0, movieNm=Inception, memNn=꼬르야), Review(reviewId=2, memId=1, movieId=6, reviewTitle=놀란보고 놀람, reviewContent=인터스텔라는 신이다., reviewRating=10, reviewRegAt=2024-12-16T14:00, reviewLikeCnt=0, movieNm=Inception, memNn=꼬르야), Review(reviewId=3, memId=1, movieId=6, reviewTitle=놀란보고 놀람, reviewContent=인터스텔라는 신이다., reviewRating=10, reviewRegAt=2024-12-16T14:00, reviewLikeCnt=0, movieNm=Inception, memNn=꼬르야), Review(reviewId=4, memId=1, movieId=6, reviewTitle=놀란보고 놀람, reviewContent=인터스텔라는 신이다., reviewRating=10, reviewRegAt=2024-12-16T14:00, reviewLikeCnt=0, movieNm=Inception, memNn=꼬르야)]
+2024-12-18T13:29:56.199+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-5] c.a.m.login.service.MemberService        : 이메일로 회원 검색 요청: test@naver.com
+2024-12-18T13:29:56.202+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-5] c.a.m.login.service.MemberService        : 쿼리 결과: Optional[Member(memId=1, memEmail=test@naver.com, memPw=$2a$10$DKHwk4vMeN6W1s04wGIkNuJavmSYKhPV3oPp60sR0Bg80ei86hCku, memTel=01057579174, memNn=꼬르야, memProfileOriginFileNm=monster.png, memProfileConvertedFileNm=profile_1_1734397310053.png, memProfileFilePath=/uploads/profile_1_1734397310053.png, memPoint=0, memCreatedAt=2024-12-16T11:10:45, memUpdatedAt=2024-12-18T13:07:39, memIsBanned=false, memType=0, memSnsId=null, genreIds=null, likedPersons=null, profileImage=null)]
+2024-12-18T13:29:56.202+09:00  INFO 15988 --- [movielink] [http-nio-8080-exec-5] c.a.m.login.service.MemberService        : 회원 검색 성공: test@naver.com
+2024-12-18T13:29:56.203+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-5] c.a.m.login.service.MemberService        : 사용자 장르에 맞는 추천 영화 10개 조회 요청 for 회원 ID: 1
+2024-12-18T13:29:56.210+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-5] c.a.m.login.service.MemberService        : 쿼리 결과: [Movie(movieId=4, movieNm=영화4, movieNmEn=Movie4, movieOpenDt=2024-04-01, movieAgeRating=G, movieRunningTime=100, movieCountry=France, moviePlot=Plot of Movie4, movieTrailerUrl=http://trailer4.url, moviePoster=poster4.jpg, movieImdbScore=7.5, movieRottenScore=80, movieRegAt=2024-12-16T11:02:12), Movie(movieId=2, movieNm=영화2, movieNmEn=Movie2, movieOpenDt=2024-02-01, movieAgeRating=R, movieRunningTime=95, movieCountry=USA, moviePlot=Plot of Movie2, movieTrailerUrl=http://trailer2.url, moviePoster=poster2.jpg, movieImdbScore=7.8, movieRottenScore=85, movieRegAt=2024-12-16T11:02:12)]
+2024-12-18T13:29:56.248+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-9] o.s.security.web.FilterChainProxy        : Securing GET /css/style.css
+2024-12-18T13:29:56.248+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-9] o.s.security.web.FilterChainProxy        : Secured GET /css/style.css
+2024-12-18T13:29:56.249+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-6] o.s.security.web.FilterChainProxy        : Securing GET /css/main.css
+2024-12-18T13:29:56.249+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-10] o.s.security.web.FilterChainProxy        : Securing GET /img/cine_link_logo.svg
+2024-12-18T13:29:56.249+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-6] o.s.security.web.FilterChainProxy        : Secured GET /css/main.css
+2024-12-18T13:29:56.249+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-10] o.s.security.web.FilterChainProxy        : Secured GET /img/cine_link_logo.svg
+2024-12-18T13:29:56.249+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-2] o.s.security.web.FilterChainProxy        : Securing GET /img/search.svg
+2024-12-18T13:29:56.250+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-2] o.s.security.web.FilterChainProxy        : Secured GET /img/search.svg
+2024-12-18T13:29:56.252+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-9] w.c.HttpSessionSecurityContextRepository : Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=org.springframework.security.core.userdetails.User [Username=test@naver.com, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[ROLE_USER]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=CD5436A9221DBCF47B0CEF7B9AE3E459], Granted Authorities=[ROLE_USER]]]
+2024-12-18T13:29:56.254+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-6] w.c.HttpSessionSecurityContextRepository : Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=org.springframework.security.core.userdetails.User [Username=test@naver.com, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[ROLE_USER]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=CD5436A9221DBCF47B0CEF7B9AE3E459], Granted Authorities=[ROLE_USER]]]
+2024-12-18T13:29:56.254+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-2] w.c.HttpSessionSecurityContextRepository : Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=org.springframework.security.core.userdetails.User [Username=test@naver.com, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[ROLE_USER]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=CD5436A9221DBCF47B0CEF7B9AE3E459], Granted Authorities=[ROLE_USER]]]
+2024-12-18T13:29:56.255+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-10] w.c.HttpSessionSecurityContextRepository : Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=org.springframework.security.core.userdetails.User [Username=test@naver.com, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[ROLE_USER]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=CD5436A9221DBCF47B0CEF7B9AE3E459], Granted Authorities=[ROLE_USER]]]
+2024-12-18T13:29:56.263+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Securing GET /img/bell.svg
+2024-12-18T13:29:56.263+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-7] o.s.security.web.FilterChainProxy        : Securing GET /img/list.svg
+2024-12-18T13:29:56.263+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Secured GET /img/bell.svg
+2024-12-18T13:29:56.263+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-7] o.s.security.web.FilterChainProxy        : Secured GET /img/list.svg
+2024-12-18T13:29:56.264+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-3] o.s.security.web.FilterChainProxy        : Securing GET /img/home.svg
+2024-12-18T13:29:56.264+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-3] o.s.security.web.FilterChainProxy        : Secured GET /img/home.svg
+2024-12-18T13:29:56.268+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-1] w.c.HttpSessionSecurityContextRepository : Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=org.springframework.security.core.userdetails.User [Username=test@naver.com, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[ROLE_USER]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=CD5436A9221DBCF47B0CEF7B9AE3E459], Granted Authorities=[ROLE_USER]]]
+2024-12-18T13:29:56.268+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-3] w.c.HttpSessionSecurityContextRepository : Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=org.springframework.security.core.userdetails.User [Username=test@naver.com, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[ROLE_USER]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=CD5436A9221DBCF47B0CEF7B9AE3E459], Granted Authorities=[ROLE_USER]]]
+2024-12-18T13:29:56.269+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-8] o.s.security.web.FilterChainProxy        : Securing GET /img/community.svg
+2024-12-18T13:29:56.269+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Securing GET /img/mypage.svg
+2024-12-18T13:29:56.269+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Secured GET /img/mypage.svg
+2024-12-18T13:29:56.270+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-4] o.s.security.web.FilterChainProxy        : Securing GET /img/shortform.svg
+2024-12-18T13:29:56.270+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-4] o.s.security.web.FilterChainProxy        : Secured GET /img/shortform.svg
+2024-12-18T13:29:56.269+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-8] o.s.security.web.FilterChainProxy        : Secured GET /img/community.svg
+2024-12-18T13:29:56.273+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-9] o.s.security.web.FilterChainProxy        : Securing GET /img/arrow-right.svg
+2024-12-18T13:29:56.273+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-6] o.s.security.web.FilterChainProxy        : Securing GET /img/chart_number_1.svg
+2024-12-18T13:29:56.273+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-6] o.s.security.web.FilterChainProxy        : Secured GET /img/chart_number_1.svg
+2024-12-18T13:29:56.274+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-9] o.s.security.web.FilterChainProxy        : Secured GET /img/arrow-right.svg
+2024-12-18T13:29:56.279+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-4] w.c.HttpSessionSecurityContextRepository : Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=org.springframework.security.core.userdetails.User [Username=test@naver.com, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[ROLE_USER]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=CD5436A9221DBCF47B0CEF7B9AE3E459], Granted Authorities=[ROLE_USER]]]
+2024-12-18T13:29:56.279+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-6] w.c.HttpSessionSecurityContextRepository : Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=org.springframework.security.core.userdetails.User [Username=test@naver.com, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[ROLE_USER]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=CD5436A9221DBCF47B0CEF7B9AE3E459], Granted Authorities=[ROLE_USER]]]
+2024-12-18T13:29:56.280+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-9] w.c.HttpSessionSecurityContextRepository : Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=org.springframework.security.core.userdetails.User [Username=test@naver.com, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[ROLE_USER]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=CD5436A9221DBCF47B0CEF7B9AE3E459], Granted Authorities=[ROLE_USER]]]
+2024-12-18T13:29:56.281+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-1] w.c.HttpSessionSecurityContextRepository : Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=org.springframework.security.core.userdetails.User [Username=test@naver.com, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[ROLE_USER]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=CD5436A9221DBCF47B0CEF7B9AE3E459], Granted Authorities=[ROLE_USER]]]
+2024-12-18T13:29:56.282+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-7] w.c.HttpSessionSecurityContextRepository : Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=org.springframework.security.core.userdetails.User [Username=test@naver.com, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[ROLE_USER]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=CD5436A9221DBCF47B0CEF7B9AE3E459], Granted Authorities=[ROLE_USER]]]
+2024-12-18T13:29:56.285+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-7] o.s.security.web.FilterChainProxy        : Securing GET /poster3.jpg
+2024-12-18T13:29:56.286+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-7] w.c.HttpSessionSecurityContextRepository : Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=org.springframework.security.core.userdetails.User [Username=test@naver.com, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[ROLE_USER]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=CD5436A9221DBCF47B0CEF7B9AE3E459], Granted Authorities=[ROLE_USER]]]
+2024-12-18T13:29:56.286+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-7] o.s.security.web.FilterChainProxy        : Secured GET /poster3.jpg
+2024-12-18T13:29:56.289+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-10] o.s.security.web.FilterChainProxy        : Securing GET /img/chart_number_2.svg
+2024-12-18T13:29:56.292+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-10] o.s.security.web.FilterChainProxy        : Secured GET /img/chart_number_2.svg
+2024-12-18T13:29:56.293+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-2] o.s.security.web.FilterChainProxy        : Securing GET /img/add.svg
+2024-12-18T13:29:56.294+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-2] o.s.security.web.FilterChainProxy        : Secured GET /img/add.svg
+2024-12-18T13:29:56.295+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-8] w.c.HttpSessionSecurityContextRepository : Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=org.springframework.security.core.userdetails.User [Username=test@naver.com, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[ROLE_USER]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=CD5436A9221DBCF47B0CEF7B9AE3E459], Granted Authorities=[ROLE_USER]]]
+2024-12-18T13:29:56.297+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-3] o.s.security.web.FilterChainProxy        : Securing GET /poster1.jpg
+2024-12-18T13:29:56.297+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-3] w.c.HttpSessionSecurityContextRepository : Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=org.springframework.security.core.userdetails.User [Username=test@naver.com, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[ROLE_USER]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=CD5436A9221DBCF47B0CEF7B9AE3E459], Granted Authorities=[ROLE_USER]]]
+2024-12-18T13:29:56.297+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-3] o.s.security.web.FilterChainProxy        : Secured GET /poster1.jpg
+2024-12-18T13:29:56.295+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-7] o.s.security.web.FilterChainProxy        : Securing GET /error
+2024-12-18T13:29:56.300+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-7] w.c.HttpSessionSecurityContextRepository : Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=org.springframework.security.core.userdetails.User [Username=test@naver.com, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[ROLE_USER]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=CD5436A9221DBCF47B0CEF7B9AE3E459], Granted Authorities=[ROLE_USER]]]
+2024-12-18T13:29:56.300+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-7] o.s.security.web.FilterChainProxy        : Secured GET /error
+2024-12-18T13:29:56.303+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-2] w.c.HttpSessionSecurityContextRepository : Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=org.springframework.security.core.userdetails.User [Username=test@naver.com, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[ROLE_USER]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=CD5436A9221DBCF47B0CEF7B9AE3E459], Granted Authorities=[ROLE_USER]]]
+2024-12-18T13:29:56.303+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-5] o.s.security.web.FilterChainProxy        : Securing GET /img/chart_number_3.svg
+2024-12-18T13:29:56.305+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-5] o.s.security.web.FilterChainProxy        : Secured GET /img/chart_number_3.svg
+2024-12-18T13:29:56.304+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-3] o.s.security.web.FilterChainProxy        : Securing GET /error
+2024-12-18T13:29:56.305+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-3] w.c.HttpSessionSecurityContextRepository : Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=org.springframework.security.core.userdetails.User [Username=test@naver.com, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[ROLE_USER]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=CD5436A9221DBCF47B0CEF7B9AE3E459], Granted Authorities=[ROLE_USER]]]
+2024-12-18T13:29:56.306+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-3] o.s.security.web.FilterChainProxy        : Secured GET /error
+2024-12-18T13:29:56.307+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-10] w.c.HttpSessionSecurityContextRepository : Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=org.springframework.security.core.userdetails.User [Username=test@naver.com, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[ROLE_USER]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=CD5436A9221DBCF47B0CEF7B9AE3E459], Granted Authorities=[ROLE_USER]]]
+2024-12-18T13:29:56.311+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-5] w.c.HttpSessionSecurityContextRepository : Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=org.springframework.security.core.userdetails.User [Username=test@naver.com, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[ROLE_USER]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=CD5436A9221DBCF47B0CEF7B9AE3E459], Granted Authorities=[ROLE_USER]]]
+2024-12-18T13:29:56.313+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-4] o.s.security.web.FilterChainProxy        : Securing GET /img/search.svg
+2024-12-18T13:29:56.313+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-4] o.s.security.web.FilterChainProxy        : Secured GET /img/search.svg
+2024-12-18T13:29:56.315+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-6] o.s.security.web.FilterChainProxy        : Securing GET /poster4.jpg
+2024-12-18T13:29:56.316+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-9] o.s.security.web.FilterChainProxy        : Securing GET /arrow-right.svg
+2024-12-18T13:29:56.316+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-6] w.c.HttpSessionSecurityContextRepository : Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=org.springframework.security.core.userdetails.User [Username=test@naver.com, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[ROLE_USER]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=CD5436A9221DBCF47B0CEF7B9AE3E459], Granted Authorities=[ROLE_USER]]]
+2024-12-18T13:29:56.316+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-6] o.s.security.web.FilterChainProxy        : Secured GET /poster4.jpg
+2024-12-18T13:29:56.316+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-9] w.c.HttpSessionSecurityContextRepository : Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=org.springframework.security.core.userdetails.User [Username=test@naver.com, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[ROLE_USER]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=CD5436A9221DBCF47B0CEF7B9AE3E459], Granted Authorities=[ROLE_USER]]]
+2024-12-18T13:29:56.317+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-9] o.s.security.web.FilterChainProxy        : Secured GET /arrow-right.svg
+2024-12-18T13:29:56.317+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-5] o.s.security.web.FilterChainProxy        : Securing GET /poster2.jpg
+2024-12-18T13:29:56.318+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-5] w.c.HttpSessionSecurityContextRepository : Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=org.springframework.security.core.userdetails.User [Username=test@naver.com, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[ROLE_USER]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=CD5436A9221DBCF47B0CEF7B9AE3E459], Granted Authorities=[ROLE_USER]]]
+2024-12-18T13:29:56.319+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-5] o.s.security.web.FilterChainProxy        : Secured GET /poster2.jpg
+2024-12-18T13:29:56.320+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-6] o.s.security.web.FilterChainProxy        : Securing GET /error
+2024-12-18T13:29:56.321+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-6] w.c.HttpSessionSecurityContextRepository : Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=org.springframework.security.core.userdetails.User [Username=test@naver.com, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[ROLE_USER]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=CD5436A9221DBCF47B0CEF7B9AE3E459], Granted Authorities=[ROLE_USER]]]
+2024-12-18T13:29:56.321+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-9] o.s.security.web.FilterChainProxy        : Securing GET /error
+2024-12-18T13:29:56.321+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-6] o.s.security.web.FilterChainProxy        : Secured GET /error
+2024-12-18T13:29:56.322+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-9] w.c.HttpSessionSecurityContextRepository : Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=org.springframework.security.core.userdetails.User [Username=test@naver.com, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[ROLE_USER]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=CD5436A9221DBCF47B0CEF7B9AE3E459], Granted Authorities=[ROLE_USER]]]
+2024-12-18T13:29:56.322+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-9] o.s.security.web.FilterChainProxy        : Secured GET /error
+2024-12-18T13:29:56.323+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-5] o.s.security.web.FilterChainProxy        : Securing GET /error
+2024-12-18T13:29:56.325+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-5] w.c.HttpSessionSecurityContextRepository : Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=org.springframework.security.core.userdetails.User [Username=test@naver.com, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[ROLE_USER]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=CD5436A9221DBCF47B0CEF7B9AE3E459], Granted Authorities=[ROLE_USER]]]
+2024-12-18T13:29:56.325+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-5] o.s.security.web.FilterChainProxy        : Secured GET /error
+2024-12-18T13:29:56.326+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-4] w.c.HttpSessionSecurityContextRepository : Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=org.springframework.security.core.userdetails.User [Username=test@naver.com, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[ROLE_USER]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=CD5436A9221DBCF47B0CEF7B9AE3E459], Granted Authorities=[ROLE_USER]]]
+2024-12-18T13:29:56.329+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-4] o.s.security.web.FilterChainProxy        : Securing GET /fonts/AppleSDGothicNeoM.ttf
+2024-12-18T13:29:56.330+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-4] o.s.security.web.FilterChainProxy        : Secured GET /fonts/AppleSDGothicNeoM.ttf
+2024-12-18T13:29:56.335+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-4] w.c.HttpSessionSecurityContextRepository : Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=org.springframework.security.core.userdetails.User [Username=test@naver.com, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[ROLE_USER]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=CD5436A9221DBCF47B0CEF7B9AE3E459], Granted Authorities=[ROLE_USER]]]
+2024-12-18T13:29:56.335+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-4] o.s.security.web.FilterChainProxy        : Securing GET /error
+2024-12-18T13:29:56.336+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-4] w.c.HttpSessionSecurityContextRepository : Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=org.springframework.security.core.userdetails.User [Username=test@naver.com, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[ROLE_USER]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=CD5436A9221DBCF47B0CEF7B9AE3E459], Granted Authorities=[ROLE_USER]]]
+2024-12-18T13:29:56.337+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-4] o.s.security.web.FilterChainProxy        : Secured GET /error
+2024-12-18T13:29:56.413+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-8] o.s.security.web.FilterChainProxy        : Securing GET /img/arrow-left.svg
+2024-12-18T13:29:56.414+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-8] o.s.security.web.FilterChainProxy        : Secured GET /img/arrow-left.svg
+2024-12-18T13:29:56.413+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Securing GET /uploads/inception_poster.jpg
+2024-12-18T13:29:56.417+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Secured GET /uploads/inception_poster.jpg
+2024-12-18T13:29:56.418+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-2] o.s.security.web.FilterChainProxy        : Securing GET /img/refresh.svg
+2024-12-18T13:29:56.418+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-2] o.s.security.web.FilterChainProxy        : Secured GET /img/refresh.svg
+2024-12-18T13:29:56.418+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-1] w.c.HttpSessionSecurityContextRepository : Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=org.springframework.security.core.userdetails.User [Username=test@naver.com, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[ROLE_USER]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=CD5436A9221DBCF47B0CEF7B9AE3E459], Granted Authorities=[ROLE_USER]]]
+2024-12-18T13:29:56.418+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-8] w.c.HttpSessionSecurityContextRepository : Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=org.springframework.security.core.userdetails.User [Username=test@naver.com, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[ROLE_USER]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=CD5436A9221DBCF47B0CEF7B9AE3E459], Granted Authorities=[ROLE_USER]]]
+2024-12-18T13:29:56.419+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Securing GET /error
+2024-12-18T13:29:56.420+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-1] w.c.HttpSessionSecurityContextRepository : Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=org.springframework.security.core.userdetails.User [Username=test@naver.com, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[ROLE_USER]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=CD5436A9221DBCF47B0CEF7B9AE3E459], Granted Authorities=[ROLE_USER]]]
+2024-12-18T13:29:56.420+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Secured GET /error
+2024-12-18T13:29:56.424+09:00 DEBUG 15988 --- [movielink] [http-nio-8080-exec-2] w.c.HttpSessionSecurityContextRepository : Retrieved SecurityContextImpl [Authentication=UsernamePasswordAuthenticationToken [Principal=org.springframework.security.core.userdetails.User [Username=test@naver.com, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, CredentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[ROLE_USER]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=CD5436A9221DBCF47B0CEF7B9AE3E459], Granted Authorities=[ROLE_USER]]]

@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+    <link rel="stylesheet" th:href="@{/css/main.css}"/>
+    <title>무비링크 홈</title>
+</head>
+<body>
+<div class="root">
+    <div th:replace="~{fragments/header :: headerFragment}"></div>
+    <div class="main-content">
+        <section class="rank-wrap">
+            <div class="title-wrap">
+                <a class="title" href="">
+                    <span>오늘의 '<span class="ott">넷플릭스</span>' 랭킹</span>
+                    <div class="arrow-img">
+                        <img alt="" th:src="@{/img/arrow-right.svg}"/>
+                    </div>
+                </a>
+            </div>
+            <div class="home-chart-wrap">
+                <div class="home-chart-container">
+                    <ul class="ranking-container">
+                        <!-- bestMovies 반복 -->
+                        <li class="ranking-item" th:each="movie, iterStat : ${bestMovies}">
+                            <div class="ranking">
+                                <a class="ranking-info" th:href="@{/movies/{id}(id=${movie.movieId})}">
+                                    <div class="rank-num">
+                                        <img alt=""
+                                             th:src="@{'/img/chart_number_' + (${iterStat.index} + 1) + '.svg'}"/>
+                                    </div>
+
+
+                                    <div class="info-poster">
+                                        <img alt="" th:src="${movie.moviePoster}"/>
+                                    </div>
+                                    <p class="info-title" th:text="${movie.movieNm}">영화 제목</p>
+                                </a>
+                                <div class="ranking-option">
+                                    <button class="movie-like-button" type="button">
+                                        <img alt="" th:src="@{/img/add.svg}"/>
+                                    </button>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="review-wrap">
+            <div class="title-wrap">
+                <a class="title" href="">
+                    <span>최신 리뷰 한줄평</span>
+                    <div class="arrow-img">
+                        <img alt="" src="/arrow-right.svg"/>
+                    </div>
+                </a>
+            </div>
+            <div class="review-container">
+                <div class="swiper-wrapper-container">
+                    <!-- Swiper 컨테이너 -->
+                    <div class="swiper-container reviews-swiper">
+                        <div class="swiper-wrapper">
+                            <!-- 리뷰 아이템 반복 -->
+                            <div class="swiper-slide" th:each="review : ${latestReviews}">
+                                <a class="review-item" href="">
+                                    <p class="review-item__movie-title"
+                                       th:text="${review != null ? review.movieNm : '영화 제목 없음'}">영화 제목</p>
+                                    <p class="review-item__review-title"
+                                       th:text="${review != null ? review.reviewContent : '리뷰 내용 없음'}">
+
+                                    </p>
+                                    <div class="review-item__user">
+                                        <span class="rating red"
+                                              th:text="${review != null ? review.reviewRating : 'N/A'}"></span>
+                                        <div class="user__nickname">
+                                            <span class="user__name"
+                                                  th:text="${review != null ? review.memNn : '사용자명 없음'}">사용자명</span>
+                                            <span class="user__rating-of">님의 평가</span>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="swiper-pagination"></div>
+                    </div>
+                    <!-- Swiper 컨테이너 외부에 위치한 네비게이션 버튼 -->
+                    <button
+                            aria-label="이전 슬라이드"
+                            class="swiper-button swiper-button-prev"
+                            id="allReviewsPrev"
+                    >
+                        <!-- SVG 아이콘 삽입 -->
+                        <img alt="이전" src="/img/arrow-left.svg"/>
+                    </button>
+                    <button
+                            aria-label="다음 슬라이드"
+                            class="swiper-button swiper-button-next"
+                            id="allReviewsNext"
+                    >
+                        <!-- SVG 아이콘 삽입 -->
+                        <img alt="다음" src="/img/arrow-right.svg"/>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+
+        <section class="recommend-wrap">
+            <div class="title-wrap">
+                <a class="title" href="/movies">
+                    <span>취향과 비슷한 영화</span>
+                    <div class="arrow-img">
+                        <img alt="더보기" th:src="@{/img/arrow-right.svg}"/>
+                    </div>
+                </a>
+            </div>
+            <div class="recommend-container">
+                <!-- 추천 영화가 존재할 경우 Swiper 슬라이더 표시 -->
+                <div th:if="${!#lists.isEmpty(recommendedMovies)}">
+                    <div class="swiper-container recommend-swiper">
+                        <div class="swiper-wrapper">
+                            <!-- 추천 영화 아이템 반복 -->
+                            <div class="swiper-slide" th:each="movie : ${recommendedMovies}">
+                                <!-- movie이 null이 아닌지 확인 -->
+                                <div class="movie-item" th:if="${movie != null}">
+                                    <img
+                                            alt="영화 포스터"
+                                            class="movie-poster"
+                                            th:src="${movie.moviePoster}"
+                                    />
+                                    <p class="movie-title" th:text="${movie.movieNm}">영화 제목</p>
+                                </div>
+                                <!-- movie이 null일 경우 대체 콘텐츠 -->
+                                <div class="movie-item" th:if="${movie == null}">
+                                    <p class="movie-title">영화 정보 없음</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 페이징 -->
+                        <div class="swiper-pagination"></div>
+                    </div>
+                </div>
+                <!-- 추천 영화가 없을 경우 빈 메시지 표시 -->
+                <div class="empty-content-wrap" th:if="${#lists.isEmpty(recommendedMovies)}">
+                    <span class="empty-content-description">추천 영화가 없습니다.</span>
+                    <a class="empty-content-button" th:href="@{/movies/search}">영화 검색하기</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="ost-wrap">
+            <div class="title-wrap">
+                <a class="title" href="">
+                    <span>영화 OST 랜덤 추천!</span>
+                    <div class="arrow-img">
+                        <img alt="" th:src="@{/img/arrow-right.svg}"/>
+                    </div>
+                </a>
+            </div>
+            <div class="ost-container">
+                <div class="ost-content"></div>
+                <div class="random-button">
+                    <button>
+                        <span>랜덤</span>
+                        <img alt="" th:src="@{/img/refresh.svg}"/>
+                    </button>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+      // 리뷰 Swiper 초기화
+      const reviewsSwiper = new Swiper(".reviews-swiper", {
+        slidesPerView: 2,
+        spaceBetween: 12,
+        loop: false,
+        navigation: {
+          nextEl: ".swiper-button-next",
+          prevEl: ".swiper-button-prev",
+        },
+        pagination: {
+          el: ".swiper-pagination",
+          clickable: true,
+        },
+        breakpoints: {
+          450: {
+            slidesPerView: 1,
+            spaceBetween: 16,
+          },
+          700: {
+            slidesPerView: 3,
+            spaceBetween: 16,
+          },
+        },
+      });
+
+      // 추천 Swiper 초기화
+      const recommendSwiper = new Swiper(".recommend-swiper", {
+        slidesPerView: 3,
+        spaceBetween: 16, // CSS와 일치
+        loop: false,
+
+        pagination: {
+          el: ".recommend-swiper .swiper-pagination",
+          clickable: true,
+        },
+        breakpoints: {
+          768: {
+            slidesPerView: 3,
+            spaceBetween: 16,
+          },
+          1024: {
+            slidesPerView: 4,
+            spaceBetween: 16,
+          },
+        },
+      });
+    });
+</script>
+</body>
+</html>
