@@ -6,8 +6,6 @@ import java.util.List;
 
 public interface RawDataService {
 
-    // 당일 박스오피스 데이터 등록
-
     // 시작일부터 종료일까지 박스오피스 데이터 등록
     int saveDataByPeriod(String startDate, String endDate);
 
