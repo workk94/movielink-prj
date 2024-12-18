@@ -36,8 +36,8 @@ out/
 ### VS Code ###
 .vscode/
 
-/src/main/resources/application.properties
-/src/main/test/*
+src/main/resources/application.properties
+src/main/test/*
 
 
 logs
