@@ -1,0 +1,203 @@
+/* src/main/resources/static/css/styles.css */
+
+/* 공통 폰트 설정 */
+@font-face {
+    font-family: AppleSDGothicNeo;
+    src: url(/fonts/AppleSDGothicNeoM.ttf) format("truetype");
+    font-weight: bold;
+}
+
+/* 기본 스타일 */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    text-decoration: none;
+    font-family: AppleSDGothicNeo;
+    color: inherit;
+}
+
+/* 전체 페이지 배경색 설정 */
+body {
+    background-color: #101322;
+    color: #ffffff; /* 텍스트 색상을 흰색으로 설정하여 가독성 향상 */
+    margin: 0; /* 기본 마진 제거 */
+    padding: 0; /* 기본 패딩 제거 */
+}
+
+/* .root 클래스의 스타일 수정 */
+.root {
+    max-width: 700px;
+    margin: 0 auto;
+    background-color: #101322;  /* 필요 시 주석 해제 */
+    color: #ffffff; /* 텍스트 색상 흰색 유지 */
+    border-radius: 8px; /* 모서리 둥글게 */
+}
+
+/* 헤더 스타일 */
+.header {
+    background-color: #101322;
+    border-bottom: 1px solid #dbe0e4;
+    max-width: 700px;
+    height: 50px;
+    position: sticky;
+    top: 0;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 40px;
+    z-index: 1000;
+}
+
+@media screen and (max-width: 500px) {
+    .header {
+        display: none;
+    }
+}
+
+.header .header-logo {
+    width: 40px;
+    height: 40px;
+}
+
+.header .header-logo img {
+    width: 100%;
+    height: 100%;
+}
+
+.header .header-util {
+    display: flex;
+    align-items: center;
+}
+
+.header .header-util .route-nav {
+    margin-right: 16px;
+}
+
+.header .header-util .route-nav .route-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    text-align: center;
+    align-items: center;
+    color: #98a4b7;
+    font-size: 12px;
+}
+
+.header .header-util .route-nav .route-list .route-item:hover {
+    border-bottom: 2px solid #5383e8;
+    cursor: pointer;
+}
+
+.log-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* log-btn 내부의 a와 button에 공통 스타일 적용 */
+.log-btn a, .log-btn button {
+    background-color: #5383e8;
+    border: none;
+    border-radius: 6px;
+    width: 48px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    color: #ffffff;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.log-btn a:hover, .log-btn button:hover {
+    background-color: #3a6dcb;
+}
+
+/* 푸터 스타일 */
+footer {
+    background-color: #101322;
+    width: 100%;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    z-index: 9999;
+    box-shadow: 0 -4px 16px rgba(16, 16, 16, 0.48);
+
+}
+
+footer nav {
+    display: flex;
+    max-width: 700px;
+    justify-content: center;
+    align-items: center;
+    height: 56px;
+    margin: 0 auto;
+}
+
+@media screen and (max-width:500px) {
+    footer nav {
+        max-width: 500px;
+    }
+}
+
+footer nav .route-item {
+    display: flex;
+    flex-direction: column;
+    width: 140px;
+    height: 56px;
+    padding: 8px 0;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+}
+
+footer nav .route-item .route-img {
+    width: 24px;
+    max-height: 24px;
+}
+
+footer nav .route-item .route-name {
+    color: #98a4b7;
+    font-size: 12px;
+}
+
+
+.error {
+    color: red;
+    margin-left: 150px;
+}
+
+.success {
+    color: green;
+    margin-left: 150px;
+}
+ .login-header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            margin-top: 16px;
+            margin-bottom: 16px;
+        }
+
+        .login-header h1 {
+            font-size: 16px;
+            color: #efefef;
+        }
+
+        .login-header .arrow-back {
+            position: absolute;
+            left: 6px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+        }
+
+        .login-header .arrow-back img {
+            width: 24px;
+            height: 24px;
+        }

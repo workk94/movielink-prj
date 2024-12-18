@@ -1,9 +1,203 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.acorn.movielink.admin.dto.AdminDTO">
-    <select id="selectAll" resultType="AdminDTO">
-        select * from member
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.acorn.movielink.login.repository.MemberMapper">
+
+    <resultMap id="memberResultMap" type="com.acorn.movielink.login.dto.Member">
+        <id column="mem_id" property="memId"/>
+        <result column="mem_email" property="memEmail"/>
+        <result column="mem_pw" property="memPw"/>
+        <result column="mem_tel" property="memTel"/>
+        <result column="mem_nn" property="memNn"/>
+        <result column="mem_profile_origin_file_nm" property="memProfileOriginFileNm"/>
+        <result column="mem_profile_converted_file_nm" property="memProfileConvertedFileNm"/>
+        <result column="mem_profile_file_path" property="memProfileFilePath"/>
+        <result column="mem_point" property="memPoint"/>
+        <result column="mem_created_at" property="memCreatedAt"/>
+        <result column="mem_updated_at" property="memUpdatedAt"/>
+        <result column="mem_is_banned" property="memIsBanned"/>
+        <result column="mem_type" property="memType"/>
+        <result column="mem_sns_id" property="memSnsId"/>
+    </resultMap>
+
+    <!-- 회원가입 -->
+    <insert id="insertMember" parameterType="com.acorn.movielink.login.dto.Member" useGeneratedKeys="true"
+            keyProperty="memId">
+        INSERT INTO MEMBER (
+        mem_email, mem_pw, mem_tel, mem_nn,
+        mem_profile_origin_file_nm, mem_profile_converted_file_nm,
+        mem_profile_file_path, mem_point, mem_type, mem_sns_id
+        ) VALUES (
+        #{memEmail}, #{memPw}, #{memTel}, #{memNn},
+        #{memProfileOriginFileNm}, #{memProfileConvertedFileNm},
+        #{memProfileFilePath}, #{memPoint}, #{memType}, #{memSnsId}
+        )
+    </insert>
+
+    <!-- 이메일로 회원 찾기 -->
+    <select id="findByMemEmail" parameterType="map" resultMap="memberResultMap">
+        SELECT * FROM MEMBER WHERE mem_email = #{memEmail}
     </select>
+
+    <!-- SNS ID로 회원 찾기 -->
+    <select id="findByMemSnsId" parameterType="map" resultMap="memberResultMap">
+        SELECT * FROM MEMBER WHERE mem_sns_id = #{memSnsId}
+    </select>
+
+    <!-- 비밀번호 업데이트 -->
+    <update id="updatePassword" parameterType="map">
+        UPDATE MEMBER
+        SET mem_pw = #{memPw}, mem_updated_at = NOW()
+        WHERE mem_id = #{memId}
+    </update>
+
+    <!-- 회원 정보 업데이트 -->
+    <update id="updateMember" parameterType="com.acorn.movielink.login.dto.Member">
+        UPDATE MEMBER
+        SET
+        mem_tel = #{memTel},
+        mem_nn = #{memNn},
+        mem_profile_origin_file_nm = #{memProfileOriginFileNm},
+        mem_profile_converted_file_nm = #{memProfileConvertedFileNm},
+        mem_profile_file_path = #{memProfileFilePath},
+        mem_updated_at = NOW(),
+        mem_pw = #{memPw},
+        mem_sns_id = #{memSnsId}
+        WHERE mem_id = #{memId}
+    </update>
+
+    <!-- 회원 ID로 회원 찾기 -->
+    <select id="findByMemId" parameterType="Integer" resultMap="memberResultMap">
+        SELECT * FROM MEMBER WHERE mem_id = #{memId}
+    </select>
+
+    <!-- 회원-장르 관계 삽입 -->
+    <insert id="insertMemberGenre" parameterType="map">
+        INSERT INTO MEMBER_GENRE (genre_id, mem_id)
+        VALUES (#{genreId}, #{memId})
+    </insert>
+
+    <!-- 특정 회원의 장르 ID 조회 -->
+    <select id="findGenreIdsByMemId" parameterType="Integer" resultType="Integer">
+        SELECT genre_id FROM MEMBER_GENRE WHERE mem_id = #{memId}
+    </select>
+
+    <!-- 회원의 모든 장르 삭제 -->
+    <delete id="deleteMemberGenres" parameterType="Integer">
+        DELETE FROM MEMBER_GENRE WHERE mem_id = #{memId}
+    </delete>
+
+    <!-- 좋아요한 인물 조회 -->
+    <select id="findLikedPersonsByMemId" parameterType="Integer" resultType="com.acorn.movielink.login.dto.Person">
+        SELECT p.people_id AS peopleId, p.people_nm AS peopleNm, p.people_nm_en AS peopleNmEn,
+        p.people_role_nm AS peopleRoleNm, p.people_profile_url AS peopleProfileUrl,
+        p.people_type AS peopleType, p.movie_id AS movieId
+        FROM PEOPLE p
+        JOIN PEOPLE_LIKE pl ON p.people_id = pl.people_id
+        WHERE pl.mem_id = #{memId}
+    </select>
+
+    <!-- 작성한 게시글 조회 -->
+    <select id="findWrittenPostsByMemId" parameterType="Integer" resultType="com.acorn.movielink.login.dto.Post">
+        SELECT
+        post_id AS postId,
+        post_title AS title,
+        content,
+        post_created_at AS createdAt,
+        post_views AS postViews,
+        post_like_cnt AS likeCount,
+        post_report AS reportCount
+        FROM POST
+        WHERE mem_id = #{memId}
+        ORDER BY post_created_at DESC
+    </select>
+
+    <!-- 좋아요한 영화 조회 추가 -->
+    <select id="findLikedMoviesByMemId" parameterType="Integer" resultType="com.acorn.movielink.login.dto.Movie">
+        SELECT
+        m.movie_id AS movieId,
+        m.movie_nm AS movieNm,
+        m.movie_nm_en AS movieNmEn,
+        m.movie_open_dt AS movieOpenDt,
+        m.movie_age_rating AS movieAgeRating,
+        m.movie_running_time AS movieRunningTime,
+        m.movie_country AS movieCountry,
+        m.movie_plot AS moviePlot,
+        m.movie_trailer_url AS movieTrailerUrl,
+        m.movie_poster AS moviePoster,
+        m.movie_imdb_score AS movieImdbScore,
+        m.movie_rotten_score AS movieRottenScore,
+        m.movie_reg_at AS movieRegAt
+        FROM MOVIE m
+        JOIN MOVIE_LIKE ml ON m.movie_id = ml.movie_id
+        WHERE ml.mem_id = #{memId}
+    </select>
+
+    <!-- 구매 아이템 조회 -->
+    <select id="findPurchasedItemByMemId" parameterType="Integer" resultType="com.acorn.movielink.login.dto.Item">
+        SELECT
+        i.item_id AS itemId,
+        i.item_name AS itemName,
+        i.item_point AS itemPoint,
+        i.item_img AS itemImg
+        FROM ITEM i
+        JOIN item_transaction_history ith ON i.item_id = ith.item_id
+        WHERE ith.mem_id = #{memId}
+    </select>
+
+    <!-- 최신 10개 리뷰 조회 -->
+    <select id="findLatestReviews" resultType="com.acorn.movielink.login.dto.Review">
+        SELECT
+        r.review_id,
+        r.mem_id,
+        r.movie_id,
+        r.review_title,
+        r.review_content,
+        r.review_rating,
+        r.review_reg_at,
+        r.review_like_cnt,
+        m.movie_nm AS movieNm,
+        m.movie_poster AS moviePoster,
+        mem.mem_nn AS memNn
+        FROM
+        REVIEW r
+        JOIN
+        MOVIE m ON r.movie_id = m.movie_id
+        JOIN
+        MEMBER mem ON r.mem_id = mem.mem_id
+        ORDER BY
+        r.review_reg_at DESC
+        LIMIT 10
+    </select>
+
+
+    <select id="findRecommendedMovies" parameterType="map" resultType="com.acorn.movielink.login.dto.Movie">
+        SELECT DISTINCT
+        m.movie_id,
+        m.movie_nm,
+        m.movie_nm_en,
+        m.movie_open_dt,
+        m.movie_age_rating,
+        m.movie_running_time,
+        m.movie_country,
+        m.movie_plot,
+        m.movie_trailer_url,
+        m.movie_poster,
+        m.movie_imdb_score,
+        m.movie_rotten_score,
+        m.movie_reg_at
+        FROM
+        MOVIE m
+        JOIN
+        GENRE g ON m.movie_id = g.movie_id
+        JOIN
+        MEMBER_GENRE mg ON g.genre_id = mg.genre_id
+        WHERE
+        mg.mem_id = #{memId}
+        ORDER BY
+        RAND()
+        LIMIT 10
+    </select>
+
 </mapper>
