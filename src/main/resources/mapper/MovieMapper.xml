@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.acorn.movielink.login.repository.MovieMapper">
+    <resultMap id="movieResultMap" type="com.acorn.movielink.login.dto.Movie">
+        <id column="movie_id" property="movieId"/>
+        <result column="movie_nm" property="movieNm"/>
+        <result column="movie_nm_en" property="movieNmEn"/>
+        <result column="movie_open_dt" property="movieOpenDt"/>
+        <result column="movie_age_rating" property="movieAgeRating"/>
+        <result column="movie_running_time" property="movieRunningTime"/>
+        <result column="movie_country" property="movieCountry"/>
+        <result column="movie_plot" property="moviePlot"/>
+        <result column="movie_trailer_url" property="movieTrailerUrl"/>
+        <result column="movie_poster" property="moviePoster"/>
+        <result column="movie_imdb_score" property="movieImdbScore"/>
+        <result column="movie_rotten_score" property="movieRottenScore"/>
+        <result column="movie_reg_at" property="movieRegAt"/>
+    </resultMap>
+
+    <!-- MovieMapper.xml -->
+    <select id="findBestMovies" parameterType="map" resultMap="movieResultMap">
+        SELECT * FROM MOVIE
+        ORDER BY (movie_rotten_score + movie_imdb_score * 10) DESC
+        LIMIT 3
+    </select>
+
+</mapper>
