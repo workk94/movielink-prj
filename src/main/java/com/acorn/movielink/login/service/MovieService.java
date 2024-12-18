@@ -1,7 +1,7 @@
 package com.acorn.movielink.login.service;
 
-import com.acorn.movielink.login.dto.Movie;
-import com.acorn.movielink.login.repository.MovieMapper;
+import com.acorn.movielink.data.dto.MovieDTO;
+import com.acorn.movielink.MovieMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,8 +15,8 @@ public class MovieService {
         this.movieMapper = movieMapper;
     }
 
-    public List<Movie> getTopBestMovies(int limit) {
-        List<Movie> bestMovies = movieMapper.findBestMovies();
+    public List<MovieDTO> getTopBestMovies(int limit) {
+        List<MovieDTO> bestMovies = movieMapper.findBestMovies();
         return bestMovies.stream().limit(limit).collect(Collectors.toList());
     }
 }
