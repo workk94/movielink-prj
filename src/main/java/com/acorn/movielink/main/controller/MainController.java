@@ -1,6 +1,8 @@
 package com.acorn.movielink.main.controller;
 
+import com.acorn.movielink.data.dto.MovieDTO;
 import com.acorn.movielink.login.dto.Member;
+
 import com.acorn.movielink.login.dto.Movie;
 import com.acorn.movielink.login.dto.Review;
 import com.acorn.movielink.login.service.MemberService;
@@ -35,7 +37,7 @@ public class MainController {
         model.addAttribute("latestReviews", latestReviews);
 
         // 베스트 무비 상위 3개 조회
-        List<Movie> bestMovies = movieService.getTopBestMovies(3);
+        List<MovieDTO> bestMovies = movieService.getTopBestMovies(3);
         model.addAttribute("bestMovies", bestMovies);
 
         // 현재 로그인한 사용자 ID 가져오기

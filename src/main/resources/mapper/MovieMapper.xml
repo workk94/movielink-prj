@@ -15,7 +15,7 @@
         <result property="genre" column="genre"/>
         <result property="moviePlot" column="movie_plot"/>
         <result property="movieTrailerUrl" column="movie_trailer_url"/>
-        <result property="moviePoster" column="movie_poster"/>
+        <result property="moviePosterUrl" column="movie_poster"/>
         <result property="movieImdbScore" column="movie_imdb_score"/>
         <result property="movieTMDBScore" column="movie_rotten_score"/>
     </resultMap>
@@ -37,7 +37,7 @@
     </select>
 
     <!-- MovieMapper.xml -->
-    <select id="findBestMovies" parameterType="map" resultMap="movieResultMap">
+    <select id="findBestMovies" parameterType="map" resultMap="MovieResultMap">
         SELECT * FROM MOVIE
         ORDER BY (movie_rotten_score + movie_imdb_score * 10) DESC
         LIMIT 3
