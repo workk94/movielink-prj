@@ -629,7 +629,7 @@ color:#98a4b7;}
                         <div class="swiper-slide movie" th:each="movie : ${likedMovies}">
                             <a th:href="@{'/movie/' + ${movie.movieId}}">
                                 <div class="photo">
-                                    <img th:alt="${movie.movieNm}" th:src="${movie.moviePoster}"/>
+                                    <img th:alt="${movie.movieNm}" th:src="${movie.moviePosterUrl}"/>
                                 </div>
                                 <div class="name" th:text="${movie.movieNm}"></div>
                             </a>

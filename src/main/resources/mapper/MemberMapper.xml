@@ -125,7 +125,7 @@
         m.movie_country AS movieCountry,
         m.movie_plot AS moviePlot,
         m.movie_trailer_url AS movieTrailerUrl,
-        m.movie_poster AS moviePoster,
+        m.movie_poster AS moviePosterUrl,
         m.movie_imdb_score AS movieImdbScore,
         m.movie_rotten_score AS movieRottenScore,
         m.movie_reg_at AS movieRegAt
