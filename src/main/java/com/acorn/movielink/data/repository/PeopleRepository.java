@@ -12,7 +12,7 @@ public class PeopleRepository {
     SqlSession session;
 
     public int insertPeople(PeopleDTO peopleDTO){
-        return session.insert("com.acorn.movielink.data.dto.PeopleDTO.insertPeople",peopleDTO);
+        return session.insert("com.acorn.movielink.data.PeopleMapper.insertPeople",peopleDTO);
     }
 
 

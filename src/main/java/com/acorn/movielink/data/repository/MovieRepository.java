@@ -1,6 +1,6 @@
 package com.acorn.movielink.data.repository;
 
-import com.acorn.movielink.data.dto.MovieDTO;
+import com.acorn.movielink.data.dto.MovieInfoDTO;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -14,7 +14,7 @@ public class MovieRepository {
     SqlSession session;
 
 
-    public List<MovieDTO> selectAllMovie(){
+    public List<MovieInfoDTO> selectAllMovie(){
         return session.selectList("com.acorn.movielink.data.MovieMapper.selectAllMovies");
     }
 

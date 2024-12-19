@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 public class PeopleDTO {
 
     String movie_id;
-    String people_id;
+    String people_cd;
     String people_nm;
     String people_nm_en;
     String people_role_nm;      // 역할명이 없는경우 있음

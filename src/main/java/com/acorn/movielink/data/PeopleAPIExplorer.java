@@ -4,8 +4,10 @@ package com.acorn.movielink.data;
 import com.acorn.movielink.data.dto.KMDBMoiveStaff;
 import com.acorn.movielink.data.dto.KMDBMovieActor;
 import com.acorn.movielink.data.dto.PeopleDTO;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
@@ -18,17 +20,47 @@ import java.net.URLEncoder;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 
 @Component
 public class PeopleAPIExplorer {
 
+    @Value("${kmdb.api.key}")
+    private String KMDB_API_KEY;
+
+    @Value("${tmdb.api.header}")
+    private String tmdb_api_header;
 
 
     private String getKMDBMovieDatas(String MovieEnNm, String releaseDate ) throws IOException {
+
+        String releaseDteStr = "";
+        try { // 날짜 문자열을 LocalDate로 변환
+            DateTimeFormatter formatter;
+            LocalDate releaseDt;
+             // 하루를 더한 날짜 계산 (yyyyMMdd 형식일 경우)
+             if (releaseDate.length() == 8) {
+                 formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+                 releaseDt = LocalDate.parse(releaseDate, formatter);
+                 LocalDate releaseDte = releaseDt.plusDays(1);
+                 releaseDteStr = releaseDte.format(formatter);
+             } else if (releaseDate.length() == 4) {
+                 int releaseYear = Integer.parseInt(releaseDate);
+                 releaseDteStr = String.valueOf(releaseYear + 1);
+             }else{
+                 throw new DateTimeParseException("Invalid date format", releaseDate, 0);
+            }
+        } catch (DateTimeParseException e) {
+            e.printStackTrace();
+            return "Invalid date format";
+        }
+
         StringBuilder urlBuilder = new StringBuilder("http://api.koreafilm.or.kr/openapi-data2/wisenut/search_api/search_json2.jsp?collection=kmdb_new2&");
         /*URL*/
-        urlBuilder.append("&" + URLEncoder.encode("ServiceKey", "UTF-8") + "=" + URLEncoder.encode("K631OS1085173586S0M9", "UTF-8"));
+        urlBuilder.append("&" + URLEncoder.encode("ServiceKey", "UTF-8") + "=" + URLEncoder.encode(KMDB_API_KEY, "UTF-8"));
         /*Service Key*/
         //urlBuilder.append("&" + URLEncoder.encode("val001","UTF-8") + "=" + URLEncoder.encode("2018", "UTF-8"));
         /*상영년도*/
@@ -37,7 +69,7 @@ public class PeopleAPIExplorer {
 
         urlBuilder.append("&" + URLEncoder.encode("title", "UTF-8") + "=" + URLEncoder.encode(MovieEnNm, "UTF-8"));
         urlBuilder.append("&" + URLEncoder.encode("releaseDts", "UTF-8") + "=" + URLEncoder.encode(releaseDate, "UTF-8"));
-        //urlBuilder.append("&" + URLEncoder.encode("releaseDte", "UTF-8") + "=" + URLEncoder.encode("2025", "UTF-8"));
+        urlBuilder.append("&" + URLEncoder.encode("releaseDte", "UTF-8") + "=" + URLEncoder.encode(releaseDteStr, "UTF-8"));
 
         URL url = new URL(urlBuilder.toString());
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -74,6 +106,7 @@ public class PeopleAPIExplorer {
         JSONObject jsonStaffs = firstResultObject.getJSONObject("staffs");
         JSONArray jsonStaff = jsonStaffs.getJSONArray("staff");
 
+        // movieId
         ArrayList<KMDBMovieActor> KMDBMovieActorList = new ArrayList<>();
 
         for(int staffNum = 0; staffNum < jsonStaff.length();staffNum++) {
@@ -83,14 +116,11 @@ public class PeopleAPIExplorer {
                 String staffNm = staff.getString("staffNm");
                 String staffEnNm = staff.getString("staffEnNm");
                 String staffRole = staff.optString("staffRole", "");
-                String staffId = staff.getString("staffId");
+                String staffId = staff.optString("staffId", "");
 
-                if (!staffId.isEmpty()) {
-                    System.out.println(staffNm + staffEnNm + staffRole);
-                    KMDBMovieActorList.add(new KMDBMovieActor(staffNm, staffEnNm, staffRole, staffId));
-                    if (KMDBMovieActorList.size() >= 6) {
-                        return KMDBMovieActorList;
-                    }
+                KMDBMovieActorList.add(new KMDBMovieActor(staffNm, staffEnNm, staffRole, staffId));
+                if (KMDBMovieActorList.size() >= 6) {
+                    return KMDBMovieActorList;
                 }
             }
         }
@@ -117,7 +147,7 @@ public class PeopleAPIExplorer {
                 String staffEnNm = staff.getString("staffEnNm");
                 String staffId = staff.getString("staffId");
 
-                System.out.println(staffNm+staffEnNm);
+                //System.out.println(staffNm+staffEnNm);
                 KMDBMovieStaffList.add(new KMDBMoiveStaff(staffNm,staffEnNm,staffId));
             }
 
@@ -134,11 +164,11 @@ public class PeopleAPIExplorer {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create("https://api.themoviedb.org/3/search/person?query="+URLEncoder.encode( staffEnNm , "UTF-8")+"&include_adult=false&language=ko-kr&page=1"))
                 .header("accept", "application/json")
-                .header("Authorization", "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIzM2FkNmZiNTM3YzM1YjhlMTZjYzZjYjRjMjkyY2U2MiIsIm5iZiI6MTczMjc3ODIzOC42MjUsInN1YiI6IjY3NDgxOGZlMmE1NjIyYjEwNTcxNzMxNCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.pF-ZScaXMg7drI9hB7zeQGsjSQ5iUx5pVrAHtBx0leo")
+                .header("Authorization", tmdb_api_header)
                 .method("GET", HttpRequest.BodyPublishers.noBody())
                 .build();
         HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
-        System.out.println(response.body());
+        //System.out.println(response.body());
 
         return response.body();
     }
@@ -147,9 +177,10 @@ public class PeopleAPIExplorer {
         JSONObject jsonObject = new JSONObject(TMDBData);
         JSONArray jsonResult = jsonObject.getJSONArray("results");
         JSONObject jsonFirstResult = jsonResult.getJSONObject(0);
-        String profile_path = jsonFirstResult.getString("profile_path");
+        String profile_path = jsonFirstResult.isNull("profile_path") ? "" : jsonFirstResult.getString("profile_path");
+
         if (profile_path == null) { profile_path = "";}
-        System.out.println(profile_path);
+        //System.out.println(profile_path);
         return profile_path;
     }
 
@@ -161,35 +192,35 @@ public class PeopleAPIExplorer {
 
         // 배우
         ArrayList<KMDBMovieActor> actorList = getKMDBMovieActorList(kmdbMovieDatas, MovieEnNm);
-        for(int i = 0 ; i< actorList.size();i++){
-            KMDBMovieActor actor = actorList.get(i);
+        for (KMDBMovieActor actor : actorList) {
             String TMDBData = getTMDBData(actor.getStaffNm());
             String profile_path = getTMDBProfilePath(TMDBData);
             PeopleDTO peopleDTO = new PeopleDTO();
             peopleDTO.setMovie_id(movie_id);
-            peopleDTO.setPeople_id(actor.getStaffId());
+            peopleDTO.setPeople_cd(actor.getStaffId());
             peopleDTO.setPeople_nm(actor.getStaffNm());
             peopleDTO.setPeople_nm_en(actor.getStaffEnNm());
             peopleDTO.setPeople_role_nm(actor.getStaffRole());
             peopleDTO.setPeople_profile_url(profile_path);
             peopleDTO.setPeople_type("배우");
             peopleDTOArrayList.add(peopleDTO);
+            //System.out.println(peopleDTO.toString());
         }
         //감독
         ArrayList<KMDBMoiveStaff> directorList = getKMDBMovieDirector(kmdbMovieDatas, MovieEnNm);
-        for(int i = 0 ; i< directorList.size();i++) {
-            KMDBMoiveStaff director = directorList.get(i);
+        for (KMDBMoiveStaff director : directorList) {
             String TMDBData = getTMDBData(director.getStaffNm());
             String profile_path = getTMDBProfilePath(TMDBData);
             PeopleDTO peopleDTO = new PeopleDTO();
             peopleDTO.setMovie_id(movie_id);
-            peopleDTO.setPeople_id(director.getStaffId());
+            peopleDTO.setPeople_cd(director.getStaffId());
             peopleDTO.setPeople_nm(director.getStaffNm());
             peopleDTO.setPeople_nm_en(director.getStaffEnNm());
             peopleDTO.setPeople_role_nm("");
             peopleDTO.setPeople_profile_url(profile_path);
             peopleDTO.setPeople_type("감독");
             peopleDTOArrayList.add(peopleDTO);
+            //System.out.println(peopleDTO.toString());
         }
 
 
@@ -197,11 +228,13 @@ public class PeopleAPIExplorer {
         return  peopleDTOArrayList;
     }
 
-/*
-    public static void main(String[] args) throws IOException, InterruptedException {
 
-        //PeopleAPIExplorer pi = new PeopleAPIExplorer();
-        //String MovieEnNm = "Firefighters";
+   /* public static void main(String[] args) throws IOException, InterruptedException {
+
+        PeopleAPIExplorer pi = new PeopleAPIExplorer();
+        pi.init();
+        String MovieEnNm = "Firefighters";
+        pi.getPeopleDTOList(MovieEnNm,"20241204","1234");
 
     }*/
 }
