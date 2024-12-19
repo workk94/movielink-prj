@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.acorn.movielink.login.repository.GenreMapper">
+
+    <!-- Genre Result Map -->
+    <resultMap id="genreResultMap" type="com.acorn.movielink.login.dto.Genre">
+        <id column="genre_id" property="genreId"/>
+        <result column="genre_nm" property="genreNm"/>
+        <result column="movie_id" property="movieId"/>
+    </resultMap>
+
+    <!-- 모든 장르 조회 -->
+    <select id="findAllGenres" resultMap="genreResultMap">
+        SELECT genre_id, genre_nm, movie_id FROM genre
+    </select>
+
+    <!-- 장르 ID로 특정 장르 조회 -->
+    <select id="findByGenreId" parameterType="Integer" resultMap="genreResultMap">
+        SELECT genre_id, genre_nm, movie_id FROM genre WHERE genre_id = #{genreId}
+    </select>
+
+    <!-- 특정 영화에 속한 장르 조회 -->
+    <select id="findGenresByMovieId" parameterType="Integer" resultMap="genreResultMap">
+        SELECT genre_id, genre_nm, movie_id FROM genre WHERE movie_id = #{movieId}
+    </select>
+
+    <!-- 새로운 장르 추가 -->
+    <insert id="insertGenre" parameterType="com.acorn.movielink.login.dto.Genre" useGeneratedKeys="true"
+            keyProperty="genreId">
+        INSERT INTO genre (genre_nm, movie_id)
+        VALUES (#{genreNm}, #{movieId})
+    </insert>
+
+    <!-- 기존 장르 수정 -->
+    <update id="updateGenre" parameterType="com.acorn.movielink.login.dto.Genre">
+        UPDATE genre
+        SET genre_nm = #{genreNm}, movie_id = #{movieId}
+        WHERE genre_id = #{genreId}
+    </update>
+
+    <!-- 장르 삭제 -->
+    <delete id="deleteGenre" parameterType="Integer">
+        DELETE FROM genre WHERE genre_id = #{genreId}
+    </delete>
+
+</mapper>

@@ -1,0 +1,250 @@
+<!-- src/main/resources/templates/signup.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>회원가입</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+    <style>
+        .login-header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            margin-top: 16px;
+            margin-bottom: 16px;
+        }
+
+        .login-header h1 {
+            font-size: 16px;
+            color: #efefef;
+        }
+
+        .login-header .arrow-back {
+            position: absolute;
+            left: 6px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+        }
+
+        .login-header .arrow-back img {
+            width: 24px;
+            height: 24px;
+        }
+        .signup-wrap {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            max-width: 700px;
+            margin: 0 auto;
+            padding-top:20px;
+        }
+        .title {
+            text-align: center;
+        }
+        .signup-field {
+            display: flex;
+            flex-direction: column;
+            width: 700px;
+            margin-bottom: 40px;
+        }
+        .signup-field input {
+            margin-top: 8px;
+            padding:0 16px;
+            width: 100%;
+            height: 48px;
+            font-weight: 400;
+            font-size: 14px;
+            color: #efefef;
+            caret-color: #4263eb;
+            background: #172036;
+            border: 1px solid #25304a;
+            border-radius: 6px;
+            box-sizing: border-box;
+        }
+
+        /* 장르 선택 버튼 스타일 */
+        .genre-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 8px;
+        }
+
+        .genre-container input[type="checkbox"] {
+            display: none; /* 체크박스 숨기기 */
+        }
+
+        .genre-container label {
+            padding: 10px 20px;
+            background-color: #25304a;
+            color: #efefef;
+            border: 1px solid #4263eb;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s;
+            user-select: none;
+        }
+
+        .genre-container label:hover {
+            background-color: #4263eb;
+        }
+
+        /* 체크된 상태의 라벨 스타일 */
+        .genre-container input[type="checkbox"]:checked + label {
+            background-color: #4263eb;
+            color: #ffffff;
+        }
+
+        /* 오류 메시지 스타일 */
+        .error p {
+            color: red;
+            font-size: 12px;
+            margin-top: 4px;
+        }
+
+        /* 제출 버튼 스타일 */
+        button[type="submit"] {
+            padding: 12px 24px;
+            background-color: #4263eb;
+            color: #ffffff;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #304ecc;
+        }
+        .genre-wrap{
+            display:flex;
+            flex-wrap:wrap;
+            gap:8px;
+        }
+    </style>
+</head>
+<body>
+<div class="root">
+    <div th:replace="~{fragments/header :: headerFragment}"></div>
+    <div class="login-header">
+        <div class="arrow-back" onclick="window.history.back();">
+            <img th:src="@{/img/arrow_back.svg}"/>
+        </div>
+        <h1>회원가입</h1>
+    </div>
+    <div class="signup-wrap">
+        <form method="post" th:action="@{/signup}" th:object="${member}">
+            <!-- CSRF 토큰 -->
+            <input
+                    th:name="${_csrf.parameterName}"
+                    th:value="${_csrf.token}"
+                    type="hidden"
+            />
+
+            <div class="signup-field">
+                <label for="memEmail">이메일</label>
+                <input
+                        id="memEmail"
+                        placeholder="example@domain.com"
+                        required
+                        th:field="*{memEmail}"
+                        type="email"
+                />
+                <div class="error" th:if="${#fields.hasErrors('memEmail')}">
+                    <p th:errors="*{memEmail}">이메일 오류</p>
+                </div>
+            </div>
+
+            <div class="signup-field">
+                <label for="memPw">비밀번호</label>
+                <input
+                        id="memPw"
+                        placeholder="비밀번호 입력"
+                        required
+                        th:field="*{memPw}"
+                        type="password"
+                />
+                <div class="error" th:if="${#fields.hasErrors('memPw')}">
+                    <p th:errors="*{memPw}">비밀번호 오류</p>
+                </div>
+            </div>
+
+            <div class="signup-field">
+                <label for="memTel">전화번호</label>
+                <input
+                        id="memTel"
+                        placeholder="010-1234-5678"
+                        th:field="*{memTel}"
+                        type="text"
+                />
+            </div>
+
+            <div class="signup-field">
+                <label for="memNn">닉네임</label>
+                <input
+                        id="memNn"
+                        placeholder="닉네임 입력"
+                        th:field="*{memNn}"
+                        type="text"
+                />
+            </div>
+
+            <!-- 장르 선택 필드를 버튼으로 변경 -->
+            <div class="signup-field">
+                <label>선호 장르</label>
+                <div class="genre-wrap">
+                    <div class="genre-container" th:each="genre : ${genres}">
+                        <input
+                                th:id="'genre_' + ${genre.genreId}"
+                                th:name="genreIds"
+                                th:value="${genre.genreId}"
+                                type="checkbox"
+                        />
+                        <label th:for="'genre_' + ${genre.genreId}" th:text="'#'+${genre.genreNm}"></label>
+                    </div>
+                </div>
+                <div class="error" th:if="${#fields.hasErrors('genreIds')}">
+                    <p th:errors="*{genreIds}">장르 선택 오류</p>
+                </div>
+            </div>
+
+            <!-- 제출 버튼 -->
+            <div class="signup-field">
+                <button type="submit">가입하기</button>
+            </div>
+        </form>
+    </div>
+    <p>이미 회원이신가요? <a th:href="@{/login}">로그인</a></p>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const maxSelection = 5; // 최대 선택 가능한 장르 수
+        const checkboxes = document.querySelectorAll('.genre-wrap input[type="checkbox"]');
+
+        checkboxes.forEach(function (checkbox) {
+            checkbox.addEventListener('change', function () {
+                const checkedCount = document.querySelectorAll('.genre-wrap input[type="checkbox"]:checked').length;
+                if (checkedCount >= maxSelection) {
+                    checkboxes.forEach(function (cb) {
+                        if (!cb.checked) {
+                            cb.disabled = true;
+                            cb.nextElementSibling.style.opacity = '0.6';
+                            cb.nextElementSibling.style.cursor = 'not-allowed';
+                        }
+                    });
+                } else {
+                    checkboxes.forEach(function (cb) {
+                        cb.disabled = false;
+                        cb.nextElementSibling.style.opacity = '1';
+                        cb.nextElementSibling.style.cursor = 'pointer';
+                    });
+                }
+            });
+        });
+    });
+</script>
+</body>
+</html>
