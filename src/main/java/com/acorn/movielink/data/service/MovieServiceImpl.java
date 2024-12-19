@@ -11,7 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -23,61 +26,92 @@ public class MovieServiceImpl implements MovieService{
 
     @Autowired
     public MovieServiceImpl(APIExplorer explorer,
-                            MovieRepository batchRepository,
+                            MovieRepository movieRepository,
                             RawDataRepository dataRepository) {
         this.explorer = explorer;
-        this.movieRepository = batchRepository;
+        this.movieRepository = movieRepository;
         this.dataRepository = dataRepository;
     }
 
     @Override
     @Transactional
     public int saveMovie() {
-        long startTime = System.currentTimeMillis(); // 시작시간
-        List<String> movieCds = dataRepository.selectMovieCode(); // kobis 영화코드 가져오기
+        long startTime = System.currentTimeMillis(); // 시작 시간
         int totalSaved = 0;
 
-        for (String code : movieCds) {
+        // 영화 테이블에 있는 기존 영화 정보 가져옴
+        List<Map<String, String>> existingMovies = movieRepository.selectExistingMovies();
+
+        // 데이터 테이블에서 중복되지 않은 영화 코드와 개봉일 영화 이름 가져옴
+        List<Map<String, String>> movieCodes = dataRepository.selectMovieCodes();
+
+        // 기존 영화와 비교하여 새로운 영화만 필터링
+        List<Map<String, String>> newMovies = movieCodes.stream()
+                .filter(item -> existingMovies.stream()
+                        .noneMatch(existing ->
+                                existing.get("movieNm").equals(item.get("movieNm"))
+                        )
+                ).collect(Collectors.toList());
+
+        log.info("추가된 영화 : {}",newMovies.toString());
+
+        if (newMovies.isEmpty()) {
+            log.info("추가할 영화가 없습니다.");
+            return totalSaved;
+        }
+
+        for (Map<String, String> movie : newMovies) {
             try {
-                String responseKOBIS = explorer.getMovieDataFromKOBIS(code);
+                String movieCd = movie.get("movieCd");
+                String responseKOBIS = explorer.getMovieDataFromKOBIS(movieCd);
                 MovieDTO dto = parseKOBISData(responseKOBIS);
 
+                // TMDB 데이터 추가
                 String responseTMDB = explorer.getMovieDataFromTMDB(dto.getMovieNm(), dto.getMovieOpenDt());
                 dto = parseTMDBData(dto, responseTMDB);
 
+                // 유튜브 데이터 추가
                 String responseYoutube = explorer.getYoutubeData(dto.getMovieNm());
                 dto = parseYoutubeData(dto, responseYoutube);
 
-                // 영화 개봉년도 YYYY
-                String releaseYear = dto.getMovieOpenDt().substring(0, 4);
+                // IMDB 데이터 추가
+                String releaseYear = dto.getMovieOpenDt().substring(0, 4); // YYYY 포맷 추출
                 String responseIMDB = explorer.getIMDBData(dto.getMovieNmEn(), releaseYear);
                 dto = parseIMDBData(dto, responseIMDB);
 
                 // 영화 데이터 저장
                 movieRepository.insertMovie(dto);
 
-                // 저장된 영화 ID 조회
-                Integer movieId = dto.getMovieId();
+
+                //  dto.getMovieId();
+
+                // 인물 데이터 저장
+
 
                 totalSaved++;
-
-                log.info("영화 코드 {}: 데이터 저장 완료 (ID: {}).", code, movieId);
+                log.info("영화 코드 {}: 데이터 저장 완료.", movieCd);
 
             } catch (Exception e) {
-                log.error("영화 코드 {} 처리 중 오류 발생: {}", code, e.getMessage());
+                log.error("영화 코드 {} 처리 중 오류 발생: {}", movie.get("movieCd"), e.getMessage());
             }
         }
 
-        long endTime = System.currentTimeMillis(); // 종료시간
-        long elapsedTime = endTime - startTime; // 총 걸린 시간 계산
+        long endTime = System.currentTimeMillis();
+        long elapsedTime = endTime - startTime;
         log.info("저장 작업이 완료되었습니다. 총 {}건 저장, 총 소요 시간: {} ms", totalSaved, elapsedTime);
 
         return totalSaved;
     }
 
+
     @Override
     public List<MovieDTO> getMovieList() {
-        return null;
+        return movieRepository.selectAllMovie();
+    }
+
+    @Override
+    public List<Map<String, String>> getExistingMovie() {
+        return dataRepository.selectMovieCodes();
     }
 
     // KOBIS 영화 정보

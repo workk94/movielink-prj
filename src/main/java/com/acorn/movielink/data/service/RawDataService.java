@@ -3,6 +3,7 @@ package com.acorn.movielink.data.service;
 import com.acorn.movielink.data.dto.RAWDataDTO;
 
 import java.util.List;
+import java.util.Map;
 
 public interface RawDataService {
 
@@ -16,5 +17,5 @@ public interface RawDataService {
     int deleteDataBetween(String startDate, String endDate);
 
     // 영화 코드 불러오기
-    List<String> getAllMovieCode();
+    List<Map<String, String>> getAllMovieCode();
 }

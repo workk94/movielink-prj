@@ -21,8 +21,14 @@ class RawDataServiceImplTest {
 
     @Test
     void test2(){
-        int result = service.deleteDataBetween("20240101", "20241206");
+        int result = service.deleteDataBetween("20241207", "20241208");
         assertTrue(result >= 1);
+    }
+
+    @Test
+    void test3(){
+        int result = service.saveDataByPeriod("20240909", "20241010");
+        assertTrue(result>=1);
     }
 
 }
