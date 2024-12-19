@@ -2,7 +2,7 @@ package com.acorn.movielink.data.controller;
 
 
 import com.acorn.movielink.data.PeopleAPIExplorer;
-import com.acorn.movielink.data.dto.MovieDTO;
+import com.acorn.movielink.data.dto.MovieInfoDTO;
 import com.acorn.movielink.data.dto.PeopleDTO;
 import com.acorn.movielink.data.service.MovieServiceImpl;
 import com.acorn.movielink.data.service.PeopleServiceImpl;
@@ -37,12 +37,22 @@ public class PeopleController {
 
         //영화 아이디,제목,개봉일 가져오기
 
-        List<MovieDTO> movieArrayList = movieService.getAllMovie();
+        List<MovieInfoDTO> movieArrayList = movieService.getAllMovie();
+
+        //List<MovieInfoDTO> movieArrayList = new ArrayList<>();
+/*
+        movieArrayList.add(new MovieInfoDTO("1234","Look Back","2024"));
+        movieArrayList.add(new MovieInfoDTO("2345","The Boy and the Heron","2023"));
+        movieArrayList.add(new MovieInfoDTO("3456","One Win (1seung)","2024"));
+        MovieInfoDTO movie22 = new MovieInfoDTO("4567","Firefighters","20241204");
+        movieArrayList.add(movie22);
+*/
+
 
         //영화인 찾기
         int successCount = 0;
         int failureCount = 0;
-        for(MovieDTO movie : movieArrayList) {
+        for(MovieInfoDTO movie : movieArrayList) {
             try {
                 ArrayList<PeopleDTO> peopleDTOList = peopleAPIExplorer.getPeopleDTOList(movie.getMovie_nm_en(), movie.getMovie_open_dt(), movie.getMovie_id());
                 for (PeopleDTO peopleDTO : peopleDTOList) {
@@ -54,6 +64,7 @@ public class PeopleController {
                         failureCount++; log.error("Failed to insert PeopleDTO: {}", peopleDTO.getPeople_nm(), e);
                     }
                 }
+                //Thread.sleep(8000);
             } catch (IOException | InterruptedException e) {
                 log.error("Error fetching PeopleDTO list for movie: {}", movie.getMovie_nm_en(), e);
                 return new ResponseEntity<>("Failed to fetch PeopleDTO list", HttpStatus.INTERNAL_SERVER_ERROR);
@@ -62,5 +73,9 @@ public class PeopleController {
         String resultMessage = String.format("Success: %d, Failed: %d", successCount, failureCount);
         return new ResponseEntity<>(resultMessage, HttpStatus.OK);
     }
+
+
+
+
 
 }
