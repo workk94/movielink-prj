@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public class MovieRepository {
@@ -22,6 +23,11 @@ public class MovieRepository {
     // 영화 전체 조회
     public List<MovieDTO> selectAllMovie() {
         return sqlSession.selectList(namespace + "selectAllMovie");
+    }
+
+    // 영화 테이블에 등록된 영화 이름, 개봉일 조회
+    public List<Map<String, String>> selectExistingMovies() {
+        return sqlSession.selectList(namespace + "selectExistingMovies");
     }
 
     // 영화 삽입

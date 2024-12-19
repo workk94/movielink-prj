@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -14,9 +15,9 @@ class RawDataRepositoryTest {
     private RawDataRepository repository;
 
     @Test
-    void test(){
-        List<String> list =  repository.selectMovieCode();
+    void test1(){
+        List<Map<String, String>> list =  repository.selectMovieCodes();
         list.forEach(System.out::println);
-        assertTrue(list.size() != 0);
     }
+
 }

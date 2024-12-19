@@ -3,16 +3,23 @@ package com.acorn.movielink.data.service;
 import com.acorn.movielink.data.Repository.RawDataRepository;
 import com.acorn.movielink.data.dto.RAWDataDTO;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.session.ExecutorType;
+import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Service
@@ -23,40 +30,60 @@ public class RawDataServiceImpl implements RawDataService {
 
     private final APIExplorer explorer;
     private final RawDataRepository repository;
+    private final SqlSessionFactory sqlSessionFactory; // 추가된 필드
 
     @Autowired
-    public RawDataServiceImpl(APIExplorer explorer, RawDataRepository repository) {
+    public RawDataServiceImpl(APIExplorer explorer, RawDataRepository repository, SqlSessionFactory sqlSessionFactory) {
         this.explorer = explorer;
         this.repository = repository;
+        this.sqlSessionFactory = sqlSessionFactory;
     }
 
+    // 중복된 일자 제거해야됨
     @Override
+    @Transactional
     public int saveDataByPeriod(String startDate, String endDate) {
+        long startTime = System.currentTimeMillis(); // 시작 시간
         int totalSaved = 0;
-        List<RAWDataDTO> batchData = new ArrayList<>();
+        int currentBatchSize = 0;
 
-        try {
-         
+        try (SqlSession batchSession = sqlSessionFactory.openSession(ExecutorType.BATCH)) {
+            RawDataRepository batchRepository = new RawDataRepository(batchSession);
+
             List<RAWDataDTO> list = fetchAndParseData(startDate, endDate);
 
             for (RAWDataDTO dto : list) {
-                batchData.add(dto);
+                try {
+                    batchRepository.insert(dto);
+                    currentBatchSize++;
 
-                // 배치 사이즈에 도달할때마다 저장
-                if (batchData.size() >= BATCH_SIZE) {
-                    totalSaved += repository.insertBatch(batchData);
-                    batchData.clear();  // 저장후 초기화
+                    // 배치 사이즈에 도달하면 flush
+                    if (currentBatchSize >= BATCH_SIZE) {
+                        batchSession.flushStatements();
+                        batchSession.commit();
+                        totalSaved += currentBatchSize;
+                        currentBatchSize = 0; // 배치 사이즈 초기화
+                        log.info("{}건의 데이터를 저장했습니다. 커밋 완료.", totalSaved);
+                    }
+                } catch (Exception e) {
+                    log.error("데이터 처리 중 오류 발생: {}", e.getMessage());
                 }
             }
 
-            // 나머지 데이터 저장
-            if (!batchData.isEmpty()) {
-                totalSaved += repository.insertBatch(batchData);
+            // 남아 있는 데이터 처리
+            if (currentBatchSize > 0) {
+                batchSession.flushStatements();
+                batchSession.commit();
+                totalSaved += currentBatchSize;
+                log.info("마지막 {}건의 데이터를 저장했습니다.", currentBatchSize);
             }
-
         } catch (Exception e) {
-            log.error("박스 데이터를 저장하는 중 오류 발생, 오류: {}",  e.getMessage(), e);
+            log.error("배치 저장 중 오류 발생: {}", e.getMessage(), e);
         }
+
+        long endTime = System.currentTimeMillis();
+        long elapsedTime = endTime - startTime;
+        log.info("배치 저장 작업 완료, 총 소요 시간: {} ms", elapsedTime);
 
         return totalSaved;
     }
@@ -72,8 +99,8 @@ public class RawDataServiceImpl implements RawDataService {
     }
 
     @Override
-    public List<String> getAllMovieCode() {
-        return repository.selectMovieCode();
+    public  List<Map<String, String>> getAllMovieCode() {
+        return repository.selectMovieCodes();
     }
 
     // api 데이터 가져오고 dto 변환
