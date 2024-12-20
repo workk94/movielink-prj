@@ -1,4 +1,4 @@
-package com.acorn.movielink.data.Repository;
+package com.acorn.movielink.data.repository;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;

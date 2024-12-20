@@ -1,7 +1,7 @@
 package com.acorn.movielink.data.service;
 
-import com.acorn.movielink.data.Repository.MovieRepository;
-import com.acorn.movielink.data.Repository.RawDataRepository;
+import com.acorn.movielink.data.repository.MovieRepository;
+import com.acorn.movielink.data.repository.RawDataRepository;
 import com.acorn.movielink.data.dto.MovieDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONArray;
@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
