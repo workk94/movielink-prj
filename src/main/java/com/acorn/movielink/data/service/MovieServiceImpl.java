@@ -23,14 +23,16 @@ public class MovieServiceImpl implements MovieService{
     private final APIExplorer explorer;
     private final MovieRepository movieRepository;
     private final RawDataRepository dataRepository;
-
+    private final PeopleService service;
     @Autowired
     public MovieServiceImpl(APIExplorer explorer,
                             MovieRepository movieRepository,
-                            RawDataRepository dataRepository) {
+                            RawDataRepository dataRepository,
+                            PeopleService service) {
         this.explorer = explorer;
         this.movieRepository = movieRepository;
         this.dataRepository = dataRepository;
+        this.service = service;
     }
 
     @Override
@@ -81,11 +83,10 @@ public class MovieServiceImpl implements MovieService{
 
                 // 영화 데이터 저장
                 movieRepository.insertMovie(dto);
-
-
-                //  dto.getMovieId();
+                String id = dto.getMovieId().toString();
 
                 // 인물 데이터 저장
+                service.savePeople(dto.getMovieNm(), dto.getMovieOpenDt(), "1");
 
 
                 totalSaved++;

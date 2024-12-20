@@ -1,4 +1,4 @@
-package com.acorn.movielink.data;
+package com.acorn.movielink.data.service;
 
 
 import com.acorn.movielink.data.dto.KMDBMoiveStaff;
@@ -28,10 +28,10 @@ import java.util.ArrayList;
 @Component
 public class PeopleAPIExplorer {
 
-    @Value("${kmdb.api.key}")
+    @Value("${kmdb-api-key}")
     private String KMDB_API_KEY;
 
-    @Value("${tmdb.api.header}")
+    @Value("${tmdb-api-key}")
     private String tmdb_api_header;
 
 
@@ -164,7 +164,7 @@ public class PeopleAPIExplorer {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create("https://api.themoviedb.org/3/search/person?query="+URLEncoder.encode( staffEnNm , "UTF-8")+"&include_adult=false&language=ko-kr&page=1"))
                 .header("accept", "application/json")
-                .header("Authorization", tmdb_api_header)
+                .header("Authorization","Bearer "+tmdb_api_header)
                 .method("GET", HttpRequest.BodyPublishers.noBody())
                 .build();
         HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
