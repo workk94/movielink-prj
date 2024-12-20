@@ -1,6 +1,6 @@
 package com.acorn.movielink.data.service;
 
-import com.acorn.movielink.data.Repository.RawDataRepository;
+import com.acorn.movielink.data.repository.RawDataRepository;
 import com.acorn.movielink.data.dto.RAWDataDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.ExecutorType;
@@ -9,7 +9,6 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,7 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
