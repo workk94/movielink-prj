@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.acorn.movielink.RawDataMapper">
+
+    <!-- 데이터 삽입 -->
+    <insert id="insert" parameterType="com.acorn.movielink.data.dto.RAWDataDTO">
+        INSERT INTO raw_data_test (
+        rnum, ranking, rank_inten, rank_old_and_new, movie_cd, movie_nm,
+        open_dt, sales_share, sales_inten, sales_change, sales_acc, audi_cnt, audi_inten,
+        audi_change, audi_acc, scrn_cnt, show_cnt, box_office_dt
+        )
+        VALUES (
+        #{rnum}, #{ranking}, #{rankInten}, #{rankOldAndNew}, #{movieCd}, #{movieNm},
+        #{openDt}, #{salesShare}, #{salesInten}, #{salesChange}, #{salesAcc}, #{audiCnt}, #{audiInten},
+        #{audiChange}, #{audiAcc}, #{scrnCnt}, #{showCnt}, #{boxOfficeDt}
+        )
+        ON DUPLICATE KEY UPDATE
+        raw_data_reg_at = VALUES(raw_data_reg_at);
+    </insert>
+
+    <!-- 데이터 조회 -->
+    <select id="findDataBetween" resultType="com.acorn.movielink.data.dto.RAWDataDTO">
+        SELECT * FROM raw_data_test
+        WHERE box_office_dt BETWEEN #{startDate} AND #{endDate}
+    </select>
+
+    <!-- 중복 제외하고 영화 코드, 영화 이름, 영화 개봉일 가져오기 -->
+    <select id="selectMovieCodes" resultType="map">
+        SELECT DISTINCT
+        movie_cd AS movieCd,
+        movie_nm AS movieNm
+        FROM raw_data_test
+    </select>
+
+    <!-- 데이터 삭제 -->
+    <delete id="deleteDataBetween">
+        DELETE FROM raw_data_test
+        WHERE box_office_dt BETWEEN #{startDate} AND #{endDate}
+    </delete>
+
+    <!-- 중복 제외하고 영화 코드 가져오기 -->
+<!--    <select id="selectMovieCode" resultType="string">-->
+<!--        SELECT DISTINCT movie_cd FROM raw_data_test-->
+<!--    </select>-->
+
+</mapper>

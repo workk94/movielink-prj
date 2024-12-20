@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>마이페이지</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+    <link
+            href="https://unpkg.com/swiper/swiper-bundle.min.css"
+            rel="stylesheet"
+    />
+    <script th:src="@{/js/mypage.js}"></script>
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <style>
+        .profile-wrap {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom:12px;
+      }
+      @media screen and (max-width: 500px){
+        .profile-wrap{
+            flex-direction:column;
+        }
+        .edit-btn{
+            display:none !important;
+        }
+      }
+
+      .edit-btn {
+        background-color: #5383e8;
+        border: none;
+        border-radius: 8px;
+        width: 120px;
+        height: 28px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 12px;
+        color: #ffffff;
+        text-decoration: none;
+        cursor: pointer;
+        vertical-align: center;
+      }
+
+      .edit-btn:hover {
+        background-color: #3a6dcb;
+      }
+
+      .profile {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .profile-img {
+        width: 64px;
+        height: 64px;
+        position: relative; /* 위치 지정 */
+      }
+
+      .profile-img img,
+      .profile-placeholder {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        background: #3b4869;
+        border: 1px solid #25304a;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 24px;
+        color: #ffffff;
+        text-transform: uppercase;
+      }
+
+      .profile-img img {
+        object-fit: cover; /* 이미지 비율 유지 */
+      }
+
+      .profile-placeholder {
+        background-color: #25304a; /* 대체 배경색 */
+      }
+
+      .mem-nickname {
+        margin-top: 8px;
+        font-size: 16px;
+        color: #efefef;
+      }
+
+      .profile-info {
+        margin-top: 20px;
+        max-width: 700px;
+        margin-left: auto;
+        margin-right: auto;
+        color: #bdc6d5;
+      }
+
+      .profile-info p {
+        margin: 8px 0;
+        font-size: 14px;
+      }
+
+      .profile-info p strong {
+        color: #efefef;
+      }
+
+      .error p {
+        color: red;
+        font-size: 12px;
+        margin-top: 4px;
+      }
+
+      .success {
+        color: green;
+        font-size: 14px;
+        text-align: center;
+        margin-top: 10px;
+      }
+
+      .profile-contents-wrap {
+        margin: 0 auto 40px;
+        padding: 0 16px;
+        width: 100%;
+        max-width: 700px;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+      }
+
+      .profile-content {
+        display: grid;
+        background: #172036;
+        border-radius: 6px;
+        grid-template-columns: repeat(3, 1fr);
+        grid-row-gap: 14px;
+        row-gap: 14px;
+        grid-template-areas: "interest watching watched";
+        padding: 21px 0 22px;
+      }
+
+      .content-wrap {
+        cursor: pointer;
+        display: flex;
+        flex-direction: column;
+        flex: 1 0 0;
+        min-width: 0;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+      }
+
+      .content-wrap .content-count {
+        color: #efefef;
+        font-size: 20px;
+        font-weight: 700;
+        line-height: 24px;
+      }
+
+      .content-wrap .content-label {
+        padding-top: 4px;
+        color: #98a4b7;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 17px;
+      }
+
+      .content-wrap:not(:first-child)::after {
+        content: "";
+        width: 1px;
+        height: 32px;
+        background-color: #25304a;
+        position: absolute;
+        left: 0;
+      }
+
+
+
+      .contents-container {
+        margin-top: 16px;
+        padding: 16px 0 40px;
+        position: relative;
+        border-bottom: 1px solid #172036;
+      }
+
+      .contents-container .title-wrap {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 4px 0;
+        margin-bottom: 8px;
+      }
+      .title-wrap span {
+        font-weight: 600;
+      }
+
+      .contents-container .empty-content-wrap {
+        padding: 24px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .contents-container .empty-content-wrap .empty-content-description {
+        font-weight: 400;
+        font-size: 15px;
+        line-height: 21px;
+        color: #98a4b7;
+      }
+
+      .contents-container .empty-content-wrap .empty-content-button {
+        cursor: pointer;
+        margin-top: 12px;
+        border-radius: 4px;
+        width: 140px;
+        height: 40px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: #4263eb;
+        font-weight: 600;
+        font-size: 14px;
+        line-height: 20px;
+        color: #efefef;
+      }
+
+      .contents-container.has-contents {
+        padding: 16px 0 24px;
+        position: relative;
+      }
+
+      /* 좋아요한 인물 섹션 스타일 수정 */
+      .liked-person-container {
+        display: flex;
+        overflow-x: auto;
+        gap: 12px;
+        padding: 20px 0;
+      }
+
+      .person {
+        flex: 0 0 auto;
+        width: 70px;
+        text-align: center;
+        color: #d4d9e1;
+      }
+
+      .person .photo {
+        width: 70px;
+        height: 70px;
+        overflow: hidden;
+        border-radius: 50%;
+        border: 1px solid #25304a;
+        margin: 0 auto;
+      }
+
+      .person .photo img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover; /* 이미지 비율 유지 */
+      }
+
+      .person .name {
+        margin-top: 8px;
+        width: 70px;
+        text-align: center;
+        line-height: 16px;
+        font-size: 14px;
+        font-weight: 600;
+        opacity: 1;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        color: #d4d9e1;
+      }
+
+      /* 반응형 스타일 */
+      @media screen and (max-width: 700px) {
+        .liked-person-container {
+          padding: 10px 0;
+        }
+        .person {
+          width: 60px;
+        }
+      }
+
+      .liked-movie-container {
+        display: flex;
+        overflow-x: auto;
+        gap: 12px;
+        padding: 20px 0;
+      }
+      .movie {
+        display: flex;
+        text-align: center;
+        color: #d4d9e1;
+      }
+
+      .movie .photo {
+        width: 120px;
+        height: 172px;
+        overflow: hidden;
+        border-radius: 6px;
+        border: 1px solid #25304a;
+        margin: 0 auto;
+      }
+
+      .movie .photo img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover; /* 이미지 비율 유지 */
+      }
+
+      .movie .name {
+        margin-top: 8px;
+        text-align: center;
+        line-height: 16px;
+        font-size: 14px;
+        font-weight: 600;
+        opacity: 1;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        color: #d4d9e1;
+      }
+      .board-wrap {
+        max-width: 700px;
+        display: flex;
+        flex-direction: column;
+        background-color: #172036;
+        padding: 20px 20px 8px 20px;
+        border-radius: 10px;
+      }
+      .board-item {
+        border-bottom: 1px solid #25304a;
+        padding: 16px;
+        font-weight: 600;
+      }
+      .board-title {
+        margin-bottom: 16px;
+      }
+.board-writer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 8px;
+}
+.board-content{
+color:#98a4b7;}
+.board-writer .created-at {
+    font-size: 12px;
+    color: #98a4b7;
+}
+      .board-button {
+        display: flex;
+        margin: 8px auto;
+        justify-content: center;
+        border: 1px solid;
+        width: 300px;
+        height: 40px;
+        border-radius: 8px;
+        position: relative;
+        align-items: center;
+      }
+      .board-button a {
+        display: flex;
+        justify-content: space-between;
+      }
+      .board-button a img {
+        position: absolute;
+        right: 8px;
+      }
+      .point-wrap {
+        background-color: #172036;
+        padding: 40px 40px 0 40px;
+      }
+      .point-content {
+        display: flex;
+        justify-content: space-around;
+        padding-bottom: 40px;
+        border-bottom: 1px solid #25304a;
+      }
+      .my-point {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      .my-point span {
+        color: #98a4b7;
+      }
+      .my-point h2 {
+        margin-top: 8px;
+      }
+      .my-point-grade {
+        display: flex;
+        flex-direction: column;
+      }
+      .next-grade {
+        margin-bottom: 8px;
+      }
+      .progress-bar {
+        margin-bottom: 8px;
+      }
+      .my-point-grade .next-grade span {
+        color: #98a4b7;
+      }
+      .my-point-grade .next-grade .point {
+        font-weight: 600;
+        color: white;
+        font-size: 24px;
+      }
+      .my-point-grade .grade-img {
+        display: flex;
+        justify-content: space-between;
+      }
+      .my-point-grade .grade-img img {
+        width: 24px;
+      }
+      .point-util {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 20px 0;
+}
+
+.point-util .util-item {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.point-util .util-item a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    text-decoration: none;
+    color: #98a4b7;
+}
+
+.point-util .util-item:not(:first-child)::after {
+    content: "";
+    width: 1px;
+    height: 32px;
+    background-color: #25304a;
+    position: absolute;
+    left: 0;
+}
+
+/* 추가: 호버 효과 */
+.point-util .util-item a:hover {
+    background-color: rgba(255, 255, 255, 0.1); /* 원하는 호버 효과 적용 */
+    border-radius: 4px;
+}
+
+      .user-point-item {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+      }
+      .point-item {
+        background-color: #172036;
+        padding: 20px;
+        border-radius: 16px;
+      }
+      .point-item-img{
+      width:120px;
+      padding:8px 0;
+      }
+      .point-item-img img{
+      width:100%;
+      height:100%;
+      object-fit:contain;
+      }
+      .point-item .point-item-price {
+        font-size: 12px;
+        margin-top: 8px;
+        color: #98a4b7;
+      }
+        /* Swiper 슬라이더 스타일 */
+.swiper-container {
+    width: 100%;
+    padding-bottom: 40px; /* 필요에 따라 조정 */
+}
+
+.swiper-slide {
+    /* 슬라이드당 표시할 항목 수에 맞춰 너비 조정 */
+    width: auto; /* Swiper가 너비를 처리하도록 함 */
+    /* 선택 사항: 슬라이드 간 간격 추가 */
+    padding: 0 10px;
+}
+
+
+    </style>
+</head>
+<body>
+<div class="root">
+    <!-- 헤더 프래그먼트 삽입 -->
+    <div th:replace="~{fragments/header :: headerFragment}"></div>
+
+    <!-- 로그인 헤더 -->
+    <div class="login-header">
+        <div class="arrow-back" onclick="window.history.back();">
+            <img alt="뒤로가기" th:src="@{/img/arrow_back.svg}"/>
+        </div>
+        <h1>마이페이지</h1>
+    </div>
+
+    <!-- 프로필 섹션 -->
+    <div class="profile-wrap">
+        <div class="profile">
+            <div class="profile-img">
+                <!-- 프로필 이미지가 존재할 경우 -->
+                <img
+                        alt="프로필"
+                        th:if="${!#strings.isEmpty(member.memProfileFilePath)}"
+                        th:src="${member.memProfileFilePath}"
+                />
+
+                <!-- 프로필 이미지가 없을 경우 닉네임의 첫 글자를 표시 -->
+                <div
+                        class="profile-placeholder"
+                        th:if="${#strings.isEmpty(member.memProfileFilePath)}"
+                >
+                    <span th:text="${#strings.substring(member.memNn, 0, 1)}"></span>
+                </div>
+            </div>
+            <a th:href="@{/mypage/edit}"><p class="mem-nickname" th:text="${member.memNn}"></p></a>
+        </div>
+        <a class="edit-btn" th:href="@{/mypage/edit}">개인정보수정</a>
+    </div>
+
+    <!-- 콘텐츠 섹션 -->
+    <div class="profile-contents-wrap">
+        <!-- 프로필 콘텐츠 (좋아요한 영화, 작성 게시글, 작성 댓글) -->
+        <div class="profile-content">
+            <a class="content-wrap" href="#">
+                <span class="content-count">0</span>
+                <span class="content-label">좋아요한 영화</span>
+            </a>
+            <a class="content-wrap" href="#">
+                <span class="content-count">0</span>
+                <span class="content-label">작성 게시글</span>
+            </a>
+            <a class="content-wrap" href="#">
+                <span class="content-count">0</span>
+                <span class="content-label">작성 댓글</span>
+            </a>
+        </div>
+
+        <!-- 좋아요한 인물 섹션 -->
+        <div class="contents-container" id="liked-person-section">
+            <div class="title-wrap">
+                <span>좋아요한 인물</span>
+                <div class="image">
+                    <img alt="더보기" th:src="@{/img/arrow-right.svg}"/>
+                </div>
+            </div>
+            <div th:if="${!#lists.isEmpty(likedPersons)}">
+                <div class="swiper-container liked-person-swiper">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide person" th:each="person : ${likedPersons}">
+                            <a th:href="@{'/person/' + ${person.peopleId}}">
+                                <div class="photo">
+                                    <img th:alt="${person.peopleNm}" th:src="${person.peopleProfileUrl}"/>
+                                </div>
+                                <div class="name" th:text="${person.peopleNm}"></div>
+                            </a>
+                        </div>
+                    </div>
+                    <!-- 페이지네이션 추가 (선택 사항) -->
+                    <div class="swiper-pagination"></div>
+
+                </div>
+            </div>
+            <div class="empty-content-wrap" th:if="${#lists.isEmpty(likedPersons)}">
+                <span class="empty-content-description">등록한 콘텐츠가 없어요</span>
+                <a class="empty-content-button" th:href="@{/person/search}">인물 검색하기</a>
+            </div>
+        </div>
+
+
+        <!-- 작성한 게시글 섹션 -->
+        <div class="contents-container">
+            <div class="title-wrap">
+                <span>작성한 게시글</span>
+                <div class="image">
+                    <img alt="더보기" th:src="@{/img/arrow-right.svg}"/>
+                </div>
+            </div>
+            <div class="board-wrap">
+                <!-- 게시글이 있을 때 -->
+                <div class="user-posts" th:if="${!#lists.isEmpty(writtenPosts)}">
+                    <div class="board-item" th:each="post : ${writtenPosts}">
+                        <div class="board-title" th:text="${post.title}">게시글 제목</div>
+                        <div class="board-writer">
+                            <span class="board-content" th:text="${post.content}">게시글 내용</span>
+                            <span class="created-at" th:text="${#temporals.format(post.createdAt, 'yyyy-MM-dd HH:mm')}">작성일</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- 게시글이 없을 때 -->
+                <div class="empty-content-wrap" th:if="${#lists.isEmpty(writtenPosts)}">
+                    <span class="empty-content-description">작성한 게시글이 없습니다.</span>
+                    <a class="empty-content-button" th:href="@{/posts/create}">게시글 작성하기</a>
+                </div>
+
+                <!-- "더보기" 버튼 -->
+                <div class="board-button" th:if="${!#lists.isEmpty(writtenPosts)}">
+                    <a th:href="@{/posts}"> <!-- 게시글 목록 페이지로 링크 -->
+                        <div>작성한 게시글</div>
+                        <img alt="" th:src="@{/img/arrow-right.svg}"/>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- 좋아요한 작품 섹션 -->
+        <div class="contents-container" id="liked-movie-section">
+            <div class="title-wrap">
+                <span>좋아요한 작품</span>
+                <div class="image">
+                    <img alt="더보기" th:src="@{/img/arrow-right.svg}"/>
+                </div>
+            </div>
+            <div th:if="${!#lists.isEmpty(likedMovies)}">
+                <div class="swiper-container liked-movie-swiper">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide movie" th:each="movie : ${likedMovies}">
+                            <a th:href="@{'/movie/' + ${movie.movieId}}">
+                                <div class="photo">
+<<<<<<< HEAD
+                                    <img th:alt="${movie.movieNm}" th:src="${movie.moviePosterUrl}"/>
+=======
+                                    <img th:alt="${movie.movieNm}" th:src="${movie.moviePoster}"/>
+>>>>>>> origin/dev
+                                </div>
+                                <div class="name" th:text="${movie.movieNm}"></div>
+                            </a>
+                        </div>
+                    </div>
+                    <!-- 페이지네이션 추가 (선택 사항) -->
+                    <div class="swiper-pagination"></div>
+
+                </div>
+            </div>
+            <div class="empty-content-wrap" th:if="${#lists.isEmpty(likedMovies)}">
+                <span class="empty-content-description">좋아요한 작품이 없습니다.</span>
+                <a class="empty-content-button" th:href="@{/movies/search}">작품 검색하기</a>
+            </div>
+        </div>
+
+
+        <div class="contents-container">
+            <div class="title-wrap">
+                <span>포인트 관리</span>
+                <div class="image">
+                    <img alt="더보기" th:src="@{/img/arrow-right.svg}"/>
+                </div>
+            </div>
+            <div class="point-wrap">
+                <div class="point-content">
+                    <div class="my-point">
+                        <span>내 보유 포인트</span>
+                        <h2 th:text="${member.memPoint}"></h2>
+                    </div>
+                    <div class="my-point-grade">
+                        <div class="next-grade">
+                            <span>다음 등급까지</span>
+                            <span class="point">1567p</span>
+                        </div>
+                        <div class="progress-bar">----------------</div>
+                        <div class="grade-img">
+                            <img alt="" src="/1st-place-medal.png"/>
+                            <img alt="" src="/2nd-place-medal.png"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="point-util">
+                    <div class="util-item">
+                        <a href="">
+                            <span>포인트 얻는법</span>
+                            <img alt="" th:src="@{/img/arrow-right.svg}"/>
+                        </a>
+                    </div>
+                    <div class="util-item">
+                        <a href="">
+                            <span>포인트 사용</span>
+                            <img alt="" th:src="@{/img/arrow-right.svg}"/>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="contents-container" style="padding-bottom:100px">
+        <div class="title-wrap">
+            <span class="title">포인트 사용 내역</span>
+            <div class="image">
+                <img alt="더보기" th:src="@{/img/arrow-right.svg}"/>
+            </div>
+        </div>
+        <div class="user-point-item">
+            <div class="point-item" th:each="item: ${purchasedItems}">
+                <div class="point-item-title" th:text="${item.itemName}"></div>
+                <div class="point-item-img">
+                    <img alt="" th:src="${item.itemImg}">
+                </div>
+                <div class="point-item-price" th:text="${item.itemPoint}"></div>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // 좋아요한 인물을 위한 Swiper 초기화
+            var likedPersonSwiper = new Swiper('.liked-person-swiper', {
+                slidesPerView: 8,
+                spaceBetween: 10,
+                loop: false,
+                pagination: {
+                    el: '.liked-person-swiper .swiper-pagination',
+                    clickable: true,
+                },
+
+                breakpoints: {
+                    // 화면 너비에 따른 슬라이드 수 조정
+                    1200: {
+                        slidesPerView: 8,
+                        spaceBetween: 10,
+                    },
+                    992: {
+                        slidesPerView: 6,
+                        spaceBetween: 10,
+                    },
+                    768: {
+                        slidesPerView: 4,
+                        spaceBetween: 10,
+                    },
+                    500: {
+                        slidesPerView: 2,
+                        spaceBetween: 10,
+                    },
+                },
+            });
+
+            // 좋아요한 작품을 위한 Swiper 초기화
+            var likedMovieSwiper = new Swiper('.liked-movie-swiper', {
+                slidesPerView: 5,
+                spaceBetween: 10,
+                loop: false,
+                pagination: {
+                    el: '.liked-movie-swiper .swiper-pagination',
+                    clickable: true,
+                },
+
+                breakpoints: {
+                    // 화면 너비에 따른 슬라이드 수 조정
+                    1200: {
+                        slidesPerView: 5,
+                        spaceBetween: 10,
+                    },
+                    992: {
+                        slidesPerView: 4,
+                        spaceBetween: 10,
+                    },
+                    768: {
+                        slidesPerView: 3,
+                        spaceBetween: 10,
+                    },
+                    500: {
+                        slidesPerView: 1,
+                        spaceBetween: 10,
+                    },
+                },
+            });
+        });
+    </script>
+</div>
+</body>
+</html>
