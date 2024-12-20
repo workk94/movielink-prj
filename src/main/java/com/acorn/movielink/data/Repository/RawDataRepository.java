@@ -1,4 +1,4 @@
-package com.acorn.movielink.data.Repository;
+package com.acorn.movielink.data.repository;
 
 import com.acorn.movielink.data.dto.RAWDataDTO;
 import org.apache.ibatis.session.SqlSession;

@@ -20,7 +20,7 @@
         <result property="movieTMDBScore" column="movie_tmdb_score"/>
     </resultMap>
 
-    <insert id="insertMovie" parameterType="com.acorn.movielink.data.dto.MovieDTO" useGeneratedKeys="true" keyProperty="movieId">
+    <insert id="insertMovie" parameterType="com.acorn.movielink.data.dto.MovieDTO" useGeneratedKeys="true" keyProperty="movieId" keyColumn="movie_id">
         INSERT INTO movie (
         movie_nm, movie_nm_en, movie_open_dt, movie_age_rating, movie_running_time,
         movie_country, movie_genre, movie_plot, movie_trailer_url, movie_poster,
