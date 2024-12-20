@@ -28,10 +28,10 @@ import java.util.ArrayList;
 @Component
 public class PeopleAPIExplorer {
 
-    @Value("${kmdb.api.key}")
+    @Value("${kmdb-api-key}")
     private String KMDB_API_KEY;
 
-    @Value("${tmdb.api.header}")
+    @Value("${tmdb-api-key}")
     private String tmdb_api_header;
 
 
