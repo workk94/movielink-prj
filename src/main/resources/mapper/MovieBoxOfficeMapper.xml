@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.acorn.movielink.data.MovieBoxOfficeMapper">
     <select id="findDailyMovieStats" parameterType="String" resultType="com.acorn.movielink.data.dto.MovieDailyStatsDTO">
-        SELECT movie_nm, sales_amt,sales_share,audi_cnt
+        SELECT movie_nm,sales_share,audi_cnt
         FROM raw_data_test
         WHERE box_office_dt = #{boxOfficeDate}
         ORDER BY rnum desc
