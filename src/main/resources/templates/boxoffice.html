@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Chart Example</title>
+
+  <style>
+    .chartContainer{
+      display : flex;
+      position : relative;
+      width : 1500px;
+      height : 500px;
+    }
+    .sales_share_chart_Container{
+      width : 400px;
+    }
+    .sales_amt_chart_Container{
+      width : 500px;
+      height : 300px;
+    }
+    .audi_cnt_chart_Container{
+       width : 500px;
+      height : 300px;
+    }
+    #noDataMessage {
+        display : none;
+        position : absolute;
+        top : 50%;
+        left : 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+    }
+
+
+
+  </style>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+  <script th:inline="javascript">
+
+    const fetchData = (date) => {
+     fetch(`/boxoffice/daily?date=${date}`)
+        .then(response => response.json())
+        .then(data => {
+          const moviesList = data.moviesList;
+          if(moviesList.length>0){
+              updateChart(moviesList);
+              document.getElementById('noDataMessage').style.display = 'none';
+          }else{
+            document.getElementById('noDataMessage').style.display = 'block';
+          }
+
+        })
+        .catch(error => {
+            console.error('Error fetching data:', error);
+            document.getElementById('sales_share_chart').style.display = 'none';
+            document.getElementById('noDataMessage').style.display = 'block';
+        });
+    };
+
+
+    const updateChart = (moviesList) =>{
+      moviesList.sort((a, b) => {
+        return b.sales_share - a.sales_share;
+      });
+
+      const movieNames = moviesList.map( function(movie){
+          return movie.movie_nm;
+      });
+
+      const salesShares = {};
+      moviesList.forEach(function(movie) {
+        salesShares[movie.movie_nm] = movie.sales_share;
+      });
+
+      const sales_amt = {};
+      moviesList.forEach(function(movie) {
+        sales_amt[movie.movie_nm] = movie.sales_amt;
+      });
+
+      const audi_cnt = {};
+      moviesList.forEach(function(movie) {
+        audi_cnt[movie.movie_nm] = movie.audi_cnt;
+      });
+
+
+      const salesShare = movieNames.map(function(name) {
+           return salesShares[name];
+      });
+      const movieEtcNames = movieNames.slice();
+      const totalShare = salesShare.reduce((acc, value) => acc + value,0);
+
+      const etcShare = 100 - totalShare;
+      if (etcShare > 0) {
+           movieEtcNames.push("etc");
+           salesShare.push(etcShare);
+      }
+
+      if(sales_share_chart){
+        sales_share_chart.destroy();
+      }
+
+       if(sales_amt_chart){
+        sales_amt_chart.destroy();
+      }
+
+      if(audi_cnt_chart){
+        audi_cnt_chart.destroy();
+      }
+
+      const data = {
+                labels: movieEtcNames,
+                datasets: [{
+                    label: '점유율',
+                    data: salesShare,
+                    backgroundColor: ['#FF0000', '#FFA500', '#FFFF00', '#008000', '#0000FF', '#800080', '#FFC0CB', '#A52A2A', '#800000', '#00FFFF','#4DB6AC']
+                }]
+      };
+
+      const config = {
+                type: 'doughnut',
+                data: data,
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                          position: 'bottom',
+                          labels:{
+                            font: {
+                              size: 10
+                            }
+                          }
+                        },
+                        title: {
+                          display: true,
+                          text: '영화 점유율',
+                          font: {
+                              size: 20
+                          }
+                        }
+                    }
+                }
+      };
+      const data3 = {
+        labels: movieNames,
+        datasets: [{
+            label: '매출액',
+            data: sales_amt,
+            borderColor: 'rgba(255, 99, 132, 1)',
+            backgroundColor: 'rgba(255, 99, 132, 0.5)',
+            borderWidth: 2,
+            borderSkipped: false
+          }]
+      };
+
+      const config3 = {
+        type: 'bar',
+        data: data3,
+        options: {
+          responsive: true,
+          plugins: {
+            legend: {
+              display : false,
+              position: 'top'
+            },
+            title: {
+              display: true,
+              text: '일일 영화별 매출액'
+            },
+            tooltip: {
+              enabled: true,
+              mode: 'index',
+              intersect: false,
+              position: 'nearest'
+            }
+          }
+        },
+
+      };
+      const data2 = {
+              labels: movieNames,
+              datasets: [{
+                  label: '관객수',
+                  data: audi_cnt,
+                  borderColor: 'rgba(54, 162, 235, 1)',
+                  backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                  borderWidth: 2,
+                  borderSkipped: false
+                }]
+            };
+
+            const config2 = {
+              type: 'bar',
+              data: data2,
+              options: {
+                responsive: true,
+                plugins: {
+                  legend: {
+                    display : false,
+                    position: 'top',
+                  },
+                  title: {
+                    display: true,
+                    text: '일일 영화별 관객수'
+                  },
+                  tooltip: {
+                    enabled: true,
+                    mode: 'index',
+                    intersect: false,
+                    position: 'nearest'
+                  }
+                },
+                scales :{
+                  x: {
+                    ticks: {
+                         callback: function(value){
+                              return this.getLabelForValue(value).substr(0,10) + (this.getLabelForValue(value).length > 10 ? '...' : '');
+                        }
+                  }
+                }
+              },
+      };
+
+
+
+      const ctx = document.getElementById("sales_share_chart").getContext('2d');
+      const ctx3 = document.getElementById('sales_amt_chart');
+      const ctx2 = document.getElementById('audi_cnt_chart');
+
+      sales_share_chart = new Chart(ctx, config);
+      sales_amt_chart = new Chart(ctx3, config3);
+      audi_cnt_chart = new Chart(ctx2, config2);
+    }
+
+    let sales_share_chart;
+    let sales_amt_chart;
+    let audi_cnt_chart;
+
+    $(document).ready(function() {
+      const datePicker = $('#datePicker');
+      const today = new Date();
+      const maxDate = today.toISOString().split('T')[0];
+      datePicker.attr('max', maxDate);
+
+      datePicker.change(function() {
+        const selectedDate = $(this).val();
+        fetchData(selectedDate);
+        if(sales_share_chart){
+        sales_share_chart.destroy();
+      }
+       if(sales_amt_chart){
+        sales_amt_chart.destroy();
+      }
+      if(audi_cnt_chart){
+        audi_cnt_chart.destroy();
+      }
+      });
+      const initialDate = new Date();
+      initialDate.setDate(initialDate.getDate() - 1);
+      const formattedDate = initialDate.toISOString().split('T')[0];
+      datePicker.val(formattedDate);
+      fetchData(formattedDate);
+    });
+
+
+  </script>
+</head>
+<body>
+<div class="boxOfficeContainer">
+  <input type="date" id="datePicker"/>
+  <div class="chartContainer" >
+    <div class="sales_share_chart_Container">
+      <canvas id="sales_share_chart"></canvas>
+    </div>
+    <div class="sales_amt_chart_Container">
+      <canvas id="sales_amt_chart"></canvas>
+    </div>
+    <div class="audi_cnt_chart_Container">
+      <canvas id="audi_cnt_chart"></canvas>
+    </div>
+    <h4 id="noDataMessage">데이터 집계 중입니다.</h4>
+  </div>
+</div>
+</body>
+</html>

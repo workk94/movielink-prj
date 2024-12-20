@@ -1,0 +1,375 @@
+.main-content {
+          margin-bottom: 80px;
+        }
+
+        .title-wrap {
+          padding: 0 16px;
+          height: 44px;
+          margin: 8px 0;
+        }
+        .title {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          width: 100%;
+          color: #efefef;
+          font-size: 18px;
+          font-weight: 700;
+          line-height: 23px;
+          letter-spacing: -0.2px;
+          padding: 11px 0 10px;
+        }
+        .home-chart-wrap {
+          position: relative;
+        }
+        .home-chart-container {
+          position: relative;
+          margin-top: 12px;
+          padding: 0 16px;
+        }
+        .ranking-container {
+          margin-top: 0;
+        }
+        .ranking-item:not(:first-child){
+            margin-top:12px;
+        }
+        .ranking {
+          height: 48px;
+          display: flex;
+          align-items: center;
+        }
+        .ranking .ranking-info {
+          cursor: pointer;
+          flex: 1;
+          display: flex;
+          align-items: center;
+          min-width: 0;
+        }
+        .ranking .ranking-info .rank-num {
+          margin-top: 7px;
+          margin-bottom: 6px;
+          flex-shrink: 0;
+          display: flex;
+          flex-direction: column;
+          width: 16px;
+          margin-right: 12px;
+        }
+        .ranking .ranking-info .rank-num img {
+          width: 100%;
+          height: 100%;
+        }
+
+        .ranking .ranking-info .info-poster {
+          flex-shrink: 0;
+          width: 29px;
+          height: 40px;
+          overflow: hidden;
+          margin-right: 10px;
+          border-radius: 2px;
+        }
+        .info-poster img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+        .ranking .ranking-info .info-title {
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          font-weight: 400;
+          font-size: 15px;
+          line-height: 20px;
+          letter-spacing: -0.4px;
+          color: #efefef;
+        }
+        .ranking-option {
+          margin-left: 12px;
+        }
+        .ranking-option .movie-like-button {
+          background: #25304a;
+          cursor: pointer;
+          width: 22px;
+          height: 22px;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          position: relative;
+          border: none; /* 기본 테두리 제거 */
+          outline: none; /* 포커스 아웃라인 제거 */
+        }
+        .ranking-option .movie-like-button img {
+          width: 14px;
+          height: 14px;
+          z-index: 1;
+        }
+        .review-wrap {
+          margin-top: 24px;
+          overflow: hidden;
+        }
+        .review-container {
+          padding: 0 16px !important;
+          height: 134px;
+        }
+        .review-item-container {
+          margin-right: 16px;
+        }
+        .review-item {
+          width: 214px;
+          height: 134px;
+          background-color: #172036;
+          display: flex;
+          flex-direction: column;
+          border-radius: 10px;
+          padding: 16px;
+          overflow: hidden;
+        }
+
+        /* Swiper-specific styles (옵션) */
+        .swiper-button {
+          width: 40px;
+          height: 40px;
+          background: rgba(37, 48, 74, 0.9);
+          border-radius: 50%;
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          z-index: 10; /* 버튼이 다른 요소보다 위에 표시되도록 설정 */
+        }
+        .swiper-button-prev,
+        .swiper-button-next {
+          background: rgba(37, 48, 74, 0.9);
+          border: none; /* 기본 테두리 제거 */
+          outline: none; /* 포커스 아웃라인 제거 */
+        }
+
+        /* 이전 버튼 */
+        .swiper-button-prev {
+          left: -16px;
+        }
+
+        /* 다음 버튼 */
+        .swiper-button-next {
+          right: -16px; /* swiper-container의 오른쪽 외부에 위치 */
+        }
+
+        /* 버튼 내부의 SVG 아이콘 스타일 */
+        .swiper-button-prev svg,
+        .swiper-button-next svg {
+          width: 20px;
+          height: 20px;
+          fill: #ffffff; /* 아이콘 색상 */
+        }
+
+        /* Swiper Pagination */
+        .swiper-pagination-bullet {
+          background: #98a4b7;
+        }
+
+        .swiper-pagination-bullet-active {
+          background: #5383e8;
+        }
+        .swiper-container {
+          margin-left: auto;
+          margin-right: auto;
+          position: relative;
+          overflow: hidden;
+          list-style: none;
+          padding: 0;
+          z-index: 1;
+        }
+        .swiper-wrapper {
+          position: relative;
+          width: 100%;
+          height: 100%;
+          z-index: 1;
+          display: flex;
+          transition-property: transform;
+          box-sizing: content-box;
+        }
+        .swiper-wrapper-container {
+          position: relative;
+        }
+        .review-item__movie-title {
+          font-style: normal;
+          font-weight: 400;
+          font-size: 12px;
+          line-height: 14px;
+          letter-spacing: -0.1px;
+          padding: 4px 0 6px;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          color: #98a4b7;
+        }
+        .review-item__review-title {
+          font-style: normal;
+          font-weight: 600;
+          font-size: 15px;
+          line-height: 21px;
+          letter-spacing: -0.1px;
+          display: -webkit-box;
+          -webkit-box-orient: vertical;
+          -webkit-line-clamp: 2;
+          overflow: hidden;
+          word-break: break-all;
+          color: #d4d9e1;
+        }
+        .review-item__user {
+          font-style: normal;
+          font-weight: 400;
+          font-size: 12px;
+          color: #98a4b7;
+          margin-top: 16px;
+          height: 20px;
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          overflow: hidden;
+        }
+        .rating {
+          margin-right: 8px;
+        }
+        .rating.green {
+          color: #0ca678;
+        }
+        .rating.red {
+          color: #f03e3e;
+        }
+
+        .recommend-wrap {
+          margin-top: 20px;
+        }
+        .recommend-container {
+          position: relative;
+          padding: 16px;
+        }
+
+        .movie-item {
+          background-color: #172036;
+          border-radius: 8px;
+          overflow: hidden;
+          display: flex;
+          flex-direction: column;
+          width: 155px;
+          height: 100%;
+        }
+
+        .movie-poster {
+          width: 100%;
+          height: 200px;
+          object-fit: cover;
+          border-radius: 8px;
+        }
+
+        .movie-title {
+          display: inline-block;
+          width: 100%;
+          font-size: 14px;
+          line-height: 16px;
+          vertical-align: top;
+          letter-spacing: -0.1px;
+          color: #efefef;
+          text-align: center;
+          margin-top: 6px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          padding: 8px;
+        }
+
+        /* Swiper 네비게이션 버튼 스타일 수정 */
+        .recommend-swiper .swiper-button-prev,
+        .recommend-swiper .swiper-button-next {
+          background: rgba(37, 48, 74, 0.9);
+          border: none;
+          outline: none;
+          width: 40px;
+          height: 40px;
+          border-radius: 50%;
+        }
+
+        .recommend-swiper .swiper-button-prev::after,
+        .recommend-swiper .swiper-button-next::after {
+          display: none;
+        }
+
+        .recommend-swiper .swiper-button-prev img,
+        .recommend-swiper .swiper-button-next img {
+          width: 20px;
+          height: 20px;
+        }
+
+        .recommend-swiper .swiper-button-prev {
+          left: -20px;
+        }
+
+        .recommend-swiper .swiper-button-next {
+          right: -20px;
+        }
+
+        /* Swiper Pagination 스타일 */
+        .recommend-swiper .swiper-pagination-bullet {
+          background: #98a4b7;
+        }
+
+        .recommend-swiper .swiper-pagination-bullet-active {
+          background: #5383e8;
+        }
+        .ost-container {
+          padding: 16px;
+        }
+        .ost-content {
+          width: 100%;
+          height: 400px;
+          border: 1px solid #25304a;
+          margin-bottom: 20px;
+        }
+        .random-button {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          border-radius: 8px;
+        }
+        .random-button button {
+          background-color: #5383e8;
+          border-radius: 8px;
+          cursor: pointer;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          border-radius: 8px;
+          padding: 8px;
+        }
+
+        @media screen and (max-width: 450px) {
+          .review-item {
+            width: 193px;
+            height: 87px;
+            background-color: #172036;
+            display: flex;
+            flex-direction: column;
+            border-radius: 10px;
+            padding: 16px;
+            overflow: hidden;
+            margin-right: 16px;
+          }
+          .review-item__user {
+            margin-top: 4px;
+          }
+          .movie-item {
+            width: 120px;
+            height: 100%;
+            background-color: #172036;
+            display: flex;
+            flex-direction: column;
+            border-radius: 10px;
+            padding: 16px;
+            overflow: hidden;
+            margin-right: 16px;
+          }
+        }
