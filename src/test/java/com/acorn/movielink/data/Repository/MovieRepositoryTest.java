@@ -1,21 +1,20 @@
 package com.acorn.movielink.data.repository;
 
+import com.acorn.movielink.data.dto.MovieDTO;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.List;
-import java.util.Map;
 
 @SpringBootTest
-class RawDataRepositoryTest {
+class MovieRepositoryTest {
     @Autowired
-    private RawDataRepository repository;
+    MovieRepository repository;
 
     @Test
-    void test1(){
-        List<Map<String, String>> list =  repository.selectMovieCodes();
-        list.forEach(System.out::println);
+    void test() {
+        MovieDTO dto = new MovieDTO();
+        repository.insertMovie(dto);
+        System.out.println(dto.getMovieId());
     }
-
 }

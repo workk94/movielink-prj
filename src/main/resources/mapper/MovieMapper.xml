@@ -3,7 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.acorn.movielink.MovieMapper">
-    <!--  -->
+
     <resultMap id="MovieResultMap" type="com.acorn.movielink.data.dto.MovieDTO">
         <id property="movieId" column="movie_id"/>
         <result property="movieNm" column="movie_nm"/>
@@ -12,7 +12,7 @@
         <result property="movieAgeRating" column="movie_age_rating"/>
         <result property="movieRunningTime" column="movie_running_time"/>
         <result property="movieNation" column="movie_country"/>
-        <result property="genre" column="genre"/>
+        <result property="genre" column="movie_genre"/>
         <result property="moviePlot" column="movie_plot"/>
         <result property="movieTrailerUrl" column="movie_trailer_url"/>
         <result property="moviePosterUrl" column="movie_poster"/>
@@ -20,21 +20,26 @@
         <result property="movieTMDBScore" column="movie_tmdb_score"/>
     </resultMap>
 
-    <insert id="insertMovie" parameterType="com.acorn.movielink.data.dto.MovieDTO" useGeneratedKeys="true"
-            keyProperty="movieId">
+    <insert id="insertMovie" parameterType="com.acorn.movielink.data.dto.MovieDTO" useGeneratedKeys="true" keyProperty="movieId" keyColumn="movie_id">
         INSERT INTO movie (
         movie_nm, movie_nm_en, movie_open_dt, movie_age_rating, movie_running_time,
-        movie_country, movie_plot, movie_trailer_url, movie_poster,
+        movie_country, movie_genre, movie_plot, movie_trailer_url, movie_poster,
         movie_imdb_score, movie_tmdb_score
         ) VALUES (
         #{movieNm}, #{movieNmEn}, #{movieOpenDt}, #{movieAgeRating}, #{movieRunningTime},
-        #{movieNation}, #{moviePlot}, #{movieTrailerUrl}, #{moviePosterUrl},
+        #{movieNation}, #{genre}, #{moviePlot}, #{movieTrailerUrl}, #{moviePosterUrl},
         #{movieImdbScore}, #{movieTMDBScore}
         )
     </insert>
 
-    <select id="selectAllMovie" parameterType="com.acorn.movielink.data.dto.MovieDTO">
-        select * from movie
+    <select id="selectAllMovie" resultMap="MovieResultMap">
+        SELECT * FROM movie
+    </select>
+
+    <select id="selectExistingMovies" resultType="map">
+        SELECT
+        movie_nm AS movieNm
+        FROM movie
     </select>
 
     <!-- MovieMapper.xml -->

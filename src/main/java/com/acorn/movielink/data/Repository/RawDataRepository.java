@@ -1,4 +1,4 @@
-package com.acorn.movielink.data.Repository;
+package com.acorn.movielink.data.repository;
 
 import com.acorn.movielink.data.dto.RAWDataDTO;
 import org.apache.ibatis.session.SqlSession;
@@ -12,14 +12,16 @@ import java.util.Map;
 @Repository
 public class RawDataRepository {
 
+    private final SqlSession session;
+
     @Autowired
-    private SqlSession session;
+    public RawDataRepository(SqlSession session) {
+        this.session = session;
+    }
 
-    private final String namespace = "com.acorn.movielink.RawDataMapper.";
-
-    // 배치 데이터 삽입
-    public int insertBatch(List<RAWDataDTO> list) {
-        return session.insert(namespace + "insertBatch", list);
+    // 데이터 삽입
+    public int insert(RAWDataDTO dto) {
+        return session.insert("com.acorn.movielink.RawDataMapper.insert", dto);
     }
 
     // 데이터 조회
@@ -28,7 +30,12 @@ public class RawDataRepository {
         params.put("startDate", startDate);
         params.put("endDate", endDate);
 
-        return session.selectList(namespace + "findDataBetween", params);
+        return session.selectList("com.acorn.movielink.RawDataMapper.findDataBetween", params);
+    }
+
+    // 중복 제외 영화 코드 가져오기
+    public List<Map<String, String>> selectMovieCodes() {
+        return session.selectList("com.acorn.movielink.RawDataMapper.selectMovieCodes");
     }
 
     // 데이터 삭제
@@ -37,12 +44,11 @@ public class RawDataRepository {
         params.put("startDate", startDate);
         params.put("endDate", endDate);
 
-        return session.delete(namespace + "deleteDataBetween", params);
+        return session.delete("com.acorn.movielink.RawDataMapper.deleteDataBetween", params);
     }
 
-    // 중복 제외하고 영화코드 가져오기
-    public List<String> selectMovieCode(){
-        return session.selectList(namespace + "selectMovieCode");
-    }
-
+//    // 중복 제외하고 영화 코드 가져오기
+//    public List<String> selectMovieCode() {
+//        return session.selectList("com.acorn.movielink.RawDataMapper.selectMovieCode");
+//    }
 }
