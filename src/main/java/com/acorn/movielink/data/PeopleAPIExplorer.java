@@ -1,4 +1,4 @@
-package com.acorn.movielink.data.service;
+package com.acorn.movielink.data;
 
 
 import com.acorn.movielink.data.dto.KMDBMoiveStaff;
@@ -35,7 +35,7 @@ public class PeopleAPIExplorer {
     private String tmdb_api_header;
 
 
-    public String getKMDBMovieDatas(String MovieNm, String releaseDate ) throws IOException {
+    private String getKMDBMovieDatas(String MovieEnNm, String releaseDate ) throws IOException {
 
         String releaseDteStr = "";
         try { // 날짜 문자열을 LocalDate로 변환
@@ -67,7 +67,7 @@ public class PeopleAPIExplorer {
         //urlBuilder.append("&" + URLEncoder.encode("val002","UTF-8") + "=" + URLEncoder.encode("01", "UTF-8"));
         /*상영 월*/
 
-        urlBuilder.append("&" + URLEncoder.encode("title", "UTF-8") + "=" + URLEncoder.encode(MovieNm, "UTF-8"));
+        urlBuilder.append("&" + URLEncoder.encode("title", "UTF-8") + "=" + URLEncoder.encode(MovieEnNm, "UTF-8"));
         urlBuilder.append("&" + URLEncoder.encode("releaseDts", "UTF-8") + "=" + URLEncoder.encode(releaseDate, "UTF-8"));
         urlBuilder.append("&" + URLEncoder.encode("releaseDte", "UTF-8") + "=" + URLEncoder.encode(releaseDteStr, "UTF-8"));
 
@@ -96,15 +96,13 @@ public class PeopleAPIExplorer {
         return sb.toString();
     }
 
-    public ArrayList<KMDBMovieActor> getKMDBMovieActorList(String Data, String MovieNm){
+    private ArrayList<KMDBMovieActor> getKMDBMovieActorList(String Data, String MovieEnNm){
 
         JSONObject jsonObject = new JSONObject(Data);
         JSONArray dataArray = jsonObject.getJSONArray("Data");
         JSONObject firstDataObject = dataArray.getJSONObject(0);
-        System.out.println(firstDataObject);
         JSONArray jsonResult = firstDataObject.getJSONArray("Result");
         JSONObject firstResultObject = jsonResult.getJSONObject(0);
-        System.out.println(firstResultObject);
         JSONObject jsonStaffs = firstResultObject.getJSONObject("staffs");
         JSONArray jsonStaff = jsonStaffs.getJSONArray("staff");
 
@@ -121,15 +119,15 @@ public class PeopleAPIExplorer {
                 String staffId = staff.optString("staffId", "");
 
                 KMDBMovieActorList.add(new KMDBMovieActor(staffNm, staffEnNm, staffRole, staffId));
-                /*if (KMDBMovieActorList.size() >= 6) {
+                if (KMDBMovieActorList.size() >= 6) {
                     return KMDBMovieActorList;
-                }*/
+                }
             }
         }
         return KMDBMovieActorList;
     }
 
-    private ArrayList<KMDBMoiveStaff> getKMDBMovieDirector(String Data, String MovieNm){
+    private ArrayList<KMDBMoiveStaff> getKMDBMovieDirector(String Data, String MovieEnNm){
 
         JSONObject jsonObject = new JSONObject(Data);
         JSONArray dataArray = jsonObject.getJSONArray("Data");
@@ -166,7 +164,7 @@ public class PeopleAPIExplorer {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create("https://api.themoviedb.org/3/search/person?query="+URLEncoder.encode( staffEnNm , "UTF-8")+"&include_adult=false&language=ko-kr&page=1"))
                 .header("accept", "application/json")
-                .header("Authorization","Bearer "+tmdb_api_header)
+                .header("Authorization", tmdb_api_header)
                 .method("GET", HttpRequest.BodyPublishers.noBody())
                 .build();
         HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
@@ -176,29 +174,24 @@ public class PeopleAPIExplorer {
     }
 
     private String getTMDBProfilePath(String TMDBData){
-        String profile_path = "";
+        JSONObject jsonObject = new JSONObject(TMDBData);
+        JSONArray jsonResult = jsonObject.getJSONArray("results");
+        JSONObject jsonFirstResult = jsonResult.getJSONObject(0);
+        String profile_path = jsonFirstResult.isNull("profile_path") ? "" : jsonFirstResult.getString("profile_path");
 
-           JSONObject jsonObject = new JSONObject(TMDBData);
-           JSONArray jsonResult = jsonObject.getJSONArray("results");
-           if (!jsonResult.isEmpty()){
-               JSONObject jsonFirstResult = jsonResult.getJSONObject(0);
-               profile_path = jsonFirstResult.isNull("profile_path") ? "" : jsonFirstResult.getString("profile_path");
-
-               if (profile_path == null) { profile_path = "";}
-               //System.out.println(profile_path);
-           }
-
+        if (profile_path == null) { profile_path = "";}
+        //System.out.println(profile_path);
         return profile_path;
     }
 
-    public ArrayList<PeopleDTO> getPeopleDTOList(String MovieNm, String releaseDate, String movie_id) throws IOException, InterruptedException {
+    public ArrayList<PeopleDTO> getPeopleDTOList(String MovieEnNm, String releaseDate, String movie_id) throws IOException, InterruptedException {
 
         ArrayList<PeopleDTO> peopleDTOArrayList = new ArrayList<>();
 
-        String kmdbMovieDatas = getKMDBMovieDatas(MovieNm, releaseDate);       // 개봉일자 고쳐야 됨
+        String kmdbMovieDatas = getKMDBMovieDatas(MovieEnNm, releaseDate);       // 개봉일자 고쳐야 됨
 
         // 배우
-        ArrayList<KMDBMovieActor> actorList = getKMDBMovieActorList(kmdbMovieDatas, MovieNm);
+        ArrayList<KMDBMovieActor> actorList = getKMDBMovieActorList(kmdbMovieDatas, MovieEnNm);
         for (KMDBMovieActor actor : actorList) {
             String TMDBData = getTMDBData(actor.getStaffNm());
             String profile_path = getTMDBProfilePath(TMDBData);
@@ -214,7 +207,7 @@ public class PeopleAPIExplorer {
             //System.out.println(peopleDTO.toString());
         }
         //감독
-        ArrayList<KMDBMoiveStaff> directorList = getKMDBMovieDirector(kmdbMovieDatas, MovieNm);
+        ArrayList<KMDBMoiveStaff> directorList = getKMDBMovieDirector(kmdbMovieDatas, MovieEnNm);
         for (KMDBMoiveStaff director : directorList) {
             String TMDBData = getTMDBData(director.getStaffNm());
             String profile_path = getTMDBProfilePath(TMDBData);
@@ -240,8 +233,8 @@ public class PeopleAPIExplorer {
 
         PeopleAPIExplorer pi = new PeopleAPIExplorer();
         pi.init();
-        String MovieNm = "Firefighters";
-        pi.getPeopleDTOList(MovieNm,"20241204","1234");
+        String MovieEnNm = "Firefighters";
+        pi.getPeopleDTOList(MovieEnNm,"20241204","1234");
 
     }*/
 }
