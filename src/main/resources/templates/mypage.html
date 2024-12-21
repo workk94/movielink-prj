@@ -560,7 +560,7 @@ color:#98a4b7;}
                 <div class="swiper-container liked-person-swiper">
                     <div class="swiper-wrapper">
                         <div class="swiper-slide person" th:each="person : ${likedPersons}">
-                            <a th:href="@{'/person/' + ${person.peopleId}}">
+                            <a th:href="@{'/person/' + ${person.peopleId}+'/filmography'}">
                                 <div class="photo">
                                     <img th:alt="${person.peopleNm}" th:src="${person.peopleProfileUrl}"/>
                                 </div>
@@ -629,11 +629,7 @@ color:#98a4b7;}
                         <div class="swiper-slide movie" th:each="movie : ${likedMovies}">
                             <a th:href="@{'/movie/' + ${movie.movieId}}">
                                 <div class="photo">
-<<<<<<< HEAD
                                     <img th:alt="${movie.movieNm}" th:src="${movie.moviePosterUrl}"/>
-=======
-                                    <img th:alt="${movie.movieNm}" th:src="${movie.moviePoster}"/>
->>>>>>> origin/dev
                                 </div>
                                 <div class="name" th:text="${movie.movieNm}"></div>
                             </a>

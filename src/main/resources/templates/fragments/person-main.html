@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="content">
+    <!-- 상단 영역 -->
+    <style>
+
+        .mvperson{
+          height: 414px;
+        }
+
+        .mvperson-top{
+          height: 350px;
+          padding: 16px;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+        }
+
+        .actor-profile{
+          width: 100px;
+          height: 100px;
+          border-radius: 50%;
+          border: 1px solid #25304a;
+          margin: 16px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+
+        .actor-name{
+          padding: 8px;
+          display: flex;
+          flex-direction: column;
+        }
+
+        .button-likes{
+              display: flex;
+              justify-content: center;
+              padding: 16px 0;
+          }
+
+          .button-likes>button{
+              height: 40px;
+              width: 100px;
+              border-radius: 30px;
+              background-color: #25304a;
+              color: #586a85;
+              border-style: none;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+          }
+
+          .button-likes>button:hover{
+            cursor: pointer;
+          }
+
+          .button-likes>button.filled {
+              color: #efefef; /* 클릭된 버튼의 텍스트 색상 */
+              font-weight: bolder;
+              border: 1px solid #4263eb;
+          }
+
+          .heart.filled .heart-path {
+              fill: #4263eb; /* 채워진 하트 색상 */
+              stroke: #4263eb; /* 테두리도 같은 색 */
+          }
+
+        .mvperson-bottom{
+              height: 64px;
+              padding: 16px 16px 0px 16px;
+              border-bottom: 1px solid #586a85;
+          }
+
+          .bottom-category{
+              display: flex;
+              text-align: center;
+              line-height: 48px;
+          }
+
+          .category-tab{
+              height: 48px;
+              width: 330px;
+              color: #586a85;
+          }
+
+          .category-tab.active{
+            color: #efefef;
+            font-weight: bold;
+            border-bottom: 1px solid #efefef;
+          }
+
+        /*scroll-top*/
+        .scroll-top {
+            position: fixed; /* 고정된 위치 */
+            bottom: 80px;
+            right: 600px;
+            z-index: 1000; /* 다른 요소보다 위에 표시 */
+            display: none;
+          }
+
+          .scroll-top > button {
+            width: 56px;
+            height: 56px;
+            background-color: #3b4869; /* 배경색 */
+            border: none;
+            border-radius: 50%; /* 원형 버튼 */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            transition: background-color 0.3s ease, transform 0.2s ease;
+          }
+
+          .scroll-top > button:hover {
+            background-color: #4263eb; /* 호버 시 배경색 변경 */
+            transform: scale(1.1); /* 호버 시 약간 확대 */
+          }
+
+          .scroll-up-icon {
+            stroke: #ffffff; /* 화살표 색상 */
+            transition: stroke 0.3s ease;
+          }
+
+          .scroll-top > button:hover .scroll-up-icon {
+            stroke: #d4d9e1; /* 호버 시 화살표 색상 변경 */
+          }
+
+    </style>
+
+
+    <div class="mvperson">
+        <div class="mvperson-top">
+            <div class="actor-profile">
+                <span><img alt="" src=""></span>
+            </div>
+            <div class="actor-name">
+                <span style="font-size: 20px; color: #efefef; padding-bottom: 8px;">kr</span>
+                <span style="font-size: 12px; color: #98a4b7;">en</span>
+            </div>
+            <div class="button-likes">
+                <button>
+                    <svg class="heart" fill="none" height="22" viewBox="0 0 24 24" width="22"
+                         xmlns="http://www.w3.org/2000/svg">
+                        <path
+                                class="heart-path"
+                                d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"
+                                fill="none"
+                                stroke="#bdc6d5"
+                                stroke-width="2"
+                        />
+                    </svg>
+                    <p style="font-size: 14px; margin-left: 8px;">likes</p>
+                </button>
+            </div>
+
+        </div>
+
+        <div class="mvperson-bottom">
+            <ul class="bottom-category">
+                <li class="category-tab active" data-tab="filmography"><a href="/person/filmography"
+                                                                          style="font-size: 16px;">필모그래피</a></li>
+                <li class="category-tab" data-tab="community"><a href="/person/community"
+                                                                 style="font-size: 16px;">커뮤니티</a></li>
+            </ul>
+        </div>
+
+
+        <!-- scroll-top -->
+        <div class="scroll-top">
+            <button>
+                <svg class="scroll-up-icon" fill="none" height="32" viewBox="0 0 32 32"
+                     width="32" xmlns="http://www.w3.org/2000/svg">
+                    <path clip-rule="evenodd"
+                          d="M15.9054 26.376C15.1257 26.376 14.4937 25.7439 14.4937 24.9642V9.64711L9.40984 14.7309C8.85851 15.2823 7.96463 15.2823 7.4133 14.7309C6.86198 14.1796 6.86197 13.2857 7.4133 12.7344L14.7339 5.41375C14.959 5.18865 15.2412 5.05545 15.5339 5.01417C15.9582 4.9542 16.4045 5.08738 16.7309 5.4137L24.0515 12.7343C24.6028 13.2857 24.6028 14.1795 24.0515 14.7309C23.5002 15.2822 22.6063 15.2822 22.055 14.7309L17.3172 9.9931V24.9642C17.3172 25.7439 16.6851 26.376 15.9054 26.376Z"
+                          fill="#98A4B7"
+                          fill-rule="evenodd"></path>
+                </svg>
+            </button>
+        </div>
+
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+                // 탭 활성화 기능
+                const tabs = document.querySelectorAll(".category-tab");
+                const currentPath = window.location.pathname;
+
+                tabs.forEach(tab => {
+                    const section = tab.getAttribute("data-tab");
+                    const targetPath = `/person/${section}`;
+
+                    if (currentPath === targetPath) {
+                        tabs.forEach(t => t.classList.remove("active"));
+                        tab.classList.add("active");
+                    }
+                });
+
+
+        // 하트 버튼 기능
+        const buttonLikes = document.querySelector(".button-likes > button");
+        const heartIcon = document.querySelector(".button-likes .heart");
+
+        buttonLikes.addEventListener("click", () => {
+         // 하트 아이콘과 버튼 모두에 filled 클래스 토글
+        heartIcon.classList.toggle("filled");
+        buttonLikes.classList.toggle("filled");
+        });
+
+         // 스크롤 탑 버튼 기능
+        const scrollTopButton = document.querySelector(".scroll-top");
+
+        window.addEventListener("scroll", function () {
+            if (window.scrollY > 600) {
+                scrollTopButton.style.display = "flex";
+            } else {
+                scrollTopButton.style.display = "none";
+            }
+        });
+
+        // 버튼 클릭 시 최상단으로 이동
+        scrollTopButton.querySelector("button").addEventListener("click", function () {
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+        });
+
+      });
+    </script>
+
+</div>
+</body>
+</html>

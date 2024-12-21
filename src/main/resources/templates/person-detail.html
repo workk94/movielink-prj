@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Person Detail</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+    <link rel="stylesheet" th:href="@{/css/person-detail.css}">
+    <style>
+        /* 기존 스타일 */
+
+
+    </style>
+</head>
+<body>
+<div class="root">
+    <!-- 헤더 -->
+    <div th:replace="fragments/header :: headerFragment"></div>
+
+    <!-- content: person-detail -->
+    <div th:fragment="content">
+        <!-- 인물 정보 및 탭 -->
+        <div class="mvperson">
+            <div class="mvperson-top">
+                <div class="actor-profile">
+                    <span><img alt="Profile Image" th:src="@{${peopleInfo.peopleProfileUrl}}"></span>
+                </div>
+                <div class="actor-name">
+                    <span class="actor-name-main" th:text="${peopleInfo.peopleNm}"></span>
+                    <span class="actor-name-sub" th:text="${peopleInfo.peopleNmEn}"></span>
+                </div>
+                <div class="button-likes">
+                    <button>
+                        <svg class="heart" fill="none" height="22" viewBox="0 0 24 24" width="22"
+                             xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                    class="heart-path"
+                                    d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5
+                                       2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09
+                                       C13.09 3.81 14.76 3 16.5 3
+                                       19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"
+                                    fill="none"
+                                    stroke="#bdc6d5"
+                                    stroke-width="2"
+                            />
+                        </svg>
+                        <p>likes</p>
+                    </button>
+                </div>
+            </div>
+
+            <div class="mvperson-bottom">
+                <ul class="bottom-category">
+                    <li data-tab="filmography"
+                        th:class="${selectedTab == 'filmography' ? 'category-tab active' : 'category-tab'}">
+                        <a th:href="@{'/person/' + ${peopleInfo.peopleId} + '/filmography'}">필모그래피</a>
+                    </li>
+                    <li data-tab="community"
+                        th:class="${selectedTab == 'community' ? 'category-tab active' : 'category-tab'}">
+                        <a th:href="@{/person/{peopleId}/filmography(peopleId=${peopleInfo.peopleId}, tab='community')}">커뮤니티</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 필모그래피 또는 커뮤니티 콘텐츠 -->
+        <div class="filmography">
+            <!-- 필모그래피 탭 -->
+            <div th:if="${selectedTab == 'filmography'}">
+                <ul class="filmography-list">
+                    <li class="movie-item" th:each="movie : ${filmography}">
+                        <a href="">
+                            <div class="poster-container">
+                                <img alt="mvposter" th:src="@{${movie.moviePosterUrl}}">
+                            </div>
+                        </a>
+                        <div class="info">
+                            <div class="title" th:text="${movie.movieNm}">mvtitle</div>
+                            <div class="rating">
+                                <div class="rating-wrap">
+                                    <div class="rate"
+                                         th:classappend="${movie.combinedScore >= 50} ? ' high-score' : ' low-score'"
+                                         th:text="${movie.combinedScore}">
+                                        <!-- 평점 표시 -->
+                                    </div>
+                                </div>
+                                <button class="like-button">
+                                    <img alt="" th:src="@{/img/ic_plus.svg}">
+                                </button>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- 커뮤니티 탭 -->
+            <div class="community" th:if="${selectedTab == 'community'}">
+                <div class="community-wrap">
+                    <div class="popular-post-wrap">
+                        <div class="title-wrap">
+                            <a class="title" href="">
+                                <span>인기글</span>
+                                <div class="arrow-img">
+                                    <img alt="" th:src="@{/img/arrow-right.svg}"/>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="popular-post-container">
+                            <ul th:each="post : ${communityPosts}">
+                                <li class="post-list">
+                                    <span class="post-content" th:text="${post.postTitle}"></span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="list-all">
+                        <div class="title-wrap">
+                            <a class="title" href="">
+                                <div>
+                                    <span>전체글</span>
+                                    <span class="totalPost-count">총 nn개</span>
+                                </div>
+                                <div class="arrow-img">
+                                    <img alt="" th:src="@{/img/arrow-right.svg}"/>
+                                </div>
+                            </a>
+                        </div>
+
+                        <ul class="allPost-wrap" th:each="post : ${communityPosts}">
+                            <li class="list-gap">
+                                <section class="post-container">
+                                    <div class="post-info-header">
+                                        <div class="post-writer">
+                                            <span class="writer-nickname">asdasd</span>
+                                        </div>
+                                        <div class="time"
+                                             th:text="${#temporals.format(post.postCreatedAt, 'yyyy-MM-dd HH:mm')}">
+                                            hours ago
+                                        </div>
+                                    </div>
+
+                                    <div class="post-info-content">
+                                        <span class="post-content-title" th:text="${post.postTitle}">title</span>
+                                        <span class="post-content-des" th:text="${post.content}">content</span>
+                                        <span class="post-thumbnail">
+                                             <img alt="thumbnail"
+                                                  th:src="@{/uploads/{file}(file=${post.postImgConvertedFileNm})}">
+                                         </span>
+                                    </div>
+
+                                    <ul class="post-interact">
+                                        <li>
+                                            <span>
+                                                <img alt="icon-watching" height="18px" src="/img/watching.png"
+                                                     width="18px">
+                                                <span th:text="${post.postViews}">views</span>
+                                            </span>
+                                        </li>
+
+                                        <li class="review-likes">
+                                            <span>
+                                                <svg class="heart" fill="none" height="18" style="margin-right: 8px;"
+                                                     viewBox="0 0 24 24" width="18"
+                                                     xmlns="http://www.w3.org/2000/svg">
+                                                    <path
+                                                            class="heart-path"
+                                                            d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5
+                                                               2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09
+                                                               C13.09 3.81 14.76 3 16.5 3
+                                                               19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"
+                                                            fill="none"
+                                                            stroke="#bdc6d5"
+                                                            stroke-width="2"
+                                                    />
+                                                </svg>
+                                                <p th:text="${post.postLikeCnt}">likes</p>
+                                            </span>
+                                        </li>
+                                    </ul>
+
+                                    <ul class="post-tag">
+                                        <li th:each="tag : ${post.tags}">
+                                            <a>
+                                                <span th:text="'#' + ${tag.tagName}"></span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </section>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <button class="write">
+                    <img th:src="@{/img/write.svg}">
+                </button>
+            </div>
+
+            <!-- footer space-->
+            <hr style="border-style: none; height: 60px;">
+        </div>
+
+        <!-- JavaScript -->
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                // 하트 버튼 기능
+                const buttonLikes = document.querySelectorAll(".button-likes > button, .review-likes");
+                buttonLikes.forEach(button => {
+                    const heartIcon = button.querySelector(".heart");
+                    if (heartIcon) {
+                        button.addEventListener("click", () => {
+                            heartIcon.classList.toggle("filled");
+                            button.classList.toggle("filled");
+                            // 추가적으로 좋아요 카운트를 업데이트하는 AJAX 요청 등을 구현할 수 있습니다.
+                        });
+                    }
+                });
+
+                // 스크롤 탑 버튼 기능
+                const scrollTopButton = document.querySelector(".scroll-top");
+
+                window.addEventListener("scroll", function () {
+                    if (window.scrollY > 600) {
+                        scrollTopButton.style.display = "flex";
+                    } else {
+                        scrollTopButton.style.display = "none";
+                    }
+                });
+
+                scrollTopButton.querySelector("button").addEventListener("click", function () {
+                    window.scrollTo({
+                        top: 0,
+                        behavior: "smooth"
+                    });
+                });
+            });
+        </script>
+    </div>
+</div>
+</body>
+</html>
