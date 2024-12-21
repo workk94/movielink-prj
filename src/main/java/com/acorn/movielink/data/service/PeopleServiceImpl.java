@@ -28,6 +28,7 @@ public class PeopleServiceImpl implements PeopleService{
         List<PeopleDTO> peopleDTOList = peopleAPIExplorer.getPeopleDTOList(movie_nm, releaseDate,movie_id);
 
         for(PeopleDTO peopleDTO :peopleDTOList) {
+            System.out.println(peopleDTO);
             repository.insertPeople(peopleDTO);
         }
 

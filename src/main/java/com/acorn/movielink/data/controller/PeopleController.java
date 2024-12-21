@@ -1,10 +1,10 @@
 package com.acorn.movielink.data.controller;
 
 
-import com.acorn.movielink.data.PeopleAPIExplorer;
 import com.acorn.movielink.data.dto.MovieInfoDTO;
 import com.acorn.movielink.data.dto.PeopleDTO;
 import com.acorn.movielink.data.service.MovieServiceImpl;
+import com.acorn.movielink.data.service.PeopleAPIExplorer;
 import com.acorn.movielink.data.service.PeopleServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

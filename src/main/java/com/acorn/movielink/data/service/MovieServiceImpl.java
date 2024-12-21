@@ -85,13 +85,14 @@ public class MovieServiceImpl implements MovieService{
                 String id = dto.getMovieId().toString();
 
                 // 인물 데이터 저장
-                service.savePeople(dto.getMovieNm(), dto.getMovieOpenDt(), "1");
+                service.savePeople(dto.getMovieNm(), dto.getMovieOpenDt(), id);
 
 
                 totalSaved++;
                 log.info("영화 코드 {}: 데이터 저장 완료.", movieCd);
 
             } catch (Exception e) {
+                e.printStackTrace();
                 log.error("영화 코드 {} 처리 중 오류 발생: {}", movie.get("movieCd"), e.getMessage());
             }
         }
