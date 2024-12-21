@@ -17,14 +17,15 @@
         <result property="movieTrailerUrl" column="movie_trailer_url"/>
         <result property="moviePosterUrl" column="movie_poster"/>
         <result property="movieImdbScore" column="movie_imdb_score"/>
-        <result property="movieTMDBScore" column="movie_rotten_score"/>
+        <result property="movieTMDBScore" column="movie_tmdb_score"/>
     </resultMap>
 
-    <insert id="insertMovie" parameterType="com.acorn.movielink.data.dto.MovieDTO" useGeneratedKeys="true" keyProperty="movieId">
+    <insert id="insertMovie" parameterType="com.acorn.movielink.data.dto.MovieDTO" useGeneratedKeys="true"
+            keyProperty="movieId">
         INSERT INTO movie (
         movie_nm, movie_nm_en, movie_open_dt, movie_age_rating, movie_running_time,
         movie_country, movie_plot, movie_trailer_url, movie_poster,
-        movie_imdb_score, movie_rotten_score
+        movie_imdb_score, movie_tmdb_score
         ) VALUES (
         #{movieNm}, #{movieNmEn}, #{movieOpenDt}, #{movieAgeRating}, #{movieRunningTime},
         #{movieNation}, #{moviePlot}, #{movieTrailerUrl}, #{moviePosterUrl},
@@ -39,8 +40,30 @@
     <!-- MovieMapper.xml -->
     <select id="findBestMovies" parameterType="map" resultMap="MovieResultMap">
         SELECT * FROM MOVIE
-        ORDER BY (movie_rotten_score + movie_imdb_score * 10) DESC
+        ORDER BY (movie_tmdb_score + movie_imdb_score * 10) DESC
         LIMIT 3
+    </select>
+
+    <select id="selectMoviesByPeopleId" resultMap="MovieResultMap" parameterType="int">
+        SELECT
+        m.movie_id,
+        m.movie_nm,
+        m.movie_nm_en,
+        m.movie_open_dt,
+        m.movie_age_rating,
+        m.movie_running_time,
+        m.movie_country,
+        m.movie_plot,
+        m.movie_trailer_url,
+        m.movie_poster,
+        m.movie_imdb_score,
+        m.movie_tmdb_score
+        FROM
+        MOVIE m
+        INNER JOIN
+        PEOPLE pe ON m.movie_id = pe.movie_id
+        WHERE
+        pe.people_id = #{peopleId}
     </select>
 
 </mapper>
