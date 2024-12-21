@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @Data
 public class PeopleDTO {
 
+    Long people_id;
     String movie_id;
     String people_cd;
     String people_nm;

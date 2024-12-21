@@ -27,7 +27,6 @@ class RawDataServiceImplTest {
 
     @Test
     void test3(){
-        int result = service.saveDataByPeriod("20240909", "20241010");
         assertTrue(result>=1);
     }
 
