@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>filmography</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}"/>
+
+  <style>
+    .filmography{
+      padding: 16px;
+    }
+
+    .filmography-list{
+      padding: 16px 0;
+      display: flex;
+      gap: 16px;
+    }
+
+    .list-poster{
+      height: 280px;
+      width: 155px;
+      background-color: #172036;
+      border-radius: 6px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .poster-bottom{
+      position: relative;
+    }
+
+    .bottom-title{
+      display: flex;
+      justify-content: center;
+    }
+
+    .button-plus{
+      position: absolute;
+      bottom: 8px;
+      right: 8px;
+      background-color: #25304a;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      border-style: none;
+    }
+
+  </style>
+
+</head>
+<body>
+  <div class="root">
+    <!-- 헤더 -->
+    <div th:replace="fragments/header :: headerFragment"></div>
+
+    <!-- 상단 영역 -->
+    <div th:replace="fragments/person-main :: content"></div>
+
+    <!-- content: filmography -->
+    <div class="filmography">
+
+      <ul class="filmography-list">
+        <li class="list-poster">
+          <div class="poster-top" width="140px" height="200px" style="flex: 4;"><img src="#" alt="mvposter1"></div>
+          <span class="poster-bottom" style="padding: 8px; flex: 1;" >
+            <div class="bottom-title" style="color: #efefef;">mvtitle1</div>
+            <button class="button-plus"><img src="/img/plus.svg" alt="button-plus" width="14px" height="14px"></button>
+          </span>
+        </li>
+
+        <!--  list-poster 반복 -->
+          
+      </ul>
+      
+    </div>
+
+      <!-- footer space-->
+      <hr style="border-style: none; height: 60px;">
+  </div>
+
+</body>
+</html>
