@@ -82,7 +82,6 @@ public class APIExplorer {
         StringBuilder urlBuilder = new StringBuilder("http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json");
         urlBuilder.append("?key=").append(kobisAPIKey);
         urlBuilder.append("&targetDt=").append(encodeParam(targetDt));
-
         return fetchData(urlBuilder, null);
     }
 
@@ -91,7 +90,6 @@ public class APIExplorer {
         StringBuilder urlBuilder = new StringBuilder("http://www.kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieInfo.json");
         urlBuilder.append("?key=").append(kobisAPIKey);
         urlBuilder.append("&movieCd=").append(encodeParam(movieCd));
-
         return fetchData(urlBuilder, null);
     }
 
@@ -106,7 +104,6 @@ public class APIExplorer {
         Map<String, String> headers = new HashMap<>();
         headers.put("Authorization", "Bearer " + TMDBAPIKey);
         headers.put("accept", "application/json");
-
         return fetchData(urlBuilder, headers);
     }
 
@@ -122,7 +119,6 @@ public class APIExplorer {
         urlBuilder.append("&collection=kmdb_new2");
         urlBuilder.append("&title=").append(encodeParam(title));
         urlBuilder.append("&releaseDts=").append(encodeParam(releaseDts));
-
         return fetchData(urlBuilder, null);
     }
 
@@ -141,7 +137,6 @@ public class APIExplorer {
         Map<String, String> headers = new HashMap<>();
         headers.put("x-rapidapi-host", "imdb236.p.rapidapi.com");
         headers.put("x-rapidapi-key", RAPIDAPIKey);
-
         return fetchData(urlBuilder, headers);
     }
 
@@ -152,7 +147,6 @@ public class APIExplorer {
         urlBuilder.append("&maxResults=5");
         urlBuilder.append("&type=shorts");
         urlBuilder.append("&q=").append(encodeParam(movieNm) + "예고편");
-
         return fetchData(urlBuilder, null);
     }
 
