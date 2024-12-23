@@ -128,7 +128,7 @@
         m.movie_poster AS moviePosterUrl,
         m.movie_poster AS moviePoster,
         m.movie_imdb_score AS movieImdbScore,
-        m.movie_rotten_score AS movieRottenScore,
+        m.movie_tmdb_score AS movieTMDBScore,
         m.movie_reg_at AS movieRegAt
         FROM MOVIE m
         JOIN MOVIE_LIKE ml ON m.movie_id = ml.movie_id
@@ -186,7 +186,7 @@
         m.movie_trailer_url,
         m.movie_poster,
         m.movie_imdb_score,
-        m.movie_rotten_score,
+        m.movie_tmdb_score,
         m.movie_reg_at
         FROM
         MOVIE m
