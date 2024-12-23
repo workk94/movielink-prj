@@ -11,7 +11,6 @@ import lombok.NoArgsConstructor;
 public class MovieDailyStatsDTO {
 
     String movie_nm;
-    long sales_amt;
     double sales_share;
     int audi_cnt;
 
