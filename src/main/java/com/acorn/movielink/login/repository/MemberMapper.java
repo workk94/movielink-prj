@@ -40,7 +40,7 @@ public interface MemberMapper {
     //구매 아이템 조회
     List<Item> findPurchasedItemByMemId(@Param("memId") Integer memId);
 
-    void deleteMemberGenres(Integer memId);
+    void deleteMemberGenres(@Param("memId") Integer memId);
 
     // 최신 10개 리뷰 조회
     List<Review> findLatestReviews();

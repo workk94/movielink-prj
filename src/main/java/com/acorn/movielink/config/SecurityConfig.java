@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -47,6 +48,9 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/uploads/**", "/img/**", "/css/**", "/js/**", "/webjars/**", "/fonts/**").permitAll()
                         .requestMatchers("/signup", "/forgot_password", "/reset_password").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/person/**").authenticated()
+                        .requestMatchers(HttpMethod.DELETE, "/person/**").authenticated()
+
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .anyRequest().permitAll()//.authenticated()
                 )

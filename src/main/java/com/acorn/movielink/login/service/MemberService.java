@@ -92,6 +92,7 @@ public class MemberService {
         return member;
     }
 
+    @Transactional
     public void updatePassword(Integer memId, String newPassword) {
         logger.debug("비밀번호 업데이트 요청 for 회원 ID: {}", memId);
         String encodedPassword = passwordEncoder.encode(newPassword);

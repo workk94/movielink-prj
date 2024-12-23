@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.acorn.movielink.people_detail.repository.PeopleLikeMapper">
+
+    <resultMap id="PeopleLikeResultMap" type="com.acorn.movielink.people_detail.dto.PeopleLike">
+        <id property="peopleLikeId" column="people_like_id"/>
+        <result property="peopleLikeAt" column="people_like_at"/>
+        <result property="peopleId" column="people_id"/>
+        <result property="memId" column="mem_id"/>
+    </resultMap>
+
+    <insert id="insertLike" parameterType="map">
+        INSERT INTO people_like (people_id, mem_id, people_like_at)
+        VALUES (#{peopleId}, #{memId}, CURRENT_TIMESTAMP)
+    </insert>
+
+    <delete id="deleteLike" parameterType="map">
+        DELETE FROM people_like
+        WHERE people_id = #{peopleId} AND mem_id = #{memId}
+    </delete>
+
+    <select id="countLikes" resultType="int" parameterType="int">
+        SELECT COUNT(*) FROM people_like WHERE people_id = #{peopleId}
+    </select>
+
+    <select id="isLiked" resultType="boolean" parameterType="map">
+        SELECT CASE WHEN COUNT(*) > 0 THEN TRUE ELSE FALSE END
+        FROM people_like
+        WHERE people_id = #{peopleId} AND mem_id = #{memId}
+    </select>
+
+    <select id="getPeopleLike" resultMap="PeopleLikeResultMap" parameterType="map">
+        SELECT people_like_id, people_like_at, people_id, mem_id
+        FROM people_like
+        WHERE people_id = #{peopleId} AND mem_id = #{memId}
+    </select>
+
+</mapper>

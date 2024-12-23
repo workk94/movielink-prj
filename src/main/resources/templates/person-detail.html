@@ -2,12 +2,14 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+
+
     <title>Person Detail</title>
     <link rel="stylesheet" th:href="@{/css/style.css}"/>
     <link rel="stylesheet" th:href="@{/css/person-detail.css}">
     <style>
-        /* 기존 스타일 */
-
 
     </style>
 </head>
@@ -18,6 +20,8 @@
 
     <!-- content: person-detail -->
     <div th:fragment="content">
+
+
         <!-- 인물 정보 및 탭 -->
         <div class="mvperson">
             <div class="mvperson-top">
@@ -28,24 +32,25 @@
                     <span class="actor-name-main" th:text="${peopleInfo.peopleNm}"></span>
                     <span class="actor-name-sub" th:text="${peopleInfo.peopleNmEn}"></span>
                 </div>
-                <div class="button-likes">
-                    <button>
+                <div class="button-likes" th:data-people-id="${peopleInfo.peopleId}">
+                    <button class="like-button" th:classappend="${isLiked} ? ' filled' : ''">
                         <svg class="heart" fill="none" height="22" viewBox="0 0 24 24" width="22"
                              xmlns="http://www.w3.org/2000/svg">
                             <path
                                     class="heart-path"
                                     d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5
-                                       2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09
-                                       C13.09 3.81 14.76 3 16.5 3
-                                       19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"
+                       2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09
+                       C13.09 3.81 14.76 3 16.5 3
+                       19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"
                                     fill="none"
                                     stroke="#bdc6d5"
                                     stroke-width="2"
                             />
                         </svg>
-                        <p>likes</p>
+                        <p class="like-count">[[${likeCount}]]</p>
                     </button>
                 </div>
+
             </div>
 
             <div class="mvperson-bottom">
@@ -56,7 +61,7 @@
                     </li>
                     <li data-tab="community"
                         th:class="${selectedTab == 'community' ? 'category-tab active' : 'category-tab'}">
-                        <a th:href="@{/person/{peopleId}/filmography(peopleId=${peopleInfo.peopleId}, tab='community')}">커뮤니티</a>
+                        <a th:href="@{'/person/' + ${peopleInfo.peopleId} + '/filmography?tab=community'}">커뮤니티</a>
                     </li>
                 </ul>
             </div>
@@ -118,7 +123,7 @@
                             <a class="title" href="">
                                 <div>
                                     <span>전체글</span>
-                                    <span class="totalPost-count">총 nn개</span>
+                                    <span class="totalPost-count">총 [[${communityPosts.size()}]]개</span>
                                 </div>
                                 <div class="arrow-img">
                                     <img alt="" th:src="@{/img/arrow-right.svg}"/>
@@ -131,7 +136,7 @@
                                 <section class="post-container">
                                     <div class="post-info-header">
                                         <div class="post-writer">
-                                            <span class="writer-nickname">asdasd</span>
+                                            <!--                                            <span class="writer-nickname" th:text="${post.writerNickname}"></span>-->
                                         </div>
                                         <div class="time"
                                              th:text="${#temporals.format(post.postCreatedAt, 'yyyy-MM-dd HH:mm')}">
@@ -142,12 +147,11 @@
                                     <div class="post-info-content">
                                         <span class="post-content-title" th:text="${post.postTitle}">title</span>
                                         <span class="post-content-des" th:text="${post.content}">content</span>
-                                        <span class="post-thumbnail">
-                                             <img alt="thumbnail"
-                                                  th:src="@{/uploads/{file}(file=${post.postImgConvertedFileNm})}">
-                                         </span>
                                     </div>
-
+                                    <span class="post-thumbnail">
+                                         <img alt="thumbnail"
+                                              th:src="@{'/uploads/' + ${post.postImgConvertedFileNm}}">
+                                     </span>
                                     <ul class="post-interact">
                                         <li>
                                             <span>
@@ -180,7 +184,7 @@
 
                                     <ul class="post-tag">
                                         <li th:each="tag : ${post.tags}">
-                                            <a>
+                                            <a href="#">
                                                 <span th:text="'#' + ${tag.tagName}"></span>
                                             </a>
                                         </li>
@@ -200,37 +204,86 @@
         </div>
 
         <!-- JavaScript -->
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script>
-            document.addEventListener("DOMContentLoaded", function () {
-                // 하트 버튼 기능
-                const buttonLikes = document.querySelectorAll(".button-likes > button, .review-likes");
-                buttonLikes.forEach(button => {
-                    const heartIcon = button.querySelector(".heart");
-                    if (heartIcon) {
-                        button.addEventListener("click", () => {
-                            heartIcon.classList.toggle("filled");
-                            button.classList.toggle("filled");
-                            // 추가적으로 좋아요 카운트를 업데이트하는 AJAX 요청 등을 구현할 수 있습니다.
+            $(document).ready(function() {
+                // CSRF 토큰 설정
+                const csrfToken = $('meta[name="_csrf"]').attr('content');
+                const csrfHeader = $('meta[name="_csrf_header"]').attr('content');
+
+                $.ajaxSetup({
+                    beforeSend: function(xhr) {
+                        xhr.setRequestHeader(csrfHeader, csrfToken);
+                    }
+                });
+
+                // 좋아요 버튼 클릭 이벤트 핸들러
+                $('.button-likes > button').on('click', function() {
+                    const button = $(this);
+                    const peopleId = button.closest('.button-likes').data('people-id');
+                    const isLiked = button.hasClass('filled');
+
+                    console.log(`좋아요 버튼 클릭됨: peopleId=${peopleId}, isLiked=${isLiked}`);
+
+                    if (isLiked) {
+                        // 좋아요 취소
+                        console.log(`좋아요 취소 요청: DELETE /person/${peopleId}/like`);
+                        $.ajax({
+                            url: `/person/${peopleId}/like`,
+                            type: 'DELETE',
+                            success: function (response) {
+                                console.log(`좋아요 취소 성공:`, response);
+                                button.removeClass('filled');
+                                updateLikeCount(button, response);
+                            },
+                            error: function (xhr, status, error) {
+                                console.error(`좋아요 취소 실패:`, xhr.responseText, status, error);
+                                alert(`좋아요 취소 실패: ${xhr.responseText}`);
+                            }
+                        });
+                    } else {
+                        // 좋아요 추가
+                        console.log(`좋아요 추가 요청: POST /person/${peopleId}/like`);
+                        $.ajax({
+                            url: `/person/${peopleId}/like`,
+                            type: 'POST',
+                            success: function (response) {
+                                console.log(`좋아요 추가 성공:`, response);
+                                button.addClass('filled');
+                                updateLikeCount(button, response);
+                            },
+                            error: function (xhr, status, error) {
+                                console.error(`좋아요 추가 실패:`, xhr.responseText, status, error);
+                                alert(`좋아요 추가 실패: ${xhr.responseText}`);
+                            }
                         });
                     }
                 });
 
-                // 스크롤 탑 버튼 기능
-                const scrollTopButton = document.querySelector(".scroll-top");
-
-                window.addEventListener("scroll", function () {
-                    if (window.scrollY > 600) {
-                        scrollTopButton.style.display = "flex";
+                // 좋아요 수 업데이트 함수
+                function updateLikeCount(button, count) {
+                    const likeCountElement = button.closest('.button-likes').find('.like-count');
+                    if (likeCountElement.length) {
+                        console.log(`좋아요 수 업데이트: 이전=${likeCountElement.text()}, 새로운=${count}`);
+                        likeCountElement.text(count);
                     } else {
-                        scrollTopButton.style.display = "none";
+                        console.warn('like-count 요소를 찾을 수 없습니다.');
+                    }
+                }
+
+                // 스크롤 탑 버튼 기능
+                const scrollTopButton = $(".scroll-top");
+
+                $(window).on('scroll', function() {
+                    if ($(this).scrollTop() > 600) {
+                        scrollTopButton.css('display', 'flex');
+                    } else {
+                        scrollTopButton.css('display', 'none');
                     }
                 });
 
-                scrollTopButton.querySelector("button").addEventListener("click", function () {
-                    window.scrollTo({
-                        top: 0,
-                        behavior: "smooth"
-                    });
+                scrollTopButton.find("button").on('click', function() {
+                    $('html, body').animate({ scrollTop: 0 }, 'smooth');
                 });
             });
         </script>
