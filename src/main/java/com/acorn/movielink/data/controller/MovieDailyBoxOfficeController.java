@@ -22,10 +22,7 @@ public class MovieDailyBoxOfficeController {
     MovieDailyBoxOfficeServiceImpl boxOfficeService;
 
     @GetMapping("/boxoffice")
-    public String boxoffice(@RequestParam(value = "date", required = false) String date , Model model){
-        List<MovieDailyStatsDTO> movieDailyStatsList = boxOfficeService.getDailyStats("2024-12-09");
-
-        model.addAttribute("movieDailyStatsList",movieDailyStatsList);
+    public String boxoffice(){
         return "boxoffice";
     }
 

@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class MovieDTO {
+    public double getCombineScore;
     private Integer movieId; // 0. db 영화 아이디
     private String movieNm;       // 1. 영화 이름
     private String movieNmEn;       // 2. 영화 이름 영문
@@ -16,11 +17,14 @@ public class MovieDTO {
     private String movieRunningTime;      // 5. 영화 상영 시간
     private String movieNation; // 6. 제작국가
     private String genre;        // 7. 장르
-
     private String moviePlot;  // 8. 영화 줄거리
     private String movieTrailerUrl; // 9. 영화 예고편
     private String moviePosterUrl; // 10. 영화 대표 포스터
-
     private double movieImdbScore; // 11. 영화 IMDB점수
     private double movieTMDBScore; // 12. 영화 TMDB 점수
+   
+
+    public double getCombinedScore() {
+        return ((this.movieImdbScore * 10) + this.movieTMDBScore) / 2;
+    }
 }
