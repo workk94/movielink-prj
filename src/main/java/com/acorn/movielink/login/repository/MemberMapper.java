@@ -15,6 +15,8 @@ public interface MemberMapper {
 
     Optional<Member> findByMemSnsId(@Param("memSnsId") String memSnsId);
 
+    List<Member> findAllMembers();
+
     void updatePassword(@Param("memId") Integer memId, @Param("memPw") String memPw);
 
     void updateMember(Member updatedMember);

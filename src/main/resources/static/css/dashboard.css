@@ -1,0 +1,138 @@
+@font-face {
+    font-family: 'AppleSDGothicNeo';
+    src: url('/fonts/AppleSDGothicNeoM.ttf') format("truetype");
+    font-weight: bold;
+    font-style: normal;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    text-decoration: none;
+    font-family: 'AppleSDGothicNeo', sans-serif;
+    color: inherit;
+}
+
+body {
+    background-color: #1c1c1f;
+    color: #ffffff;
+    margin: 0;
+    padding: 0;
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+.admin-aside {
+    width: 200px;
+    background-color: #31313c;
+    height: 200px; /* 전체 높이로 변경 */
+    position: fixed;
+    top: 0;
+    right: 0; /* 왼쪽에서 오른쪽으로 변경 */
+    transition: transform 0.3s ease;
+    z-index: 1000;
+    border-top-left-radius: 30px;
+    border-bottom-left-radius: 30px;
+}
+
+.admin-aside.hidden {
+    transform: translateX(100%); /* 오른쪽으로 숨김 */
+}
+
+.aside-btn {
+    position: absolute;
+    top: 20px;
+    left: -35px;
+    cursor: pointer;
+    background-color: #31313c;
+    border: none;
+    padding: 10px;
+    border-radius: 5px 0 0 5px;
+    transition: left 0.3s ease;
+width:44px;
+}
+
+.link-wrap {
+    padding: 20px;
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+}
+
+.link-wrap a {
+    width: 100%;
+    height: 50px;
+}
+
+.link-wrap span {
+    background-color: #4263EB;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.link-wrap span:hover {
+    background-color: #3654c6;
+}
+
+.root {
+    max-width: 700px;
+    margin: 0 auto;
+    background-color: #1c1c1f;
+    color: #ffffff;
+    border-radius: 8px;
+    padding: 20px;
+    transition: margin-right 0.3s ease; /* margin-left에서 margin-right로 변경 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+    .admin-aside {
+        width: 250px;
+    }
+    .root {
+        margin-right: 0; /* margin-left에서 margin-right로 변경 */
+        padding: 15px;
+    }
+    .admin-aside.hidden + .root {
+        margin-right: 0; /* margin-left에서 margin-right로 변경 */
+    }
+}
+table{
+margin-top:100px;
+background:#31313c;
+display:flex;
+flex-flow:wrap column;
+gap:20px;
+width:100%;
+border-radius:8px;
+}
+thead{
+background-color:#282830;
+height:40px;
+align-items:center;
+border-radius:8px 8px 0 0;
+}
+thead tr{
+
+}
+tbody{
+display:flex;
+flex-flow:wrap column;
+}
+tbody tr,thead tr{
+
+}

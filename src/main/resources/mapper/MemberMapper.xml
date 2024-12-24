@@ -36,8 +36,14 @@
     </insert>
 
     <!-- 이메일로 회원 찾기 -->
-    <select id="findByMemEmail" parameterType="map" resultMap="memberResultMap">
+    <select id="findByMemEmail" parameterType="String" resultMap="memberResultMap">
         SELECT * FROM MEMBER WHERE mem_email = #{memEmail}
+    </select>
+
+
+    <!-- 모든 회원 조회 -->
+    <select id="findAllMembers" parameterType="map" resultMap="memberResultMap">
+        SELECT * FROM MEMBER
     </select>
 
     <!-- SNS ID로 회원 찾기 -->
@@ -124,7 +130,7 @@
         m.movie_running_time AS movieRunningTime,
         m.movie_country AS movieCountry,
         m.movie_plot AS moviePlot,
-        m.movie_trailer_url AS movieTrailerUrl,
+        m.movie_trailer AS movieTrailerUrl,
         m.movie_poster AS moviePosterUrl,
         m.movie_poster AS moviePoster,
         m.movie_imdb_score AS movieImdbScore,
@@ -172,8 +178,8 @@
         LIMIT 10
     </select>
 
-
-    <select id="findRecommendedMovies" parameterType="map" resultType="com.acorn.movielink.login.dto.Movie">
+    <!-- 사용자 장르에 맞는 10개 영화 추천 -->
+    <select id="findRecommendedMovies" parameterType="int" resultType="com.acorn.movielink.login.dto.Movie">
         SELECT DISTINCT
         m.movie_id,
         m.movie_nm,
@@ -183,7 +189,7 @@
         m.movie_running_time,
         m.movie_country,
         m.movie_plot,
-        m.movie_trailer_url,
+        m.movie_trailer,
         m.movie_poster,
         m.movie_imdb_score,
         m.movie_tmdb_score,
@@ -191,7 +197,7 @@
         FROM
         MOVIE m
         JOIN
-        GENRE g ON m.movie_id = g.movie_id
+        GENRE g ON m.genre_id = g.genre_id
         JOIN
         MEMBER_GENRE mg ON g.genre_id = mg.genre_id
         WHERE
@@ -200,5 +206,6 @@
         RAND()
         LIMIT 10
     </select>
+
 
 </mapper>
