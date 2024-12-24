@@ -1,0 +1,32 @@
+<aside class="admin-aside" th:fragment="adminFragment" xmlns:th="http://www.thymeleaf.org">
+    <button aria-expanded="true" aria-label="Toggle Admin Sidebar" class="aside-btn">
+        <img
+                alt="Toggle Aside"
+                th:src="@{/img/arrow-right.svg}"
+        />
+    </button>
+    <div class="link-wrap">
+        <a href="/admin/notice"><span>공지작성</span></a>
+        <a href="/admin/userlist"><span>사용자 조회</span></a>
+        <a href="/admin/report"><span>신고내역</span></a>
+    </div>
+</aside>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const asideBtn = document.querySelector('.aside-btn');
+      const adminAside = document.querySelector('.admin-aside');
+      const img = asideBtn.querySelector('img');
+
+      asideBtn.addEventListener('click', () => {
+          adminAside.classList.toggle('hidden');
+          const currentlyHidden = adminAside.classList.contains('hidden');
+         img.src = currentlyHidden ? "/img/arrow-left.svg" : "/img/arrow-right.svg";
+
+          asideBtn.style.right = currentlyHidden ? "-40px" : "-35px";
+      });
+  });
+
+
+</script>

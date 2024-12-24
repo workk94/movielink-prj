@@ -10,6 +10,7 @@ import com.acorn.movielink.people_detail.service.PeopleLikeService;
 import com.acorn.movielink.people_detail.service.PeopleService;
 import com.acorn.movielink.people_detail.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -92,12 +93,14 @@ public class PeopleDetailController {
             Principal principal) {
 
         if (principal == null) {
-            return ResponseEntity.status(401).body("Unauthorized");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body("로그인이 필요합니다.");
         }
 
         Integer memId = getMemIdFromPrincipal(principal);
         if (memId == null) {
-            return ResponseEntity.status(401).body("Unauthorized");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body("로그인이 필요합니다.");
         }
 
         boolean alreadyLiked = peopleLikeService.isPersonLikedByUser(peopleId, memId);
