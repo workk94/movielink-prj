@@ -12,7 +12,7 @@
         <result property="postCreatedAt" column="post_created_at"/>
         <result property="postViews" column="post_views"/>
         <result property="postLikeCnt" column="post_like_cnt"/>
-        <result property="postReport" column="post_report"/>
+
         <result property="postImgConvertedFileNm" column="post_img_converted_file_nm"/>
 
         <collection property="tags" ofType="com.acorn.movielink.people_detail.dto.Tag">
@@ -32,7 +32,6 @@
         p.post_created_at,
         p.post_views,
         p.post_like_cnt,
-        p.post_report,
         pimg.post_img_converted_file_nm,
         t.tag_id,
         t.tag_name
