@@ -2,7 +2,6 @@ package com.acorn.movielink.main.controller;
 
 import com.acorn.movielink.data.dto.MovieDTO;
 import com.acorn.movielink.login.dto.Member;
-
 import com.acorn.movielink.login.dto.Movie;
 import com.acorn.movielink.login.dto.Review;
 import com.acorn.movielink.login.service.MemberService;
@@ -22,6 +21,9 @@ public class MainController {
     private final MemberService memberService;
     private final ReviewService reviewService;
     private final MovieService movieService;
+//실시간 동접자
+//    @Autowired
+//    private ActiveUserService activeUserService;
 
     @Autowired
     public MainController(MemberService memberService, ReviewService reviewService, MovieService movieService) {
@@ -55,7 +57,21 @@ public class MainController {
             model.addAttribute("recommendedMovies", recommendedMovies);
         }
 
+//실시간 동접자
+//        int activeUserCount = activeUserService.getActiveUserCount();
+//        model.addAttribute("activeUserCount", activeUserCount);
+
         return "main";
     }
+//실시간 동접자
+//    @GetMapping("/active-user-count")
+//    @ResponseBody
+//    public Map<String, Integer> getActiveUserCount() {
+//        int activeUserCount = activeUserService.getActiveUserCount();
+//        Map<String, Integer> response = new HashMap<>();
+//        response.put("activeUserCount", activeUserCount);
+//        return response;
+//    }
+
 
 }

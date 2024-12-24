@@ -25,5 +25,6 @@ public class Movie { // 클래스 이름을 대문자로 수정
     private String moviePosterUrl;
     private Double movieImdbScore; // DECIMAL(2,1) -> Double로 수정
     private Integer movieTmdbScore;
+    private Integer genreId;
     private LocalDateTime movieRegAt;
 }
