@@ -19,7 +19,6 @@ public class Post {
     private LocalDateTime createdAt;
     private Integer post_view;
     private Integer post_like_cnt;
-    private Integer post_report;
 
-    
+
 }
