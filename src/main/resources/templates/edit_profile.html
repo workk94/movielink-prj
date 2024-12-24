@@ -325,6 +325,51 @@
             <!-- 숨김 파일 입력 필드 (프로필 섹션으로 이동) -->
             <input accept="image/*" id="profileImage" th:field="*{profileImage}" type="file"/>
 
+            <div class="signup-field">
+                <label for="memTel">전화번호:</label>
+                <input id="memTel" placeholder="010-1234-5678" th:field="*{memTel}" type="text"/>
+                <div class="error" th:if="${#fields.hasErrors('memTel')}">
+                    <p th:errors="*{memTel}">전화번호 오류</p>
+                </div>
+            </div>
+
+            <div class="signup-field">
+                <label for="memNn">닉네임:</label>
+                <input id="memNn" placeholder="닉네임 입력" th:field="*{memNn}" type="text"/>
+                <div class="error" th:if="${#fields.hasErrors('memNn')}">
+                    <p th:errors="*{memNn}">닉네임 오류</p>
+                </div>
+            </div>
+
+            <!-- 프로필 이미지 필드 제거 (이미 이동됨) -->
+
+            <div class="signup-field">
+                <label for="memPw">새 비밀번호:</label>
+                <input id="memPw" placeholder="새 비밀번호 (선택)" th:field="*{memPw}" type="password"/>
+                <div class="error" th:if="${#fields.hasErrors('memPw')}">
+                    <p th:errors="*{memPw}">비밀번호 오류</p>
+                </div>
+            </div>
+
+            <div class="signup-field">
+                <label>선호 장르</label>
+                <div class="genre-wrap">
+                    <div class="genre-container" th:each="genre : ${genres}">
+                        <input
+                                th:checked="${selectedGenreIds != null} ? ${selectedGenreIds.contains(genre.genreId)} : false"
+                                th:id="'genre_' + ${genre.genreId}"
+                                th:name="genreIds"
+                                th:value="${genre.genreId}"
+                                type="checkbox"
+                        />
+                        <label th:for="'genre_' + ${genre.genreId}" th:text="'#' + ${genre.genreNm}"></label>
+                    </div>
+                </div>
+                <div class="error" th:if="${#fields.hasErrors('genreIds')}">
+                    <p th:errors="*{genreIds}">장르 선택 오류</p>
+                </div>
+            </div>
+            
             <!-- ... (생략) ... -->
 
             <div class="signup-field">
