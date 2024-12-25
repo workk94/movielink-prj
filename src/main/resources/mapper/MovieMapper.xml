@@ -14,13 +14,14 @@
         <result property="movieNation" column="movie_country"/>
         <result property="genre" column="genre"/> <!-- 장르 테이블에서 매핑함 -->
         <result property="moviePlot" column="movie_plot"/>
-        <result property="movieTrailerUrl" column="movie_trailer_url"/>
-        <result property="moviePosterUrl" column="movie_poster_url"/>
+        <result property="movieTrailerUrl" column="movie_trailer"/>
+        <result property="moviePosterUrl" column="movie_poster"/>
         <result property="movieImdbScore" column="movie_imdb_score"/>
         <result property="movieTMDBScore" column="movie_tmdb_score"/>
     </resultMap>
 
-    <insert id="insertMovie" parameterType="com.acorn.movielink.data.dto.MovieDTO" useGeneratedKeys="true" keyProperty="movieId" keyColumn="movie_id">
+    <insert id="insertMovie" parameterType="com.acorn.movielink.data.dto.MovieDTO" useGeneratedKeys="true"
+            keyProperty="movieId" keyColumn="movie_id">
         INSERT INTO movie (
         movie_nm, movie_nm_en, movie_open_dt, movie_age_rating, movie_running_time,
         movie_country, genre_id, movie_plot, movie_trailer, movie_poster,
@@ -76,7 +77,7 @@
         m.movie_running_time,
         m.movie_country,
         m.movie_plot,
-        m.movie_trailer_url,
+        m.movie_trailer,
         m.movie_poster,
         m.movie_imdb_score,
         m.movie_tmdb_score

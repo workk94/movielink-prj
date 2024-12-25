@@ -15,6 +15,8 @@ public interface MemberMapper {
 
     Optional<Member> findByMemSnsId(@Param("memSnsId") String memSnsId);
 
+    List<Member> findAllMembers();
+
     void updatePassword(@Param("memId") Integer memId, @Param("memPw") String memPw);
 
     void updateMember(Member updatedMember);
@@ -40,7 +42,7 @@ public interface MemberMapper {
     //구매 아이템 조회
     List<Item> findPurchasedItemByMemId(@Param("memId") Integer memId);
 
-    void deleteMemberGenres(Integer memId);
+    void deleteMemberGenres(@Param("memId") Integer memId);
 
     // 최신 10개 리뷰 조회
     List<Review> findLatestReviews();
