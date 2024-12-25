@@ -49,4 +49,22 @@ public interface MemberMapper {
 
     // 사용자 장르에 맞는 10개 영화 추천
     List<Movie> findRecommendedMovies(Integer memId);
+
+    // 페이징 및 필터링된 회원 목록 조회
+    List<Member> findMembers(
+            @Param("sort") String sort,
+            @Param("type") String type,
+            @Param("email") String email,
+            @Param("nickname") String nickname
+    );
+
+    // 필터링된 전체 회원 수 조회
+    int countMembers(
+            @Param("sort") String sort,
+            @Param("type") String type,
+            @Param("email") String email,
+            @Param("nickname") String nickname
+    );
+
+   
 }
