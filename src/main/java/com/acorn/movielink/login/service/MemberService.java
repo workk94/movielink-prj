@@ -71,13 +71,20 @@ public class MemberService {
     public Optional<Member> findByEmail(String email) {
         logger.debug("이메일로 회원 검색 요청: {}", email);
         Optional<Member> member = memberMapper.findByMemEmail(email);
-        logger.debug("쿼리 결과: {}", member);
+        logger.debug("findByEmail 쿼리 결과: {}", member);
         if (member.isPresent()) {
             logger.info("회원 검색 성공: {}", email);
         } else {
             logger.warn("회원 검색 실패: {}", email);
         }
         return member;
+    }
+
+    public List<Member> findAllMembers() {
+        logger.debug("모든 회원 조회 요청");
+        List<Member> members = memberMapper.findAllMembers();
+        logger.debug("findALlMembers 쿼리 결과: {}", members);
+        return members;
     }
 
     public Optional<Member> findByMemSnsId(String memSnsId) {
@@ -92,6 +99,7 @@ public class MemberService {
         return member;
     }
 
+    @Transactional
     public void updatePassword(Integer memId, String newPassword) {
         logger.debug("비밀번호 업데이트 요청 for 회원 ID: {}", memId);
         String encodedPassword = passwordEncoder.encode(newPassword);

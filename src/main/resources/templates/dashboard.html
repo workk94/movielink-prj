@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>관리자 대시보드</title>
+    <link rel="stylesheet" th:href="@{/css/dashboard.css}">
+</head>
+<body>
+<!-- 관리자 사이드바 프래그먼트 포함 -->
+<div th:replace="fragments/dashboard_frag :: adminFragment"></div>
+
+<!-- 메인 콘텐츠 영역 -->
+<div class="root">
+    <h1>관리자 대시보드</h1>
+    <h2>모든 회원 목록</h2>
+    <table>
+        <thead>
+        <tr>
+            <th>회원ID</th>
+            <th>이메일</th>
+            <th>이름</th>
+            <th>타입</th>
+            <th>작업</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="member : ${members}">
+            <td th:text="${member.memId}">1</td>
+            <td th:text="${member.memEmail}">email@example.com</td>
+            <td th:text="${member.memNn}">이름</td>
+            <td th:text="${member.memType == 1 ? '관리자' : '사용자'}">타입</td>
+            <td>
+                <a th:href="@{'/admin/member/edit/' + ${member.memId}}">수정</a>
+                <a onclick="return confirm('정말 삭제하시겠습니까?');"
+                   th:href="@{'/admin/member/delete/' + ${member.memId}}">삭제</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+</div>
+
+<!-- JavaScript를 본문 끝에 포함하여 성능 향상 -->
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+       const asideBtn = document.querySelector('.aside-btn');
+       const adminAside = document.querySelector('.admin-aside');
+       const img = asideBtn.querySelector('img');
+
+       asideBtn.addEventListener('click', () => {
+           adminAside.classList.toggle('hidden');
+           const currentlyHidden = adminAside.classList.contains('hidden');
+          img.src = currentlyHidden ? "/img/arrow-left.svg" : "/img/arrow-right.svg";
+
+           asideBtn.style.right = currentlyHidden ? "-40px" : "-35px";
+       });
+   });
+</script>
+</body>
+</html>
