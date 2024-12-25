@@ -3,6 +3,8 @@ package com.acorn.movielink.login.service;
 import com.acorn.movielink.config.PasswordUtil;
 import com.acorn.movielink.login.dto.*;
 import com.acorn.movielink.login.repository.MemberMapper;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import lombok.Getter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -245,5 +247,16 @@ public class MemberService {
         List<Movie> recommendedMovies = memberMapper.findRecommendedMovies(memId);
         logger.debug("쿼리 결과: {}", recommendedMovies);
         return recommendedMovies;
+    }
+
+    public PageInfo<Member> findMembers(String sort, String type, String email, String nickname, int page, int size) {
+        PageHelper.startPage(page, size);
+        List<Member> members = memberMapper.findMembers(sort, type, email, nickname);
+        return new PageInfo<>(members);
+    }
+
+    // 전체 회원 수 조회
+    public int countMembers(String sort, String type, String email, String nickname) {
+        return memberMapper.countMembers(sort, type, email, nickname);
     }
 }
