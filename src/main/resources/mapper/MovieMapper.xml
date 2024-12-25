@@ -12,10 +12,10 @@
         <result property="movieAgeRating" column="movie_age_rating"/>
         <result property="movieRunningTime" column="movie_running_time"/>
         <result property="movieNation" column="movie_country"/>
-        <result property="genre" column="movie_genre"/>
+        <result property="genre" column="genre"/> <!-- 장르 테이블에서 매핑함 -->
         <result property="moviePlot" column="movie_plot"/>
         <result property="movieTrailerUrl" column="movie_trailer_url"/>
-        <result property="moviePosterUrl" column="movie_poster"/>
+        <result property="moviePosterUrl" column="movie_poster_url"/>
         <result property="movieImdbScore" column="movie_imdb_score"/>
         <result property="movieTMDBScore" column="movie_tmdb_score"/>
     </resultMap>
@@ -23,17 +23,34 @@
     <insert id="insertMovie" parameterType="com.acorn.movielink.data.dto.MovieDTO" useGeneratedKeys="true" keyProperty="movieId" keyColumn="movie_id">
         INSERT INTO movie (
         movie_nm, movie_nm_en, movie_open_dt, movie_age_rating, movie_running_time,
-        movie_country, movie_genre, movie_plot, movie_trailer_url, movie_poster,
+        movie_country, genre_id, movie_plot, movie_trailer, movie_poster,
         movie_imdb_score, movie_tmdb_score
         ) VALUES (
         #{movieNm}, #{movieNmEn}, #{movieOpenDt}, #{movieAgeRating}, #{movieRunningTime},
-        #{movieNation}, #{genre}, #{moviePlot}, #{movieTrailerUrl}, #{moviePosterUrl},
+        #{movieNation}, #{genreId}, #{moviePlot}, #{movieTrailerUrl}, #{moviePosterUrl},
         #{movieImdbScore}, #{movieTMDBScore}
         )
     </insert>
 
     <select id="selectAllMovie" resultMap="MovieResultMap">
-        SELECT * FROM movie
+        SELECT
+        m.movie_id,
+        m.movie_nm,
+        m.movie_nm_en,
+        m.movie_open_dt,
+        m.movie_age_rating,
+        m.movie_running_time,
+        m.movie_country,
+        m.movie_plot,
+        m.movie_trailer AS movie_trailer_url,
+        m.movie_poster AS movie_poster_url,
+        m.movie_imdb_score,
+        m.movie_tmdb_score,
+        g.genre_nm AS genre
+        FROM
+        movie m
+        LEFT JOIN
+        genre g ON m.genre_id = g.genre_id
     </select>
 
     <select id="selectExistingMovies" resultType="map">
@@ -71,4 +88,13 @@
         pe.people_id = #{peopleId}
     </select>
 
+    <select id="findGenreIdByName" parameterType="String" resultType="Integer">
+        SELECT genre_id
+        FROM genre
+        WHERE
+        <foreach item="name" collection="list" open="(" separator=" OR " close=")">
+            #{name} LIKE CONCAT('%', genre_nm, '%')
+        </foreach>
+        LIMIT 1
+    </select>
 </mapper>

@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class RAWDataDTO {
+public class BoxOfficeDataDTO {
     String rnum; // 박스오피스 순번
     String ranking; // 해당일자 박스오피스 순위
     String rankInten; // 전일대비 순위의 증감분

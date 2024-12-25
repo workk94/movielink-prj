@@ -2,15 +2,21 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.acorn.movielink.data.MovieBoxOfficeMapper">
     <resultMap id="MovieDailyStatsResultMap" type="com.acorn.movielink.data.dto.MovieDailyStatsDTO">
-        <result property="movie_nm" column="movie_nm"/>
-        <result property="sales_share" column="sales_share" />
-        <result property="audi_cnt" column="audi_cnt" />
+        <result property="movieNm" column="bo_movie_nm"/>
+        <result property="salesShare" column="bo_sales_share" />
+        <result property="audiCnt" column="bo_audi_cnt" />
     </resultMap>
-    
+
     <select id="findDailyMovieStats" parameterType="String" resultMap="MovieDailyStatsResultMap">
-        SELECT movie_nm,sales_share,audi_cnt
-        FROM raw_data_test
-        WHERE box_office_dt = #{boxOfficeDate}
-        ORDER BY rnum desc
+        SELECT
+            bo_movie_nm AS movieNm,
+            bo_sales_share AS salesShare,
+            bo_audi_cnt AS audiCnt
+        FROM
+            boxoffice_data
+        WHERE
+            bo_boxoffice_dt = #{boxOfficeDate}
+        ORDER BY
+            bo_rnum DESC
     </select>
 </mapper>
