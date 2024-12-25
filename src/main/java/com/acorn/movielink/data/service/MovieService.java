@@ -15,4 +15,5 @@ public interface MovieService {
 
     // 존재하는 영화 조회
     List<Map<String, String>> getExistingMovie();
+
 }
