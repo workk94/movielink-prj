@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.acorn.movielink.MovieMapper">
 
     <resultMap id="MovieResultMap" type="com.acorn.movielink.data.dto.MovieDTO">
@@ -23,11 +23,11 @@
     <insert id="insertMovie" parameterType="com.acorn.movielink.data.dto.MovieDTO" useGeneratedKeys="true" keyProperty="movieId" keyColumn="movie_id">
         INSERT INTO movie (
         movie_nm, movie_nm_en, movie_open_dt, movie_age_rating, movie_running_time,
-        movie_country, movie_genre, movie_plot, movie_trailer_url, movie_poster,
+        movie_country, movie_plot, movie_trailer_url, movie_poster,
         movie_imdb_score, movie_tmdb_score
         ) VALUES (
         #{movieNm}, #{movieNmEn}, #{movieOpenDt}, #{movieAgeRating}, #{movieRunningTime},
-        #{movieNation}, #{genre}, #{moviePlot}, #{movieTrailerUrl}, #{moviePosterUrl},
+        #{movieNation}, #{moviePlot}, #{movieTrailerUrl}, #{moviePosterUrl},
         #{movieImdbScore}, #{movieTMDBScore}
         )
     </insert>
@@ -44,7 +44,7 @@
 
     <!-- MovieMapper.xml -->
     <select id="findBestMovies" parameterType="map" resultMap="MovieResultMap">
-        SELECT * FROM MOVIE
+        SELECT * FROM movie
         ORDER BY (movie_tmdb_score + movie_imdb_score * 10) DESC
         LIMIT 3
     </select>
@@ -64,9 +64,9 @@
         m.movie_imdb_score,
         m.movie_tmdb_score
         FROM
-        MOVIE m
+        movie m
         INNER JOIN
-        PEOPLE pe ON m.movie_id = pe.movie_id
+        people pe ON m.movie_id = pe.movie_id
         WHERE
         pe.people_id = #{peopleId}
     </select>
