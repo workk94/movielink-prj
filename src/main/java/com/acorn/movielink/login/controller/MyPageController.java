@@ -59,7 +59,7 @@ public class MyPageController {
         // 회원의 작성 게시글 목록 조회
         List<Post> writtenPosts = memberService.getWrittenPosts(member.getMemId());
         // 회원의 아이템 구매 목록 조회
-        List<Item> purchasedItems = memberService.getPurchasedItems(member.getMemId());
+//        List<Item> purchasedItems = memberService.getPurchasedItems(member.getMemId());
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         String formattedDate = member.getMemCreatedAt() != null ? member.getMemCreatedAt().format(formatter) : "";
@@ -68,7 +68,7 @@ public class MyPageController {
         model.addAttribute("formattedDate", formattedDate);
         model.addAttribute("likedPersons", likedPersons); // 모델에 추가
         model.addAttribute("likedMovies", likedMovies); // 모델에 추가
-        model.addAttribute("purchasedItems", purchasedItems);
+//        model.addAttribute("purchasedItems", purchasedItems);
         model.addAttribute("writtenPosts", writtenPosts);
 
         return "mypage";
@@ -178,14 +178,14 @@ public class MyPageController {
         List<Person> likedPersons = memberService.getLikedPersons(member.getMemId());
         List<Movie> likedMovies = memberService.getLikedMovies(member.getMemId());
         List<Post> writtenPosts = memberService.getWrittenPosts(member.getMemId());
-        List<Item> purchasedItems = memberService.getPurchasedItems(member.getMemId());
+//        List<Item> purchasedItems = memberService.getPurchasedItems(member.getMemId());
 
         model.addAttribute("member", member);
         model.addAttribute("formattedDate", formattedDate);
         model.addAttribute("likedPersons", likedPersons);
         model.addAttribute("likedMovies", likedMovies);
         model.addAttribute("writtenPosts", writtenPosts);
-        model.addAttribute("purchasedItems", purchasedItems);
+//        model.addAttribute("purchasedItems", purchasedItems);
         model.addAttribute("message", "개인정보가 성공적으로 업데이트되었습니다.");
 
         return "mypage";

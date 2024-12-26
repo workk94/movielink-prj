@@ -691,23 +691,23 @@ color:#98a4b7;}
     </div>
 
 
-    <div class="contents-container" style="padding-bottom:100px">
-        <div class="title-wrap">
-            <span class="title">포인트 사용 내역</span>
-            <div class="image">
-                <img alt="더보기" th:src="@{/img/arrow-right.svg}"/>
-            </div>
-        </div>
-        <div class="user-point-item">
-            <div class="point-item" th:each="item: ${purchasedItems}">
-                <div class="point-item-title" th:text="${item.itemName}"></div>
-                <div class="point-item-img">
-                    <img alt="" th:src="${item.itemImg}">
-                </div>
-                <div class="point-item-price" th:text="${item.itemPoint}"></div>
-            </div>
-        </div>
-    </div>
+    <!--    <div class="contents-container" style="padding-bottom:100px">-->
+    <!--        <div class="title-wrap">-->
+    <!--            <span class="title">포인트 사용 내역</span>-->
+    <!--            <div class="image">-->
+    <!--                <img alt="더보기" th:src="@{/img/arrow-right.svg}"/>-->
+    <!--            </div>-->
+    <!--        </div>-->
+    <!--        <div class="user-point-item">-->
+    <!--            <div class="point-item" th:each="item: ${purchasedItems}">-->
+    <!--                <div class="point-item-title" th:text="${item.itemName}"></div>-->
+    <!--                <div class="point-item-img">-->
+    <!--                    <img alt="" th:src="${item.itemImg}">-->
+    <!--                </div>-->
+    <!--                <div class="point-item-price" th:text="${item.itemPoint}"></div>-->
+    <!--            </div>-->
+    <!--        </div>-->
+    <!--    </div>-->
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             // 좋아요한 인물을 위한 Swiper 초기화
