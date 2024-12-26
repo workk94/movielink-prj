@@ -98,4 +98,25 @@
         </foreach>
         LIMIT 1
     </select>
+
+    <select id="findMoviesByOpenDateDesc" resultMap="MovieResultMap" parameterType="map">
+        SELECT
+        m.movie_id,
+        m.movie_nm,
+        m.movie_nm_en,
+        m.movie_open_dt,
+        m.movie_age_rating,
+        m.movie_running_time,
+        m.movie_country,
+        m.movie_plot,
+        m.movie_trailer,
+        m.movie_poster,
+        m.movie_imdb_score,
+        m.movie_tmdb_score,
+        g.genre_nm AS genre
+        FROM movie m
+        LEFT JOIN genre g ON m.genre_id = g.genre_id
+        ORDER BY m.movie_open_dt DESC
+        LIMIT 10
+    </select>
 </mapper>

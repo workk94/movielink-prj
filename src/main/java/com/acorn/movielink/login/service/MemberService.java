@@ -129,10 +129,27 @@ public class MemberService {
 
     @Transactional
     public void updateMember(Member updatedMember) {
-        logger.debug("회원 정보 업데이트 요청 for 회원 ID: {}", updatedMember.getMemId());
-        memberMapper.updateMember(updatedMember);
-        logger.info("회원 정보 업데이트 완료 for 회원 ID: {}", updatedMember.getMemId());
+        // 1) DB에서 기존 회원 정보를 조회
+        Optional<Member> existingMemberOpt = findById(updatedMember.getMemId());
+        if (existingMemberOpt.isPresent()) {
+            Member existingMember = existingMemberOpt.get();
+
+            // 2) 새 비밀번호가 입력되었는지 여부 확인
+            if (updatedMember.getMemPw() != null && !updatedMember.getMemPw().isEmpty()) {
+                // 새 비밀번호가 있으면 인코딩 후 설정
+                updatedMember.setMemPw(passwordEncoder.encode(updatedMember.getMemPw()));
+            } else {
+                // 새 비밀번호가 없다면 기존 비밀번호 사용
+                updatedMember.setMemPw(existingMember.getMemPw());
+            }
+
+            // 3) memberMapper로 업데이트 실행
+            memberMapper.updateMember(updatedMember);
+        } else {
+            throw new RuntimeException("수정하려는 회원이 존재하지 않습니다. ID=" + updatedMember.getMemId());
+        }
     }
+
 
     @Transactional
     public void deleteMember(Integer memId) {

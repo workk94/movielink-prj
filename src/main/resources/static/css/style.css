@@ -24,6 +24,7 @@ body {
     color: #ffffff; /* 텍스트 색상을 흰색으로 설정하여 가독성 향상 */
     margin: 0; /* 기본 마진 제거 */
     padding: 0; /* 기본 패딩 제거 */
+    padding-bottom:80px;
 }
 
 /* .root 클래스의 스타일 수정 */

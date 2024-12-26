@@ -6,6 +6,7 @@ import com.acorn.movielink.config.KakaoOAuth2User;
 import com.acorn.movielink.login.dto.*;
 import com.acorn.movielink.login.service.GenreService;
 import com.acorn.movielink.login.service.MemberService;
+import com.acorn.movielink.login.service.MypageCommentService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,14 +35,16 @@ public class MyPageController {
     private static final Logger logger = LoggerFactory.getLogger(MyPageController.class);
     private final MemberService memberService;
     private final GenreService genreService;
+    private final MypageCommentService mypageCommentService;
 
     @Value("${file.upload-dir}")
     private String uploadDir;
 
     @Autowired
-    public MyPageController(MemberService memberService, GenreService genreService) {
+    public MyPageController(MemberService memberService, GenreService genreService, MypageCommentService mypageCommentService) {
         this.memberService = memberService;
         this.genreService = genreService;
+        this.mypageCommentService = mypageCommentService;
     }
 
     @GetMapping("/mypage")
@@ -64,12 +67,25 @@ public class MyPageController {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         String formattedDate = member.getMemCreatedAt() != null ? member.getMemCreatedAt().format(formatter) : "";
 
+        // 개수 계산
+        int likedMoviesCount = likedMovies.size();
+        int writtenPostsCount = writtenPosts.size();
+
+        //  댓글 수 조회
+        int commentCount = mypageCommentService.countCommentsByMemId(member.getMemId());
+
+
         model.addAttribute("member", member);
         model.addAttribute("formattedDate", formattedDate);
-        model.addAttribute("likedPersons", likedPersons); // 모델에 추가
-        model.addAttribute("likedMovies", likedMovies); // 모델에 추가
-//        model.addAttribute("purchasedItems", purchasedItems);
+
+        model.addAttribute("likedPersons", likedPersons);
+        model.addAttribute("likedMovies", likedMovies);
         model.addAttribute("writtenPosts", writtenPosts);
+
+        // ★ 실제 카운트값
+        model.addAttribute("likedMoviesCount", likedMoviesCount);
+        model.addAttribute("writtenPostsCount", writtenPostsCount);
+        model.addAttribute("commentCount", commentCount);
 
         return "mypage";
     }
