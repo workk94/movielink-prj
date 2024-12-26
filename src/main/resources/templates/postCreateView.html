@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/css/postCreateCss.css">
+
+    <style>
+    #tag-container {
+    display: flex;
+    flex-wrap: wrap;
+    border: 1px solid #ccc;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.tag {
+    display: inline-flex;
+    align-items: center;
+    background-color: #e0e0e0;
+    border-radius: 15px;
+    padding: 5px 10px;
+    margin: 3px;
+    font-size: 14px;
+}
+
+.close-btn {
+    margin-left: 8px;
+    color: red;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+#tag-input {
+    border: none;
+    outline: none;
+    font-size: 14px;
+    padding: 5px;
+    flex-grow: 1;
+}
+</style>
+</head>
+<body>
+
+<div th:fragment="headerFragment" xmlns:sec="http://www.w3.org/1999/xhtml" xmlns:th="http://www.w3.org/1999/xhtml">
+    <div class="header">
+        <div class="header-logo">
+            <img alt="시네링크 로고" th:src="@{/img/cine_link_logo.svg}" />
+        </div>
+        <div class="header-util">
+            <div class="route-nav">
+                <ul class="route-list">
+                    <li class="route-item"><a href="#">랭킹</a></li>
+                    <li class="route-item"><a href="#">통계</a></li>
+                    <li class="route-item"><a href="#">커뮤니티</a></li>
+                    <li class="route-item"><a href="#">작품</a></li>
+                    <li class="route-item">
+                        <img alt="검색 아이콘" th:src="@{/img/search.svg}" />
+                    </li>
+                    <li class="route-item">
+                        <img alt="벨 아이콘" th:src="@{/img/bell.svg}" />
+                    </li>
+                </ul>
+            </div>
+            <!-- header.html의 .log-btn 부분 -->
+            <div class="log-btn">
+                <!-- 인증된 사용자에게만 '로그아웃' -->
+                <p sec:authorize="isAuthenticated()">로그아웃</p>
+                <!-- 익명 사용자에게만 '로그인' -->
+                <p sec:authorize="isAnonymous()">로그인</p>
+            </div>
+        </div>
+    </div>
+
+
+    <h2> 게시글 작성하기  </h2>
+
+<form th:action="@{/postCreate}" method="post" onsubmit="updateHiddenInput();">
+    <div class="post_title">
+    <label > 게시글 제목 </label>
+        <textarea class="post_register_title" spellcheck="false" name="postTitle" id="postTitle"
+              th:value="${post.postTitle}" placeholder="제목을 입력해 주세요."></textarea>
+    </div>
+
+    <div class="cut_line"></div>
+
+    <div class="post_register_detail_box">
+        <textarea class="post_register_detail" spellcheck="false" name="content" id="content"
+                  th:value="${post.content}" placeholder="
+          •  이 공간은 자유로운 게시글 작성이 가능합니다.
+          •  작품의 비하인드 스토리를 알고 있다면 공유해주세요!
+          •  작품에 대해 궁금한 점이 있다면 질문을 남겨 보세요!
+          •  스포와 욕설은 자제해 주세요!
+          •  나만의 감상 꿀팁이나 정보를 알려주세요!"></textarea>
+    </div>
+
+    <div class="post_register_tag_box">
+        <p class="post_register_tag_header">
+        아래 # 태그를 붙여 같은 종류의 게시글을 한눈에 확인하세요!
+        </p>
+        <!-- 태그 입력 영역 -->
+        <div id="tag-container">
+            <input type="text" class="post_register_tag" id="tag-input" maxlength="30"  value="#태그1"
+                   placeholder="태그 입력 후 쉼표(,) 또는 엔터(↵) 키를 눌러주세요">
+        </div>
+        <input type="hidden" id="hidden-tags" name="tags"> <!-- 태그 데이터 전송 -->
+
+        <br>
+
+        <!-- 유효하지 않은 태그가 있을 경우 에러 메시지 표시 -->
+        <div id="tagError" style="color: red; display: none;">
+            태그는 #으로 시작하고 띄어쓰기를 포함할 수 없습니다.
+        </div>
+    </div>
+
+        <div class="post_register_img_box">
+        </div>
+
+    <div class="post_register_btn_box">
+        <button class="post_register_btn" type="submit">>작성 완료</button>
+    </div>
+
+</form>
+<!-- 에러 메시지 -->
+<div th:if="${errorMessage}" style="color: red;">
+    <p th:text="${errorMessage}"></p>
+</div>
+
+<!-- 성공 메시지 -->
+<div th:if="${message}" style="color: green;">
+    <p th:text="${message}"></p>
+</div>
+
+
+<script>
+    const tagContainer = document.getElementById('tag-container');
+   const tagInput = document.getElementById('tag-input');
+   const hiddenTags = document.getElementById('hidden-tags');
+   let tags = [];
+
+   // 태그 추가 함수
+   function addTag(tagValue) {
+       tagValue = tagValue.trim();
+       if (tagValue && !tags.includes(tagValue) && tagValue.match(/^#[a-zA-Z0-9가-힣]+$/)) {
+           const tag = document.createElement('span');
+           tag.classList.add('tag');
+           tag.textContent = tagValue;
+
+           const closeBtn = document.createElement('span');
+           closeBtn.classList.add('close-btn');
+           closeBtn.textContent = '×';
+           closeBtn.onclick = () => removeTag(tagValue);
+
+           tag.appendChild(closeBtn);
+           tagContainer.insertBefore(tag, tagInput);
+
+           tags.push(tagValue);
+           updateHiddenInput();
+       } else {
+           document.getElementById('tagError').style.display = 'block';
+       }
+       tagInput.value = "";
+   }
+
+   // 히든 필드 업데이트
+   function updateHiddenInput() {
+       // 쉼표로 구분된 문자열로 hidden input에 저장
+       hiddenTags.value = tags.join(',');
+   }
+
+   // 태그 삭제 함수
+   function removeTag(tagValue) {
+       tags = tags.filter(t => t !== tagValue);
+       updateHiddenInput();
+       renderTags();
+   }
+
+   // 태그 입력 처리
+   tagInput.addEventListener('keydown', (e) => {
+       if (e.key === 'Enter' || e.key === ',') {
+           e.preventDefault();
+           const tagValue = tagInput.value.startsWith('#') ? tagInput.value : `#${tagInput.value}`;
+           addTag(tagValue);
+       }
+   });
+
+   // 태그 렌더링
+   function renderTags() {
+       tagContainer.innerHTML = '';
+       tags.forEach(tagValue => {
+           const tag = document.createElement('span');
+           tag.classList.add('tag');
+           tag.textContent = tagValue;
+
+           const closeBtn = document.createElement('span');
+           closeBtn.classList.add('close-btn');
+           closeBtn.textContent = '×';
+           closeBtn.onclick = () => removeTag(tagValue);
+
+           tag.appendChild(closeBtn);
+           tagContainer.insertBefore(tag, tagInput);
+       });
+   }
+
+   // 페이지 로드 시 기존 태그 표시
+   window.onload = () => {
+       const existingTags = hiddenTags.value ? hiddenTags.value.split(',') : [];
+       existingTags.forEach(tag => addTag(tag.trim()));
+   };
+</script>
+</body>
+</html>
