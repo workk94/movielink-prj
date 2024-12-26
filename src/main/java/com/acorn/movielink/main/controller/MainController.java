@@ -3,9 +3,11 @@ package com.acorn.movielink.main.controller;
 import com.acorn.movielink.data.dto.MovieDTO;
 import com.acorn.movielink.login.dto.Member;
 import com.acorn.movielink.login.dto.Movie;
+import com.acorn.movielink.login.dto.Notice;
 import com.acorn.movielink.login.dto.Review;
 import com.acorn.movielink.login.service.MemberService;
 import com.acorn.movielink.login.service.MovieService;
+import com.acorn.movielink.login.service.NoticeService;
 import com.acorn.movielink.login.service.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -14,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class MainController {
@@ -21,15 +24,17 @@ public class MainController {
     private final MemberService memberService;
     private final ReviewService reviewService;
     private final MovieService movieService;
+    private final NoticeService noticeService;
 //실시간 동접자
 //    @Autowired
 //    private ActiveUserService activeUserService;
 
     @Autowired
-    public MainController(MemberService memberService, ReviewService reviewService, MovieService movieService) {
+    public MainController(MemberService memberService, ReviewService reviewService, MovieService movieService, NoticeService noticeService) {
         this.memberService = memberService;
         this.reviewService = reviewService;
         this.movieService = movieService;
+        this.noticeService = noticeService;
     }
 
     @GetMapping("/")
@@ -60,6 +65,14 @@ public class MainController {
 //실시간 동접자
 //        int activeUserCount = activeUserService.getActiveUserCount();
 //        model.addAttribute("activeUserCount", activeUserCount);
+
+        // 최신 공지 가져오기
+        Optional<Notice> latestNoticeOpt = noticeService.getLatestNotice();
+        if (latestNoticeOpt.isPresent()) {
+            model.addAttribute("latestNotice", latestNoticeOpt.get());
+        } else {
+            model.addAttribute("latestNotice", null);
+        }
 
         return "main";
     }

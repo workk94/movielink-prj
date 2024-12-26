@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>공지 목록</title>
+    <link rel="stylesheet" th:href="@{/css/dashboard.css}"/>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+<div th:replace="~{fragments/dashboard_frag :: adminFragment}"></div>
+
+<div class="main-content">
+    <h1>공지 목록</h1>
+
+    <!-- 성공 또는 오류 메시지 표시 -->
+    <div class="alert alert-success" th:if="${successMessage}" th:text="${successMessage}"></div>
+    <div class="alert alert-danger" th:if="${errorMessage}" th:text="${errorMessage}"></div>
+
+    <table>
+        <thead>
+        <tr>
+            <th>제목</th>
+            <th>내용</th>
+            <th>작성일</th>
+            <th>작성자 ID</th>
+            <th>액션</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:if="${notices.empty}">
+            <td colspan="5">공지사항이 없습니다.</td>
+        </tr>
+        <tr th:each="notice : ${notices}">
+            <td th:text="${notice.title}">공지 제목</td>
+            <td th:text="${notice.content}">공지 내용</td>
+            <td th:text="${#temporals.format(notice.noticeDate, 'yyyy-MM-dd HH:mm')}">2024-12-25</td>
+            <td th:text="${notice.memId}">작성자 ID</td>
+            <td>
+                <a class="btn action-btn" th:href="@{'/admin/notice/edit/' + ${notice.notificationId}}">수정</a>
+                <form method="post" style="display:inline;"
+                      th:action="@{'/admin/notice/delete/' + ${notice.notificationId}}">
+                    <input th:name="${_csrf.parameterName}" th:value="${_csrf.token}" type="hidden"/>
+                    <button class="btn action-btn delete-button" onclick="return confirm('정말로 삭제하시겠습니까?');"
+                            type="submit">삭제
+                    </button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<script>
+    $(document).ready(function() {
+        var asideBtn = $('.aside-btn');
+        var adminAside = $('.admin-aside');
+        var img = asideBtn.find('img');
+
+        asideBtn.on('click', function() {
+            adminAside.toggleClass('hidden');
+            var currentlyHidden = adminAside.hasClass('hidden');
+            img.attr('src', currentlyHidden ? "/img/arrow-left.svg" : "/img/arrow-right.svg");
+            asideBtn.css('right', currentlyHidden ? "-40px" : "-35px");
+        });
+    });
+</script>
+</body>
+</html>

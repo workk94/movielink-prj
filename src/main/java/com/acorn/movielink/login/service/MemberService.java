@@ -1,7 +1,10 @@
 package com.acorn.movielink.login.service;
 
 import com.acorn.movielink.config.PasswordUtil;
-import com.acorn.movielink.login.dto.*;
+import com.acorn.movielink.login.dto.Member;
+import com.acorn.movielink.login.dto.Movie;
+import com.acorn.movielink.login.dto.Person;
+import com.acorn.movielink.login.dto.Post;
 import com.acorn.movielink.login.repository.MemberMapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -236,9 +239,9 @@ public class MemberService {
     }
 
     // 구매한 아이템 조회 메서드 추가
-    public List<Item> getPurchasedItems(Integer memId) {
-        return memberMapper.findPurchasedItemByMemId(memId);
-    }
+//    public List<Item> getPurchasedItems(Integer memId) {
+//        return memberMapper.findPurchasedItemByMemId(memId);
+//    }
 
 
     // 사용자 장르에 맞는 10개 영화 추천

@@ -373,3 +373,44 @@
             margin-right: 16px;
           }
         }
+
+        /* 팝업 오버레이 */
+                .popup-overlay {
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: rgba(0, 0, 0, 0.5);
+                    display: none; /* 기본적으로 숨김 */
+                    justify-content: center;
+                    align-items: center;
+                    z-index: 1000;
+                }
+
+                /* 팝업 내용 */
+                .popup-content {
+                    background: #172036;
+                    width: 700px;
+                    height: 500px;
+                    padding: 20px;
+                    border-radius: 8px;
+                    position: relative;
+                    overflow-y: auto;
+                }
+
+                /* 닫기 버튼 */
+                .close-popup {
+                    position: absolute;
+                    top: 10px;
+                    right: 15px;
+                    font-size: 24px;
+                    cursor: pointer;
+                }
+
+                /* "오늘 하루 보지 않기" 체크박스 */
+                .do-not-show {
+                    position: absolute;
+                    bottom: 20px;
+                    left: 20px;
+                }

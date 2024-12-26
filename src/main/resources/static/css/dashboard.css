@@ -339,6 +339,13 @@ padding:8px;
     background-color: #3654c6;
     font-weight: bold;
 }
+
+
+.admin-container,.main-content{
+max-width:700px;
+padding: 20px;
+margin:0 auto;
+}
 /* 반응형 디자인 */
 @media (max-width: 500px) {
     .admin-aside {
