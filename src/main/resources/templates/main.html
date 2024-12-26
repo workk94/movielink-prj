@@ -140,7 +140,7 @@
                 </a>
             </div>
             <div class="recommend-container">
-                <!-- 추천 영화가 존재할 경우 Swiper 슬라이더 표시 -->
+                <!-- 추천(또는 최신) 영화가 존재할 경우 Swiper 슬라이더 표시 -->
                 <div th:if="${!#lists.isEmpty(recommendedMovies)}">
                     <div class="swiper-container recommend-swiper">
                         <div class="swiper-wrapper">
@@ -148,11 +148,9 @@
                             <div class="swiper-slide" th:each="movie : ${recommendedMovies}">
                                 <!-- movie이 null이 아닌지 확인 -->
                                 <div class="movie-item" th:if="${movie != null}">
-                                    <img
-                                            alt="영화 포스터"
-                                            class="movie-poster"
-                                            th:src="${movie.moviePosterUrl}"
-                                    />
+                                    <img alt="영화 포스터"
+                                         class="movie-poster"
+                                         th:src="${movie.moviePosterUrl}"/>
                                     <p class="movie-title" th:text="${movie.movieNm}">영화 제목</p>
                                 </div>
                                 <!-- movie이 null일 경우 대체 콘텐츠 -->
@@ -165,7 +163,7 @@
                         <div class="swiper-pagination"></div>
                     </div>
                 </div>
-                <!-- 추천 영화가 없을 경우 빈 메시지 표시 -->
+                <!-- 추천(또는 최신) 영화가 없을 경우 빈 메시지 표시 -->
                 <div class="empty-content-wrap" th:if="${#lists.isEmpty(recommendedMovies)}">
                     <span class="empty-content-description">추천 영화가 없습니다.</span>
                     <a class="empty-content-button" th:href="@{/movies/search}">영화 검색하기</a>

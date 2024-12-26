@@ -534,16 +534,21 @@ color:#98a4b7;}
     <div class="profile-contents-wrap">
         <!-- 프로필 콘텐츠 (좋아요한 영화, 작성 게시글, 작성 댓글) -->
         <div class="profile-content">
+            <!-- 좋아요한 영화 개수 -->
             <a class="content-wrap" href="#">
-                <span class="content-count">0</span>
+                <span class="content-count" th:text="${likedMoviesCount}">0</span>
                 <span class="content-label">좋아요한 영화</span>
             </a>
+
+            <!-- 작성 게시글 개수 -->
             <a class="content-wrap" href="#">
-                <span class="content-count">0</span>
+                <span class="content-count" th:text="${writtenPostsCount}">0</span>
                 <span class="content-label">작성 게시글</span>
             </a>
+
+            <!-- 작성 댓글 개수 -->
             <a class="content-wrap" href="#">
-                <span class="content-count">0</span>
+                <span class="content-count" th:text="${commentCount}">0</span>
                 <span class="content-label">작성 댓글</span>
             </a>
         </div>

@@ -11,4 +11,6 @@ public interface MovieMapper {
     List<MovieDTO> findBestMovies();
 
     List<MovieDTO> selectMoviesByPeopleId(Integer peopleId);
+
+    List<MovieDTO> findMoviesByOpenDateDesc();
 }
