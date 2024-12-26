@@ -1,3 +1,4 @@
+
 /* 공통 폰트 설정 */
       @font-face {
         font-family: AppleSDGothicNeo;
@@ -290,8 +291,15 @@
         margin-top: 10px;
       }
 
-      .community_post_title p{
-        font-size: 18px;
+      .post_title_p{
+        font-size: 22px;
+        font-weight: bold;
+        color: #D4D9E1;
+        margin-bottom: 5px;
+      }
+
+      .post_content_p{
+        font-size: 16px;
         color: #D4D9E1;
       }
 
