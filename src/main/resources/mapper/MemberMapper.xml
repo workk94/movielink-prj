@@ -146,16 +146,16 @@
     </select>
 
     <!-- 구매 아이템 조회 -->
-    <select id="findPurchasedItemByMemId" parameterType="Integer" resultType="com.acorn.movielink.login.dto.Item">
-        SELECT
-        i.item_id AS itemId,
-        i.item_name AS itemName,
-        i.item_point AS itemPoint,
-        i.item_img AS itemImg
-        FROM ITEM i
-        JOIN item_transaction_history ith ON i.item_id = ith.item_id
-        WHERE ith.mem_id = #{memId}
-    </select>
+    <!--    <select id="findPurchasedItemByMemId" parameterType="Integer" resultType="com.acorn.movielink.login.dto.Item">-->
+    <!--        SELECT-->
+    <!--        i.item_id AS itemId,-->
+    <!--        i.item_name AS itemName,-->
+    <!--        i.item_point AS itemPoint,-->
+    <!--        i.item_img AS itemImg-->
+    <!--        FROM ITEM i-->
+    <!--        JOIN item_transaction_history ith ON i.item_id = ith.item_id-->
+    <!--        WHERE ith.mem_id = #{memId}-->
+    <!--    </select>-->
 
     <!-- 최신 10개 리뷰 조회 -->
     <select id="findLatestReviews" resultType="com.acorn.movielink.login.dto.Review">
