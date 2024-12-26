@@ -48,6 +48,8 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
     implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:3.0.0' // 적절한 버전 사용
 
+
+    implementation 'com.github.pagehelper:pagehelper-spring-boot-starter:2.1.0'
 //    implementation 'org.springframework.boot:spring-boot-starter-web'
 //    implementation 'org.springframework.boot:spring-boot-starter-websocket'
 }

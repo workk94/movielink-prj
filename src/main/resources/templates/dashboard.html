@@ -3,14 +3,53 @@
 <head>
     <title>관리자 대시보드</title>
     <link rel="stylesheet" th:href="@{/css/dashboard.css}">
+    <!-- CSRF 토큰 메타 태그 추가 -->
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
 <!-- 관리자 사이드바 프래그먼트 포함 -->
-<div th:replace="fragments/dashboard_frag :: adminFragment"></div>
+<div th:replace="~{fragments/dashboard_frag :: adminFragment}"></div>
 
 <!-- 메인 콘텐츠 영역 -->
 <div class="root">
     <h1>관리자 대시보드</h1>
+
+    <!-- 필터 및 검색 폼 -->
+    <div class="filter-container">
+        <form class="member-filter" method="get" th:action="@{/admin/dashboard}">
+            <div class="filter-group">
+                <label for="sort">ID 정렬:</label>
+                <select id="sort" name="sort">
+                    <option th:selected="${sort == 'asc'}" value="asc">오름차순</option>
+                    <option th:selected="${sort == 'desc'}" value="desc">내림차순</option>
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <label for="type">유저 타입:</label>
+                <select id="type" name="type">
+                    <option th:selected="${type == null}" value="">전체</option>
+                    <option th:selected="${type == '1'}" value="1">관리자</option>
+                    <option th:selected="${type == '0'}" value="0">사용자</option>
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <label for="email">이메일:</label>
+                <input id="email" name="email" placeholder="이메일 검색" th:value="${email}" type="text">
+            </div>
+
+            <div class="filter-group">
+                <label for="nickname">닉네임:</label>
+                <input id="nickname" name="nickname" placeholder="닉네임 검색" th:value="${nickname}" type="text">
+            </div>
+
+            <button type="submit">필터 적용</button>
+        </form>
+    </div>
+
     <h2>모든 회원 목록</h2>
     <table>
         <thead>
@@ -28,32 +67,116 @@
             <td th:text="${member.memEmail}">email@example.com</td>
             <td th:text="${member.memNn}">이름</td>
             <td th:text="${member.memType == 1 ? '관리자' : '사용자'}">타입</td>
-            <td>
+            <td class="admin-action">
+                <a th:href="@{'/admin/dashboard/' + ${member.memId}}">상세보기</a>
                 <a th:href="@{'/admin/member/edit/' + ${member.memId}}">수정</a>
-                <a onclick="return confirm('정말 삭제하시겠습니까?');"
-                   th:href="@{'/admin/member/delete/' + ${member.memId}}">삭제</a>
+                <!-- 삭제 버튼을 버튼으로 변경 -->
+                <button class="delete-button" th:data-mem-id="${member.memId}">삭제</button>
             </td>
         </tr>
         </tbody>
     </table>
 
+    <!-- 페이징 컨트롤 -->
+    <div class="pagination">
+        <ul>
+            <!-- 첫 페이지로 이동 -->
+            <li th:if="${currentPage > 3}">
+                <a th:href="@{/admin/dashboard(page=1, size=${size}, sort=${sort}, type=${type}, email=${email}, nickname=${nickname})}">1</a>
+                <span>...</span>
+            </li>
+
+            <!-- 이전 페이지 버튼 -->
+            <li th:if="${currentPage > 1}">
+                <a th:href="@{/admin/dashboard(page=${currentPage - 1}, size=${size}, sort=${sort}, type=${type}, email=${email}, nickname=${nickname})}">이전</a>
+            </li>
+
+            <!-- 페이지 번호 버튼 (현재 페이지 기준 앞뒤 2개) -->
+            <li th:classappend="${i == currentPage} ? 'active'"
+                th:each="i : ${#numbers.sequence(T(java.lang.Math).max(1, currentPage - 2), T(java.lang.Math).min(totalPages, currentPage + 2))}">
+                <a th:href="@{/admin/dashboard(page=${i}, size=${size}, sort=${sort}, type=${type}, email=${email}, nickname=${nickname})}"
+                   th:text="${i}">1</a>
+            </li>
+
+            <!-- 다음 페이지 버튼 -->
+            <li th:if="${currentPage < totalPages}">
+                <a th:href="@{/admin/dashboard(page=${currentPage + 1}, size=${size}, sort=${sort}, type=${type}, email=${email}, nickname=${nickname})}">다음</a>
+            </li>
+
+            <!-- 마지막 페이지로 이동 -->
+            <li th:if="${currentPage < totalPages - 2}">
+                <span>...</span>
+                <a th:href="@{/admin/dashboard(page=${totalPages}, size=${size}, sort=${sort}, type=${type}, email=${email}, nickname=${nickname})}"
+                   th:text="${totalPages}">[[${totalPages}]]</a>
+            </li>
+        </ul>
+    </div>
 </div>
 
 <!-- JavaScript를 본문 끝에 포함하여 성능 향상 -->
 <script>
-    document.addEventListener('DOMContentLoaded', () => {
-       const asideBtn = document.querySelector('.aside-btn');
-       const adminAside = document.querySelector('.admin-aside');
-       const img = asideBtn.querySelector('img');
+    $(document).ready(function() {
+     var asideBtn = $('.aside-btn');
+     var adminAside = $('.admin-aside');
+     var img = asideBtn.find('img');
 
-       asideBtn.addEventListener('click', () => {
-           adminAside.classList.toggle('hidden');
-           const currentlyHidden = adminAside.classList.contains('hidden');
-          img.src = currentlyHidden ? "/img/arrow-left.svg" : "/img/arrow-right.svg";
+     asideBtn.on('click', function() {
+         adminAside.toggleClass('hidden');
+         var currentlyHidden = adminAside.hasClass('hidden');
+         img.attr('src', currentlyHidden ? "/img/arrow-left.svg" : "/img/arrow-right.svg");
+         asideBtn.css('right', currentlyHidden ? "-40px" : "-35px");
+     });
 
-           asideBtn.style.right = currentlyHidden ? "-40px" : "-35px";
-       });
-   });
+     // 삭제 버튼 이벤트 핸들러 추가
+     $('.delete-button').on('click', function(event) {
+         event.preventDefault(); // 기본 동작 방지 (필요 시)
+         var memId = $(this).data('mem-id');
+         if (confirm('정말 삭제하시겠습니까?')) {
+             deleteMember(memId);
+         }
+     });
+
+     function deleteMember(memId) {
+         if (!memId || isNaN(memId)) {
+             alert('유효하지 않은 사용자 ID입니다.');
+             return;
+         }
+
+         // CSRF 토큰을 가져옵니다 (Spring Security 사용 시)
+         var csrfToken = $('meta[name="_csrf"]').attr('content');
+         var csrfHeader = $('meta[name="_csrf_header"]').attr('content');
+
+         if (!csrfToken || !csrfHeader) {
+             console.error('CSRF 토큰을 찾을 수 없습니다.');
+             alert('보안 오류가 발생했습니다.');
+             return;
+         }
+
+         $.ajax({
+             url: '/admin/member/delete/' + memId,
+             type: 'DELETE',
+             headers: {
+                 [csrfHeader]: csrfToken
+             },
+             contentType: 'application/json',
+             success: function(response, textStatus, jqXHR) {
+                 if (jqXHR.status === 200 || jqXHR.status === 204) {
+                     // 삭제 성공 시 페이지 새로고침 또는 특정 동작
+                     location.reload();
+                 } else {
+
+                     if (jqXHR.status === 302 && jqXHR.getResponseHeader('Location')) {
+                         window.location.href = jqXHR.getResponseHeader('Location');
+                     }
+                 }
+             },
+             error: function(jqXHR, textStatus, errorThrown) {
+                 console.error('Error deleting member:', errorThrown);
+                 alert('유저 삭제 중 오류가 발생했습니다.');
+             }
+         });
+     }
+ });
 </script>
 </body>
 </html>
