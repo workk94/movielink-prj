@@ -163,9 +163,11 @@
                 </a>
             </div>
             <div class="ost-container">
-                <div class="ost-content"></div>
+                <div class="ost-content">
+                    <iframe id="randomOstPlayer" src="" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
                 <div class="random-button">
-                    <button>
+                    <button id="randomButton">
                         <span>랜덤</span>
                         <img alt="" th:src="@{/img/refresh.svg}"/>
                     </button>
@@ -224,6 +226,39 @@
         },
       });
     });
+</script>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    var youtubeost = /*[[${youtubeost}]]*/ []; // 서버에서 전달된 OST 영상 목록
+    /*]]>*/
+</script>
+
+<script>
+    const randomButton = document.getElementById("randomButton");
+    const randomOstPlayer = document.getElementById("randomOstPlayer");
+
+    // 랜덤으로 동영상 선택 및 재생
+    function playRandomOst() {
+        if (youtubeost.length === 0) {
+            alert("추천할 OST가 없습니다.");
+            return;
+        }
+
+        // 배열에서 랜덤 인덱스 선택
+        const randomIndex = Math.floor(Math.random() * youtubeost.length);
+        const randomVideo = youtubeost[randomIndex];
+
+        // 선택된 영상 재생
+        randomOstPlayer.src = `https://www.youtube.com/embed/${randomVideo}`;
+    }
+
+    // 버튼 클릭 이벤트 등록
+    randomButton.addEventListener("click", playRandomOst);
+
+    // 페이지 로드 시 첫 번째 영상 재생
+    if (youtubeost.length > 0) {
+        randomOstPlayer.src = `https://www.youtube.com/embed/${youtubeost[0]}`;
+    }
 </script>
 </body>
 </html>
