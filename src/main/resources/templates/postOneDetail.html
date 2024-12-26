@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/css/postOneDetailCss.css">
+    <style>
+        body {
+            font-family: 'AppleSDGothicNeoM', sans-serif;
+        }
+
+        #tag-container {
+            display: flex;
+            flex-wrap: wrap;
+            border: 1px solid #ccc;
+            padding: 5px;
+            border-radius: 5px;
+        }
+
+        .tag {
+            display: inline-flex;
+            align-items: center;
+            background-color: #e0e0e0;
+            border-radius: 15px;
+            padding: 5px 10px;
+            margin: 3px;
+            font-size: 14px;
+        }
+
+
+    </style>
+</head>
+<body>
+<div th:fragment="headerFragment" xmlns:sec="http://www.w3.org/1999/xhtml" xmlns:th="http://www.w3.org/1999/xhtml">
+    <div class="header">
+        <div class="header-logo">
+            <img alt="시네링크 로고" th:src="@{/img/cine_link_logo.svg}" />
+        </div>
+        <div class="header-util">
+            <div class="route-nav">
+                <ul class="route-list">
+                    <li class="route-item"><a href="#">랭킹</a></li>
+                    <li class="route-item"><a href="#">통계</a></li>
+                    <li class="route-item"><a href="#">커뮤니티</a></li>
+                    <li class="route-item"><a href="#">작품</a></li>
+                    <li class="route-item">
+                        <img alt="검색 아이콘" th:src="@{/img/search.svg}" />
+                    </li>
+                    <li class="route-item">
+                        <img alt="벨 아이콘" th:src="@{/img/bell.svg}" />
+                    </li>
+                </ul>
+            </div>
+            <!-- header.html의 .log-btn 부분 -->
+            <div class="log-btn">
+                <!-- 인증된 사용자에게만 '로그아웃' -->
+                <p sec:authorize="isAuthenticated()">로그아웃</p>
+                <!-- 익명 사용자에게만 '로그인' -->
+                <p sec:authorize="isAnonymous()">로그인</p>
+            </div>
+
+        </div>
+    </div>
+
+
+
+
+
+<div class="post_detail_main">
+    <section class="post_main">
+        <div class="post_header">
+            <div class="post_mem_info">
+                <div class="post_mem_profile">
+                    <!-- 사용자 프로필 -->
+                    <p>여기에사용자프로필 사진 들어가야함@@@@@</p>
+                </div>
+                <div class="post_mem_nickname">
+                    <!-- 사용자 닉네임 -->
+                    <p>사용자 닉네임!!!!!!!!!!</p>
+                </div>
+            </div>
+            <div class="post_time">
+                <p>
+                    작성일:
+                    <span th:if="${postOne.postUpdatedAt == null}"
+                          th:text="${#dates.format(postOne.postCreatedAt, 'yyyy-MM-dd')}">작성일</span>
+                    <span th:if="${postOne.postUpdatedAt != null}"
+                          th:text="${#dates.format(postOne.postUpdatedAt, 'yyyy-MM-dd')}">수정일</span>
+                </p></div>
+        </div>
+
+        <div class="post_body">
+            <div class="post_title">
+                <p th:text="${postOne.postTitle}">드라마 시사회</p>
+            </div>
+
+            <div class="post_info_box">
+                <div class="post_info">
+                    <p th:text="${postOne.content}">드라마 시사회에서 배우님들이 싸인해주시나요??...</p>
+                </div>
+
+                <div class="post_tag_box">
+                    <div id="tag-container">
+                        <!-- 태그가 없는 경우 -->
+                        <div th:if="${#lists.isEmpty(tags)}">
+                            <p>태그가 없습니다.</p>
+                        </div>
+                        <!-- 태그가 있는 경우 -->
+                        <div th:unless="${#lists.isEmpty(tags)}">
+                            <div th:each="tag : ${tags}">
+                                <span class="tag" th:text="'#' + ${tag.tagName}"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+        <div class="view_info">
+            <div class="view_cnt">
+                <img th:src="@{/img/Vector.svg}" alt="조회수">
+                <p th:text="${postOne.postViews}">232</p>
+            </div>
+            <div class="like_cnt">
+                <img th:src="@{/img/twemoji_growing-heart.svg}" alt="좋아요">
+                <p id="likeCount" th:text="${postOne.postLikeCnt}">11</p> <!-- 좋아요 수 동적으로 출력 -->
+            </div>
+        </div>
+
+        <div class="cut_line"></div>
+
+    </section>
+</div>
+
+
+</body>
+</html>
