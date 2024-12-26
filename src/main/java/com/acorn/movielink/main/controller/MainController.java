@@ -15,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -55,16 +56,28 @@ public class MainController {
                     .map(Member::getMemId)
                     .orElse(null);
         }
-
+        List<Movie> recommendedMovies;
         if (memId != null) {
             // 추천 영화 10개 조회
-            List<Movie> recommendedMovies = memberService.getRecommendedMovies(memId);
+            recommendedMovies = memberService.getRecommendedMovies(memId);
             model.addAttribute("recommendedMovies", recommendedMovies);
-        }
+        } else {
+            List<MovieDTO> latestMovies = movieService.getLatestMoviesByOpenDateDesc();
+            recommendedMovies = new ArrayList<>();
+            for (MovieDTO dto : latestMovies) {
+                Movie movie = new Movie();
+                // DTO 필드 → Movie 필드
+                movie.setMovieId(dto.getMovieId());
+                movie.setMovieNm(dto.getMovieNm());
+                movie.setMoviePosterUrl(dto.getMoviePosterUrl());
 
-//실시간 동접자
-//        int activeUserCount = activeUserService.getActiveUserCount();
-//        model.addAttribute("activeUserCount", activeUserCount);
+                recommendedMovies.add(movie);
+            }
+        }
+        model.addAttribute("recommendedMovies", recommendedMovies);
+        //실시간 동접자
+        //int activeUserCount = activeUserService.getActiveUserCount();
+        //model.addAttribute("activeUserCount", activeUserCount);
 
         // 최신 공지 가져오기
         Optional<Notice> latestNoticeOpt = noticeService.getLatestNotice();
