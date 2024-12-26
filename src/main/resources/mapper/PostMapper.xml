@@ -10,6 +10,7 @@
         <result property="postTitle" column="post_title"/>
         <result property="content" column="content"/>
         <result property="postCreatedAt" column="post_created_at"/>
+        <result property="postUpdatedAt" column="post_updated_at"/>
         <result property="postViews" column="post_views"/>
         <result property="postLikeCnt" column="post_like_cnt"/>
 
@@ -41,5 +42,6 @@
         JOIN post_image pimg ON p.post_id = pimg.post_id
         WHERE t.tag_name = #{tagName}
     </select>
+
 
 </mapper>
