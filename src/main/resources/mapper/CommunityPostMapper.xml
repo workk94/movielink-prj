@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.acorn.movielink.comunity.repository.CommunityPostMapper">
+
+    <resultMap id="PostResultMap" type="com.acorn.movielink.comunity.dto.PostDTO">
+        <id property="postId" column="post_id"/>
+        <result property="memId" column="mem_id"/>
+        <result property="postTitle" column="post_title"/>
+        <result property="content" column="content"/>
+        <result property="postCreatedAt" column="post_created_at"/>
+        <result property="postUpdatedAt" column="post_updated_at"/>
+        <result property="postViews" column="post_views"/>
+        <result property="postLikeCnt" column="post_like_cnt"/>
+
+        <result property="postImgConvertedFileNm" column="post_img_converted_file_nm"/>
+
+        <collection property="tags" ofType="com.acorn.movielink.comunity.dto.TagDTO">
+            <result property="tagId" column="tag_id"/>
+            <result property="tagName" column="tag_name"/>
+        </collection>
+    </resultMap>
+
+    <!--전체 게시글 조회 (최신등록순)-->
+    <select id="selectAllList" resultMap="PostResultMap">
+        SELECT *
+        FROM   post
+        ORDER BY
+        GREATEST(COALESCE(post_updated_at, post_created_at), post_created_at)
+        DESC
+    </select>
+
+    <!--좋아요가 많은 게시글 TOP 10-->
+    <select id="selectTopTenPosts" resultMap="PostResultMap">
+        SELECT   *
+        FROM     POST
+        ORDER BY post_like_cnt DESC
+        LIMIT    10
+    </select>
+
+
+    <!--게시글 상세조회    -->
+    <select id="selectPostById" resultMap="PostResultMap">
+        SELECT *
+        FROM   POST
+        WHERE  post_id = #{postId}
+    </select>
+
+    <!-- 조회수 증가 -->
+    <update id="updatePostViews">
+        UPDATE POST
+        SET post_views = post_views + 1
+        WHERE post_id = #{postId};
+    </update>
+
+
+    <!--게시글 수정하기 -->
+    <update id="updatePost">
+        UPDATE  POST
+        SET     post_title = #{postTitle},
+        content = #{content},
+        post_updated_at = NOW()
+        WHERE   post_id = #{postId}
+    </update>
+
+
+    <!--게시글 삭제하기    -->
+    <delete id="deletePost">
+        DELETE
+        FROM   POST
+        WHERE  post_id = #{postId}
+    </delete>
+
+
+
+    <!--    위젯 -->
+    <!--좋아요 많은 유저 랭킹 -->
+    <select id="selectTop7Member" resultMap="PostResultMap">
+        SELECT   p.post_id, p.mem_id, m.mem_nn, SUM(COALESCE(p.post_like_cnt, 0)) AS total_likes
+        FROM     POST p
+        LEFT OUTER JOIN member m
+        ON       p.mem_id = m.mem_id
+        GROUP BY p.mem_id, m.mem_nn
+        ORDER BY total_likes DESC
+        LIMIT 7
+    </select>
+
+
+    <!--회원 1명의 작성 게시글 목록-->
+    <select id="selectOneMemberPostList" resultMap="PostResultMap">
+        SELECT *
+        FROM   POST
+        WHERE  mem_id = #{memId}
+        ORDER  BY post_created_at DESC
+    </select>
+
+
+
+
+
+    <!--게시글 작성하기    -->
+    <insert id="insertPost" parameterType="com.acorn.movielink.comunity.dto.PostDTO" useGeneratedKeys="true" keyProperty="postId" keyColumn="post_id">
+        INSERT INTO
+        POST   (mem_id,     post_title,    content,    post_created_at, post_views, post_like_cnt, post_report)
+        VALUES (#{memId} , #{postTitle}, #{content}, NOW(), 0, 0, 0)
+    </insert>
+</mapper>

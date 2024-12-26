@@ -1,0 +1,688 @@
+ /* 공통 폰트 설정 */
+    @font-face {
+      font-family: AppleSDGothicNeo;
+      src: url(/fonts/AppleSDGothicNeoM.ttf) format("truetype");
+      font-weight: bold;
+    }
+
+    /* 기본 스타일 */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      text-decoration: none;
+      font-family: AppleSDGothicNeo;
+      color: inherit;
+    }
+
+    /* 전체 페이지 배경색 설정 */
+    body {
+      background-color: #101322;
+      color: #ffffff;
+      margin: 0;
+      padding: 0;
+    }
+
+    .root {
+      max-width: 700px;
+      margin: 0 auto;
+      background-color: #101322;
+      color: #ffffff;
+      border-radius: 8px;
+    }
+
+    /* 헤더 스타일 */
+    .header {
+      background-color: #101322;
+      border-bottom: 1px solid #dbe0e4;
+      max-width: 700px;
+      height: 50px;
+      position: sticky;
+      top: 0;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 40px;
+      z-index: 1000;
+    }
+
+    @media screen and (max-width: 500px) {
+      .header {
+        display: none;
+      }
+    }
+
+    .header .header-logo {
+      width: 40px;
+      height: 40px;
+    }
+
+    .header .header-logo img {
+      width: 100%;
+      height: 100%;
+    }
+
+    .header .header-util {
+      display: flex;
+      align-items: center;
+    }
+
+    .header .header-util .route-nav {
+      margin-right: 16px;
+    }
+
+    .header .header-util .route-nav .route-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      text-align: center;
+      align-items: center;
+      color: #98a4b7;
+      font-size: 12px;
+    }
+
+    .header .header-util .route-nav .route-list .route-item:hover {
+      border-bottom: 2px solid #5383e8;
+      cursor: pointer;
+    }
+
+    .header .header-util .log-btn {
+      margin-right: 16px;
+      background-color: #5383e8;
+      color: #fff;
+      border-radius: 6px;
+      width: 40px;
+      height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .log-btn p {
+      font-size: 12px;
+      margin: 0;
+    }
+
+    body {
+      display: flex;
+      justify-content: center;
+    }
+
+
+    /* 게시글 본문 영역 */
+    /* 게시글 본문 영역 */
+
+    @media screen and (max-width: 500px) {
+      .post_detail_main {
+        display: none;
+      }
+    }
+
+    .post_detail_main{
+       margin-bottom: 60px;
+    }
+
+    .post_main {
+      width: 700px;
+      padding: 20px;
+    }
+
+    .post_header {
+      display: flex;
+      height: 30px;
+      margin-bottom: 30px;
+      justify-content: space-between;
+    }
+
+    .post_mem_info {
+      display: flex;
+      align-items: center;
+    }
+
+    .post_mem_profile {
+      border: 1px solid black;
+      border-radius: 25px;
+      width: 25px;
+      height: 25px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 14px;
+      background-color: #3B4869;
+      color: #98A4B7;
+      margin-right: 10px;
+    }
+
+    .post_mem_nickname {
+      font-size: 14px;
+    }
+
+    .post_time {
+      font-size: 14px;
+      line-height: 30px;
+      color: #586A85;
+    }
+
+    .post_time p {
+      display: inline;
+    }
+
+    .post_title{
+      font-size: 18px;
+    }
+
+    .post_info_box{
+      margin-top: 10px;
+      background-color: #172036;
+      border-radius: 10px;
+      padding: 13px;
+      color: #BDC6D5;
+    }
+
+    .post_tag{
+      display: flex;
+      margin-top: 5px;
+    }
+
+    .post_tag p{
+      margin-right: 3px;
+      margin-left: 3px;
+      background-color: #637eea3a;
+      border-radius: 4px;
+      padding: 2px;
+      padding-left: 6px;
+      padding-right: 6px;
+      color: #637DEA;
+    }
+
+    .view_info{
+      display: flex;
+      height: 35px;
+      margin-top: 20px;
+    }
+
+    .view_cnt{
+      background-color: #637eea3a;
+      margin-right: 10px;
+      border-radius: 25px;
+      padding-right: 10px;
+      padding-left: 10px;
+      display: flex;
+      align-items: center;
+      height: 30px;
+    }
+
+    .view_cnt p{
+      color: #BDC6D5;
+      margin-left: 5px;
+      font-size: 14px;
+
+    }
+
+    .view_cnt img{
+      width: 20px;
+    }
+
+    .like_cnt{
+      background-color: #637eea3a;
+      margin-right: 10px;
+      border-radius: 25px;
+      padding-right: 10px;
+      padding-left: 10px;
+      display: flex;
+      align-items: center;
+      height: 30px;
+    }
+
+    .like_cnt:hover{
+      cursor: pointer;
+      background-color: #637eea17;
+    }
+
+    .like_cnt p{
+      color: #BDC6D5;
+      margin-left: 5px;
+      font-size: 14px;
+    }
+
+    .like_cnt img{
+      width: 18px;
+    }
+
+    .cut_line{
+      border: 1px solid #25304A;
+      width: 110%;
+      margin-top: 30px;
+      margin-bottom: 20px;
+      position: relative;
+      right: 5%;
+    }
+
+
+    /* 댓글 영역 */
+    /* 댓글 영역 */
+
+    .comments{
+      width: 700px;
+      padding: 20px;
+      margin-top: -10px;
+    }
+
+    .comment_header{
+      display: flex;
+      justify-content: space-between;
+      padding-bottom: 20px;
+    }
+
+    .comment_cntbox{
+      font-size: 16px;
+    }
+
+    .comment_cntbox p span{
+      color: #637DEA;
+    }
+
+    .comment_refresh{
+      display: flex;
+      align-items: center;
+    }
+
+    .comment_refresh img{
+      width: 24px;
+    }
+
+    .comment_refresh img:hover, .comment_refresh p:hover{
+      cursor: pointer;
+    }
+
+    .comment_refresh p{
+      margin-left: 3px;
+      color: #98A4B7;
+      font-size: 14px;
+    }
+
+    .comment_one_header{
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+
+    .comment_mem_info{
+      display: flex;
+    }
+
+    .comment_profile{
+      border-radius: 25px;
+      width: 25px;
+      height: 25px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 14px;
+      background-color: #3B4869;
+      color: #98A4B7;
+      margin-right: 10px;
+    }
+
+    .comment_nickname{
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+    }
+
+    .comment_time{
+      color: #586A85;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+    }
+
+    .comment_item p{
+      color: #98A4B7;
+    }
+
+    .comment_one_footer_box{
+      display: flex;
+      align-items: center;
+    }
+
+    .comment_one_footer{
+      display: inline;
+      margin-top: 10px;
+    }
+
+    .comment_like{
+      display: flex;
+      margin-right: 5px;
+      background-color: #25304A;
+      padding: 4px;
+      height: 26px;
+      border-radius: 14px;
+      width: max-content;
+    }
+
+    .comment_like:hover{
+      cursor: pointer;
+      background-color: #637eea17;
+    }
+
+    .comment_like img{
+      width: 18px;
+      margin-left: 4px;
+      margin-right: 10px;
+    }
+
+    .comment_like p{
+      font-size: 16px;
+      margin-right: 4px;
+      display: flex;
+      color: #586A85;
+    }
+
+    .L{
+      border: 2px solid #586A85;
+      width: 10px;
+      height: 10px;
+      border-right: none;
+      border-top: none;
+      margin-top: 6px;
+      margin-right: 10px;
+    }
+
+    .recomment_one{
+      display: flex;
+    }
+
+    .recomment_one_header{
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      width: 640px;
+    }
+
+    .recomment_mem_info{
+      display: flex;
+    }
+
+    .recomment_profile{
+      border-radius: 25px;
+      width: 25px;
+      height: 25px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 14px;
+      background-color: #3B4869;
+      color: #98A4B7;
+      margin-right: 10px;
+    }
+
+    .recomment_nickname{
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+    }
+
+    .recomment_time{
+      color: #586A85;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+    }
+
+    .recomment_item p{
+      color: #98A4B7;
+    }
+
+    .recomment_one_footer{
+      display: flex;
+      margin-top: 10px;
+    }
+
+    .recomment_like{
+      display: flex;
+      margin-right: 5px;
+      background-color: #25304A;
+      padding: 4px;
+      height: 26px;
+      border-radius: 14px;
+    }
+
+    .recomment_like:hover{
+      cursor: pointer;
+      background-color: #637eea17;
+    }
+
+    .recomment_like img{
+      width: 18px;
+      margin-left: 4px;
+      margin-right: 10px;
+    }
+
+    .recomment_like p{
+      font-size: 16px;
+      margin-right: 4px;
+      display: flex;
+      color: #586A85;
+    }
+
+    .comment_recomment{
+      display: flex;
+      flex-direction: column;
+      align-items: end;
+      margin-left: 8px;
+      align-items: start;
+      position: relative;
+      top: 5px;
+    }
+
+    .recomment_toggle:hover{
+      cursor: pointer;
+    }
+
+    .recomment_toggle{
+      color: #586A85;
+    }
+
+    .comment_recomment_box{
+      display: block;
+      height: 0;
+      opacity: 0;
+      overflow: 0;
+      transition: height 0.3s ease, opacity 0.3s ease;
+    }
+
+    .comment_recomment_box.active{
+      width: 600px;
+      height: 140px;
+      display: inline;
+      margin-top: 10px;
+      opacity: 1;
+    }
+
+    .comment_recomment_text{
+      padding-top: 5px;
+      padding-bottom: 5px;
+    }
+
+    .comment_recomment_text p{
+      color: #98A4B7;
+      font-size: 12px;
+    }
+
+    .comment_recommnet_register_box{
+      display: flex;
+      align-items: end;
+      justify-content: start;
+    }
+
+    .comment_recomment_register{
+      width: 500px;
+      height: 110px;
+      background-color: #6b6e7746;
+      border: none;
+      border-radius: 2px;
+      resize: none;
+      outline-style: none;
+      padding: 10px;
+      font-size: 14px;
+    }
+
+    .comment_recomment_registerBtn{
+      width: 50px;
+      height: 30px;
+      background-color: #3B4869;
+      color: #98A4B7;
+      border: none;
+      border-radius: 5px;
+      margin-left: 10px;
+      font-size: 14px;
+    }
+
+    .comment_recomment_registerBtn:hover{
+      background-color: #172036;
+      cursor: pointer;
+    }
+
+
+
+
+
+    .comment_register{
+      background-color: #25304A;
+      width: 700px;
+      padding: 20px;
+    }
+
+    .comment_p{
+      margin-bottom: 16px;
+    }
+
+    .comment_p p{
+      color: #98A4B7;
+    }
+
+    .comment_input_box{
+      display: flex;
+      justify-content: center;
+      margin-bottom: 10px;
+    }
+
+    .comment_input{
+      width: 700px;
+      height: 140px;
+      padding: 10px;
+      background-color: #D9D9D9;
+      border: none;
+      margin-bottom: 10px;
+      color: black;
+      font-size: 14px;
+      resize: none;
+      outline-style: none;
+    }
+
+    .comment_input_footer{
+      display: flex;
+      justify-content: end;
+    }
+
+    .comment_register_btn{
+      width: 80px;
+      font-size: 16px;
+      padding: 6px;
+      text-align: center;
+      border-radius: 10px;
+      background-color: #3B4869;
+      color: #98A4B7;
+      border: none;
+    }
+
+    .comment_register_btn:hover{
+      background-color: #172036;
+      cursor: pointer;
+    }
+
+    .return{
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .return_btn{
+      border: 2px solid #25304A;
+      background-color: #101322;
+      text-align: center;
+      padding: 15px;
+      width: 356px;
+      border-radius: 25px;
+    }
+
+    .return_btn:hover{
+      background-color: #25304A;
+      cursor: pointer;
+    }
+
+    .return_btn p{
+      font-size: 16px;
+    }
+
+    /* 푸터 영역  */
+    /* 푸터 스타일 */
+
+    footer {
+      background-color: #101322;
+      width: 100%;
+      position: fixed;
+      left: 0;
+      bottom: 0;
+      z-index: 9999;
+      box-shadow: 0 -4px 16px rgba(16, 16, 16, 0.48);
+    }
+
+    footer nav {
+      display: flex;
+      max-width: 700px;
+      justify-content: center;
+      align-items: center;
+      height: 56px;
+      margin: 0 auto;
+    }
+
+    @media screen and (max-width:500px) {
+      footer nav {
+        max-width: 500px;
+      }
+    }
+
+    footer nav .route-item {
+      display: flex;
+      flex-direction: column;
+      width: 140px;
+      height: 56px;
+      padding: 8px 0;
+      justify-content: center;
+      align-items: center;
+      gap: 4px;
+    }
+
+    footer nav .route-item .route-img {
+      width: 24px;
+      max-height: 24px;
+    }
+
+    footer nav .route-item .route-name {
+      color: #98a4b7;
+      font-size: 12px;
+    }
+
+    .error {
+      color: red;
+      margin-left: 150px;
+    }
+
+    .success {
+      color: green;
+      margin-left: 150px;
+    }
