@@ -14,12 +14,12 @@ import java.time.format.DateTimeFormatter;
 public class ScheduledTasks {
 
     private final MovieService movieService;
-    private final RawDataService rawDataService;
+    private final BoxOfficeDataService boxOfficeDataService;
 
     @Autowired
-    public ScheduledTasks(MovieService movieService, RawDataService rawDataService) {
+    public ScheduledTasks(MovieService movieService, BoxOfficeDataService boxOfficeDataService) {
         this.movieService = movieService;
-        this.rawDataService = rawDataService;
+        this.boxOfficeDataService = boxOfficeDataService;
     }
 
     // 초 분 시 일 월
@@ -38,7 +38,7 @@ public class ScheduledTasks {
                     .format(DateTimeFormatter.ofPattern("yyyyMMdd"));
             String endDate = startDate;
 
-            rawDataService.saveDataByPeriod(startDate, endDate);
+            boxOfficeDataService.saveDataByPeriod(startDate, endDate);
             movieService.saveMovie();
         } catch (Exception e){
             log.info(e.getMessage());
