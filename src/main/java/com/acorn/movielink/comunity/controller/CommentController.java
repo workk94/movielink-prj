@@ -66,16 +66,16 @@ public class CommentController {
 //        return "redirect:/post/" + commentDTO.getPostId();
 //    }
 
-    @PutMapping("/{commentId}")
-    public ResponseEntity<?> updateComment(@PathVariable int commentId, @RequestBody CommentDTO commentDTO, HttpSession session) {
-        Integer memId = (Integer) session.getAttribute("memId");
-        if (memId == null || !commentService.isOwner(commentId, memId)) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("수정 권한이 없습니다.");
-        }
-        commentDTO.setCommentId(commentId);
-        commentService.updateComment(commentDTO);
-        return ResponseEntity.ok(commentDTO);
-    }
+//    @PutMapping("/{commentId}")
+//    public ResponseEntity<?> updateComment(@PathVariable int commentId, @RequestBody CommentDTO commentDTO, HttpSession session) {
+//        Integer memId = (Integer) session.getAttribute("memId");
+//        if (memId == null || !commentService.isOwner(commentId, memId)) {
+//            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("수정 권한이 없습니다.");
+//        }
+//        commentDTO.setCommentId(commentId);
+//        commentService.updateComment(commentDTO);
+//        return ResponseEntity.ok(commentDTO);
+//    }
 
 
 
