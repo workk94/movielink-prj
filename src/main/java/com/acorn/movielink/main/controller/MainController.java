@@ -33,8 +33,7 @@ public class MainController {
     private final YouTubeService youTubeService;
 
     @Autowired
-    public MainController(MemberService memberService, ReviewService reviewService, MovieService movieService, YouTubeService youTubeService) {
-    public MainController(MemberService memberService, ReviewService reviewService, MovieService movieService, NoticeService noticeService) {
+    public MainController(MemberService memberService, ReviewService reviewService, MovieService movieService, YouTubeService youTubeService, NoticeService noticeService) {
         this.memberService = memberService;
         this.reviewService = reviewService;
         this.movieService = movieService;
