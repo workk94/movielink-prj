@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.acorn.movielink.ranking.repository.RankingMapper">
+
+    <resultMap id="RankingResultMap" type="com.acorn.movielink.ranking.dto.RankingDTO">
+        <id property="movieId" column="movie_id"/>
+        <result property="movieNm" column="movie_nm"/>
+        <result property="movieNmEn" column="movie_nm_en"/>
+        <result property="moviePosterUrl" column="movie_poster"/>
+        <result property="scoreAvg" column="movie_score_avg"/> <!--자체 리뷰 점수-->
+        <result property="movieImdbScore" column="movie_imdb_score"/>
+        <result property="movieTMDBScore" column="movie_tmdb_score"/>
+    </resultMap>
+
+
+    <!-- movie_score_avg, movie_imdb_score, movie_tmdb_score 점수 합의 평균 -->
+    <select id="selectMovieByRank" resultMap="RankingResultMap">
+        SELECT * FROM movie ORDER BY (MOVIE_SCORE_AVG+MOVIE_IMDB_SCORE+MOVIE_TMDB_SCORE)/3 DESC;
+    </select>
+
+
+</mapper>
