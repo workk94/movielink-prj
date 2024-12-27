@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.acorn.movielink.comunity.repository.CommunityLikeMapper">
+
+    <resultMap id="postResultMap" type="com.acorn.movielink.comunity.dto.LikeDTO">
+        <result column="like_id" property="likeId"/>
+        <result column="target_type" property="targetType"/>
+        <result column="target_id" property="targetId"/>
+        <result column="mem_id" property="memId"/>
+        <result column="created_at" property="createdAt"/>
+    </resultMap>
+
+    <!-- 좋아요 여부 확인 -->
+    <select id="checkLike" resultType="int">
+        SELECT COUNT(*)
+        FROM LIKE_RECORD
+        WHERE target_type = #{targetType} AND target_id = #{targetId} AND mem_id = #{memId}
+    </select>
+
+    <!-- 좋아요 추가 -->
+    <insert id="insertLike">
+        INSERT INTO LIKE_RECORD (target_type, target_id, mem_id, created_at)
+        VALUES (#{targetType}, #{targetId}, #{memId}, NOW())
+    </insert>
+
+    <!-- 좋아요 취소 -->
+    <delete id="deleteLike">
+        DELETE FROM LIKE_RECORD
+        WHERE target_type = #{targetType} AND target_id = #{targetId} AND mem_id = #{memId}
+    </delete>
+
+    <!-- 게시글 좋아요 수 증가 -->
+    <update id="incrementLikeCount">
+        UPDATE post
+        SET post_like_cnt = post_like_cnt + 1
+        WHERE post_id = #{postId}
+    </update>
+
+    <!-- 게시글 좋아요 수 감소 -->
+    <update id="decrementLikeCount">
+        UPDATE post
+        SET post_like_cnt = post_like_cnt - 1
+        WHERE post_id = #{postId}
+    </update>
+
+
+
+
+</mapper>
