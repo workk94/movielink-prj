@@ -1,5 +1,6 @@
 package com.acorn.movielink.youtube;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -17,6 +18,7 @@ public class YouTubeService {
     private final RestTemplate restTemplate;
 
     public YouTubeService() {
+//        this.API_KEY = youtubeAPIKey;
         this.restTemplate = new RestTemplate();
     }
 
@@ -85,11 +87,37 @@ public class YouTubeService {
         return filterShorts(videoIds);
     }
 
-    // 한국어 텍스트 확인 함수
-    private boolean isKoreanText(String text) {
-        if (text == null) return false;
-        // 한글 정규식: 한글 유니코드 범위 체크
-        Pattern koreanPattern = Pattern.compile("[가-힣]");
-        return koreanPattern.matcher(text).find();
+    public List<String> searchMovieMusicVideos(String query) {
+        String url = UriComponentsBuilder.fromUriString(SEARCH_URL)
+                .queryParam("key", API_KEY)
+                .queryParam("q", query) // 영화 관련 음악 검색
+                .queryParam("part", "snippet")
+                .queryParam("type", "video")
+                .queryParam("videoCategoryId", "10") // 음악 카테고리
+                .queryParam("regionCode", "KR") // 한국 지역
+                .queryParam("relevanceLanguage", "ko") // 한국어 우선
+                .queryParam("maxResults", 50) // 결과 제한
+                .queryParam("safeSearch", "moderate")
+                .queryParam("videoEmbeddable", "true")
+                .queryParam("order", "viewCount")
+                .toUriString();
+
+        YouTubeSearchResponse response = restTemplate.getForObject(url, YouTubeSearchResponse.class);
+
+        List<String> videoIds = new ArrayList<>();
+        if (response != null && response.getItems() != null) {
+            for (YouTubeSearchResponse.Item item : response.getItems()) {
+                videoIds.add(item.getId().getVideoId());
+            }
+        }
+        return videoIds;
     }
+
+    // 한국어 텍스트 확인 함수
+//    private boolean isKoreanText(String text) {
+//        if (text == null) return false;
+//        // 한글 정규식: 한글 유니코드 범위 체크
+//        Pattern koreanPattern = Pattern.compile("[가-힣]");
+//        return koreanPattern.matcher(text).find();
+//    }
 }

@@ -234,7 +234,8 @@
 
     .post_register_detail_box{
         /* border: 1px solid indigo; */
-        margin-top: 80px;
+        margin-top: 10px;
+        display: block;
     }
 
     .post_register_detail{
@@ -247,9 +248,11 @@
         resize: none;
         outline-style: none;
         border: none;
-        height: 400px;
+        height: auto;
+        min-height: 200px;
         padding-left: 50px;
         padding-right: 50px;
+        overflow: hidden;
     }
 
     .post_register_detail::placeholder{
