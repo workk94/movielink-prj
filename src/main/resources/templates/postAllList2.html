@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <link rel="stylesheet" href="/css/postAllListCss.css">
-    <link rel="stylesheet" th:href="@{/css/style.css}"/>
 </head>
 <body>
 
@@ -28,11 +27,11 @@
                 </div>
             </div>
 
-            <h1 class="community_list_h2">좋아요 많은 순서 게시글 리스트  </h1>
+            <h1 class="community_list_h2">게시글 전체 목록</h1>
 
             <div class="community_post_list_All">
 
-                <div class="community_list_one" th:each="post : ${postTopTen}">
+                <div class="community_list_one" th:each="post : ${postAll}">
 
                     <div class="community_list_one_header">
                         <div class="community_mem_info">
@@ -66,9 +65,7 @@
                 </div>
 
                 <div class="community_more">
-                    <a href="/postAll">
                     <button class="community_more_btn">더보기</button>
-                    </a>
                 </div>
             </div>
         </div>
@@ -82,13 +79,13 @@
 
             <div class="tag_top">
                 <div class="aside_header">인기태그 TOP 7</div>
-                <div class="tag">
-                    <div class="tag_list">
-                        <ul>
-                            <th:block th:each="tag : ${topTags}">
-                                <li th:text="'#' + ${tag}"></li>
-                            </th:block>
-                        </ul>
+                    <div class="tag">
+                        <div class="tag_list">
+                       <ul>
+                        <th:block th:each="tag : ${topTags}">
+                            <li th:text="'#' + ${tag}"></li>
+                        </th:block>
+                       </ul>
                     </div>
                 </div>
             </div>
@@ -100,7 +97,7 @@
                         <img th:src="@{/img/tag_icon.svg}" alt="#">
                     </div>
                     <ul>
-                        <li th:each="topSevenMem : ${topSevenMem}">
+                        <li>
                             <span th:text="${topSevenMem.memId}"></span>
                             <a th:href="@{/postOneMember/{memId}(memId=${topSevenMem.memId})}" th:text="${topSevenMem.mem_nn}">유저 게시글 보기</a>
                         </li>
