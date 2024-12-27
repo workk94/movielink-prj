@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.acorn.movielink.people_detail.repository.PostMapper">
+
+    <resultMap id="PostResultMap" type="com.acorn.movielink.people_detail.dto.Post">
+        <id property="postId" column="post_id"/>
+        <result property="memId" column="mem_id"/>
+        <result property="postTitle" column="post_title"/>
+        <result property="content" column="content"/>
+        <result property="postCreatedAt" column="post_created_at"/>
+        <result property="postUpdatedAt" column="post_updated_at"/>
+        <result property="postViews" column="post_views"/>
+        <result property="postLikeCnt" column="post_like_cnt"/>
+
+        <result property="postImgConvertedFileNm" column="post_img_converted_file_nm"/>
+
+        <collection property="tags" ofType="com.acorn.movielink.people_detail.dto.Tag">
+            <result property="tagId" column="tag_id"/>
+            <result property="tagName" column="tag_name"/>
+        </collection>
+    </resultMap>
+
+
+    <!-- 특정 인물 태그가 있는 게시글 조회 -->
+    <select id="selectPostsByTagName" resultMap="PostResultMap" parameterType="String">
+        SELECT
+        p.post_id,
+        p.mem_id,
+        p.post_title,
+        p.content,
+        p.post_created_at,
+        p.post_views,
+        p.post_like_cnt,
+        pimg.post_img_converted_file_nm,
+        t.tag_id,
+        t.tag_name
+        FROM post p
+        JOIN post_tag pt ON p.post_id = pt.post_id
+        JOIN tag t ON pt.tag_id = t.tag_id
+        JOIN post_image pimg ON p.post_id = pimg.post_id
+        WHERE t.tag_name = #{tagName}
+    </select>
+
+
+</mapper>

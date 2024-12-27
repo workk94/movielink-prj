@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.acorn.movielink.SearchMapper">
+    <!-- 영화 -->
+    <select id="findMovies" parameterType="map" resultType="com.acorn.movielink.search.dto.SearchMovieDTO">
+        SELECT
+            movie_id AS movieId,
+            movie_nm AS movieNm,
+            YEAR(movie_open_dt) AS movieRlsYear,
+            genre_nm AS movieGenre,
+            movie_score_avg AS movieScoreAvg,
+            movie_poster AS moviePoster
+        FROM movie
+        LEFT JOIN genre ON movie.genre_id = genre.genre_id
+        WHERE movie_nm LIKE CONCAT('%', #{keyword}, '%')
+        ORDER BY movie_open_dt DESC
+        LIMIT #{limit} OFFSET #{offset}
+    </select>
+
+    <select id="getMovieCount" parameterType="String" resultType="int">
+        SELECT COUNT(*)
+        FROM movie
+        WHERE movie_nm LIKE CONCAT('%', #{keyword}, '%')
+    </select>
+
+    <!-- 사람 -->
+    <select id="findPeople" parameterType="map" resultType="com.acorn.movielink.search.dto.SearchPeopleDTO">
+        SELECT DISTINCT
+        people_id AS peopleId,
+        people_nm AS peopleNm,
+        people_profile_url AS peopleProfileUrl
+        FROM people
+        WHERE people_nm LIKE CONCAT('%', #{keyword}, '%')
+        LIMIT #{limit} OFFSET #{offset};
+    </select>
+
+
+    <select id="getPeopleCount" parameterType="String" resultType="int">
+        SELECT COUNT(*)
+        FROM people
+        WHERE people_nm LIKE CONCAT('%', #{keyword}, '%');
+    </select>
+
+    <!-- 게시글 -->
+    <select id="findPosts" parameterType="map" resultType="com.acorn.movielink.search.dto.SearchPostDTO">
+        SELECT
+            post_id AS postId,
+            post_title AS postTitle,
+            post_views AS postViews,
+            post_like_cnt AS postLikeCnt,
+            (SELECT COUNT(*) FROM comment WHERE comment.post_id = post.post_id) AS commentCnt
+        FROM post
+        WHERE post_title LIKE CONCAT('%', #{keyword}, '%')
+        OR content LIKE CONCAT('%', #{keyword}, '%')
+        LIMIT #{limit} OFFSET #{offset}
+    </select>
+
+    <select id="getPostCount" parameterType="String" resultType="int">
+        SELECT COUNT(*)
+        FROM post
+        WHERE post_title LIKE CONCAT('%', #{keyword}, '%')
+        OR content LIKE CONCAT('%', #{keyword}, '%')
+    </select>
+</mapper>
