@@ -4,39 +4,12 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <link rel="stylesheet" href="/css/postAllListCss.css">
-
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
 </head>
 <body>
 
 <div th:fragment="headerFragment" xmlns:sec="http://www.w3.org/1999/xhtml" xmlns:th="http://www.w3.org/1999/xhtml">
-    <div class="header">
-        <div class="header-logo">
-            <img alt="시네링크 로고" th:src="@{/img/cine_link_logo.svg}" />
-        </div>
-        <div class="header-util">
-            <div class="route-nav">
-                <ul class="route-list">
-                    <li class="route-item"><a href="#">랭킹</a></li>
-                    <li class="route-item"><a href="#">통계</a></li>
-                    <li class="route-item"><a href="#">커뮤니티</a></li>
-                    <li class="route-item"><a href="#">작품</a></li>
-                    <li class="route-item">
-                        <img alt="검색 아이콘" th:src="@{/img/search.svg}" />
-                    </li>
-                    <li class="route-item">
-                        <img alt="벨 아이콘" th:src="@{/img/bell.svg}" />
-                    </li>
-                </ul>
-            </div>
-            <!-- header.html의 .log-btn 부분 -->
-            <div class="log-btn">
-                <!-- 인증된 사용자에게만 '로그아웃' -->
-                <p sec:authorize="isAuthenticated()">로그아웃</p>
-                <!-- 익명 사용자에게만 '로그인' -->
-                <p sec:authorize="isAnonymous()">로그인</p>
-            </div>
-        </div>
-    </div>
+    <div th:replace="~{fragments/header :: headerFragment}"></div>
 
 
 
@@ -106,7 +79,7 @@
             </div>
 
             <div class="tag_top">
-                <div class="aside_header"># 태그</div>
+                <div class="aside_header">인기태그 TOP 7</div>
                     <div class="tag">
                         <div class="tag_list">
                        <ul>
@@ -135,52 +108,7 @@
         </div>
     </section>
 
-    <footer>
-        <nav class="footer-util">
-            <a class="route-item" href="#">
-                <div class="route-img">
-                    <img alt="홈 아이콘" th:src="@{/img/home.svg}" />
-                </div>
-                <div class="route-name">홈</div>
-            </a>
-            <a class="route-item" href="#">
-                <div class="route-img">
-                    <img alt="발견 아이콘" th:src="@{/img/search.svg}" />
-                </div>
-                <div class="route-name">발견</div>
-            </a>
-            <a class="route-item" href="#">
-                <div class="route-img">
-                    <img alt="콘텐츠 아이콘" th:src="@{/img/list.svg}" />
-                </div>
-                <div class="route-name">콘텐츠</div>
-            </a>
-            <a class="route-item" href="#">
-                <div class="route-img">
-                    <img alt="숏폼 아이콘" th:src="@{/img/shortform.svg}" />
-                </div>
-                <div class="route-name">숏폼</div>
-            </a>
-            <a class="route-item" href="#">
-                <div class="route-img">
-                    <img alt="커뮤니티 아이콘" th:src="@{/img/community.svg}" />
-                </div>
-                <div class="route-name">커뮤니티</div>
-            </a>
-            <a class="route-item" href="#">
-                <div class="route-img">
-                    <img alt="마이페이지 아이콘" th:src="@{/img/mypage.svg}" />
-                </div>
-                <div class="route-name">마이페이지</div>
-            </a>
-            <a class="route-item" href="#">
-                <div class="route-img">
-                    <img alt="알림 아이콘" th:src="@{/img/bell.svg}" />
-                </div>
-                <div class="route-name">알림</div>
-            </a>
-        </nav>
-    </footer>
+
 </div>
 
 </body>
