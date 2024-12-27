@@ -102,7 +102,7 @@
     <!--게시글 작성하기    -->
     <insert id="insertPost" parameterType="com.acorn.movielink.comunity.dto.PostDTO" useGeneratedKeys="true" keyProperty="postId" keyColumn="post_id">
         INSERT INTO
-        POST   (mem_id,     post_title,    content,    post_created_at, post_views, post_like_cnt, post_report)
-        VALUES (#{memId} , #{postTitle}, #{content}, NOW(), 0, 0, 0)
+        POST   (mem_id,     post_title,    content,    post_created_at, post_views, post_like_cnt)
+        VALUES (#{memId} , #{postTitle}, #{content}, NOW(), 0, 0)
     </insert>
 </mapper>
