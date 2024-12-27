@@ -5,12 +5,28 @@
         <result property="movie_nm" column="movie_nm"/>
         <result property="sales_share" column="sales_share" />
         <result property="audi_cnt" column="audi_cnt" />
+        <result property="open_dt" column="open_dt" />
     </resultMap>
-    
+
+    <resultMap id="BoxOfficeMovieResultMap" type="com.acorn.movielink.data.dto.BoxOfficeMovieDTO">
+        <result property="movie_id" column="movie_id" />
+        <result property="movie_nm" column="movie_nm" />
+        <result property="movie_poster" column="movie_poster" />
+    </resultMap>
+
     <select id="findDailyMovieStats" parameterType="String" resultMap="MovieDailyStatsResultMap">
-        SELECT movie_nm,sales_share,audi_cnt
+        SELECT movie_nm, sales_share, audi_cnt , open_dt
         FROM raw_data_test
         WHERE box_office_dt = #{boxOfficeDate}
-        ORDER BY rnum desc
+        ORDER BY rnum ASC
     </select>
+
+
+    <select id="findBoxofficeMovies" parameterType="String" resultMap="BoxOfficeMovieResultMap">
+        SELECT movie_id,movie_nm,movie_poster
+        FROM movie
+        WHERE movie_nm = #{movie_nm} and movie_open_dt = #{movie_open_dt}
+    </select>
+
+
 </mapper>

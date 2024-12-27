@@ -1,0 +1,178 @@
+
+body{
+       margin : 0 auto;
+       font-family: Arial, sans-serif;
+       color: #333;
+       background-color : #101322;
+    }
+
+    .boxOfficeContainer {
+        align-items: center;
+        width: 700px;
+        margin: 0 auto;
+        padding: 20px;
+        text-align: center;
+    }
+    .datePicker_container{
+        display : flex;
+        width : 700px;
+        margin : 0 auto;
+        margin-top : 20px;
+        padding :10px;
+    }
+
+    .stats_message{
+         color: #ffffff;
+         margin-right : 30px;
+         margin-left : 15px;
+         margin-top : 5px;
+         font-size : 25px;
+    }
+
+
+    input[type="date"] {
+        display: block;
+        padding: 10px;
+        font-size: 1em;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .boxOffice_Message{
+        max-width : 700px;
+        background-color : #31313C;
+        margin : 0 auto;
+        text-align : left;
+        color : #ffffff;
+        padding-left : 25px;
+        padding-top : 20px;
+        border-top-left-radius : 10px;
+        border-top-right-radius : 10px;
+    }
+
+    .boxOffice_Movies_Container{
+      position :relative;
+      height : 359px;
+      max-width : 700px;
+      background-color : #31313C;
+      margin: 20px auto;
+      border-bottom-left-radius: 10px;
+      border-bottom-right-radius: 10px;
+      display: flex;
+      justify-content : center;
+      margin-top : 0px;
+    }
+
+    .first_Chart_Container, .second_Chart_Container{
+      display : flex;
+      position : relative;
+      max-width : 700px;
+      height : 500px;
+      margin: 20px auto;
+      align-items : center;
+      justify-content : center;
+      background-color : #31313C;
+      border-radius: 10px;
+    }
+
+    .second_Chart_Container{
+        height :  400px;
+    }
+
+    .sales_share_chart_Container,  .audi_cnt_chart_Container{
+      width : 600px;
+      padding: 10px;
+      margin : 0 auto;
+      justify-items : center;
+      background-color: #424242;
+    }
+    .audi_cnt_chart_Container{
+        max-height : 80%;
+    }
+
+    .custom-legend {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      padding-left: 10px;
+      font-size: 14px;
+      color: #fff;
+      margin : 1px;
+      margin-top : 40px;
+    }
+
+    .custom-legend div {
+      display: flex;
+      align-items: center;
+      margin-bottom: 5px;
+    }
+
+    .custom-legend div div {
+      width: 20px;
+      height: 20px;
+      margin-right: 10px;
+      border-radius: 50%;
+    }
+
+    .sales_share_chart_Container {
+      display: flex;
+      align-items: flex-start;
+      max-height: 80%;
+    }
+    .sales_share_chart_Container canvas{
+           max-width: 380px;
+           max-height: 380px;
+    }
+
+    .noDataMessage {
+        position : absolute;
+        top : 50%;
+        left : 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+        display : none;
+        font-size: 1.2em;
+        color: #ff6347;
+    }
+    .swiper-container {
+        width: 700px;
+        overflow: hidden;
+        padding: 10px;
+        padding-top : 0px;
+        box-sizing: border-box;
+    }
+
+    .swiper-wrapper {
+        position : relative;
+        display: flex;
+        height: 100%;
+        padding : 15px;
+        margin-top : 10px;
+    }
+
+    .swiper-slide {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .movie_poster {
+        display: block;
+        width: 180px;
+        height : 250px;
+        margin-bottom : 10px;
+    }
+
+    h4{
+      color: white;
+    }
+
+    .movie-details{
+        text-align : left;
+        width : 180px;
+    }
+    .movie-details h4{
+        font-size : 14;
+    }
+
