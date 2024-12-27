@@ -10,7 +10,7 @@
                 <ul class="route-list">
                     <li class="route-item"><a href="#">랭킹</a></li>
                     <li class="route-item"><a href="#">통계</a></li>
-                    <li class="route-item"><a th:href="@{/postTopTen}">커뮤니티</a></li>
+                    <li class="route-item"><a th:href="@{/communityMain}">커뮤니티</a></li>
                     <li class="route-item"><a href="#">작품</a></li>
                     <li class="route-item">
                         <a th:href="@{/search}"> <img alt="검색 아이콘" th:src="@{/img/search.svg}"/></a>
@@ -52,7 +52,11 @@
                 </div>
                 <div class="route-name">콘텐츠</div>
             </a>
+
             <a class="route-item" th:href="@{/shorts}">
+
+            <a class="route-item" href="/shorts">
+
                 <div class="route-img">
                     <img alt="숏폼 아이콘" th:src="@{/img/shortform.svg}"/>
                 </div>

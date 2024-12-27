@@ -37,6 +37,7 @@ public class CommunityPostService {
     public PostDTO selectPostById(int postId) {
         postMapper.updatePostViews(postId);
         PostDTO postOne = postMapper.selectPostById(postId);
+        System.out.println("좋아요 수: " + postOne.getPostLikeCnt());
 
         // 태그를 문자열 리스트로 조회 및 설정
         List<TagDTO> tags = tagMapper.selectTagsByPostId(postId);

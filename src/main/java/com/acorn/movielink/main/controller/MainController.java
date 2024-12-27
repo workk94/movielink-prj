@@ -9,6 +9,7 @@ import com.acorn.movielink.login.service.MemberService;
 import com.acorn.movielink.login.service.MovieService;
 import com.acorn.movielink.login.service.NoticeService;
 import com.acorn.movielink.login.service.ReviewService;
+import com.acorn.movielink.youtube.YouTubeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -29,12 +30,14 @@ public class MainController {
 //실시간 동접자
 //    @Autowired
 //    private ActiveUserService activeUserService;
+    private final YouTubeService youTubeService;
 
     @Autowired
-    public MainController(MemberService memberService, ReviewService reviewService, MovieService movieService, NoticeService noticeService) {
+    public MainController(MemberService memberService, ReviewService reviewService, MovieService movieService, YouTubeService youTubeService, NoticeService noticeService) {
         this.memberService = memberService;
         this.reviewService = reviewService;
         this.movieService = movieService;
+        this.youTubeService = youTubeService;
         this.noticeService = noticeService;
     }
 
@@ -47,6 +50,9 @@ public class MainController {
         // 베스트 무비 상위 3개 조회
         List<MovieDTO> bestMovies = movieService.getTopBestMovies(3);
         model.addAttribute("bestMovies", bestMovies);
+
+        List<String> youtubeost = youTubeService.searchMovieMusicVideos("ost");
+        model.addAttribute("youtubeost", youtubeost);
 
         // 현재 로그인한 사용자 ID 가져오기
         Integer memId = null;
