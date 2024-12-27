@@ -30,5 +30,10 @@
         people_id = #{peopleId}
     </select>
 
+    <!--  People 추가  -->
+    <insert id="insertPeople" parameterType="com.acorn.movielink.data.dto.PeopleDTO" useGeneratedKeys="true" keyProperty="people_id" keyColumn="people_id">
+        INSERT INTO people (  people_nm, people_cd, people_nm_en, people_role_nm, people_profile_url, people_type ,movie_id)
+        VALUES (   #{people_nm}, #{people_cd}, #{people_nm_en}, #{people_role_nm}, #{people_profile_url}, #{people_type},#{movie_id} )
+    </insert>
 
 </mapper>

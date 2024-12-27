@@ -1,12 +1,13 @@
 package com.acorn.movielink.data.service;
 
 import com.acorn.movielink.data.repository.MovieRepository;
-import com.acorn.movielink.data.repository.RawDataRepository;
+import com.acorn.movielink.data.repository.BoxOfficeDataRepository;
 import com.acorn.movielink.data.dto.MovieDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,12 +22,12 @@ public class MovieServiceImpl implements MovieService{
 
     private final APIExplorer explorer;
     private final MovieRepository movieRepository;
-    private final RawDataRepository dataRepository;
+    private final BoxOfficeDataRepository dataRepository;
     private final PeopleService service;
     @Autowired
     public MovieServiceImpl(APIExplorer explorer,
                             MovieRepository movieRepository,
-                            RawDataRepository dataRepository,
+                            BoxOfficeDataRepository dataRepository,
                             PeopleService service) {
         this.explorer = explorer;
         this.movieRepository = movieRepository;
@@ -76,9 +77,16 @@ public class MovieServiceImpl implements MovieService{
                 dto = parseYoutubeData(dto, responseYoutube);
 
                 // IMDB 데이터 추가
-                String releaseYear = dto.getMovieOpenDt().substring(0, 4); // YYYY 포맷 추출
+                String releaseYear = dto.getMovieOpenDt().substring(0, 4); // YYYY값만 꺼내기
                 String responseIMDB = explorer.getIMDBData(dto.getMovieNmEn(), releaseYear);
                 dto = parseIMDBData(dto, responseIMDB);
+
+                // 테이블에서 장르 ID 조회
+                Integer genreId = movieRepository.findGenreIdByName(dto.getGenre());
+                if (genreId == null) {
+                    genreId = 5; // 기타
+                }
+                dto.setGenreId(genreId);
 
                 // 영화 데이터 저장
                 movieRepository.insertMovie(dto);
@@ -116,7 +124,7 @@ public class MovieServiceImpl implements MovieService{
     }
 
     // KOBIS 영화 정보
-    private MovieDTO parseKOBISData(String response) throws Exception {
+    private MovieDTO parseKOBISData(String response) throws ParseException {
         JSONParser parser = new JSONParser();
         JSONObject jsonObject = (JSONObject) parser.parse(response);
 
@@ -157,7 +165,7 @@ public class MovieServiceImpl implements MovieService{
         return dto;
     }
 
-    private MovieDTO parseTMDBData(MovieDTO dto, String response) throws Exception {
+    private MovieDTO parseTMDBData(MovieDTO dto, String response) throws ParseException {
         JSONParser parser = new JSONParser();
         JSONObject jsonObject = (JSONObject) parser.parse(response);
 
@@ -192,7 +200,7 @@ public class MovieServiceImpl implements MovieService{
     }
 
     // Youtube 영화 예고편
-    private MovieDTO parseYoutubeData(MovieDTO dto, String response) throws Exception {
+    private MovieDTO parseYoutubeData(MovieDTO dto, String response) throws ParseException {
         JSONParser parser = new JSONParser();
         JSONObject jsonObject = (JSONObject) parser.parse(response);
 
@@ -224,7 +232,7 @@ public class MovieServiceImpl implements MovieService{
     }
 
     // IMDB 점수
-    private MovieDTO parseIMDBData(MovieDTO dto, String response) throws Exception {
+    private MovieDTO parseIMDBData(MovieDTO dto, String response) throws ParseException {
         JSONParser parser = new JSONParser();
         JSONObject jsonObject = (JSONObject) parser.parse(response);
 

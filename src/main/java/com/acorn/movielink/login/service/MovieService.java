@@ -23,4 +23,8 @@ public class MovieService {
     public List<MovieDTO> getFilmographyByPeopleId(Integer peopleId) {
         return movieMapper.selectMoviesByPeopleId(peopleId);
     }
+
+    public List<MovieDTO> getLatestMoviesByOpenDateDesc() {
+        return movieMapper.findMoviesByOpenDateDesc();
+    }
 }

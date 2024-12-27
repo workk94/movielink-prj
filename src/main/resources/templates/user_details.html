@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>유저 상세 정보</title>
+    <link rel="stylesheet" th:href="@{/css/dashboard.css}">
+</head>
+<body>
+<div th:replace="~{fragments/dashboard_frag :: adminFragment}"></div>
+
+
+<div class="root">
+    <h1>유저 상세 정보</h1>
+    <div class="user-details">
+        <p><strong>회원ID:</strong> <span th:text="${member.memId}"></span></p>
+        <p><strong>이메일:</strong> <span th:text="${member.memEmail}"></span></p>
+        <p><strong>전화번호:</strong> <span th:text="${member.memTel}"></span></p>
+        <p><strong>닉네임:</strong> <span th:text="${member.memNn}"></span></p>
+        <p><strong>타입:</strong> <span th:text="${member.memType == 1 ? '관리자' : '사용자'}"></span></p>
+        <p><strong>가입일:</strong> <span th:text="${#temporals.format(member.memCreatedAt, 'yyyy-MM-dd HH:mm')}"></span>
+        </p>
+        <p><strong>업데이트일:</strong> <span th:text="${#temporals.format(member.memUpdatedAt, 'yyyy-MM-dd HH:mm')}"></span>
+        </p>
+    </div>
+    <div class="actions">
+        <a th:href="@{/admin/member/edit/{id}(id=${member.memId})}">수정</a>
+        <button class="delete-button" th:data-mem-id="${member.memId}">삭제</button>
+        <a th:href="@{/admin/dashboard}">목록으로 돌아가기</a>
+    </div>
+</div>
+</body>
+</html>

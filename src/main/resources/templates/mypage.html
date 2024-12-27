@@ -534,16 +534,21 @@ color:#98a4b7;}
     <div class="profile-contents-wrap">
         <!-- 프로필 콘텐츠 (좋아요한 영화, 작성 게시글, 작성 댓글) -->
         <div class="profile-content">
+            <!-- 좋아요한 영화 개수 -->
             <a class="content-wrap" href="#">
-                <span class="content-count">0</span>
+                <span class="content-count" th:text="${likedMoviesCount}">0</span>
                 <span class="content-label">좋아요한 영화</span>
             </a>
+
+            <!-- 작성 게시글 개수 -->
             <a class="content-wrap" href="#">
-                <span class="content-count">0</span>
+                <span class="content-count" th:text="${writtenPostsCount}">0</span>
                 <span class="content-label">작성 게시글</span>
             </a>
+
+            <!-- 작성 댓글 개수 -->
             <a class="content-wrap" href="#">
-                <span class="content-count">0</span>
+                <span class="content-count" th:text="${commentCount}">0</span>
                 <span class="content-label">작성 댓글</span>
             </a>
         </div>
@@ -691,23 +696,23 @@ color:#98a4b7;}
     </div>
 
 
-    <div class="contents-container" style="padding-bottom:100px">
-        <div class="title-wrap">
-            <span class="title">포인트 사용 내역</span>
-            <div class="image">
-                <img alt="더보기" th:src="@{/img/arrow-right.svg}"/>
-            </div>
-        </div>
-        <div class="user-point-item">
-            <div class="point-item" th:each="item: ${purchasedItems}">
-                <div class="point-item-title" th:text="${item.itemName}"></div>
-                <div class="point-item-img">
-                    <img alt="" th:src="${item.itemImg}">
-                </div>
-                <div class="point-item-price" th:text="${item.itemPoint}"></div>
-            </div>
-        </div>
-    </div>
+    <!--    <div class="contents-container" style="padding-bottom:100px">-->
+    <!--        <div class="title-wrap">-->
+    <!--            <span class="title">포인트 사용 내역</span>-->
+    <!--            <div class="image">-->
+    <!--                <img alt="더보기" th:src="@{/img/arrow-right.svg}"/>-->
+    <!--            </div>-->
+    <!--        </div>-->
+    <!--        <div class="user-point-item">-->
+    <!--            <div class="point-item" th:each="item: ${purchasedItems}">-->
+    <!--                <div class="point-item-title" th:text="${item.itemName}"></div>-->
+    <!--                <div class="point-item-img">-->
+    <!--                    <img alt="" th:src="${item.itemImg}">-->
+    <!--                </div>-->
+    <!--                <div class="point-item-price" th:text="${item.itemPoint}"></div>-->
+    <!--            </div>-->
+    <!--        </div>-->
+    <!--    </div>-->
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             // 좋아요한 인물을 위한 Swiper 초기화

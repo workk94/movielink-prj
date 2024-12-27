@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>유저 수정</title>
+    <link rel="stylesheet" th:href="@{/css/dashboard.css}">
+
+</head>
+<body>
+<div th:replace="~{fragments/dashboard_frag :: adminFragment}"></div>
+
+
+<div class="root">
+    <h1>유저 수정</h1>
+    <form class="edit-user" method="post" th:action="@{'/admin/member/edit/' + ${member.memId}}" th:object="${member}">
+        <div class="form-group">
+            <label for="memEmail">이메일:</label>
+            <input id="memEmail" required th:field="*{memEmail}" type="email">
+        </div>
+
+        <div class="form-group">
+            <label for="memTel">전화번호:</label>
+            <input id="memTel" th:field="*{memTel}" type="text">
+        </div>
+
+        <div class="form-group">
+            <label for="memNn">닉네임:</label>
+            <input id="memNn" required th:field="*{memNn}" type="text">
+        </div>
+
+        <div class="form-group">
+            <label for="memPw">비밀번호:</label>
+            <input id="memPw" name="memPw" placeholder="비밀번호를 변경하려면 입력하세요." type="password"/>
+           
+        </div>
+
+        <div class="form-group">
+            <label for="memType">유저 타입:</label>
+            <select id="memType" th:field="*{memType}">
+                <option value="1">관리자</option>
+                <option value="0">사용자</option>
+            </select>
+        </div>
+
+
+        <div class="button-container">
+            <button class="edit-submit" type="submit">수정 완료</button>
+        </div>
+    </form>
+    <a class="edit-cancel" th:href="@{/admin/dashboard}">취소</a>
+</div>
+</body>
+</html>
