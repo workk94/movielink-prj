@@ -7,8 +7,10 @@ import com.acorn.movielink.login.service.CustomUserDetailsService;
 import com.acorn.movielink.login.service.MemberService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -27,6 +29,7 @@ public class SecurityConfig {
     private final CustomAuthenticationSuccessHandler successHandler;
     private final MemberService memberService;
 
+    @Autowired
     public SecurityConfig(CustomUserDetailsService userDetailsService,
                           CustomOAuth2UserService customOAuth2UserService,
                           PasswordEncoder passwordEncoder,

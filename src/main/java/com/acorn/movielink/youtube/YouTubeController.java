@@ -17,8 +17,8 @@ public class YouTubeController {
     }
 
     @GetMapping("/shorts")
-    public String getMovieShorts(@RequestParam(name = "query") String query, Model model) {
-        List<String> shorts = youTubeService.getMovieShorts(query);
+    public String getMovieShorts(Model model) {
+        List<String> shorts = youTubeService.getMovieShorts("영화");
         System.out.println(shorts);
         model.addAttribute("shorts", shorts);
         return "shorts"; // 반환할 HTML 템플릿 이름

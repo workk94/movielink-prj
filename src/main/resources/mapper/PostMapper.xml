@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.acorn.movielink.people_detail.repository.PostMapper">
 
     <resultMap id="PostResultMap" type="com.acorn.movielink.people_detail.dto.Post">
@@ -36,9 +36,9 @@
         pimg.post_img_converted_file_nm,
         t.tag_id,
         t.tag_name
-        FROM POST p
-        JOIN POST_TAG pt ON p.post_id = pt.post_id
-        JOIN TAG t ON pt.tag_id = t.tag_id
+        FROM post p
+        JOIN post_tag pt ON p.post_id = pt.post_id
+        JOIN tag t ON pt.tag_id = t.tag_id
         JOIN post_image pimg ON p.post_id = pimg.post_id
         WHERE t.tag_name = #{tagName}
     </select>
