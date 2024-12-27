@@ -36,9 +36,19 @@
     </insert>
 
     <!-- 이메일로 회원 찾기 -->
-    <select id="findByMemEmail" parameterType="map" resultMap="memberResultMap">
-        SELECT * FROM member WHERE mem_email = #{memEmail}
+    <select id="findByMemEmail" parameterType="String" resultMap="memberResultMap">
+        SELECT * FROM MEMBER WHERE mem_email = #{memEmail}
     </select>
+
+
+    <!-- 모든 회원 조회 -->
+    <select id="findAllMembers" parameterType="map" resultMap="memberResultMap">
+        SELECT * FROM MEMBER
+    </select>
+
+    <delete id="deleteMember" parameterType="int">
+        DELETE FROM MEMBER WHERE mem_id = #{memId}
+    </delete>
 
     <!-- SNS ID로 회원 찾기 -->
     <select id="findByMemSnsId" parameterType="map" resultMap="memberResultMap">
@@ -124,10 +134,11 @@
         m.movie_running_time AS movieRunningTime,
         m.movie_country AS movieCountry,
         m.movie_plot AS moviePlot,
-        m.movie_trailer_url AS movieTrailerUrl,
+        m.movie_trailer AS movieTrailerUrl,
         m.movie_poster AS moviePosterUrl,
         m.movie_poster AS moviePoster,
         m.movie_imdb_score AS movieImdbScore,
+        m.movie_tmdb_score AS movieTMDBScore,
         m.movie_reg_at AS movieRegAt
         FROM movie m
         JOIN movie_like ml ON m.movie_id = ml.movie_id
@@ -135,16 +146,16 @@
     </select>
 
     <!-- 구매 아이템 조회 -->
-    <select id="findPurchasedItemByMemId" parameterType="Integer" resultType="com.acorn.movielink.login.dto.Item">
-        SELECT
-        i.item_id AS itemId,
-        i.item_name AS itemName,
-        i.item_point AS itemPoint,
-        i.item_img AS itemImg
-        FROM item i
-        JOIN item_transaction_history ith ON i.item_id = ith.item_id
-        WHERE ith.mem_id = #{memId}
-    </select>
+    <!--    <select id="findPurchasedItemByMemId" parameterType="Integer" resultType="com.acorn.movielink.login.dto.Item">-->
+    <!--        SELECT-->
+    <!--        i.item_id AS itemId,-->
+    <!--        i.item_name AS itemName,-->
+    <!--        i.item_point AS itemPoint,-->
+    <!--        i.item_img AS itemImg-->
+    <!--        FROM ITEM i-->
+    <!--        JOIN item_transaction_history ith ON i.item_id = ith.item_id-->
+    <!--        WHERE ith.mem_id = #{memId}-->
+    <!--    </select>-->
 
     <!-- 최신 10개 리뷰 조회 -->
     <select id="findLatestReviews" resultType="com.acorn.movielink.login.dto.Review">
@@ -171,8 +182,8 @@
         LIMIT 10
     </select>
 
-
-    <select id="findRecommendedMovies" parameterType="map" resultType="com.acorn.movielink.login.dto.Movie">
+    <!-- 사용자 장르에 맞는 10개 영화 추천 -->
+    <select id="findRecommendedMovies" parameterType="int" resultType="com.acorn.movielink.login.dto.Movie">
         SELECT DISTINCT
         m.movie_id,
         m.movie_nm,
@@ -182,14 +193,15 @@
         m.movie_running_time,
         m.movie_country,
         m.movie_plot,
-        m.movie_trailer_url,
+        m.movie_trailer,
         m.movie_poster,
         m.movie_imdb_score,
+        m.movie_tmdb_score,
         m.movie_reg_at
         FROM
         movie m
         JOIN
-        genre g ON m.movie_id = g.movie_id
+        GENRE g ON m.genre_id = g.genre_id
         JOIN
         member_genre mg ON g.genre_id = mg.genre_id
         WHERE
@@ -199,4 +211,48 @@
         LIMIT 10
     </select>
 
+    <!-- 페이징 및 필터링된 회원 목록 조회 -->
+    <select id="findMembers" parameterType="map" resultMap="memberResultMap">
+        SELECT * FROM MEMBER
+        <where>
+            <if test="email != null and email != ''">
+                AND mem_email LIKE CONCAT('%', #{email}, '%')
+            </if>
+            <if test="nickname != null and nickname != ''">
+                AND mem_nn LIKE CONCAT('%', #{nickname}, '%')
+            </if>
+            <if test="type != null and type != ''">
+                AND mem_type = #{type}
+            </if>
+        </where>
+        ORDER BY mem_id
+        <choose>
+            <when test="sort == 'asc'">
+                ASC
+            </when>
+            <when test="sort == 'desc'">
+                DESC
+            </when>
+            <otherwise>
+                ASC
+            </otherwise>
+        </choose>
+    </select>
+
+
+    <!-- 필터링된 전체 회원 수 조회 -->
+    <select id="countMembers" parameterType="map" resultType="int">
+        SELECT COUNT(*) FROM MEMBER
+        <where>
+            <if test="email != null and email != ''">
+                AND mem_email LIKE CONCAT('%', #{email}, '%')
+            </if>
+            <if test="nickname != null and nickname != ''">
+                AND mem_nn LIKE CONCAT('%', #{nickname}, '%')
+            </if>
+            <if test="type != null and type != ''">
+                AND mem_type = #{type}
+            </if>
+        </where>
+    </select>
 </mapper>

@@ -1,8 +1,13 @@
 package com.acorn.movielink.login.service;
 
 import com.acorn.movielink.config.PasswordUtil;
-import com.acorn.movielink.login.dto.*;
+import com.acorn.movielink.login.dto.Member;
+import com.acorn.movielink.login.dto.Movie;
+import com.acorn.movielink.login.dto.Person;
+import com.acorn.movielink.login.dto.Post;
 import com.acorn.movielink.login.repository.MemberMapper;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import lombok.Getter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -71,13 +76,20 @@ public class MemberService {
     public Optional<Member> findByEmail(String email) {
         logger.debug("이메일로 회원 검색 요청: {}", email);
         Optional<Member> member = memberMapper.findByMemEmail(email);
-        logger.debug("쿼리 결과: {}", member);
+        logger.debug("findByEmail 쿼리 결과: {}", member);
         if (member.isPresent()) {
             logger.info("회원 검색 성공: {}", email);
         } else {
             logger.warn("회원 검색 실패: {}", email);
         }
         return member;
+    }
+
+    public List<Member> findAllMembers() {
+        logger.debug("모든 회원 조회 요청");
+        List<Member> members = memberMapper.findAllMembers();
+        logger.debug("findALlMembers 쿼리 결과: {}", members);
+        return members;
     }
 
     public Optional<Member> findByMemSnsId(String memSnsId) {
@@ -92,6 +104,7 @@ public class MemberService {
         return member;
     }
 
+    @Transactional
     public void updatePassword(Integer memId, String newPassword) {
         logger.debug("비밀번호 업데이트 요청 for 회원 ID: {}", memId);
         String encodedPassword = passwordEncoder.encode(newPassword);
@@ -116,10 +129,27 @@ public class MemberService {
 
     @Transactional
     public void updateMember(Member updatedMember) {
-        logger.debug("회원 정보 업데이트 요청 for 회원 ID: {}", updatedMember.getMemId());
-        memberMapper.updateMember(updatedMember);
-        logger.info("회원 정보 업데이트 완료 for 회원 ID: {}", updatedMember.getMemId());
+        // 1) DB에서 기존 회원 정보를 조회
+        Optional<Member> existingMemberOpt = findById(updatedMember.getMemId());
+        if (existingMemberOpt.isPresent()) {
+            Member existingMember = existingMemberOpt.get();
+
+            // 2) 새 비밀번호가 입력되었는지 여부 확인
+            if (updatedMember.getMemPw() != null && !updatedMember.getMemPw().isEmpty()) {
+                // 새 비밀번호가 있으면 인코딩 후 설정
+                updatedMember.setMemPw(passwordEncoder.encode(updatedMember.getMemPw()));
+            } else {
+                // 새 비밀번호가 없다면 기존 비밀번호 사용
+                updatedMember.setMemPw(existingMember.getMemPw());
+            }
+
+            // 3) memberMapper로 업데이트 실행
+            memberMapper.updateMember(updatedMember);
+        } else {
+            throw new RuntimeException("수정하려는 회원이 존재하지 않습니다. ID=" + updatedMember.getMemId());
+        }
     }
+
 
     @Transactional
     public void deleteMember(Integer memId) {
@@ -226,9 +256,9 @@ public class MemberService {
     }
 
     // 구매한 아이템 조회 메서드 추가
-    public List<Item> getPurchasedItems(Integer memId) {
-        return memberMapper.findPurchasedItemByMemId(memId);
-    }
+//    public List<Item> getPurchasedItems(Integer memId) {
+//        return memberMapper.findPurchasedItemByMemId(memId);
+//    }
 
 
     // 사용자 장르에 맞는 10개 영화 추천
@@ -237,5 +267,16 @@ public class MemberService {
         List<Movie> recommendedMovies = memberMapper.findRecommendedMovies(memId);
         logger.debug("쿼리 결과: {}", recommendedMovies);
         return recommendedMovies;
+    }
+
+    public PageInfo<Member> findMembers(String sort, String type, String email, String nickname, int page, int size) {
+        PageHelper.startPage(page, size);
+        List<Member> members = memberMapper.findMembers(sort, type, email, nickname);
+        return new PageInfo<>(members);
+    }
+
+    // 전체 회원 수 조회
+    public int countMembers(String sort, String type, String email, String nickname) {
+        return memberMapper.countMembers(sort, type, email, nickname);
     }
 }

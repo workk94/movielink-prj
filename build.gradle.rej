@@ -1,0 +1,11 @@
+diff a/build.gradle b/build.gradle	(rejected hunks)
+@@ -47,6 +47,9 @@
+     implementation group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
+     implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+     implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:3.0.0' // 적절한 버전 사용
++
++//    implementation 'org.springframework.boot:spring-boot-starter-web'
++//    implementation 'org.springframework.boot:spring-boot-starter-websocket'
+ }
+ 
+ tasks.named('test') {

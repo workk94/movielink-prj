@@ -12,7 +12,9 @@ public class PeopleRepository {
     SqlSession session;
 
     public int insertPeople(PeopleDTO peopleDTO){
-        return session.insert("com.acorn.movielink.data.PeopleMapper.insertPeople",peopleDTO);
+        //매퍼 충돌나서 변경함
+        //return session.insert("com.acorn.movielink.data.PeopleMapper.insertPeople",peopleDTO);
+        return session.insert("com.acorn.movielink.people_detail.repository.PeopleMapper.insertPeople",peopleDTO);
     }
 
 

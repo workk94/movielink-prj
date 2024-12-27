@@ -1,7 +1,7 @@
 package com.acorn.movielink.data.service;
 
-import com.acorn.movielink.data.repository.RawDataRepository;
-import com.acorn.movielink.data.dto.RAWDataDTO;
+import com.acorn.movielink.data.repository.BoxOfficeDataRepository;
+import com.acorn.movielink.data.dto.BoxOfficeDataDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.ExecutorType;
 import org.apache.ibatis.session.SqlSession;
@@ -21,17 +21,17 @@ import java.util.Map;
 
 @Slf4j
 @Service
-public class RawDataServiceImpl implements RawDataService {
+public class BoxOfficeDataServiceImpl implements BoxOfficeDataService {
 
     // 배치 사이즈 지정
     private static final int BATCH_SIZE = 50;
 
     private final APIExplorer explorer;
-    private final RawDataRepository repository;
+    private final BoxOfficeDataRepository repository;
     private final SqlSessionFactory sqlSessionFactory; // 추가된 필드
 
     @Autowired
-    public RawDataServiceImpl(APIExplorer explorer, RawDataRepository repository, SqlSessionFactory sqlSessionFactory) {
+    public BoxOfficeDataServiceImpl(APIExplorer explorer, BoxOfficeDataRepository repository, SqlSessionFactory sqlSessionFactory) {
         this.explorer = explorer;
         this.repository = repository;
         this.sqlSessionFactory = sqlSessionFactory;
@@ -46,11 +46,11 @@ public class RawDataServiceImpl implements RawDataService {
         int currentBatchSize = 0;
 
         try (SqlSession batchSession = sqlSessionFactory.openSession(ExecutorType.BATCH)) {
-            RawDataRepository batchRepository = new RawDataRepository(batchSession);
+            BoxOfficeDataRepository batchRepository = new BoxOfficeDataRepository(batchSession);
 
-            List<RAWDataDTO> list = fetchAndParseData(startDate, endDate);
+            List<BoxOfficeDataDTO> list = fetchAndParseData(startDate, endDate);
 
-            for (RAWDataDTO dto : list) {
+            for (BoxOfficeDataDTO dto : list) {
                 try {
                     batchRepository.insert(dto);
                     currentBatchSize++;
@@ -87,7 +87,7 @@ public class RawDataServiceImpl implements RawDataService {
     }
 
     @Override
-    public List<RAWDataDTO> findDataBetween(String startDate, String endDate) {
+    public List<BoxOfficeDataDTO> findDataBetween(String startDate, String endDate) {
         return repository.findDataBetween(startDate, endDate);
     }
 
@@ -102,9 +102,9 @@ public class RawDataServiceImpl implements RawDataService {
     }
 
     // api 데이터 가져오고 dto 변환
-    private List<RAWDataDTO> fetchAndParseData(String startDate, String endDate) throws Exception {
+    private List<BoxOfficeDataDTO> fetchAndParseData(String startDate, String endDate) throws Exception {
 
-        List<RAWDataDTO> list = new ArrayList<>();
+        List<BoxOfficeDataDTO> list = new ArrayList<>();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
         LocalDate start = LocalDate.parse(startDate, formatter);
         LocalDate end = LocalDate.parse(endDate, formatter);
@@ -115,7 +115,7 @@ public class RawDataServiceImpl implements RawDataService {
             // API 불러오기
             String response = explorer.getDailyBoxOfficeData(targetDate);
 
-            List<RAWDataDTO> data = parseData(response, targetDate);
+            List<BoxOfficeDataDTO> data = parseData(response, targetDate);
             list.addAll(data);
 
             // 날짜 + 1
@@ -126,8 +126,8 @@ public class RawDataServiceImpl implements RawDataService {
     }
 
     // json을 RWADataDTO로 변환
-    private List<RAWDataDTO> parseData(String response, String targetDate) throws Exception {
-        List<RAWDataDTO> list = new ArrayList<>();
+    private List<BoxOfficeDataDTO> parseData(String response, String targetDate) throws Exception {
+        List<BoxOfficeDataDTO> list = new ArrayList<>();
 
         JSONParser parser = new JSONParser();
         JSONObject jsonObject = (JSONObject) parser.parse(response);
@@ -138,7 +138,7 @@ public class RawDataServiceImpl implements RawDataService {
         for (Object item : dailyBoxOfficeList) {
             JSONObject movie = (JSONObject) item;
 
-            RAWDataDTO dto = new RAWDataDTO();
+            BoxOfficeDataDTO dto = new BoxOfficeDataDTO();
             dto.setRnum((String) movie.get("rnum"));
             dto.setRanking((String) movie.get("rank"));
             dto.setRankInten((String) movie.get("rankInten"));

@@ -16,6 +16,7 @@ public class MovieDTO {
     private String movieAgeRating;        // 4. 영화 연령 등급
     private String movieRunningTime;      // 5. 영화 상영 시간
     private String movieNation; // 6. 제작국가
+    private Integer genreId;     // 장르 아이디 추가
     private String genre;        // 7. 장르
     private String moviePlot;  // 8. 영화 줄거리
     private String movieTrailerUrl; // 9. 영화 예고편
