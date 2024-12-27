@@ -1,0 +1,248 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Movie Tier List</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+    <link rel="stylesheet" th:href="@{/css/tier.css}"/>
+    <style></style>
+</head>
+<body>
+<div class="root">
+    <div th:replace="~{fragments/header :: headerFragment}"></div>
+    <h1>Movie Tier List</h1>
+
+    <div class="tier-filter">
+        <label>개봉년도 (시작):</label>
+        <input id="startYear"/>
+
+        <label>장르:</label>
+        <select id="genreId">
+            <option value="0">전체</option>
+            <!-- 장르 목록을 thymeleaf로 뿌려줌 -->
+            <option
+                    th:each="g : ${genres}"
+                    th:text="${g.genreNm}"
+                    th:value="${g.genreId}"
+            >
+                장르
+            </option>
+        </select>
+        <button onclick="filterMovies()" type="button">검색</button>
+    </div>
+
+    <!-- 티어 영역 (+ 버튼으로 div 추가 가능) -->
+    <button class="add-tier-button" onclick="addTier()" type="button">
+        + 티어 추가
+    </button>
+
+    <div id="tierContainer">
+        <!-- 기본 6개 티어(S, A, B, C, D, F) -->
+        <div class="tier-container">
+            <input class="tier-title tier-s" type="text" value="S"/>
+            <div class="drop-zone"></div>
+            <button class="tier-settings">⚙️</button>
+        </div>
+        <div class="tier-container">
+            <input class="tier-title tier-a" type="text" value="A"/>
+            <div class="drop-zone"></div>
+            <button class="tier-settings">⚙️</button>
+        </div>
+        <div class="tier-container">
+            <input class="tier-title tier-b" type="text" value="B"/>
+            <div class="drop-zone"></div>
+            <button class="tier-settings">⚙️</button>
+        </div>
+        <div class="tier-container">
+            <input class="tier-title tier-c" type="text" value="C"/>
+            <div class="drop-zone"></div>
+            <button class="tier-settings">⚙️</button>
+        </div>
+        <div class="tier-container">
+            <input class="tier-title tier-d" type="text" value="D"/>
+            <div class="drop-zone"></div>
+            <button class="tier-settings">⚙️</button>
+        </div>
+        <div class="tier-container">
+            <input class="tier-title tier-f" type="text" value="F"/>
+            <div class="drop-zone"></div>
+            <button class="tier-settings">⚙️</button>
+        </div>
+    </div>
+    <!-- 영화 목록 (드래그 가능) -->
+    <div id="movieList" style="margin-top: 15px">
+        <!-- AJAX로 가져온 데이터를 JS에서 동적으로 표시 -->
+    </div>
+
+    <!-- 공유(화면 캡처) 버튼 -->
+    <div class="copy-button">
+        <button onclick="captureAndCopy()" type="button">
+            클립보드에 캡처 이미지 복사
+        </button>
+    </div>
+</div>
+<script>
+    // 페이지 로드 시점에 droppable 초기화
+    $(function () {
+        initDroppable();
+
+        // 기존 설정 버튼에 이벤트 리스너 추가
+        $(".tier-settings").on("click", function () {
+            openColorPicker($(this).siblings(".tier-title"));
+        });
+    });
+
+    // 1) 영화 필터 (AJAX)
+    function filterMovies() {
+        const startYear = $("#startYear").val();
+        const genreId = $("#genreId").val();
+
+        $.ajax({
+            url: `/tier/movies?startYear=${startYear}&genreId=${genreId}`, // endYear 제거
+            method: "GET",
+            success: function (data) {
+                // data: [{ movieId, movieNm, moviePosterUrl, ... }, ...]
+                let html = "";
+                data.forEach(function (movie) {
+                    html += `
+                        <img src="${movie.moviePosterUrl}"
+                            data-movie-id="${movie.movieId}"
+                            class="movie-poster draggable"
+                            title="${movie.movieNm} (${movie.movieOpenDt})"/>
+                    `;
+                });
+                $("#movieList").html(html);
+
+                // 새로 생성된 .draggable에 대해 jQuery UI draggable 설정
+                $(".draggable").draggable({
+                    revert: "invalid",
+                });
+            },
+            error: function (xhr, status, error) {
+                console.error("영화 필터링 중 오류 발생:", error);
+                alert("영화 필터링에 실패했습니다. 다시 시도해주세요.");
+            }
+        });
+    }
+
+    // 2) drop-zone 초기화
+    function initDroppable() {
+        $(".drop-zone").droppable({
+            accept: ".draggable",
+            drop: function (event, ui) {
+                // 드롭된 포스터를 현재 drop-zone 아래로 이동
+                $(this).append(ui.draggable);
+                // 위치 초기화
+                ui.draggable.css({ top: 0, left: 0 });
+            },
+        });
+    }
+
+    // 3) 티어 추가
+    function addTier() {
+        const container = document.getElementById("tierContainer");
+        const newDiv = document.createElement("div");
+        newDiv.className = "tier-container";
+        newDiv.innerHTML = `
+            <input class="tier-title tier-new" type="text" value="NEW" />
+            <div class="drop-zone"></div>
+            <button class="tier-settings">⚙️</button>
+        `;
+        container.appendChild(newDiv);
+
+        // 새 drop-zone에도 droppable 설정
+        $(newDiv)
+            .find(".drop-zone")
+            .droppable({
+                accept: ".draggable",
+                drop: function (event, ui) {
+                    $(this).append(ui.draggable);
+                    ui.draggable.css({ top: 0, left: 0 });
+                },
+            });
+
+        // 새 설정 버튼에 이벤트 리스너 추가
+        $(newDiv)
+            .find(".tier-settings")
+            .on("click", function () {
+                openColorPicker($(this).siblings(".tier-title"));
+            });
+    }
+
+    // 4) 화면 캡처 → 클립보드 복사
+    function captureAndCopy() {
+        //const tierArea = document.getElementById("tierContainer");
+document.body;
+        html2canvas(tierArea).then((canvas) => {
+            canvas.toBlob(async (blob) => {
+                if (!blob) {
+                    alert("Blob 생성에 실패했습니다.");
+                    return;
+                }
+
+                if (!navigator.clipboard || !window.ClipboardItem) {
+                    alert("이 브라우저에서는 클립보드 복사가 지원되지 않습니다.");
+                    return;
+                }
+
+                const clipboardItem = new ClipboardItem({ "image/png": blob });
+                try {
+                    await navigator.clipboard.write([clipboardItem]);
+                    alert("클립보드에 이미지가 복사되었습니다!");
+                } catch (err) {
+                    alert("클립보드 복사 중 오류: " + err);
+                }
+            }, "image/png");
+        });
+    }
+
+    // 수정된 openColorPicker 함수
+    function openColorPicker($tierTitle) {
+        $(".color-picker-input").remove();
+
+        // 새로운 color picker 생성
+        const $colorInput = $('<input type="color" class="color-picker-input" />');
+
+        // color picker의 위치를 tier title 옆에 배치
+        $colorInput.css({
+            position: 'absolute',
+            top: $tierTitle.offset().top,
+            left: $tierTitle.offset().left + $tierTitle.outerWidth() + 10, // 약간의 여백 추가
+            zIndex: 1000,
+        });
+
+        $("body").append($colorInput);
+
+        // 색상 선택 시 배경색 변경
+        $colorInput.on("input change", function () {
+            const selectedColor = $(this).val();
+            $tierTitle.css("background-color", selectedColor);
+        });
+
+        // 외부 클릭 시 color picker 닫기
+        $(document).on('mousedown.colorPicker', function (e) {
+            // color picker나 설정 버튼을 클릭하지 않았을 때만 닫기
+            if (
+                !$(e.target).is($colorInput) &&
+                !$(e.target).is($tierTitle) &&
+                !$(e.target).is($tierTitle.siblings('.tier-settings'))
+            ) {
+                $colorInput.remove();
+                $(document).off('mousedown.colorPicker');
+            }
+        });
+
+        // color picker 자체를 닫을 때 이벤트 리스너 제거
+        $colorInput.on("blur", function () {
+            setTimeout(() => { // setTimeout을 사용하여 클릭 이벤트가 먼저 처리되도록 함
+                $colorInput.remove();
+                $(document).off('mousedown.colorPicker');
+            }, 100);
+        });
+    }
+</script>
+</body>
+</html>
