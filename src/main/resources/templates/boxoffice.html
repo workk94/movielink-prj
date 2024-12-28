@@ -132,12 +132,12 @@
                 `;
                 const img = slide.querySelector('.movie_poster');
                 img.addEventListener('click', function() {
-                    window.location.href = `/detail/${movie.movie_id}`;
+                    window.location.href = `/title/${movie.movie_id}`;
                 });
 
                 const h4 = slide.querySelector('.movie-details h4');
                 h4.addEventListener('click', function() {
-                    window.location.href = `/detail/${movie.movie_id}`;
+                    window.location.href = `/title/${movie.movie_id}`;
                 });
                 swiperWrapper.appendChild(slide);
         });
