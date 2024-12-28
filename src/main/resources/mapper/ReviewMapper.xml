@@ -30,9 +30,9 @@
         m.movie_nm AS movieNm,
         m.movie_poster AS moviePoster,
         mem.mem_nn AS memNn
-        FROM REVIEW r
-        JOIN MOVIE m ON r.movie_id = m.movie_id
-        JOIN MEMBER mem ON r.mem_id = mem.mem_id
+        FROM review r
+        JOIN movie m ON r.movie_id = m.movie_id
+        JOIN member mem ON r.mem_id = mem.mem_id
         ORDER BY r.review_reg_at DESC
         LIMIT 10
     </select>

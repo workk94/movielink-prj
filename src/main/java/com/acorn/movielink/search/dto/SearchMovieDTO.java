@@ -1,13 +1,12 @@
 package com.acorn.movielink.search.dto;
 
-import lombok.Getter;
-import lombok.ToString;
+import lombok.Data;
 
-@Getter
-@ToString
+@Data
 public class SearchMovieDTO {
-    private Integer movieId;
+    private int movieId;
     private String movieNm;
+    private String movieRlsYear;
     private String movieGenre;
     private Double movieScoreAvg;
     private String moviePoster;

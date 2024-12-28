@@ -1,8 +1,36 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.acorn.movielink.data.PeopleMapper">
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.acorn.movielink.people_detail.repository.PeopleMapper">
+
+    <resultMap id="PeopleResultMap" type="com.acorn.movielink.people_detail.dto.People">
+        <id property="peopleId" column="people_id"/>
+        <result property="peopleNm" column="people_nm"/>
+        <result property="peopleNmEn" column="people_nm_en"/>
+        <result property="peopleRoleNm" column="people_role_nm"/>
+        <result property="peopleProfileUrl" column="people_profile_url"/>
+        <result property="peopleType" column="people_type"/>
+        <result property="movieId" column="movie_id"/>
+    </resultMap>
+
+    <!--  People 조회 쿼리 -->
+    <select id="selectPeopleById" resultMap="PeopleResultMap" parameterType="int">
+        SELECT
+        people_id,
+        people_nm,
+        people_nm_en,
+        people_role_nm,
+        people_profile_url,
+        people_type,
+        movie_id
+        FROM
+        people
+        WHERE
+        people_id = #{peopleId}
+    </select>
+
+    <!--  People 추가  -->
     <insert id="insertPeople" parameterType="com.acorn.movielink.data.dto.PeopleDTO" useGeneratedKeys="true" keyProperty="people_id" keyColumn="people_id">
         INSERT INTO people (  people_nm, people_cd, people_nm_en, people_role_nm, people_profile_url, people_type ,movie_id)
         VALUES (   #{people_nm}, #{people_cd}, #{people_nm_en}, #{people_role_nm}, #{people_profile_url}, #{people_type},#{movie_id} )

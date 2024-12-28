@@ -1,12 +1,11 @@
 package com.acorn.movielink.search.dto;
 
-import lombok.Getter;
-import lombok.ToString;
+import lombok.Data;
 
-@Getter
-@ToString
+@Data
 public class SearchPeopleDTO {
-    String peopleId;
-    String peopleNm;
-    String peopleProfileUrl;
+    private int peopleId;
+    private String peopleNm;
+    private String peopleProfileUrl;
+    // 필모그래피
 }

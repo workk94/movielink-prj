@@ -290,12 +290,12 @@
     <div class="profile-wrap">
         <div class="profile">
             <div aria-label="프로필 이미지 변경" class="profile-img"
-                 onclick="document.getElementById('profileImage').click();" role="button" tabindex="0">
+                 role="button" tabindex="0">
                 <!-- 프로필 이미지가 존재할 경우 -->
                 <img
                         alt="프로필"
                         th:if="${!#strings.isEmpty(member.memProfileFilePath)}"
-                        th:src="${member.memProfileFilePath}"
+                        th:src="@{${member.memProfileFilePath}}"
                 />
 
                 <!-- 프로필 이미지가 없을 경우 닉네임의 첫 글자를 표시 -->
@@ -308,7 +308,6 @@
 
                 <!-- 변경 버튼 오버레이 (반원 형태) -->
                 <button aria-label="프로필 이미지 변경" class="change-profile-btn"
-                        onclick="document.getElementById('profileImage').click();"
                         type="button">
                     변경
                 </button>
@@ -370,6 +369,8 @@
                     <p th:errors="*{genreIds}">장르 선택 오류</p>
                 </div>
             </div>
+            
+            <!-- ... (생략) ... -->
 
             <div class="signup-field">
                 <button type="submit">수정 완료</button>
@@ -392,6 +393,8 @@
         const maxSelection = 5; // 최대 선택 가능한 장르 수
         const checkboxes = document.querySelectorAll('.genre-wrap input[type="checkbox"]');
         const profileImageInput = document.getElementById('profileImage');
+        const profileImgDiv = document.querySelector('.profile-img');
+        const changeProfileBtn = document.querySelector('.change-profile-btn');
 
         function updateCheckboxes() {
             const checkedCount = document.querySelectorAll('.genre-wrap input[type="checkbox"]:checked').length;
@@ -443,8 +446,18 @@
             }
         });
 
+        // 프로필 이미지 div 클릭 시 파일 입력 클릭
+        profileImgDiv.addEventListener('click', function () {
+            profileImageInput.click();
+        });
+
+        // 변경 버튼 클릭 시 이벤트 전파 중지 후 파일 입력 클릭
+        changeProfileBtn.addEventListener('click', function (event) {
+            event.stopPropagation(); // 부모로의 이벤트 전파 중지
+            profileImageInput.click();
+        });
+
         // 키보드 접근성: Enter 키로 파일 선택 창 열기
-        const profileImgDiv = document.querySelector('.profile-img');
         profileImgDiv.addEventListener('keypress', function (e) {
             if (e.key === 'Enter' || e.key === ' ') {
                 e.preventDefault();

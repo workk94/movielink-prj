@@ -1,5 +1,6 @@
 <!-- src/main/resources/templates/fragments/header.html -->
-<div th:fragment="headerFragment" xmlns:sec="http://www.thymeleaf.org" xmlns:th="http://www.thymeleaf.org">
+<div class="header-wrap" th:fragment="headerFragment" xmlns:sec="http://www.thymeleaf.org"
+     xmlns:th="http://www.thymeleaf.org">
     <div class="header">
         <div class="header-logo">
             <img alt="시네링크 로고" th:src="@{/img/cine_link_logo.svg}"/>
@@ -9,10 +10,10 @@
                 <ul class="route-list">
                     <li class="route-item"><a href="#">랭킹</a></li>
                     <li class="route-item"><a href="#">통계</a></li>
-                    <li class="route-item"><a href="#">커뮤니티</a></li>
+                    <li class="route-item"><a th:href="@{/communityMain}">커뮤니티</a></li>
                     <li class="route-item"><a href="#">작품</a></li>
                     <li class="route-item">
-                        <img alt="검색 아이콘" th:src="@{/img/search.svg}"/>
+                        <a th:href="@{/search}"> <img alt="검색 아이콘" th:src="@{/img/search.svg}"/></a>
                     </li>
                     <li class="route-item">
                         <img alt="벨 아이콘" th:src="@{/img/bell.svg}"/>
@@ -39,25 +40,27 @@
                 </div>
                 <div class="route-name">홈</div>
             </a>
-            <a class="route-item" href="#">
+            <a class="route-item" th:href="@{/search}">
                 <div class="route-img">
                     <img alt="발견 아이콘" th:src="@{/img/search.svg}"/>
                 </div>
                 <div class="route-name">발견</div>
             </a>
-            <a class="route-item" href="#">
+            <a class="route-item" th:href="@{/tier}">
                 <div class="route-img">
                     <img alt="콘텐츠 아이콘" th:src="@{/img/list.svg}"/>
                 </div>
                 <div class="route-name">콘텐츠</div>
             </a>
-            <a class="route-item" href="#">
+
+            <a class="route-item" th:href="@{/shorts}">
+
                 <div class="route-img">
                     <img alt="숏폼 아이콘" th:src="@{/img/shortform.svg}"/>
                 </div>
                 <div class="route-name">숏폼</div>
             </a>
-            <a class="route-item" href="#">
+            <a class="route-item" th:href="@{/postTopTen}">
                 <div class="route-img">
                     <img alt="커뮤니티 아이콘" th:src="@{/img/community.svg}"/>
                 </div>
@@ -69,12 +72,12 @@
                 </div>
                 <div class="route-name">마이페이지</div>
             </a>
-            <a class="route-item" href="#">
-                <div class="route-img">
-                    <img alt="알림 아이콘" th:src="@{/img/bell.svg}"/>
-                </div>
-                <div class="route-name">알림</div>
-            </a>
+            <!--            <a class="route-item" href="#">-->
+            <!--                <div class="route-img">-->
+            <!--                    <img alt="알림 아이콘" th:src="@{/img/bell.svg}"/>-->
+            <!--                </div>-->
+            <!--                <div class="route-name">알림</div>-->
+            <!--            </a>-->
         </nav>
     </footer>
 </div>

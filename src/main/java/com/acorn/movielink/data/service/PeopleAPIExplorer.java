@@ -77,7 +77,7 @@ public class PeopleAPIExplorer {
         conn.setRequestProperty("Content-type", "application/json");
 
 
-        System.out.println("Response code: " + conn.getResponseCode());
+        //System.out.println("Response code: " + conn.getResponseCode());
         BufferedReader rd;
         if (conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) {
             rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
@@ -101,10 +101,10 @@ public class PeopleAPIExplorer {
         JSONObject jsonObject = new JSONObject(Data);
         JSONArray dataArray = jsonObject.getJSONArray("Data");
         JSONObject firstDataObject = dataArray.getJSONObject(0);
-        System.out.println(firstDataObject);
+        //System.out.println(firstDataObject);
         JSONArray jsonResult = firstDataObject.getJSONArray("Result");
         JSONObject firstResultObject = jsonResult.getJSONObject(0);
-        System.out.println(firstResultObject);
+        //System.out.println(firstResultObject);
         JSONObject jsonStaffs = firstResultObject.getJSONObject("staffs");
         JSONArray jsonStaff = jsonStaffs.getJSONArray("staff");
 

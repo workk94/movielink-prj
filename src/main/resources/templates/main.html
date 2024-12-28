@@ -10,6 +10,26 @@
 <body>
 <div class="root">
     <div th:replace="~{fragments/header :: headerFragment}"></div>
+    <!--    실시간 동접자-->
+    <!--    <div class="active-user-display">-->
+    <!--        현재 활성 사용자 수: <span th:text="${activeUserCount}">0</span>-->
+    <!--    </div>-->
+
+
+    <!-- 팝업 오버레이: latestNotice가 존재할 때만 표시 -->
+    <div class="popup-overlay" id="noticePopup" th:if="${latestNotice != null}">
+        <div class="popup-content">
+            <span class="close-popup" id="closePopup">&times;</span>
+            <h2 th:text="${latestNotice.title}">공지 제목</h2>
+            <p th:text="${latestNotice.content}">공지 내용</p>
+            <div class="do-not-show">
+                <input id="doNotShowToday" type="checkbox"/>
+                <label for="doNotShowToday">오늘 하루 보지 않기</label>
+            </div>
+        </div>
+    </div>
+
+
     <div class="main-content">
         <section class="rank-wrap">
             <div class="title-wrap">
@@ -120,7 +140,7 @@
                 </a>
             </div>
             <div class="recommend-container">
-                <!-- 추천 영화가 존재할 경우 Swiper 슬라이더 표시 -->
+                <!-- 추천(또는 최신) 영화가 존재할 경우 Swiper 슬라이더 표시 -->
                 <div th:if="${!#lists.isEmpty(recommendedMovies)}">
                     <div class="swiper-container recommend-swiper">
                         <div class="swiper-wrapper">
@@ -128,11 +148,9 @@
                             <div class="swiper-slide" th:each="movie : ${recommendedMovies}">
                                 <!-- movie이 null이 아닌지 확인 -->
                                 <div class="movie-item" th:if="${movie != null}">
-                                    <img
-                                            alt="영화 포스터"
-                                            class="movie-poster"
-                                            th:src="${movie.moviePosterUrl}"
-                                    />
+                                    <img alt="영화 포스터"
+                                         class="movie-poster"
+                                         th:src="${movie.moviePosterUrl}"/>
                                     <p class="movie-title" th:text="${movie.movieNm}">영화 제목</p>
                                 </div>
                                 <!-- movie이 null일 경우 대체 콘텐츠 -->
@@ -145,7 +163,7 @@
                         <div class="swiper-pagination"></div>
                     </div>
                 </div>
-                <!-- 추천 영화가 없을 경우 빈 메시지 표시 -->
+                <!-- 추천(또는 최신) 영화가 없을 경우 빈 메시지 표시 -->
                 <div class="empty-content-wrap" th:if="${#lists.isEmpty(recommendedMovies)}">
                     <span class="empty-content-description">추천 영화가 없습니다.</span>
                     <a class="empty-content-button" th:href="@{/movies/search}">영화 검색하기</a>
@@ -163,9 +181,11 @@
                 </a>
             </div>
             <div class="ost-container">
-                <div class="ost-content"></div>
+                <div class="ost-content">
+                    <iframe id="randomOstPlayer" src="" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
                 <div class="random-button">
-                    <button>
+                    <button id="randomButton">
                         <span>랜덤</span>
                         <img alt="" th:src="@{/img/refresh.svg}"/>
                     </button>
@@ -177,53 +197,137 @@
 <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-      // 리뷰 Swiper 초기화
-      const reviewsSwiper = new Swiper(".reviews-swiper", {
-        slidesPerView: 2,
-        spaceBetween: 12,
-        loop: false,
-        navigation: {
-          nextEl: ".swiper-button-next",
-          prevEl: ".swiper-button-prev",
-        },
-        pagination: {
-          el: ".swiper-pagination",
-          clickable: true,
-        },
-        breakpoints: {
-          450: {
-            slidesPerView: 1,
-            spaceBetween: 16,
-          },
-          700: {
-            slidesPerView: 3,
-            spaceBetween: 16,
-          },
-        },
-      });
+       // 리뷰 Swiper 초기화
+       const reviewsSwiper = new Swiper(".reviews-swiper", {
+           slidesPerView: 2,
+           spaceBetween: 12,
+           loop: false,
+           navigation: {
+               nextEl: ".swiper-button-next",
+               prevEl: ".swiper-button-prev",
+           },
+           pagination: {
+               el: ".swiper-pagination",
+               clickable: true,
+           },
+           breakpoints: {
+               450: {
+                   slidesPerView: 1,
+                   spaceBetween: 16,
+               },
+               700: {
+                   slidesPerView: 3,
+                   spaceBetween: 16,
+               },
+           },
+       });
 
-      // 추천 Swiper 초기화
-      const recommendSwiper = new Swiper(".recommend-swiper", {
-        slidesPerView: 3,
-        spaceBetween: 16, // CSS와 일치
-        loop: false,
+       // 추천 Swiper 초기화
+       const recommendSwiper = new Swiper(".recommend-swiper", {
+           slidesPerView: 3,
+           spaceBetween: 16, // CSS와 일치
+           loop: false,
 
-        pagination: {
-          el: ".recommend-swiper .swiper-pagination",
-          clickable: true,
-        },
-        breakpoints: {
-          768: {
-            slidesPerView: 3,
-            spaceBetween: 16,
-          },
-          1024: {
-            slidesPerView: 4,
-            spaceBetween: 16,
-          },
-        },
-      });
-    });
+           pagination: {
+               el: ".recommend-swiper .swiper-pagination",
+               clickable: true,
+           },
+           breakpoints: {
+               768: {
+                   slidesPerView: 3,
+                   spaceBetween: 16,
+               },
+               1024: {
+                   slidesPerView: 4,
+                   spaceBetween: 16,
+               },
+           },
+       });
+
+       // 팝업을 보여줄지 여부를 확인하는 함수
+       function shouldShowPopup() {
+           const hidePopup = localStorage.getItem('hideNoticePopup');
+           if (hidePopup) {
+               const hideUntil = new Date(hidePopup);
+               const now = new Date();
+               return now > hideUntil;
+           }
+           return true;
+       }
+
+       /* Thymeleaf 인라인 자바스크립트로 hasNotice 변수 설정 */
+       var hasNotice = [[${latestNotice != null}]];
+
+       // 최신 공지가 있고 팝업을 보여줘야 하는지 확인
+       if (hasNotice && shouldShowPopup()) {
+           var popup = document.getElementById('noticePopup');
+           popup.style.display = 'flex';
+       }
+
+       // 팝업 닫기 핸들러
+       document.getElementById('closePopup').addEventListener('click', function () {
+           var popup = document.getElementById('noticePopup');
+           popup.style.display = 'none';
+       });
+
+       // "오늘 하루 보지 않기" 체크박스 핸들러
+       document.getElementById('doNotShowToday').addEventListener('change', function (e) {
+           if (e.target.checked) {
+               const hideUntil = new Date();
+               hideUntil.setHours(hideUntil.getHours() + 24);
+               localStorage.setItem('hideNoticePopup', hideUntil);
+           }
+       });
+
+       // 활성 사용자 수를 업데이트하는 함수
+       function updateActiveUserCount() {
+           fetch('/active-user-count') // 활성 사용자 수를 반환하는 엔드포인트
+               .then(response => response.json())
+               .then(data => {
+                   document.getElementById('activeUserCount').innerText = data.activeUserCount;
+               })
+               .catch(error => console.error('Error fetching active user count:', error));
+       }
+
+       // 초기 활성 사용자 수 로드
+       updateActiveUserCount();
+
+       // 10초마다 활성 사용자 수 업데이트
+       setInterval(updateActiveUserCount, 10000);
+   });
+</script>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    var youtubeost = /*[[${youtubeost}]]*/ []; // 서버에서 전달된 OST 영상 목록
+    /*]]>*/
+</script>
+
+<script>
+    const randomButton = document.getElementById("randomButton");
+    const randomOstPlayer = document.getElementById("randomOstPlayer");
+
+    // 랜덤으로 동영상 선택 및 재생
+    function playRandomOst() {
+        if (youtubeost.length === 0) {
+            alert("추천할 OST가 없습니다.");
+            return;
+        }
+
+        // 배열에서 랜덤 인덱스 선택
+        const randomIndex = Math.floor(Math.random() * youtubeost.length);
+        const randomVideo = youtubeost[randomIndex];
+
+        // 선택된 영상 재생
+        randomOstPlayer.src = `https://www.youtube.com/embed/${randomVideo}`;
+    }
+
+    // 버튼 클릭 이벤트 등록
+    randomButton.addEventListener("click", playRandomOst);
+
+    // 페이지 로드 시 첫 번째 영상 재생
+    if (youtubeost.length > 0) {
+        randomOstPlayer.src = `https://www.youtube.com/embed/${youtubeost[0]}`;
+    }
 </script>
 </body>
 </html>
