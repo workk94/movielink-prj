@@ -1,6 +1,7 @@
 package com.acorn.movielink.login.service;
 
 import com.acorn.movielink.config.PasswordUtil;
+import com.acorn.movielink.data.dto.MovieDTO;
 import com.acorn.movielink.login.dto.Member;
 import com.acorn.movielink.login.dto.Movie;
 import com.acorn.movielink.login.dto.Person;
@@ -262,9 +263,9 @@ public class MemberService {
 
 
     // 사용자 장르에 맞는 10개 영화 추천
-    public List<Movie> getRecommendedMovies(Integer memId) {
+    public List<MovieDTO> getRecommendedMovies(Integer memId) {
         logger.debug("사용자 장르에 맞는 추천 영화 10개 조회 요청 for 회원 ID: {}", memId);
-        List<Movie> recommendedMovies = memberMapper.findRecommendedMovies(memId);
+        List<MovieDTO> recommendedMovies = memberMapper.findRecommendedMovies(memId);
         logger.debug("쿼리 결과: {}", recommendedMovies);
         return recommendedMovies;
     }
