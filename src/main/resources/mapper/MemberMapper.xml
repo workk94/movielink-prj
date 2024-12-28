@@ -116,8 +116,7 @@
         content,
         post_created_at AS createdAt,
         post_views AS postViews,
-        post_like_cnt AS likeCount,
-        post_report AS reportCount
+        post_like_cnt AS likeCount
         FROM post
         WHERE mem_id = #{memId}
         ORDER BY post_created_at DESC
