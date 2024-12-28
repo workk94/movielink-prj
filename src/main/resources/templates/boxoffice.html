@@ -2,224 +2,345 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>Chart Example</title>
+  <title>stats chart</title>
 
-  <style>
-    .chartContainer{
-      display : flex;
-      position : relative;
-      width : 1500px;
-      height : 500px;
-      align-items : center;
-      justify-contents : center;
-    }
-    .sales_share_chart_Container{
-      width : 400px;
-    }
-    .audi_cnt_chart_Container{
-       width : 500px;
-      height : 300px;
-    }
-    #noDataMessage {
-        display : none;
-        position : absolute;
-        top : 50%;
-        left : 50%;
-        transform: translate(-50%, -50%);
-        text-align: center;
-    }
-
-
-
-  </style>
+  <link rel="stylesheet" th:href="@{/css/style.css}"/>
+  <link rel="stylesheet" th:href="@{/css/boxoffice.css}"/>
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
-  <script th:inline="javascript">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
 
-    const fetchData = (date) => {
-     fetch(`/boxoffice/daily?date=${date}`)
-        .then(response => response.json())
-        .then(data => {
-          const moviesList = data.moviesList;
-          if(moviesList.length>0){
-              updateChart(moviesList);
-              document.getElementById('noDataMessage').style.display = 'none';
-          }else{
-            document.getElementById('noDataMessage').style.display = 'block';
-          }
-
-        })
-        .catch(error => {
-            console.error('Error fetching data:', error);
-            document.getElementById('sales_share_chart').style.display = 'none';
-            document.getElementById('noDataMessage').style.display = 'block';
-        });
-    };
-
-
-    const updateChart = (moviesList) =>{
-      moviesList.sort((a, b) => {
-        return b.sales_share - a.sales_share;
-      });
-
-      const movieNames = moviesList.map( function(movie){
-          return movie.movie_nm;
-      });
-
-      const salesShares = {};
-      moviesList.forEach(function(movie) {
-        salesShares[movie.movie_nm] = movie.sales_share;
-      });
-
-      const audi_cnt = {};
-      moviesList.forEach(function(movie) {
-        audi_cnt[movie.movie_nm] = movie.audi_cnt;
-      });
-
-
-      const salesShare = movieNames.map(function(name) {
-           return salesShares[name];
-      });
-      const movieEtcNames = movieNames.slice();
-      const totalShare = salesShare.reduce((acc, value) => acc + value,0);
-
-      const etcShare = 100 - totalShare;
-      if (etcShare > 0) {
-           movieEtcNames.push("etc");
-           salesShare.push(etcShare);
-      }
-
-      if(sales_share_chart){
-        sales_share_chart.destroy();
-      }
-
-
-      if(audi_cnt_chart){
-        audi_cnt_chart.destroy();
-      }
-
-      const data = {
-                labels: movieEtcNames,
-                datasets: [{
-                    label: '점유율',
-                    data: salesShare,
-                    backgroundColor: ['#FF0000', '#FFA500', '#FFFF00', '#008000', '#0000FF', '#800080', '#FFC0CB', '#A52A2A', '#800000', '#00FFFF','#4DB6AC']
-                }]
-      };
-
-      const config = {
-                type: 'doughnut',
-                data: data,
-                options: {
-                    responsive: true,
-                    plugins: {
-                        legend: {
-                          position: 'bottom',
-                          labels:{
-                            font: {
-                              size: 10
-                            }
-                          }
-                        },
-                        title: {
-                          display: true,
-                          text: '영화 점유율',
-                          font: {
-                              size: 20
-                          }
-                        }
-                    }
-                }
-      };
-
-      const data2 = {
-              labels: movieNames,
-              datasets: [{
-                  label: '관객수',
-                  data: audi_cnt,
-                  borderColor: 'rgba(54, 162, 235, 1)',
-                  backgroundColor: 'rgba(54, 162, 235, 0.5)',
-                  borderWidth: 2,
-                  borderSkipped: false
-                }]
-            };
-
-            const config2 = {
-              type: 'bar',
-              data: data2,
-              options: {
-                responsive: true,
-                plugins: {
-                  legend: {
-                    display : false,
-                    position: 'top',
-                  },
-                  title: {
-                    display: true,
-                    text: '일일 영화별 관객수'
-                  },
-                  tooltip: {
-                    enabled: true,
-                    mode: 'index',
-                    intersect: false,
-                    position: 'nearest'
-                  }
-                },
-
-              },
-      };
-
-
-
-      const ctx = document.getElementById("sales_share_chart").getContext('2d');
-      const ctx2 = document.getElementById('audi_cnt_chart');
-
-      sales_share_chart = new Chart(ctx, config);
-      audi_cnt_chart = new Chart(ctx2, config2);
-    }
-
-    let sales_share_chart;
-    let audi_cnt_chart;
-
-    $(document).ready(function() {
-      const datePicker = $('#datePicker');
-      const today = new Date();
-      const maxDate = today.toISOString().split('T')[0];
-      datePicker.attr('max', maxDate);
-
-      datePicker.change(function() {
-        const selectedDate = $(this).val();
-        fetchData(selectedDate);
-        if(sales_share_chart){
-        sales_share_chart.destroy();
-      }
-      if(audi_cnt_chart){
-        audi_cnt_chart.destroy();
-      }
-      });
-      const initialDate = new Date();
-      initialDate.setDate(initialDate.getDate() - 1);
-      const formattedDate = initialDate.toISOString().split('T')[0];
-      datePicker.val(formattedDate);
-      fetchData(formattedDate);
-    });
-
-
-  </script>
 </head>
 <body>
 <div class="boxOfficeContainer">
-  <input type="date" id="datePicker"/>
-  <div class="chartContainer" >
+  <div th:replace="~{fragments/header :: headerFragment}"></div>
+  <div class="datePicker_container">
+    <p class="stats_message">통계</p>
+    <input type="date" id="datePicker"/>
+  </div>
+  <h3 class="boxOffice_Message"> 박스오피스 </h3>
+  <div class="boxOffice_Movies_Container">
+    <div class="swiper-container" >
+      <div class="swiper-wrapper">
+
+      </div>
+      <div class="swiper-button-next"></div>
+      <div class="swiper-button-prev"></div>
+    </div>
+    <p id="boxOfficeNoDataMessage" class="noDataMessage">데이터 집계 중입니다.</p>
+  </div>
+  <div class="first_Chart_Container">
     <div class="sales_share_chart_Container">
       <canvas id="sales_share_chart"></canvas>
+      <div id="custom-legend" class="custom-legend"></div>
     </div>
+    <p id="salesNoDataMessage" class="noDataMessage">데이터 집계 중입니다.</p>
+  </div>
+
+
+  <div class="second_Chart_Container">
     <div class="audi_cnt_chart_Container">
       <canvas id="audi_cnt_chart"></canvas>
     </div>
-    <h4 id="noDataMessage">데이터 집계 중입니다.</h4>
+    <p id="audiNoDataMessage" class="noDataMessage">데이터 집계 중입니다.</p>
   </div>
 </div>
+
 </body>
+<script th:inline="javascript">
+
+  let swiperInstance;
+  const initializeSwiper = () => {
+    const slideCount = document.querySelectorAll('.swiper-slide').length;
+
+    if (!swiperInstance) {
+        swiperInstance = new Swiper('.swiper-container', {
+                spaceBetween: 10,
+                direction: 'horizontal',
+                slidesPerView: 3 ,
+                slidesPerGroup: 1 ,
+                loop: slideCount > 2,
+                navigation: {
+                  nextEl: '.swiper-button-next',
+                  prevEl: '.swiper-button-prev',
+                },
+            });
+        }
+    };
+
+  const fetchData = (date) => {
+    const boxOfficeMessage = document.getElementById("boxOfficeNoDataMessage");
+    const salesMessage = document.getElementById("salesNoDataMessage");
+    const audiMessage = document.getElementById("audiNoDataMessage");
+
+   fetch(`/boxoffice/daily?date=${date}`)
+      .then(response => response.json())
+      .then(data => {
+          if(sales_share_chart){
+            sales_share_chart.destroy();
+          }
+          if(audi_cnt_chart){
+            audi_cnt_chart.destroy();
+          }
+          const custom_legend_container = document.getElementById('custom-legend');
+          custom_legend_container.innerHTML = '';
+          console.log(data);
+          console.log(data.moviesList);
+          console.log(data.boxOfficeMovieList);
+         if (!data || !data.moviesList || !data.boxOfficeMovieList) {
+            console.error("Invalid data format from API.");
+            const swiperWrapper = document.querySelector('.swiper-wrapper');
+            swiperWrapper.innerHTML = '';
+            custom_legend_container.innerHTML = '';
+            if (!swiperInstance) {
+                initializeSwiper();
+            } else {
+                swiperInstance.update();
+            }
+            document.getElementById('sales_share_chart').style.display = 'none';
+            document.getElementById('audi_cnt_chart').style.display = 'none';
+            salesMessage.style.display = 'block';
+            audiMessage.style.display = 'block';
+            boxOfficeMessage.style.display = 'block';
+            return;
+         }
+        const moviesList = data.moviesList;
+
+        if(moviesList.length>0){
+            document.getElementById('sales_share_chart').style.display = 'block';
+            document.getElementById('audi_cnt_chart').style.display = 'block';
+            updateChart(moviesList);
+            salesMessage.style.display = 'none';
+            audiMessage.style.display = 'none';
+            boxOfficeMessage.style.display = 'none';
+        }else{
+          salesMessage.style.display = 'block';
+          audiMessage.style.display = 'block';
+          boxOfficeMessage.style.display = 'block';
+        }
+        const swiperWrapper = document.querySelector('.swiper-wrapper');
+        swiperWrapper.innerHTML = '';
+        data.boxOfficeMovieList.forEach((movie, index) => {
+                const slide = document.createElement('div');
+                slide.className = 'swiper-slide';
+                slide.innerHTML = `<img class="movie_poster" src="${movie.movie_poster}" alt="${movie.movie_nm}" onerror="this.src='https://i.namu.wiki/i/3Ka8jNFtV-U1cfgmFF0YQZKuBRfOejFuwfiCvJnbDZfd9Ra41nlzqdDTDkO-PI8Ei27MLEeAYA1qpkjcezP1vA.svg'">
+                                  <div class="movie-details">
+                                    <h4>${index + 1}.&nbsp;&nbsp;${movie.movie_nm}</h4>
+                                  </div>
+                `;
+                const img = slide.querySelector('.movie_poster');
+                img.addEventListener('click', function() {
+                    window.location.href = `/title/${movie.movie_id}`;
+                });
+
+                const h4 = slide.querySelector('.movie-details h4');
+                h4.addEventListener('click', function() {
+                    window.location.href = `/title/${movie.movie_id}`;
+                });
+                swiperWrapper.appendChild(slide);
+        });
+        if (!swiperInstance) {
+            initializeSwiper();
+        } else {
+            swiperInstance.update();
+            swiperInstance.slideTo(0)
+        }
+      })
+      .catch(error => {
+          const swiperWrapper = document.querySelector('.swiper-wrapper');
+          swiperWrapper.innerHTML = '';
+          const custom_legend_container = document.getElementById('custom-legend');
+          custom_legend_container.innerHTML = '';
+          if (!swiperInstance) {
+              initializeSwiper();
+          } else {
+              swiperInstance.update();
+          }
+          document.getElementById('sales_share_chart').style.display = 'none';
+          document.getElementById('audi_cnt_chart').style.display = 'none';
+          salesMessage.style.display = 'block';
+          audiMessage.style.display = 'block';
+          boxOfficeMessage.style.display = 'block';
+
+      });
+  };
+
+  const updateChart = (moviesList) =>{
+
+    const filteredMovieNames = moviesList.map(movie => {
+        return movie.movie_nm.length > 10 ? movie.movie_nm.slice(0, 10) + '...' : movie.movie_nm;
+    });
+
+    const legend_container = document.getElementById('custom-legend');
+    legend_container.innerHTML = '';
+
+    if (sales_share_chart) {
+        sales_share_chart.destroy();
+        sales_share_chart = null;
+    }
+    if (audi_cnt_chart) {
+        audi_cnt_chart.destroy();
+        audi_cnt_chart = null;
+    }
+
+    const movieNames = moviesList.map(movie => movie.movie_nm);
+    const salesShares = {};
+    const audi_cnt = {};
+    moviesList.forEach(function(movie) {
+        salesShares[movie.movie_nm] = movie.sales_share;
+        audi_cnt[movie.movie_nm] = movie.audi_cnt;
+    });
+
+    const salesShare = filteredMovieNames.map(function(name) {
+        const originalName = moviesList.find(movie => movie.movie_nm.slice(0, 10) === name.slice(0, 10)).movie_nm;
+        return salesShares[originalName];
+    });
+
+    const filtered_audi_cnt = filteredMovieNames.map(function(name) {
+        const originalName = moviesList.find(movie => movie.movie_nm.slice(0, 10) === name.slice(0, 10)).movie_nm;
+        return audi_cnt[originalName];
+    });
+
+    const movieEtcNames = [...filteredMovieNames];
+    const totalShare = salesShare.reduce((acc, value) => acc + value, 0);
+    const etcShare = 100 - totalShare;
+    if (etcShare > 0) {
+        movieEtcNames.push("etc");
+        salesShare.push(etcShare);
+    }
+
+    const data = {
+              labels: movieEtcNames,
+              datasets: [{
+                  label: '점유율',
+                  data: salesShare,
+                  backgroundColor: ['#FF0000', '#FFA500', '#FFFF00', '#008000', '#0000FF', '#800080', '#FFC0CB', '#A52A2A', '#800000', '#00FFFF','#4DB6AC']
+              }]
+    };
+
+    const config = {
+              type: 'doughnut',
+              data: data,
+              options: {
+                  responsive: true,
+                  plugins: {
+                      legend: {
+                          display: false,
+                      },
+                      title: {
+                        display: true,
+                        text: '영화 점유율',
+                        font: {
+                            size: 20
+                        },
+                        color : '#ffffff',
+                      }
+                  }
+              }
+    };
+
+    const data2 = {
+            labels: filteredMovieNames,
+            datasets: [{
+                label: '관객수',
+                data: filtered_audi_cnt,
+                borderColor: 'rgba(54, 162, 235, 0.3)',
+                backgroundColor: ['#FF0000', '#FFA500', '#FFFF00', '#008000', '#0000FF', '#800080', '#FFC0CB', '#A52A2A', '#800000', '#00FFFF','#4DB6AC'],
+                borderWidth: 2,
+                borderSkipped: false
+              }]
+          };
+
+          const config2 = {
+            type: 'bar',
+            data: data2,
+            options: {
+              responsive: true,
+              plugins: {
+                legend: {
+                  display : false,
+                  position: 'top',
+                },
+                title: {
+                  display: true,
+                  text: '일일 영화별 관객수',
+                  font: {
+                            size: 20
+                  },
+                  color: '#ffffff',
+                },
+                tooltip: {
+                  enabled: true,
+                  mode: 'index',
+                  intersect: false,
+                  position: 'nearest'
+                },
+              },
+
+              scales: {
+                  x: {
+                      ticks:{
+                        maxRotation: 35,
+                        minRotation: 35,
+                        color:'#ffffff',
+                        font : {
+                            size : 14,
+                        }
+                      }
+                  },
+                  y : {
+                      ticks:{
+                        color : '#ffffff',
+                        font : {
+                            size : 14,
+                        }
+                      },
+                  },
+              },
+            },
+    };
+
+
+
+    const ctx = document.getElementById("sales_share_chart").getContext('2d');
+    const ctx2 = document.getElementById('audi_cnt_chart').getContext('2d');
+
+    sales_share_chart = new Chart(ctx, config);
+    audi_cnt_chart = new Chart(ctx2, config2);
+
+    legend_container.innerHTML = sales_share_chart.data.labels.map((label, index) => `
+      <div>
+        <div style="background-color: ${sales_share_chart.data.datasets[0].backgroundColor[index]};"></div>
+        <span>${label}</span>
+      </div>
+    `
+    ).join('');
+
+  }
+
+  let sales_share_chart;
+  let audi_cnt_chart;
+
+  $(document).ready(function() {
+    initializeSwiper();
+    const datePicker = $('#datePicker');
+    const today = new Date();
+    const maxDate = today.toISOString().split('T')[0];
+    datePicker.attr('max', maxDate);
+
+    datePicker.change(function() {
+        const selectedDate = $(this).val();
+        fetchData(selectedDate);
+    });
+
+    const initialDate = new Date();
+    initialDate.setDate(initialDate.getDate() - 1);
+    const formattedDate = initialDate.toISOString().split('T')[0];
+    datePicker.val(formattedDate);
+    fetchData(formattedDate);
+  });
+
+</script>
 </html>
