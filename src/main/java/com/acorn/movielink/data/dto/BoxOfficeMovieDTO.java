@@ -5,14 +5,13 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Data
-public class MovieDailyStatsDTO {
+public class BoxOfficeMovieDTO {
 
+    Long movie_id;
     String movie_nm;
-    double sales_share;
-    int audi_cnt;
-    String open_dt;
+    String movie_poster;
 
 }
