@@ -111,7 +111,8 @@
                         <img src="${movie.moviePosterUrl}"
                             data-movie-id="${movie.movieId}"
                             class="movie-poster draggable"
-                            title="${movie.movieNm} (${movie.movieOpenDt})"/>
+                            title="${movie.movieNm} (${movie.movieOpenDt})"
+                            crossOrigin="anonymous"/>
                     `;
                 });
                 $("#movieList").html(html);
@@ -174,30 +175,33 @@
 
     // 4) 화면 캡처 → 클립보드 복사
     function captureAndCopy() {
-        //const tierArea = document.getElementById("tierContainer");
-document.body;
-        html2canvas(tierArea).then((canvas) => {
-            canvas.toBlob(async (blob) => {
-                if (!blob) {
-                    alert("Blob 생성에 실패했습니다.");
-                    return;
-                }
+    const tierArea = document.getElementById("tierContainer");
 
-                if (!navigator.clipboard || !window.ClipboardItem) {
-                    alert("이 브라우저에서는 클립보드 복사가 지원되지 않습니다.");
-                    return;
-                }
+    html2canvas(tierArea, { useCORS: true }).then((canvas) => { // useCORS 옵션 추가
+        canvas.toBlob(async (blob) => {
+            if (!blob) {
+                alert("Blob 생성에 실패했습니다.");
+                return;
+            }
 
-                const clipboardItem = new ClipboardItem({ "image/png": blob });
-                try {
-                    await navigator.clipboard.write([clipboardItem]);
-                    alert("클립보드에 이미지가 복사되었습니다!");
-                } catch (err) {
-                    alert("클립보드 복사 중 오류: " + err);
-                }
-            }, "image/png");
-        });
-    }
+            if (!navigator.clipboard || !window.ClipboardItem) {
+                alert("이 브라우저에서는 클립보드 복사가 지원되지 않습니다.");
+                return;
+            }
+
+            const clipboardItem = new ClipboardItem({ "image/png": blob });
+            try {
+                await navigator.clipboard.write([clipboardItem]);
+                alert("클립보드에 이미지가 복사되었습니다!");
+            } catch (err) {
+                alert("클립보드 복사 중 오류: " + err);
+            }
+        }, "image/png");
+    }).catch((error) => {
+        console.error("html2canvas 오류:", error);
+        alert("캡처 중 오류가 발생했습니다.");
+    });
+}
 
     // 수정된 openColorPicker 함수
     function openColorPicker($tierTitle) {
