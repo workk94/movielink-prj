@@ -9,7 +9,7 @@ import com.acorn.movielink.login.service.MemberService;
 import com.acorn.movielink.login.service.MovieService;
 import com.acorn.movielink.login.service.NoticeService;
 import com.acorn.movielink.login.service.ReviewService;
-import com.acorn.movielink.youtube.YouTubeService;
+import com.acorn.movielink.youtube.service.YouTubeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
