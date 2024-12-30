@@ -1,16 +1,23 @@
 package com.acorn.movielink.comunity.controller;
 
+import com.acorn.movielink.comunity.dto.CommentDTO;
+import com.acorn.movielink.comunity.dto.LikeDTO;
+import com.acorn.movielink.comunity.service.CommentService;
+import com.acorn.movielink.comunity.service.CommunityLikeService;
 import com.acorn.movielink.comunity.service.CommunityPostService;
 import com.acorn.movielink.comunity.service.TagService;
 import com.acorn.movielink.comunity.dto.PostDTO;
 import com.acorn.movielink.comunity.dto.TagDTO;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class PostController {
@@ -21,10 +28,13 @@ public class PostController {
     @Autowired
     private TagService tagService;
 
-//    @Autowired
-//    private LikeService likeService;
+    @Autowired
+    private CommunityLikeService likeService;
 
-//    좋아요 많은 유저 Top7
+    @Autowired
+    private CommentService commentService;
+
+    //    좋아요 많은 유저 Top7
     @ModelAttribute("topSevenMem")
     public List<PostDTO> getTop7Member(){
         return postService.selectTop7Member();
@@ -62,36 +72,123 @@ public class PostController {
     }
 
     //좋아요 많은 게시글 Top10
-    @GetMapping("/postTopTen")
+    @GetMapping("/communityMain")
     public String getTopTenPosts(Model model){
 
         List<PostDTO> postTopTen = postService.selectTopTenPosts();
         model.addAttribute("postTopTen", postTopTen);
         System.out.println("TopTen =" +postTopTen);
-        return "postTopTenList";
+        return "communityMain";
     }
 
-    // 게시글 상세조회
+//    // 게시글 상세조회
+//    @GetMapping("/postDetail/{postId}")
+//    public String getPostOne(@PathVariable(name = "postId") int postId,
+//                             Model model,
+//                             HttpSession httpSession){
+//        Integer memId = (Integer) httpSession.getAttribute("memId");
+//        boolean isLiked = false;
+//        if(memId != null){
+//            isLiked = likeService.isLikedByUser(postId, memId);
+//        }else {
+//            memId = 0; // 또는 다른 기본값 설정
+//        }
+//        // 게시글 조회
+//        PostDTO postOne = postService.selectPostById(postId);
+//
+//        // 태그는 이미 문자열 리스트로 설정되어 있음
+//        List<TagDTO> tagNames =tagService.selectTagsByPostId(postId);
+//
+//        // 댓글 조회
+//        List<CommentDTO> comments = commentService.getCommentsByPostId(postId);
+//        // 게시글 상세 페이지에 댓글 개수도 전달
+//        int commentCount = commentService.getCommentCountByPostId(postId);
+//        model.addAttribute("commentCount", commentCount);
+//        // 모델에 데이터 추가
+//        model.addAttribute("tags", tagNames);
+//        model.addAttribute("postOne", postOne);
+//        model.addAttribute("isLiked", isLiked);  // 좋아요 상태 (로그인 여부에 따라)
+//        model.addAttribute("memId", memId);  // 로그인한 사용자의 ID (로그인하지 않은 경우 null)
+//        model.addAttribute("comments", comments); // 댓글과 대댓글 리스트 추가
+//
+//
+//        // 디버깅 출력
+//        System.out.println("해당게시글의 태그는 " + tagNames);
+//        System.out.println("해당게시글의 id는 " + postOne.getPostId());
+//        System.out.println("세션 memId: " + memId);
+//
+//        return "postOneDetail";
+//    }
+
+
     @GetMapping("/postDetail/{postId}")
-    public String getPostOne(@PathVariable(name = "postId") int postId,
-                             Model model,
-                             HttpSession httpSession){
+    public ResponseEntity<?> getPostOne(@PathVariable int postId, HttpSession session) {
+        Integer memId = (Integer) session.getAttribute("memId");
+        boolean isLiked = memId != null && likeService.isLikedByUser(postId, memId);
+
         // 게시글 조회
         PostDTO postOne = postService.selectPostById(postId);
+        List<TagDTO> tags = tagService.selectTagsByPostId(postId);
+        List<CommentDTO> comments = commentService.getCommentsByPostId(postId);
 
-        // 태그는 이미 문자열 리스트로 설정되어 있음
-        List<TagDTO> tagNames =tagService.selectTagsByPostId(postId);
+        // JSON 응답
+        Map<String, Object> response = new HashMap<>();
+        response.put("postOne", postOne);
+        response.put("tags", tags);
+        response.put("isLiked", isLiked);
+        response.put("memId", memId);
+        response.put("comments", comments);
 
-        // 모델에 데이터 추가
-        model.addAttribute("tags", tagNames);
-        model.addAttribute("postOne", postOne);
-
-        // 디버깅 출력
-        System.out.println("해당게시글의 태그는 " + tagNames);
-        System.out.println("해당게시글의 id는 " + postOne.getPostId());
-
-        return "postOneDetail";
+        return ResponseEntity.ok(response);
     }
+
+
+
+
+
+
+
+    @PostMapping("/like/{postId}")
+    @ResponseBody  // AJAX 요청을 처리하므로 JSON 형태로 응답
+    public LikeDTO toggleLikePost(@PathVariable(name = "postId") int postId,
+                                  HttpSession session) {
+
+        // 로그인된 사용자 확인
+        Integer memId = (Integer) session.getAttribute("memId");
+
+        // 로그인하지 않은 경우에는 좋아요 상태 변경을 할 수 없으므로 false 반환
+        if (memId == null) {
+            LikeDTO likeDTO = new LikeDTO();
+            likeDTO.setTargetId(postId);  // 좋아요를 누른 게시글 ID
+            likeDTO.setMemId(memId); // null일 경우에도 처리
+            return likeDTO;
+        }
+
+        // 좋아요 상태를 토글 (추가 또는 제거)
+        boolean isLiked = likeService.togglePostLike(postId, memId);
+
+        // 게시글 정보 불러오기 (좋아요 수 포함)
+        PostDTO post = postService.selectPostById(postId);
+
+        // LikeDTO 객체에 응답 값 설정
+        LikeDTO likeDTO = new LikeDTO();
+        likeDTO.setTargetId(postId);  // 좋아요가 적용된 게시글 ID
+        likeDTO.setMemId(memId);  // 사용자 ID
+        likeDTO.setTargetType("POST");  // 게시글 좋아요로 설정
+
+        // 좋아요 상태와 총합을 포함한 값 반환
+        likeDTO.setLikeId(isLiked ? 1 : 0);  // 상태가 추가되었으면 1, 취소되었으면 0
+        likeDTO.setLikeCount(post.getPostLikeCnt()); // 좋아요 수 추가
+
+        return likeDTO;
+    }
+
+
+
+
+
+
+
 
 
     //게시글 수정하기

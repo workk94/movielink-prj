@@ -1,5 +1,6 @@
 package com.acorn.movielink.login.repository;
 
+import com.acorn.movielink.data.dto.MovieDTO;
 import com.acorn.movielink.login.dto.*;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -48,7 +49,7 @@ public interface MemberMapper {
     List<Review> findLatestReviews();
 
     // 사용자 장르에 맞는 10개 영화 추천
-    List<Movie> findRecommendedMovies(Integer memId);
+    List<MovieDTO> findRecommendedMovies(Integer memId);
 
     // 페이징 및 필터링된 회원 목록 조회
     List<Member> findMembers(
@@ -66,5 +67,6 @@ public interface MemberMapper {
             @Param("nickname") String nickname
     );
 
-   
+
+    Optional<Member> findByMemNn(@Param("memNn") String nickname);
 }

@@ -1,0 +1,116 @@
+.tier-container {
+        border: 1px solid #ccc;
+
+        margin-bottom: 10px;
+        height: 80px;
+        display: flex;
+      }
+      .tier-container input {
+        font-weight: bold;
+        width: 100px;
+            padding: 5px;
+            border: none;
+            color: #ffffff;
+            border-radius: 4px;
+
+
+      }
+      .movie-poster {
+       width:54px;
+        height: 80px;
+
+        cursor: move;
+      }
+
+
+      .add-tier-button {
+        margin: 10px 0;
+      }
+      .drop-zone {
+        width: 100%;
+      }
+
+      .tier-filter {
+        color: #98a4b7;
+      }
+      .tier-filter input,
+      .tier-filter select,
+      .tier-filter button {
+        background-color: #25304a;
+        padding: 4px;
+        border-radius: 8px;
+        border: none;
+      }
+      .tier-filter button,
+      .add-tier-button {
+        background-color: #5383e8;
+        color: #fff;
+      }
+      .add-tier-button {
+        background-color: #5383e8;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        padding: 4px;
+      }
+
+      .copy-button button {
+        background-color: #5383e8;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        padding: 4px;
+      }
+      .tier-title {
+        font-weight: bold;
+        width: 100px;
+        padding: 5px;
+        border: none;
+        color: #ffffff;
+        border-radius: 4px;
+      }
+
+      .tier-s {
+        background-color: #ff7f7f;
+      }
+
+      .tier-a {
+        background-color: #ffbf7f;
+      }
+
+      .tier-b {
+        background-color: #ffdf7f;
+      }
+
+      .tier-c {
+        background-color: #ffff7f;
+      }
+
+      .tier-d {
+        background-color: #bfff7f;
+      }
+
+      .tier-f {
+        background-color: #7fff7f;
+      }
+
+      .tier-new {
+        background-color: #cccccc; /* Default color for new tiers */
+      }
+
+
+
+      .tier-settings {
+        margin-left: 10px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-size: 16px;
+        color: #ffffff;
+      }
+
+      .tier-settings:hover {
+        color: #5383e8;
+      }
+
+

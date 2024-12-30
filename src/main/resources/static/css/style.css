@@ -3,7 +3,7 @@
 /* 공통 폰트 설정 */
 @font-face {
     font-family: AppleSDGothicNeo;
-    src: url(/fonts/AppleSDGothicNeoM.ttf) format("truetype");
+    src: url(/font/AppleSDGothicNeoM.ttf) format("truetype");
     font-weight: bold;
 }
 
@@ -177,7 +177,7 @@ footer nav .route-item .route-name {
 
 .error {
     color: red;
-    margin-left: 150px;
+font-size:12px;
 }
 
 .success {
