@@ -18,7 +18,7 @@
                 <ul class="route-list">
                     <li class="route-item"><a href="#">랭킹</a></li>
                     <li class="route-item"><a href="#">통계</a></li>
-                    <li class="route-item"><a href="#">커뮤니티</a></li>
+                    <li class="route-item"><a th:href="@{/communityMain}">커뮤니티</a></li>
                     <li class="route-item"><a href="#">작품</a></li>
                     <li class="route-item">
                         <img alt="검색 아이콘" th:src="@{/img/search.svg}" />
@@ -81,8 +81,8 @@
                     <div class="community_post_body">
                         <div class="community_post_title">
                             <a th:href="@{/postDetail/{postId}(postId=${post.postId})}">
-                                <p th:text="${post.postTitle}">[모이나2] 로튼 팝콘지수</p>
-                                <p th:text="${post.content}">[모이나2] 로튼 팝콘지수</p>
+                                <p class="post_title_p" th:text="${post.postTitle}">[모이나2] 로튼 팝콘지수</p>
+                                <p class="post_content_p" th:text="${post.content}">[모이나2] 로튼 팝콘지수</p>
                             </a>
                         </div>
                         <div class="community_imgbox">
@@ -93,7 +93,9 @@
                 </div>
 
                 <div class="community_more">
-                    <button class="community_more_btn" th:href="@{/postAll}">더보기</button>
+                    <a href="/postAll">
+                    <button class="community_more_btn">더보기</button>
+                    </a>
                 </div>
             </div>
         </div>
@@ -106,7 +108,7 @@
             </div>
 
             <div class="tag_top">
-                <div class="aside_header"># 태그</div>
+                <div class="aside_header">인기태그 TOP 7</div>
                 <div class="tag">
                     <div class="tag_list">
                         <ul>

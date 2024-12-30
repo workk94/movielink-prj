@@ -13,5 +13,6 @@ public class MovieDailyStatsDTO {
     String movie_nm;
     double sales_share;
     int audi_cnt;
+    String open_dt;
 
 }

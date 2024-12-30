@@ -1,21 +1,19 @@
 package com.acorn.movielink.login.controller;
 
-import com.acorn.movielink.login.dto.Genre;
-import com.acorn.movielink.login.dto.Member;
+import com.acorn.movielink.login.dto.*;
 import com.acorn.movielink.login.service.GenreService;
 import com.acorn.movielink.login.service.MemberService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class AuthController {
@@ -83,4 +81,41 @@ public class AuthController {
         return "login";
     }
 
+    // 이메일 중복 확인을 위한 POST 엔드포인트 추가
+    @PostMapping("/check_email")
+    @ResponseBody
+    public ResponseEntity<CheckEmailResponse> checkEmail(@RequestBody CheckEmailRequest request) {
+        String email = request.getEmail();
+        logger.debug("이메일 중복 확인 요청: {}", email);
+
+        boolean exists = false;
+        if (email != null && !email.isEmpty() && email.matches("^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$")) {
+            Optional<Member> memberOpt = memberService.findByEmail(email);
+            exists = memberOpt.isPresent();
+        } else {
+            logger.warn("이메일 중복 확인 실패 - 이메일이 비어있거나 형식이 올바르지 않음");
+        }
+
+        CheckEmailResponse response = new CheckEmailResponse(exists);
+        return ResponseEntity.ok(response);
+    }
+
+    // 닉네임 중복 확인을 위한 POST 엔드포인트 추가
+    @PostMapping("/check_nickname")
+    @ResponseBody
+    public ResponseEntity<CheckNicknameResponse> checkNickname(@RequestBody CheckNicknameRequest request) {
+        String nickname = request.getNickname();
+        logger.debug("닉네임 중복 확인 요청: {}", nickname);
+
+        boolean exists = false;
+        if (nickname != null && !nickname.isEmpty() && nickname.length() >= 2) {
+            Optional<Member> memberOpt = memberService.findByNickname(nickname);
+            exists = memberOpt.isPresent();
+        } else {
+            logger.warn("닉네임 중복 확인 실패 - 닉네임이 비어있거나 형식이 올바르지 않음");
+        }
+
+        CheckNicknameResponse response = new CheckNicknameResponse(exists);
+        return ResponseEntity.ok(response);
+    }
 }
