@@ -254,4 +254,9 @@
             </if>
         </where>
     </select>
+
+    <!-- 닉네임으로 회원 찾기 -->
+    <select id="findByMemNn" parameterType="String" resultMap="memberResultMap">
+        SELECT * FROM member WHERE mem_nn = #{memNn}
+    </select>
 </mapper>
