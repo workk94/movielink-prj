@@ -280,4 +280,18 @@ public class MemberService {
     public int countMembers(String sort, String type, String email, String nickname) {
         return memberMapper.countMembers(sort, type, email, nickname);
     }
+
+    // 닉네임으로 회원 찾기
+    public Optional<Member> findByNickname(String nickname) {
+        logger.debug("닉네임으로 회원 검색 요청: {}", nickname);
+        Optional<Member> member = memberMapper.findByMemNn(nickname);
+        logger.debug("findByMemNn 쿼리 결과: {}", member);
+        if (member.isPresent()) {
+            logger.info("회원 검색 성공: {}", nickname);
+        } else {
+            logger.warn("회원 검색 실패: {}", nickname);
+        }
+        return member;
+    }
+
 }
