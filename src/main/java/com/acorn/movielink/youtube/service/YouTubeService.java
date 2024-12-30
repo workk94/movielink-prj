@@ -1,5 +1,7 @@
-package com.acorn.movielink.youtube;
+package com.acorn.movielink.youtube.service;
 
+import com.acorn.movielink.youtube.dto.YouTubeSearchResponse;
+import com.acorn.movielink.youtube.dto.YouTubeVideoDetailsResponse;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -7,18 +9,17 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Pattern;
 
 @Service
 public class YouTubeService {
-    private static final String API_KEY = "AIzaSyA99KE6ZVpVIOdCI43JCbtUfDYBaBGUZCw";
+    private final String API_KEY;
     private static final String SEARCH_URL = "https://www.googleapis.com/youtube/v3/search";
     private static final String VIDEOS_URL = "https://www.googleapis.com/youtube/v3/videos";
 
     private final RestTemplate restTemplate;
 
-    public YouTubeService() {
-//        this.API_KEY = youtubeAPIKey;
+    public YouTubeService(@Value("${youtube-api-key}")String api_key) {
+        this.API_KEY = api_key;
         this.restTemplate = new RestTemplate();
     }
 
