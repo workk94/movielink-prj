@@ -5,7 +5,12 @@
     <meta charset="UTF-8">
     <title>회원가입</title>
     <link rel="stylesheet" th:href="@{/css/style.css}"/>
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+
     <style>
+        /* 기존 스타일 유지 */
+
         .login-header {
             display: flex;
             justify-content: center;
@@ -48,6 +53,7 @@
             flex-direction: column;
             width: 700px;
             margin-bottom: 40px;
+            position: relative;
         }
         .signup-field input {
             margin-top: 8px;
@@ -62,6 +68,16 @@
             border: 1px solid #25304a;
             border-radius: 6px;
             box-sizing: border-box;
+            transition: border-color 0.3s;
+        }
+
+        /* 유효/무효 시 입력 필드 테두리 색상 변경 */
+        .signup-field input.valid {
+            border-color: #28a745; /* 녹색 */
+        }
+
+        .signup-field input.invalid {
+            border-color: #dc3545; /* 빨간색 */
         }
 
         /* 장르 선택 버튼 스타일 */
@@ -114,15 +130,147 @@
             cursor: pointer;
             font-size: 16px;
             transition: background-color 0.3s;
+            opacity: 0.6;
+            pointer-events: none;
         }
 
-        button[type="submit"]:hover {
+        button[type="submit"].enabled {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        button[type="submit"].enabled:hover {
             background-color: #304ecc;
         }
+
         .genre-wrap{
             display:flex;
             flex-wrap:wrap;
             gap:8px;
+        }
+
+        /* 비밀번호 강도 표시 */
+        .password-strength {
+            margin-top: 4px;
+            font-size: 12px;
+        }
+
+        .strength-weak {
+            color: red; /* 빨간색 */
+        }
+
+        .strength-medium {
+            color: #ffc107; /* 노란색 */
+        }
+
+        .strength-strong {
+            color: #28a745; /* 녹색 */
+        }
+
+        /* 전화번호 오류 메시지 스타일 */
+        .phone-error p {
+            color: red;
+            font-size: 12px;
+            margin-top: 4px;
+        }
+
+        /* 시각적 피드백을 위한 유효/무효 클래스 */
+        .valid {
+            border-color: #28a745;
+        }
+
+        .invalid {
+            border-color: #dc3545;
+        }
+
+        /* 이메일 중복 확인 버튼 스타일 */
+        .email-check-container {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        #emailCheckButton {
+            padding: 8px ;
+            width:80px;
+            margin-top:8px;
+            height:48px;
+            background-color: #4263eb;
+            color: #ffffff;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: background-color 0.3s;
+        }
+
+        #emailCheckButton:hover {
+            background-color: #304ecc;
+        }
+
+        /* 중복 확인 결과 메시지 스타일 */
+        .duplication-message {
+            font-size: 12px;
+            margin-top: 4px;
+        }
+
+        .duplication-message.valid {
+            color: #28a745; /* 녹색 */
+        }
+
+        .duplication-message.invalid {
+            color: #dc3545; /* 빨간색 */
+        }
+        .error p,
+        .phone-error {
+            color: red;
+            font-size: 12px;
+            margin-top: 4px;
+        }
+        #memEmailError{
+            font-size:12px;
+            margin-top:4px;
+        }
+        /* 추가된 스타일 */
+        #genreError {
+            color: red;
+            font-size: 12px;
+            margin-top: 4px;
+        }
+
+        /* 닉네임 중복 확인 관련 스타일 추가 */
+        .nickname-check-container {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        #nicknameCheckButton {
+             padding: 8px ;
+            width:80px;
+            margin-top:8px;
+            height:48px;
+            background-color: #4263eb;
+            color: #ffffff;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: background-color 0.3s;
+        }
+
+        #nicknameCheckButton:hover {
+            background-color: #304ecc;
+        }
+
+        .duplication-message.valid {
+            color: #28a745; /* 녹색 */
+        }
+
+        .duplication-message.invalid {
+            color: #dc3545; /* 빨간색 */
         }
     </style>
 </head>
@@ -131,12 +279,12 @@
     <div th:replace="~{fragments/header :: headerFragment}"></div>
     <div class="login-header">
         <div class="arrow-back" onclick="window.history.back();">
-            <img th:src="@{/img/arrow_back.svg}"/>
+            <img alt="뒤로가기" th:src="@{/img/arrow_back.svg}"/>
         </div>
         <h1>회원가입</h1>
     </div>
     <div class="signup-wrap">
-        <form method="post" th:action="@{/signup}" th:object="${member}">
+        <form id="signupForm" method="post" th:action="@{/signup}" th:object="${member}">
             <!-- CSRF 토큰 -->
             <input
                     th:name="${_csrf.parameterName}"
@@ -146,13 +294,21 @@
 
             <div class="signup-field">
                 <label for="memEmail">이메일</label>
-                <input
-                        id="memEmail"
-                        placeholder="example@domain.com"
-                        required
-                        th:field="*{memEmail}"
-                        type="email"
-                />
+                <div class="email-check-container">
+                    <input
+                            aria-describedby="memEmailError memEmailDupError"
+                            id="memEmail"
+                            placeholder="example@domain.com"
+                            required
+                            th:field="*{memEmail}"
+                            type="email"
+                    />
+                    <button id="emailCheckButton" type="button">중복확인</button>
+                </div>
+                <!-- 클라이언트 사이드 오류 메시지 -->
+                <div aria-live="polite" class="error" id="memEmailError"></div>
+                <div aria-live="polite" class="duplication-message" id="memEmailDupError"></div>
+                <!-- 서버 사이드 오류 메시지 -->
                 <div class="error" th:if="${#fields.hasErrors('memEmail')}">
                     <p th:errors="*{memEmail}">이메일 오류</p>
                 </div>
@@ -161,12 +317,17 @@
             <div class="signup-field">
                 <label for="memPw">비밀번호</label>
                 <input
+                        aria-describedby="memPwError memPwStrength"
                         id="memPw"
                         placeholder="비밀번호 입력"
                         required
                         th:field="*{memPw}"
                         type="password"
                 />
+
+                <!-- 비밀번호 강도 표시 -->
+                <div class="password-strength" id="memPwStrength"></div>
+                <!-- 서버 사이드 오류 메시지 -->
                 <div class="error" th:if="${#fields.hasErrors('memPw')}">
                     <p th:errors="*{memPw}">비밀번호 오류</p>
                 </div>
@@ -175,21 +336,42 @@
             <div class="signup-field">
                 <label for="memTel">전화번호</label>
                 <input
+                        aria-describedby="memTelError"
                         id="memTel"
-                        placeholder="010-1234-5678"
+                        placeholder="010xxxxxxxx"
+                        required
                         th:field="*{memTel}"
                         type="text"
+                        value="010"
                 />
+                <!-- 클라이언트 사이드 오류 메시지 -->
+                <div aria-live="polite" class="phone-error" id="memTelError"></div>
+                <!-- 서버 사이드 오류 메시지 -->
+                <div class="error" th:if="${#fields.hasErrors('memTel')}">
+                    <p th:errors="*{memTel}">전화번호 오류</p>
+                </div>
             </div>
 
             <div class="signup-field">
                 <label for="memNn">닉네임</label>
-                <input
-                        id="memNn"
-                        placeholder="닉네임 입력"
-                        th:field="*{memNn}"
-                        type="text"
-                />
+                <div class="nickname-check-container">
+                    <input
+                            aria-describedby="memNnError memNnDupError"
+                            id="memNn"
+                            placeholder="닉네임 입력"
+                            required
+                            th:field="*{memNn}"
+                            type="text"
+                    />
+                    <button id="nicknameCheckButton" type="button">중복확인</button>
+                </div>
+                <!-- 클라이언트 사이드 오류 메시지 -->
+                <div aria-live="polite" class="error" id="memNnError"></div>
+                <div aria-live="polite" class="duplication-message" id="memNnDupError"></div>
+                <!-- 서버 사이드 오류 메시지 -->
+                <div class="error" th:if="${#fields.hasErrors('memNn')}">
+                    <p th:errors="*{memNn}">닉네임 오류</p>
+                </div>
             </div>
 
             <!-- 장르 선택 필드를 버튼으로 변경 -->
@@ -206,6 +388,9 @@
                         <label th:for="'genre_' + ${genre.genreId}" th:text="'#'+${genre.genreNm}"></label>
                     </div>
                 </div>
+                <!-- 오류 메시지 div 추가 -->
+                <div class="error" id="genreError"></div>
+                <!-- 서버 사이드 오류 메시지 -->
                 <div class="error" th:if="${#fields.hasErrors('genreIds')}">
                     <p th:errors="*{genreIds}">장르 선택 오류</p>
                 </div>
@@ -213,38 +398,12 @@
 
             <!-- 제출 버튼 -->
             <div class="signup-field">
-                <button type="submit">가입하기</button>
+                <button id="signupButton" type="submit">가입하기</button>
             </div>
         </form>
     </div>
     <p>이미 회원이신가요? <a th:href="@{/login}">로그인</a></p>
 </div>
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const maxSelection = 5; // 최대 선택 가능한 장르 수
-        const checkboxes = document.querySelectorAll('.genre-wrap input[type="checkbox"]');
-
-        checkboxes.forEach(function (checkbox) {
-            checkbox.addEventListener('change', function () {
-                const checkedCount = document.querySelectorAll('.genre-wrap input[type="checkbox"]:checked').length;
-                if (checkedCount >= maxSelection) {
-                    checkboxes.forEach(function (cb) {
-                        if (!cb.checked) {
-                            cb.disabled = true;
-                            cb.nextElementSibling.style.opacity = '0.6';
-                            cb.nextElementSibling.style.cursor = 'not-allowed';
-                        }
-                    });
-                } else {
-                    checkboxes.forEach(function (cb) {
-                        cb.disabled = false;
-                        cb.nextElementSibling.style.opacity = '1';
-                        cb.nextElementSibling.style.cursor = 'pointer';
-                    });
-                }
-            });
-        });
-    });
-</script>
+<script th:src="@{/js/signup.js}"></script>
 </body>
 </html>

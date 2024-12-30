@@ -68,4 +68,5 @@ public interface MemberMapper {
     );
 
 
+    Optional<Member> findByMemNn(@Param("memNn") String nickname);
 }
