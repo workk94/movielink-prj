@@ -1,3 +1,4 @@
+/* 폰트 설정 */
 @font-face {
     font-family: 'AppleSDGothicNeo';
     src: url('/fonts/AppleSDGothicNeoM.ttf') format("truetype");
@@ -5,20 +6,24 @@
     font-style: normal;
 }
 
+/* 기본 스타일 */
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
     list-style: none;
     text-decoration: none;
-    font-family: 'AppleSDGothicNeo';
+    font-family: 'AppleSDGothicNeo', sans-serif;
     color: inherit;
 }
-button{
-border: 0;
-  background-color: transparent;
+
+button {
+    border: 0;
+    background-color: transparent;
+    cursor: pointer;
 }
 
+/* 바디 스타일 */
 body {
     background-color: #1c1c1f;
     color: #ffffff;
@@ -28,16 +33,16 @@ body {
     line-height: 1.5;
 }
 
+/* 관리자 사이드바 */
 .admin-aside {
     width: 200px;
     background-color: #31313c;
-    height: 200px;
+    height: 100vh;
     position: fixed;
-
     right: 0;
+    top: 0;
     transition: transform 0.3s ease;
     z-index: 1000;
-
     border-bottom-left-radius: 30px;
 }
 
@@ -49,13 +54,17 @@ body {
     position: absolute;
     top: 20px;
     left: -35px;
-    cursor: pointer;
     background-color: #31313c;
     border: none;
     padding: 10px;
     border-radius: 5px 0 0 5px;
     transition: left 0.3s ease;
-width:44px;
+    width: 44px;
+}
+
+.aside-btn img {
+    width: 24px;
+    height: 24px;
 }
 
 .link-wrap {
@@ -88,8 +97,9 @@ width:44px;
     background-color: #3654c6;
 }
 
+/* 메인 콘텐츠 영역 */
 .root {
-    max-width: 700px;
+    max-width: 1200px;
     margin: 0 auto;
     background-color: #1c1c1f;
     color: #ffffff;
@@ -97,26 +107,27 @@ width:44px;
     padding: 20px;
     transition: margin-right 0.3s ease;
     display: flex;
-    justify-content: center;
-    align-items: center;
     flex-direction: column;
+    align-items: center;
 }
+
 .filter-container {
     margin: 20px 0;
     padding: 15px;
     background-color: #31313C;
     border-radius: 8px;
-    width:100%;
+    width: 100%;
 }
-.member-filter{
-display:flex;
-flex-direction:column;
+
+.member-filter {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
 }
+
 .filter-group {
     display: flex;
     align-items: center;
-
-
     margin-bottom: 10px;
 }
 
@@ -134,9 +145,10 @@ flex-direction:column;
     color: #ffffff;
 }
 
-.filter-group input{
-min-width:200px;
+.filter-group input {
+    min-width: 200px;
 }
+
 .filter-container button {
     padding: 7px 15px;
     border: none;
@@ -145,12 +157,14 @@ min-width:200px;
     color: #ffffff;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    align-self: flex-start;
 }
 
 .filter-container button:hover {
     background-color: #3654c6;
 }
 
+/* 테이블 스타일 */
 table {
     margin-top: 50px;
     background: #31313c;
@@ -159,7 +173,6 @@ table {
     border-radius: 8px;
     overflow: hidden;
 }
-
 
 thead {
     background-color: #282830;
@@ -171,7 +184,6 @@ thead th {
     font-weight: bold;
 }
 
-
 tbody tr {
     border-bottom: 1px solid #444454;
 }
@@ -180,7 +192,6 @@ tbody td {
     padding: 12px 15px;
     text-align: left;
 }
-
 
 tbody tr:last-child {
     border-bottom: none;
@@ -191,28 +202,53 @@ th, td {
     vertical-align: middle;
 }
 
-.admin-action a{
-    padding:8px;
-    border-radius:8px;
-    background-color: #4263EB;
-    color:#fff;
-    font-size:12px;
+/* admin-action 버튼 스타일링 */
+.admin-action {
+    display: flex;
+    gap: 8px; /* 버튼 간의 간격 */
+    justify-content: flex-start; /* 왼쪽 정렬 */
+    align-items: center; /* 수직 중앙 정렬 */
 }
-.delete-button{
-padding:8px;
-    border-radius:8px;
+
+.admin-action a,
+.admin-action .delete-button {
+    padding: 8px 12px;
+    border-radius: 4px;
     background-color: #4263EB;
-    color:#fff;
-    font-size:12px;
+    color: #ffffff;
+    font-size: 12px;
+    text-align: center;
+    transition: background-color 0.3s ease;
+    display: inline-block;
+}
+
+.admin-action a {
+    border: none;
+    text-decoration: none;
+}
+
+.admin-action a:hover,
+.admin-action .delete-button:hover {
+    background-color: #3654c6;
+}
+
+/* 삭제 버튼의 특수 스타일 */
+.admin-action .delete-button {
+    background-color: #e74c3c; /* 삭제는 빨간색으로 강조 */
+}
+
+.admin-action .delete-button:hover {
+    background-color: #c0392b;
 }
 
 /* 유저 상세 정보 스타일 */
 .user-details {
-    margin-top:100px;
+    margin-top: 100px;
     background-color: #282830;
     padding: 20px;
     border-radius: 8px;
     margin-bottom: 20px;
+    width: 100%;
 }
 
 .user-details p {
@@ -226,21 +262,6 @@ padding:8px;
     color: #ffffff;
 }
 
-.actions a ,.actions .delete-button{
-    display: inline-block;
-    margin-right: 10px;
-    padding: 7px 15px;
-    background-color: #4263EB;
-    color: #ffffff;
-    border-radius: 4px;
-    text-decoration: none;
-    transition: background-color 0.3s ease;
-    font-size:12px;
-}
-
-.actions a:hover {
-    background-color: #3654c6;
-}
 /* 유저 수정 폼 스타일 */
 .form-group {
     margin-bottom: 15px;
@@ -260,9 +281,11 @@ padding:8px;
     background-color: #1c1c1f;
     color: #ffffff;
 }
-.edit-user{
-    margin:100px;
+
+.edit-user {
+    margin: 100px;
 }
+
 .edit-user button {
     padding: 7px 15px;
     border: none;
@@ -270,13 +293,14 @@ padding:8px;
     background-color: #4263EB;
     color: #ffffff;
     cursor: pointer;
-    margin:0 auto;
+    margin: 0 auto;
     transition: background-color 0.3s ease;
 }
+
 .button-container {
     display: flex;
     justify-content: center;
-    margin:20px 0px;
+    margin: 20px 0px;
 }
 
 .edit-submit {
@@ -288,10 +312,10 @@ padding:8px;
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
+
 .edit-submit:hover {
     background-color: #3654c6;
 }
-
 
 .edit_cancel a {
     display: inline-block;
@@ -340,51 +364,103 @@ padding:8px;
     font-weight: bold;
 }
 
+/* 버튼 스타일 */
+.btn.action-btn {
+    padding: 8px;
+    border-radius: 8px;
+    background-color: #4263EB;
+    color: #fff;
+    font-size: 12px;
+}
 
-.admin-container,.main-content{
-max-width:700px;
-padding: 20px;
-margin:0 auto;
-}
-.btn.action-btn{
-        padding: 8px;
-        border-radius: 8px;
-        background-color: #4263EB;
-        color: #fff;
-        font-size: 12px
-}
 /* 반응형 디자인 */
+@media (max-width: 1200px) {
+    .root {
+        max-width: 90%;
+    }
+}
+
+@media (max-width: 768px) {
+    .admin-aside {
+        width: 150px;
+    }
+
+    .link-wrap span {
+        font-size: 14px;
+    }
+
+    .filter-container {
+        padding: 10px;
+    }
+
+    .filter-group label {
+        min-width: 70px;
+    }
+
+    .filter-group input {
+        min-width: 150px;
+    }
+
+    table {
+        font-size: 14px;
+    }
+
+    thead th,
+    tbody td {
+        padding: 10px;
+    }
+}
+
 @media (max-width: 500px) {
     .admin-aside {
-      width:100%;
-      bottom:0px;
-      border-radius:0;
-      height:80px;
-    .link-wrap{
-    flex-direction:row;
+        width: 100%;
+        bottom: 0px;
+        border-radius: 0;
+        height: 80px;
+        transform: translateY(0);
     }
+
+    .link-wrap {
+        flex-direction: row;
+        gap: 10px;
     }
+
     .root {
         margin-right: 0;
         padding: 15px;
     }
+
     .admin-aside.hidden + .root {
         margin-right: 0;
     }
-    .admin-action {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
 
-        .admin-action a {
-            padding: 4px 0;
-            font-size: 10px;
-            width: 100%;
-            box-sizing: border-box;
-            text-align: center;
-        }
-    tbody td{
-    padding: 12px 4px;
+    .admin-action {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .admin-action a,
+    .admin-action .delete-button {
+        padding: 6px 10px;
+        font-size: 10px;
+        width: 100%;
+        box-sizing: border-box;
+        text-align: center;
+    }
+
+    tbody td {
+        padding: 12px 4px;
+    }
+
+    .filter-container {
+        padding: 10px;
+    }
+
+    .filter-group label {
+        min-width: 60px;
+    }
+
+    .filter-group input {
+        min-width: 100px;
     }
 }

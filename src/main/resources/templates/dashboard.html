@@ -68,7 +68,7 @@
             <td th:text="${member.memNn}">이름</td>
             <td th:text="${member.memType == 1 ? '관리자' : '사용자'}">타입</td>
             <td class="admin-action">
-                <a th:href="@{'/admin/dashboard/' + ${member.memId}}">상세보기</a>
+                <a th:href="@{'/admin/dashboard/' + ${member.memId}}">상세</a>
                 <a th:href="@{'/admin/member/edit/' + ${member.memId}}">수정</a>
                 <!-- 삭제 버튼을 버튼으로 변경 -->
                 <button class="delete-button" th:data-mem-id="${member.memId}">삭제</button>
