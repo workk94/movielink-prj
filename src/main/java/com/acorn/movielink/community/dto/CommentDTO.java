@@ -1,4 +1,4 @@
-package com.acorn.movielink.comunity.dto;
+package com.acorn.movielink.community.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -13,7 +13,7 @@ import java.util.List;
 public class CommentDTO {
 
     private int commentId;
-    private int postId;
+    private Integer postId;
     private int memId;
     private Integer parentId;  // 대댓글일 경우 부모 댓글의 ID
     private String content;
@@ -21,6 +21,12 @@ public class CommentDTO {
     private LocalDateTime commentUpdatedAt;
     private LocalDateTime commentDeletedAt;
     private int commentLikeCnt;
+
+    // 조회 시 표시할 최종 시간 (등록/수정/삭제 중 하나)
+    private LocalDateTime displayTime;
+
+    // 작성자 닉네임 (조회 전용)
+    private String memNn;
 
     private List<CommentDTO> replies;  // 대댓글 목록을 저장할 필드
 

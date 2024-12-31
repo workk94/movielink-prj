@@ -1,21 +1,21 @@
-package com.acorn.movielink.comunity.controller;
+package com.acorn.movielink.community.controller;
 
-import com.acorn.movielink.comunity.dto.CommentDTO;
-import com.acorn.movielink.comunity.dto.LikeDTO;
-import com.acorn.movielink.comunity.service.CommentService;
-import com.acorn.movielink.comunity.service.CommunityLikeService;
-import com.acorn.movielink.comunity.service.CommunityPostService;
-import com.acorn.movielink.comunity.service.TagService;
-import com.acorn.movielink.comunity.dto.PostDTO;
-import com.acorn.movielink.comunity.dto.TagDTO;
+import com.acorn.movielink.community.dto.CommentDTO;
+import com.acorn.movielink.community.dto.LikeDTO;
+import com.acorn.movielink.community.service.CommentService;
+import com.acorn.movielink.community.service.CommunityLikeService;
+import com.acorn.movielink.community.service.CommunityPostService;
+import com.acorn.movielink.community.service.TagService;
+import com.acorn.movielink.community.dto.PostDTO;
+import com.acorn.movielink.community.dto.TagDTO;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -33,6 +33,11 @@ public class PostController {
 
     @Autowired
     private CommentService commentService;
+
+
+    @Autowired
+    private AuthenticationUtil authenticationUtil; // 유틸 클래스 주입
+
 
     //    좋아요 많은 유저 Top7
     @ModelAttribute("topSevenMem")
@@ -81,65 +86,53 @@ public class PostController {
         return "communityMain";
     }
 
-//    // 게시글 상세조회
-//    @GetMapping("/postDetail/{postId}")
-//    public String getPostOne(@PathVariable(name = "postId") int postId,
-//                             Model model,
-//                             HttpSession httpSession){
-//        Integer memId = (Integer) httpSession.getAttribute("memId");
-//        boolean isLiked = false;
-//        if(memId != null){
-//            isLiked = likeService.isLikedByUser(postId, memId);
-//        }else {
-//            memId = 0; // 또는 다른 기본값 설정
-//        }
-//        // 게시글 조회
-//        PostDTO postOne = postService.selectPostById(postId);
-//
-//        // 태그는 이미 문자열 리스트로 설정되어 있음
-//        List<TagDTO> tagNames =tagService.selectTagsByPostId(postId);
-//
-//        // 댓글 조회
-//        List<CommentDTO> comments = commentService.getCommentsByPostId(postId);
-//        // 게시글 상세 페이지에 댓글 개수도 전달
-//        int commentCount = commentService.getCommentCountByPostId(postId);
-//        model.addAttribute("commentCount", commentCount);
-//        // 모델에 데이터 추가
-//        model.addAttribute("tags", tagNames);
-//        model.addAttribute("postOne", postOne);
-//        model.addAttribute("isLiked", isLiked);  // 좋아요 상태 (로그인 여부에 따라)
-//        model.addAttribute("memId", memId);  // 로그인한 사용자의 ID (로그인하지 않은 경우 null)
-//        model.addAttribute("comments", comments); // 댓글과 대댓글 리스트 추가
-//
-//
-//        // 디버깅 출력
-//        System.out.println("해당게시글의 태그는 " + tagNames);
-//        System.out.println("해당게시글의 id는 " + postOne.getPostId());
-//        System.out.println("세션 memId: " + memId);
-//
-//        return "postOneDetail";
-//    }
 
 
+
+
+    // 게시글 상세조회
     @GetMapping("/postDetail/{postId}")
-    public ResponseEntity<?> getPostOne(@PathVariable int postId, HttpSession session) {
-        Integer memId = (Integer) session.getAttribute("memId");
-        boolean isLiked = memId != null && likeService.isLikedByUser(postId, memId);
+    public String getPostOne(@PathVariable(name = "postId") int postId,
+                             Model model){
+        // 상수 정의
+        final int DEFAULT_MEM_ID = 0;
+        Integer memId = DEFAULT_MEM_ID;
+
+        boolean isLiked = false;
+
+
+        try {
+            memId = authenticationUtil.getCurrentUserId();
+            isLiked = likeService.isLikedByUser(postId, memId);
+        } catch (SecurityException e) {
+//            memId = 0;
+            System.out.println("로그인 상태가 아닙니다. 기본값 설정.");
+
+        }
 
         // 게시글 조회
         PostDTO postOne = postService.selectPostById(postId);
-        List<TagDTO> tags = tagService.selectTagsByPostId(postId);
+
+        // 태그는 이미 문자열 리스트로 설정되어 있음
+        List<TagDTO> tagNames =tagService.selectTagsByPostId(postId);
+
+        // 댓글 조회
         List<CommentDTO> comments = commentService.getCommentsByPostId(postId);
 
-        // JSON 응답
-        Map<String, Object> response = new HashMap<>();
-        response.put("postOne", postOne);
-        response.put("tags", tags);
-        response.put("isLiked", isLiked);
-        response.put("memId", memId);
-        response.put("comments", comments);
 
-        return ResponseEntity.ok(response);
+        model.addAttribute("tags", tagNames);
+        model.addAttribute("postOne", postOne);
+        model.addAttribute("isLiked", isLiked);  // 좋아요 상태 (로그인 여부에 따라)
+        model.addAttribute("memId", memId);  // 로그인한 사용자의 ID (로그인하지 않은 경우 null)
+        model.addAttribute("comments", comments); // 댓글과 대댓글 리스트 추가
+
+
+        // 디버깅 출력
+        System.out.println("해당게시글의 태그는 " + tagNames);
+        System.out.println("해당게시글의 id는 " + postOne.getPostId());
+        System.out.println("세션 memId: " + memId);
+
+        return "postOneDetail";
     }
 
 
@@ -147,45 +140,58 @@ public class PostController {
 
 
 
+
+    @Autowired
+    private CommentController commentController; // 주입
 
     @PostMapping("/like/{postId}")
     @ResponseBody  // AJAX 요청을 처리하므로 JSON 형태로 응답
-    public LikeDTO toggleLikePost(@PathVariable(name = "postId") int postId,
-                                  HttpSession session) {
+    public ResponseEntity<?> toggleLikePost(@PathVariable(name = "postId") int postId) {
 
-        // 로그인된 사용자 확인
-        Integer memId = (Integer) session.getAttribute("memId");
 
-        // 로그인하지 않은 경우에는 좋아요 상태 변경을 할 수 없으므로 false 반환
-        if (memId == null) {
-            LikeDTO likeDTO = new LikeDTO();
-            likeDTO.setTargetId(postId);  // 좋아요를 누른 게시글 ID
-            likeDTO.setMemId(memId); // null일 경우에도 처리
-            return likeDTO;
+        final int DEFAULT_MEM_ID = 0; // 기본값 설정
+        Integer memId = DEFAULT_MEM_ID;
+
+        try {
+            // 로그인 사용자 ID 조회
+            memId = authenticationUtil.getCurrentUserId();
+        } catch (SecurityException e) {
+            System.out.println("비로그인 사용자 요청. 기본값 처리.");
         }
 
-        // 좋아요 상태를 토글 (추가 또는 제거)
-        boolean isLiked = likeService.togglePostLike(postId, memId);
+        // 로그인하지 않은 경우 기본 응답 반환
+        if (memId == DEFAULT_MEM_ID) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(createDefaultLikeDTO(postId, DEFAULT_MEM_ID, 0, 0));
+        }
 
-        // 게시글 정보 불러오기 (좋아요 수 포함)
-        PostDTO post = postService.selectPostById(postId);
+        try {
+            // 좋아요 토글 처리
+            boolean isLiked = likeService.togglePostLike(postId, memId);
 
-        // LikeDTO 객체에 응답 값 설정
-        LikeDTO likeDTO = new LikeDTO();
-        likeDTO.setTargetId(postId);  // 좋아요가 적용된 게시글 ID
-        likeDTO.setMemId(memId);  // 사용자 ID
-        likeDTO.setTargetType("POST");  // 게시글 좋아요로 설정
+            // 최신 게시글 정보 조회
+            PostDTO post = postService.selectPostById(postId);
 
-        // 좋아요 상태와 총합을 포함한 값 반환
-        likeDTO.setLikeId(isLiked ? 1 : 0);  // 상태가 추가되었으면 1, 취소되었으면 0
-        likeDTO.setLikeCount(post.getPostLikeCnt()); // 좋아요 수 추가
-
-        return likeDTO;
+            // 성공 시 DTO 반환
+            return ResponseEntity.ok(createDefaultLikeDTO(postId, memId, isLiked ? 1 : 0, post.getPostLikeCnt()));
+        } catch (Exception e) {
+            e.printStackTrace();
+            // 오류 발생 시 JSON 응답
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of("error", "서버 오류 발생"));
+        }
     }
 
-
-
-
+    // 기본 LikeDTO 생성 메서드 추가 (반복 제거)
+    private LikeDTO createDefaultLikeDTO(int postId, int memId, int likeId, int likeCount) {
+        LikeDTO likeDTO = new LikeDTO();
+        likeDTO.setTargetId(postId);
+        likeDTO.setMemId(memId);
+        likeDTO.setTargetType("POST");
+        likeDTO.setLikeId(likeId);
+        likeDTO.setLikeCount(likeCount);
+        return likeDTO;
+    }
 
 
 

@@ -1,6 +1,6 @@
-package com.acorn.movielink.comunity.repository;
+package com.acorn.movielink.community.repository;
 
-import com.acorn.movielink.comunity.dto.LikeDTO;
+import com.acorn.movielink.community.dto.LikeDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 

@@ -3,9 +3,9 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.acorn.movielink.comunity.repository.CommunityLikeMapper">
+<mapper namespace="com.acorn.movielink.community.repository.CommunityLikeMapper">
 
-    <resultMap id="postResultMap" type="com.acorn.movielink.comunity.dto.LikeDTO">
+    <resultMap id="postResultMap" type="com.acorn.movielink.community.dto.LikeDTO">
         <result column="like_id" property="likeId"/>
         <result column="target_type" property="targetType"/>
         <result column="target_id" property="targetId"/>

@@ -1,6 +1,6 @@
-package com.acorn.movielink.comunity.repository;
+package com.acorn.movielink.community.repository;
 
-import com.acorn.movielink.comunity.dto.PostDTO;
+import com.acorn.movielink.community.dto.PostDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -21,4 +21,6 @@ public interface CommunityPostMapper {
     List<PostDTO> selectOneMemberPostList(@Param("memId") int memId);
 
     void insertPost(PostDTO postDTO); // 태그 리스트 제거
+    // 게시글 존재 여부 검증
+    int countPostById(@Param("postId") int postId);
 }
