@@ -102,8 +102,12 @@
                     <ul>
                         <li th:each="topSevenMem : ${topSevenMem}">
                             <span th:text="${topSevenMem.memId}"></span>
+<<<<<<< HEAD
+                            <a th:href="@{/postOneMember/{memId}(memId=${topSevenMem.memId})}" th:text="${topSevenMem.mem_nn}">유저 게시글 보기</a>
+=======
 
                             <a th:href="@{/postOneMember/{memId}(memId=${topSevenMem.memId})}" th:text="${topSevenMem.memId}">유저 게시글 보기</a>
+>>>>>>> 9a4aaace81ba518684f9f7989c50f66c86418793
                         </li>
                     </ul>
                 </div>

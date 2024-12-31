@@ -37,6 +37,9 @@ out/
 .vscode/
 
 # application.properties
+<<<<<<< HEAD
+src/main/resources/application.properties
+=======
 /src/main/resources/application.properties
 
 # test
@@ -44,5 +47,11 @@ out/
 
 # logs
 /logs/
+>>>>>>> 9a4aaace81ba518684f9f7989c50f66c86418793
 
+# test
+src/test/
+
+# logs
+logs/
 

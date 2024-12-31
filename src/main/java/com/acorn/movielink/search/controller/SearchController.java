@@ -49,7 +49,6 @@ public class SearchController {
             @RequestParam(name = "offset", defaultValue = "0") int offset,
             @RequestParam(name = "limit", defaultValue = "4") int limit
     ) {
-
         List<SearchMovieDTO> movies = searchService.searchMovie(keyword, offset, limit);
         List<SearchPeopleDTO> people = searchService.searchPeople(keyword, offset, limit);
         List<SearchPostDTO> posts = searchService.searchPosts(keyword, offset, limit);
