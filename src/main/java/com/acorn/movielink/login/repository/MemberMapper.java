@@ -49,11 +49,7 @@ public interface MemberMapper {
     List<Review> findLatestReviews();
 
     // 사용자 장르에 맞는 10개 영화 추천
-<<<<<<< HEAD
-    List<Movie> findRecommendedMovies(Integer memId);
-=======
     List<MovieDTO> findRecommendedMovies(Integer memId);
->>>>>>> 9a4aaace81ba518684f9f7989c50f66c86418793
 
     // 페이징 및 필터링된 회원 목록 조회
     List<Member> findMembers(
@@ -71,10 +67,6 @@ public interface MemberMapper {
             @Param("nickname") String nickname
     );
 
-<<<<<<< HEAD
-   
-=======
 
     Optional<Member> findByMemNn(@Param("memNn") String nickname);
->>>>>>> 9a4aaace81ba518684f9f7989c50f66c86418793
 }

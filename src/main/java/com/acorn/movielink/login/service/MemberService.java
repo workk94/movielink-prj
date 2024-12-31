@@ -1,10 +1,7 @@
 package com.acorn.movielink.login.service;
 
 import com.acorn.movielink.config.PasswordUtil;
-<<<<<<< HEAD
-=======
 import com.acorn.movielink.data.dto.MovieDTO;
->>>>>>> 9a4aaace81ba518684f9f7989c50f66c86418793
 import com.acorn.movielink.login.dto.Member;
 import com.acorn.movielink.login.dto.Movie;
 import com.acorn.movielink.login.dto.Person;
@@ -283,8 +280,6 @@ public class MemberService {
     public int countMembers(String sort, String type, String email, String nickname) {
         return memberMapper.countMembers(sort, type, email, nickname);
     }
-<<<<<<< HEAD
-=======
 
     // 닉네임으로 회원 찾기
     public Optional<Member> findByNickname(String nickname) {
@@ -299,5 +294,4 @@ public class MemberService {
         return member;
     }
 
->>>>>>> 9a4aaace81ba518684f9f7989c50f66c86418793
 }

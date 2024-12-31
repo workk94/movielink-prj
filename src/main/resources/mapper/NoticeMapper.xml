@@ -15,58 +15,34 @@
     <!-- 공지사항 추가 -->
     <insert id="insertNotice" parameterType="com.acorn.movielink.login.dto.Notice" useGeneratedKeys="true"
             keyProperty="notificationId">
-<<<<<<< HEAD
-        INSERT INTO NOTICE (title, content, notice_date, mem_id)
-=======
         INSERT INTO notice (title, content, notice_date, mem_id)
->>>>>>> 9a4aaace81ba518684f9f7989c50f66c86418793
         VALUES (#{title}, #{content}, NOW(), #{memId})
     </insert>
 
     <!-- 최신 공지사항 조회 -->
     <select id="findLatestNotice" resultMap="noticeResultMap">
-<<<<<<< HEAD
-        SELECT * FROM NOTICE ORDER BY notice_date DESC LIMIT 1
-=======
         SELECT * FROM notice ORDER BY notice_date DESC LIMIT 1
->>>>>>> 9a4aaace81ba518684f9f7989c50f66c86418793
     </select>
 
     <!-- 모든 공지사항 조회 -->
     <select id="findAllNotices" resultMap="noticeResultMap">
-<<<<<<< HEAD
-        SELECT * FROM NOTICE ORDER BY notice_date DESC
-=======
         SELECT * FROM notice ORDER BY notice_date DESC
->>>>>>> 9a4aaace81ba518684f9f7989c50f66c86418793
     </select>
 
     <!-- 특정 공지사항 조회 -->
     <select id="findNoticeById" parameterType="int" resultMap="noticeResultMap">
-<<<<<<< HEAD
-        SELECT * FROM NOTICE WHERE notification_id = #{notificationId}
-=======
         SELECT * FROM notice WHERE notification_id = #{notificationId}
->>>>>>> 9a4aaace81ba518684f9f7989c50f66c86418793
     </select>
 
     <!-- 공지사항 수정 -->
     <update id="updateNotice" parameterType="com.acorn.movielink.login.dto.Notice">
-<<<<<<< HEAD
-        UPDATE NOTICE
-=======
         UPDATE notice
->>>>>>> 9a4aaace81ba518684f9f7989c50f66c86418793
         SET title = #{title}, content = #{content}, notice_date = NOW()
         WHERE notification_id = #{notificationId}
     </update>
 
     <!-- 공지사항 삭제 -->
     <delete id="deleteNotice" parameterType="int">
-<<<<<<< HEAD
-        DELETE FROM NOTICE WHERE notification_id = #{notificationId}
-=======
         DELETE FROM notice WHERE notification_id = #{notificationId}
->>>>>>> 9a4aaace81ba518684f9f7989c50f66c86418793
     </delete>
 </mapper>
