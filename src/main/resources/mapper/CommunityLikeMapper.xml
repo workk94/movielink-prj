@@ -16,19 +16,19 @@
     <!-- 좋아요 여부 확인 -->
     <select id="checkLike" resultType="int">
         SELECT COUNT(*)
-        FROM LIKE_RECORD
+        FROM like_record
         WHERE target_type = #{targetType} AND target_id = #{targetId} AND mem_id = #{memId}
     </select>
 
     <!-- 좋아요 추가 -->
     <insert id="insertLike">
-        INSERT INTO LIKE_RECORD (target_type, target_id, mem_id, created_at)
+        INSERT INTO like_record (target_type, target_id, mem_id, created_at)
         VALUES (#{targetType}, #{targetId}, #{memId}, NOW())
     </insert>
 
     <!-- 좋아요 취소 -->
     <delete id="deleteLike">
-        DELETE FROM LIKE_RECORD
+        DELETE FROM like_record
         WHERE target_type = #{targetType} AND target_id = #{targetId} AND mem_id = #{memId}
     </delete>
 

@@ -37,7 +37,7 @@ public class MyPageController {
     private final GenreService genreService;
     private final MypageCommentService mypageCommentService;
 
-    @Value("${file.upload-dir}")
+    @Value("${file.profile-images-dir}")
     private String uploadDir;
 
     @Autowired

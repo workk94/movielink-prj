@@ -580,7 +580,7 @@ color:#98a4b7;}
             </div>
             <div class="empty-content-wrap" th:if="${#lists.isEmpty(likedPersons)}">
                 <span class="empty-content-description">등록한 콘텐츠가 없어요</span>
-                <a class="empty-content-button" th:href="@{/person/search}">인물 검색하기</a>
+                <a class="empty-content-button" th:href="@{/search}">인물 검색하기</a>
             </div>
         </div>
 
@@ -647,7 +647,7 @@ color:#98a4b7;}
             </div>
             <div class="empty-content-wrap" th:if="${#lists.isEmpty(likedMovies)}">
                 <span class="empty-content-description">좋아요한 작품이 없습니다.</span>
-                <a class="empty-content-button" th:href="@{/movies/search}">작품 검색하기</a>
+                <a class="empty-content-button" th:href="@{/search}">작품 검색하기</a>
             </div>
         </div>
 
