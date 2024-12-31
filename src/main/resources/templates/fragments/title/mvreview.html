@@ -1,0 +1,467 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:fragment="content">
+
+  <style>
+    /* category-mvreview */
+    .mvreview {
+      padding: 16px;
+    }
+
+    .mvreview-review {
+      padding: 16px 0 16px 0;
+    }
+
+    .review-rating {
+      margin: 16px 0;
+      height: 200px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      border: 1px solid #25304a;
+      border-radius: 8px;
+    }
+
+    .star svg {
+      width: 40px;
+      height: 40px;
+      fill: none;
+      stroke: #efefef;
+      stroke-width: 1;
+      stroke-linejoin: round;
+      /* 모서리를 둥글게 */
+      stroke-linecap: round;
+      /* 선 끝을 둥글게 */
+      transition: fill 0.3s ease, stroke 0.3s ease;
+    }
+
+    .star svg.filled {
+      fill: #637dea;
+      stroke: #637dea;
+    }
+
+    .star svg.half-filled path {
+      fill: url(#half-gradient);
+      stroke: #637dea;
+    }
+
+    .star-svg defs {
+      visibility: hidden;
+    }
+
+    .stars {
+      display: flex;
+      gap: 4px;
+    }
+
+    #rating-display {
+      display: none;
+      /* 처음에는 보이지 않게 설정 */
+      text-align: center;
+      margin-top: 8px;
+    }
+
+    #rating-display.visible {
+      display: block;
+      /* 클래스가 추가되면 보이도록 설정 */
+    }
+
+    .rating-button {
+      height: 40px;
+      width: 120px;
+      background-color: #637dea;
+      color: #efefef;
+      margin-top: 16px;
+      border-radius: 10px;
+      border-style: none;
+    }
+
+    .review-wrote {
+      margin: 16px 0;
+      padding: 16px;
+      height: 200px;
+      display: flex;
+      flex-direction: column;
+      border: 1px solid #25304a;
+      border-radius: 8px;
+    }
+
+    .wrote-rating {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .rating-star {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .wrote-body {
+      margin: 16px 0;
+      padding: 16px;
+      background: #172036;
+      border: 1px solid #25304a;
+      border-radius: 6px;
+      height: 100px;
+    }
+
+    .wrote-buttons {      
+      display: flex;
+      align-self: flex-end;
+      gap: 8px;
+    }
+
+    .buttons-edit,
+    .buttons-delete {
+      width: 55px;
+      height: 32px;
+      background-color: #3b4869;
+      border-style: none;
+      padding: 6px 12px;
+      color: #bdc6d5;
+      border-radius: 4px;
+    }
+
+    .mvreview-writing {
+      margin: 16px 0;
+      padding: 16px;
+      height: 200px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      border: 1px solid #25304a;
+    }
+
+    .writing-title {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .writing-body {
+      margin: 8px 0;
+      padding: 16px;
+      background: #172036;
+      border: 1px solid #25304a;
+      border-radius: 6px;
+      height: 100px;
+      width: 100%;
+    }
+
+    .writing-button {
+      width: 55px;
+      height: 32px;
+      background-color: #3b4869;
+      border-style: none;
+      padding: 6px 12px;
+      color: #bdc6d5;
+      border-radius: 4px;
+      display: flex;
+      justify-self: flex-end;
+      text-align: center;
+    }
+
+    .mvreview-userReview {
+      padding: 16px 0;
+    }
+
+    .userReview-tab {
+      display: flex;
+    }
+
+    .bottom-bar>li {
+      margin: 8px 8px 8px 0;
+      padding: 8px 16px;
+      font-size: 15px;
+      color: #efefef;
+      border-radius: 24px;
+      border: 1px solid #25304a;
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    .bottom-bar>li.active {
+      background-color: #637dea;
+    }
+
+    .userReview-list {
+      margin: 16px 0;
+      background-color: #25304a;
+      border-radius: 8px;
+    }
+
+    .list-users {
+      margin: 16px;
+      border-bottom: 1px solid #586a85;
+    }
+
+    .users-profile {
+      padding: 16px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .profile-left {
+      display: flex;
+    }
+
+    .left-img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 1px solid #3b4869;
+    }
+
+    .profile-id {
+      display: flex;
+      flex-direction: column;
+      margin-left: 8px;
+    }
+
+    .profile-right {
+      width: 70px;
+      height: 30px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 6px;
+      border: 1px solid #3b4869;
+    }
+
+    .users-content {
+      padding: 0 0 16px 0;
+      font-size: 15px;
+    }
+
+    .list-likes {
+      padding: 0 0 16px 16px;
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+    }
+
+    .review-likes.filled>span>p {
+      color: #efefef;
+      /* 클릭된 상태에서 텍스트 색상 */
+      font-weight: bolder;
+      /* 굵기 강조 */
+      transition: color 0.3s ease, font-weight 0.3s ease;
+      /* 부드러운 전환 */
+    }
+
+    .review-likes.filled .heart .heart-path {
+      fill: #637dea;
+      /* 하트 색상 */
+      stroke: #637dea;
+      /* 테두리 색상 */
+    }
+
+    .hidden {
+      display: none;
+    }
+  </style>
+
+  <!-- content: mvreview -->
+  <div class="mvreview" th:data-logged-in="${isLoggedIn}" th:data-movie-id="${movieId}">
+    <h4>내가 쓴 리뷰</h4>
+  
+    <!-- 내가 쓴 리뷰 -->
+    <div class="mvreview-review" id="mvreview-review" th:if="${!reviewExists}">
+      <div class="review-rating">
+        <h4>이 작품 어떠셨나요?</h4>
+        <div class="stars" id="stars-container">
+          <span class="star" th:each="i : ${#numbers.sequence(1, 5)}" th:data-full-rating="${i}">
+            <svg viewBox="0 0 24 24">
+              <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
+            </svg>
+          </span>
+        </div>
+        <button class="rating-button" id="rating-button">리뷰 작성 하기</button>
+      </div>
+    </div>
+  
+    <!-- 리뷰 작성 -->
+    <div class="mvreview-writing" id="mvreview-writing" style="display: none;">
+      <div class="writing-title">
+        <div class="sub-font7">리뷰 한줄평</div>
+        <div class="sub-font7" id="review-char-count">0/100</div>
+      </div>
+      <textarea class="writing-body" id="reviewContent" placeholder="내 생각을 짧게 기록해보세요."></textarea>
+      <button class="writing-button" id="submitReviewButton">저장</button>
+    </div>
+  
+    <!-- 내가 남긴 리뷰 표시 -->
+    <div class="review-wrote" th:each="review : ${reviews}" th:data-review-id="${review.reviewId}" id="review-wrote" th:if="${reviewExists}">
+      <div class="wrote-rating">
+        <div>내 별점 평가</div>
+        <div class="rating-star">
+          <svg viewBox="0 0 24 24" width="18px" height="18px" style="stroke: #efefef; fill: #efefef;">
+            <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
+          </svg>
+          <span th:each="review : ${reviews}" th:text="${review?.reviewRating ?: '-'}">rating</span>
+        </div>
+      </div>
+      <div class="wrote-body">
+        <span th:each="review : ${reviews}" th:text="${review.reviewContent ?: '-' }">리뷰 내용</span>
+      </div>
+      <div class="wrote-buttons">
+        <button class="buttons-edit">수정</button>
+        <button class="buttons-delete">삭제</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 모든 리뷰 -->
+    <div class="mvreview-userReview">
+      <h4>모든 리뷰</h4>
+
+      <ul class="userReview-tab">
+        <li>인기 많은 순</li>
+        <li>최근 작성 순</li>
+        <li>평가 높은 순</li>
+        <li>평가 낮은 순</li>
+      </ul>
+
+      <div class="userReview-list" th:each="review : ${reviews}">
+        <div class="list-users">
+          <div class="users-profile">
+            <div class="profile-left">
+              <span class="left-img">
+                <img th:src="${review['memProfileFilePath'] ?: '/img/placeholder-people.svg'}" alt="프로필 이미지">
+              </span>
+              <div class="profile-id">
+                <span th:text="${review['memNn']}">id</span>
+                <span th:text="${review.reviewRegAt ?: '-'}">hours ago</span>
+              </div>
+            </div>
+            <div class="profile-right">
+              <svg viewBox="0 0 24 24" width="20px" height="20px" style="stroke: #efefef; fill: #efefef;">
+                <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
+              </svg>
+              <span  th:text="${review.reviewRating}">rating</span>
+            </div>
+          </div>
+          <div class="users-content" th:text="${review.reviewContent ?: '-' }">리뷰 내용</div>
+        </div>
+        <div class="list-likes">
+          <svg class="heart" width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"
+              fill="none" stroke="#bdc6d5" stroke-width="2" class="heart-path" />
+          </svg>
+        </div>
+      </div>
+      <!-- .userReview-list 반복 -->
+    </div>
+  </div>
+  
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const writingContainer = document.getElementById("mvreview-writing");
+        const ratingButton = document.getElementById("rating-button");
+        const submitButton = document.getElementById("submitReviewButton");
+        const reviewContentElement = document.getElementById("reviewContent");
+        const starsContainer = document.getElementById("stars-container");
+        const movieId = document.querySelector(".mvreview").dataset.movieId;
+        let selectedRating = 0;
+
+        // 로그인 여부 확인
+        const isLoggedIn = document.querySelector(".mvreview").dataset.loggedIn === "true";
+
+        const handleStarClick = (event) => {
+            if (!isLoggedIn) {
+                const currentUrl = window.location.href;
+                alert("로그인하고 모든 기능을 자유롭게 이용해보세요!");
+                window.location.href = `/login?redirectUrl=${encodeURIComponent(window.location.href)}`;
+                return;
+            }
+
+            const star = event.target.closest(".star");
+            if (!star) return;
+
+            const fullRating = parseFloat(star.getAttribute("data-full-rating"));
+            const rect = star.getBoundingClientRect();
+            const mouseX = event.clientX - rect.left;
+
+            selectedRating = mouseX < rect.width / 2 ? fullRating - 0.5 : fullRating;
+            updateStars(selectedRating);
+            alert(`별점 ${selectedRating}점이 입력되었어요!`);
+        };
+
+        const updateStars = (rating) => {
+            document.querySelectorAll(".star").forEach((star) => {
+                const fullRating = parseFloat(star.getAttribute("data-full-rating"));
+                const svg = star.querySelector("svg");
+
+                if (rating >= fullRating) {
+                    svg.classList.add("filled");
+                    svg.classList.remove("half-filled");
+                } else if (rating >= fullRating - 0.5) {
+                    svg.classList.add("half-filled");
+                    svg.classList.remove("filled");
+                } else {
+                    svg.classList.remove("filled", "half-filled");
+                }
+            });
+        };
+
+        const showWritingContainer = () => {
+            if (!selectedRating) { // 별점 미선택 체크
+                alert("별점을 선택해주세요!");
+                return;
+            }
+        };
+
+        const submitReview = async () => {
+            const reviewContent = reviewContentElement.value.trim();
+
+            if (!reviewContent) {
+                alert("리뷰 내용을 입력해주세요.");
+                return;
+            }
+
+            try {
+                const url = `/title/${movieId}/review`;
+                const bodyData = {
+                    reviewContent,
+                    reviewRating: selectedRating,
+                };
+
+                const response = await fetch(url, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "X-CSRF-TOKEN": document.querySelector('meta[name="_csrf"]').getAttribute("content"),
+                    },
+                    body: JSON.stringify(bodyData),
+                });
+
+                if (response.ok) {
+                    alert("리뷰가 저장되었습니다!");
+                    location.reload();
+                } else {
+                    alert("리뷰 처리에 실패했습니다.");
+                }
+            } catch (error) {
+                alert("오류가 발생했습니다. 다시 시도해주세요.");
+            }
+        };
+
+        const handleEditClick = (event) => {
+            // .buttons-edit 클릭 시 ratingButton 함수 실행
+            showWritingContainer();
+        };
+
+        starsContainer.addEventListener("click", handleStarClick);
+        ratingButton.addEventListener("click", showWritingContainer);
+        submitButton.addEventListener("click", submitReview);
+
+        document.querySelectorAll(".buttons-edit").forEach((button) =>
+            button.addEventListener("click", handleEditClick)
+        );
+    });
+</script>

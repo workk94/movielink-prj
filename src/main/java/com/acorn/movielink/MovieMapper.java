@@ -1,7 +1,9 @@
 package com.acorn.movielink;
 
 import com.acorn.movielink.data.dto.MovieDTO;
+import com.acorn.movielink.people_detail.dto.People;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
