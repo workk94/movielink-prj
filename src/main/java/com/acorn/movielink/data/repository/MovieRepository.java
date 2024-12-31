@@ -5,10 +5,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Repository
 public class MovieRepository {
@@ -66,6 +63,19 @@ public class MovieRepository {
         System.out.println(list);
 
         return sqlSession.selectOne(namespace + "findGenreIdByName", list);
+    }
+
+    // 영화 상세 조회 (ID로 조회)
+    public MovieDTO selectMovieById(Integer movieId) {
+        return sqlSession.selectOne(namespace + "selectMovieById", movieId);
+    }
+
+    // 사람 데이터 조회 (actor)
+    public List<Map<String, Object>> selectPeopleById(Integer movieId, String peopleType) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("movieId", movieId);
+        params.put("peopleType", peopleType);
+        return sqlSession.selectList(namespace + "selectPeopleById", params);
     }
 
 }

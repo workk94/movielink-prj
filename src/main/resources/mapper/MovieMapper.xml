@@ -18,6 +18,15 @@
         <result property="moviePosterUrl" column="movie_poster"/>
         <result property="movieImdbScore" column="movie_imdb_score"/>
         <result property="movieTMDBScore" column="movie_tmdb_score"/>
+
+        <!-- 출연진 정보 매핑 -->
+        <collection property="peopleList" ofType="com.acorn.movielink.people_detail.dto.People">
+            <id property="peopleId" column="people_id"/>
+            <result property="peopleNm" column="people_nm"/>
+            <result property="peopleRoleNm" column="people_role_nm"/>
+            <result property="peopleProfileUrl" column="people_profile_url"/>
+            <result property="peopleType" column="people_type"/>
+        </collection>
     </resultMap>
 
     <insert id="insertMovie" parameterType="com.acorn.movielink.data.dto.MovieDTO" useGeneratedKeys="true"
@@ -118,5 +127,50 @@
         LEFT JOIN genre g ON m.genre_id = g.genre_id
         ORDER BY m.movie_open_dt DESC
         LIMIT 10
+    </select>
+
+    <!-- 특정 영화 정보 조회 -->
+    <select id="selectMovieById" parameterType="map" resultType="com.acorn.movielink.data.dto.MovieDTO">
+        SELECT
+        m.movie_id AS movieId,
+        m.movie_nm AS movieNm,
+        m.movie_nm_en AS movieNmEn,
+        m.movie_open_dt AS movieOpenDt,
+        m.movie_age_rating AS movieAgeRating,
+        m.movie_running_time AS movieRunningTime,
+        m.movie_country AS movieCountry,
+        m.movie_plot AS moviePlot,
+        m.movie_trailer AS movieTrailer,
+        m.movie_poster AS moviePoster,
+        m.genre_id AS genreId,
+        m.movie_score_avg AS movieScoreAvg,
+        m.movie_imdb_score AS movieImdbScore,
+        m.movie_tmdb_score AS movieTmdbScore,
+        p.people_id AS peopleId,
+        p.people_nm AS peopleNm,
+        p.people_role_nm AS peopleRoleNm,
+        p.people_profile_url AS peopleProfileUrl,
+        p.people_type AS peopleType
+        FROM
+        movie m
+        LEFT JOIN
+        people p ON m.movie_id = p.movie_id
+        WHERE
+        m.movie_id = #{movieId}
+        LIMIT 1
+    </select>
+
+    <select id="selectPeopleById" parameterType="map" resultType="com.acorn.movielink.people_detail.dto.People">
+        SELECT
+        people_id AS peopleId,
+        people_nm AS peopleNm,
+        people_nm_en AS peopleNmEn,
+        people_role_nm AS peopleRoleNm,
+        people_profile_url AS peopleProfileUrl,
+        people_type AS peopleType
+        FROM
+        people
+        WHERE
+        movie_id = #{movieId} and people_type=#{peopleType}
     </select>
 </mapper>

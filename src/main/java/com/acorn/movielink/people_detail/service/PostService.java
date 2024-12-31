@@ -10,9 +10,14 @@ import java.util.List;
 @Service
 public class PostService {
 
-    @Autowired
-    private PostMapper postMapper;
+    private final PostMapper postMapper;
 
+    @Autowired
+    public PostService(PostMapper postMapper) {
+        this.postMapper = postMapper;
+    }
+
+    // 태그 이름으로 게시글 조회
     public List<Post> getPostsByTagName(String tagName) {
         return postMapper.selectPostsByTagName(tagName);
     }
