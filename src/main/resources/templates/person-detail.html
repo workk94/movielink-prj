@@ -25,8 +25,13 @@
         <!-- 인물 정보 및 탭 -->
         <div class="mvperson">
             <div class="mvperson-top">
+<<<<<<< HEAD
                 <div class="actor-profile">
                     <span><img alt="Profile Image" th:src="@{${peopleInfo.peopleProfileUrl}}"></span>
+=======
+                <div class="actor-profile"
+                     th:style="'background-image: url(' + ${peopleInfo.peopleProfileUrl} + ');'">
+>>>>>>> 9a4aaace81ba518684f9f7989c50f66c86418793
                 </div>
                 <div class="actor-name">
                     <span class="actor-name-main" th:text="${peopleInfo.peopleNm}"></span>

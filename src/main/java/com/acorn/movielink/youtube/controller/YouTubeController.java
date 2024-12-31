@@ -1,9 +1,8 @@
-package com.acorn.movielink.youtube;
+package com.acorn.movielink.youtube.controller;
 
+import com.acorn.movielink.youtube.service.YouTubeService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.ui.Model;
 
 import java.util.List;

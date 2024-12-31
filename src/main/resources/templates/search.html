@@ -5,6 +5,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" th:href="@{/css/style.css}" />
     <style>
+<<<<<<< HEAD
       .tab-content {
         display: none;
       }
@@ -37,10 +38,308 @@
       .container {
         border: 2px solid white;
       }
+=======
+      /* 영화 추천 스와이퍼 */
+      .recommend-wrap {
+        margin-top: 20px;
+      }
+      .recommend-container {
+        position: relative;
+        padding: 16px;
+      }
+
+      .movie-item {
+        background-color: #172036;
+        border-radius: 8px;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        width: 155px;
+        height: 100%;
+      }
+
+      .movie-poster {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        border-radius: 8px;
+      }
+
+      .movie-title {
+        display: inline-block;
+        width: 100%;
+        font-size: 14px;
+        line-height: 16px;
+        vertical-align: top;
+        letter-spacing: -0.1px;
+        color: #efefef;
+        text-align: center;
+        margin-top: 6px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        padding: 8px;
+      }
+      .title-wrap {
+        padding: 0 16px;
+        height: 44px;
+        margin: 8px 0;
+      }
+      .title {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        color: #efefef;
+        font-size: 18px;
+        font-weight: 700;
+        line-height: 23px;
+        letter-spacing: -0.2px;
+        padding: 11px 0 10px;
+      }
+
+      /* 스와이퍼 옵션 */
+      .swiper-button {
+        width: 40px;
+        height: 40px;
+        background: rgba(37, 48, 74, 0.9);
+        border-radius: 50%;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        z-index: 10; /* 버튼이 다른 요소보다 위에 표시되도록 설정 */
+      }
+
+      .swiper-button-prev,
+      .swiper-button-next {
+        background: rgba(37, 48, 74, 0.9);
+        border: none; /* 기본 테두리 제거 */
+        outline: none; /* 포커스 아웃라인 제거 */
+      }
+
+      /* 이전 버튼 */
+      .swiper-button-prev {
+        left: -16px;
+      }
+
+      /* 다음 버튼 */
+      .swiper-button-next {
+        right: -16px; /* swiper-container의 오른쪽 외부에 위치 */
+      }
+
+      /* 버튼 내부의 SVG 아이콘 스타일 */
+      .swiper-button-prev svg,
+      .swiper-button-next svg {
+        width: 20px;
+        height: 20px;
+        fill: #ffffff; /* 아이콘 색상 */
+      }
+
+      /* Swiper Pagination */
+      .swiper-pagination-bullet {
+        background: #98a4b7;
+      }
+
+      .swiper-pagination-bullet-active {
+        background: #5383e8;
+      }
+
+      .swiper-container {
+        margin-left: auto;
+        margin-right: auto;
+        position: relative;
+        overflow: hidden;
+        list-style: none;
+        padding: 0;
+        z-index: 1;
+      }
+
+      .swiper-wrapper {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+        display: flex;
+        transition-property: transform;
+        box-sizing: content-box;
+      }
+
+      .swiper-wrapper-container {
+        position: relative;
+      }
+
+      /* Swiper 네비게이션 버튼 스타일 수정 */
+      .recommend-swiper .swiper-button-prev,
+      .recommend-swiper .swiper-button-next {
+        background: rgba(37, 48, 74, 0.9);
+        border: none;
+        outline: none;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+      }
+
+      .recommend-swiper .swiper-button-prev::after,
+      .recommend-swiper .swiper-button-next::after {
+        display: none;
+      }
+
+      .recommend-swiper .swiper-button-prev img,
+      .recommend-swiper .swiper-button-next img {
+        width: 20px;
+        height: 20px;
+      }
+
+      .recommend-swiper .swiper-button-prev {
+        left: -20px;
+      }
+
+      .recommend-swiper .swiper-button-next {
+        right: -20px;
+      }
+
+      /* Swiper Pagination 스타일 */
+      .recommend-swiper .swiper-pagination-bullet {
+        background: #98a4b7;
+      }
+
+      .recommend-swiper .swiper-pagination-bullet-active {
+        background: #5383e8;
+      }
+
+      /* 검색바 */
+      .search-wrap {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px;
+        padding: 10px;
+        margin-top: 10px;
+        background-color: rgb(37, 48, 74);
+        border-radius: 6px;
+      }
+
+      .search-wrap img {
+        width: 24px;
+        height: 24px;
+      }
+
+      .search-wrap input {
+        flex: 1;
+        padding: 5px;
+        color: rgb(152, 164, 183);
+        background-color: rgb(37, 48, 74);
+        border: none;
+        border-radius: 4px;
+      }
+
+      .search-wrap a {
+        display: flex;
+        align-items: center;
+      }
+
+      .results-section > div {
+        display: none; /* 기본적으로 모든 섹션 숨김 */
+        margin-top: 10px;
+      }
+
+      .results-section > div {
+        margin-bottom: 30px;
+      }
+
+      .results-section ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      .results-section ul li {
+        margin-bottom: 15px;
+      }
+
+      .load-more {
+        width: 100%;
+        display: block;
+        padding: 10px 20px;
+        margin: 10px auto;
+        font-size: 16px;
+        color: #fff;
+        background-color: rgb(37, 48, 74);
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        text-align: center;
+      }
+
+      .list-item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 15px;
+      }
+
+      .list-item-img {
+        flex-shrink: 0;
+      }
+
+      .list-item-img img {
+        width: 100px;
+        height: 150px;
+        object-fit: cover;
+        border-radius: 4px;
+        background-color: rgb(37, 48, 74);
+      }
+
+      .list-item-info {
+        margin-left: 15px;
+        padding: 5px;
+      }
+
+      .list-item-info strong {
+        font-size: 18px;
+        color: rgb(255, 255, 255);
+      }
+
+      .list-item-info {
+        font-size: 14px;
+        line-height: 1.5;
+        color: rgb(152, 164, 183);
+      }
+
+      .empty-message {
+        display: none;
+        text-align: center;
+        margin-top: 20px;
+        color: white;
+        padding: 10px;
+        background-color: rgba(37, 48, 74, 0.8);
+        border-radius: 4px;
+      }
+
+      #movie-results,
+      #people-results,
+      #post-results {
+        color: #efefef;
+        font-size: 18px;
+        font-weight: 700;
+        line-height: 23px;
+      }
+
+>>>>>>> 9a4aaace81ba518684f9f7989c50f66c86418793
       #no-results {
         display: none;
         text-align: center;
         margin-top: 20px;
+<<<<<<< HEAD
+=======
+        color: white;
+        padding: 10px;
+        background-color: rgba(37, 48, 74, 0.8);
+        border-radius: 4px;
+>>>>>>> 9a4aaace81ba518684f9f7989c50f66c86418793
       }
     </style>
   </head>
@@ -49,6 +348,7 @@
       <div th:replace="~{fragments/header :: headerFragment}"></div>
       <div class="container">
         <div class="search-wrap">
+<<<<<<< HEAD
           <input type="text" id="search-input" placeholder="검색어를 입력하세요" />
           <button id="search-button">검색</button>
         </div>
@@ -58,17 +358,112 @@
             <h4>영화</h4><span id="movie-count"></span></span>
             <ul></ul>
             <button id="movie-load-more" style="display: none">더보기</button>
+=======
+          <a th:href="@{/}"
+            ><img alt="홈 아이콘" th:src="@{/img/arrow_back.svg}"
+          /></a>
+          <img alt="검색 아이콘" th:src="@{/img/search.svg}" />
+          <input
+            type="text"
+            id="search-input"
+            placeholder="작품, 인물, 게시글을 검색해보세요"
+          />
+        </div>
+
+        <section class="recommend-wrap">
+          <div class="title-wrap">
+            <a class="title" href="/movies">
+              <span>신작 영화를 확인해보세요</span>
+              <div class="arrow-img">
+                <img alt="더보기" th:src="@{/img/arrow-right.svg}" />
+              </div>
+            </a>
+          </div>
+          <div class="recommend-container">
+            <!-- 추천(또는 최신) 영화가 존재할 경우 Swiper 슬라이더 표시 -->
+            <div th:if="${!#lists.isEmpty(recommendedMovies)}">
+              <div class="swiper-container recommend-swiper">
+                <div class="swiper-wrapper">
+                  <!-- 추천 영화 아이템 반복 -->
+                  <div
+                    class="swiper-slide"
+                    th:each="movie : ${recommendedMovies}"
+                  >
+                    <!-- movie이 null이 아닌지 확인 -->
+                    <div class="movie-item" th:if="${movie != null}">
+                      <img
+                        alt="영화 포스터"
+                        class="movie-poster"
+                        th:src="${movie.moviePosterUrl}"
+                      />
+                      <p class="movie-title" th:text="${movie.movieNm}">
+                        영화 제목
+                      </p>
+                    </div>
+                    <!-- movie이 null일 경우 대체 콘텐츠 -->
+                    <div class="movie-item" th:if="${movie == null}">
+                      <p class="movie-title">영화 정보 없음</p>
+                    </div>
+                  </div>
+                </div>
+                <!-- 페이징 -->
+                <div class="swiper-pagination"></div>
+              </div>
+            </div>
+            <!-- 추천(또는 최신) 영화가 없을 경우 빈 메시지 표시 -->
+            <div
+              class="empty-content-wrap"
+              th:if="${#lists.isEmpty(recommendedMovies)}"
+            >
+              <span class="empty-content-description"
+                >추천 영화가 없습니다.</span
+              >
+              <a class="empty-content-button" th:href="@{/movies/search}"
+                >영화 검색하기</a
+              >
+            </div>
+          </div>
+        </section>
+
+        <!-- Swiper JS -->
+        <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+        <!-- 검색 결과 없음 메시지 -->
+        <div id="no-results" class="empty-message" style="display: block">
+          검색 결과가 없습니다
+        </div>
+
+        <div class="results-section">
+          <!-- 영화 섹션 -->
+          <div id="movie-results">
+            <h3>영화 <span id="movie-count"></span></h3>
+            <ul data-type="movies"></ul>
+            <p class="empty-message" id="movie-empty">검색결과가 없습니다</p>
+            <button class="load-more" data-type="movies" style="display: none">
+              더보기
+            </button>
+>>>>>>> 9a4aaace81ba518684f9f7989c50f66c86418793
           </div>
 
           <!-- 인물 섹션 -->
           <div id="people-results">
+<<<<<<< HEAD
             <h4>인물</h4><span id="people-count"></span></span>
             <ul></ul>
             <button id="people-load-more" style="display: none">더보기</button>
+=======
+            <h3>인물 <span id="people-count"></span></h3>
+            <ul data-type="people"></ul>
+            <p class="empty-message" id="people-empty">검색결과가 없습니다</p>
+            <button class="load-more" data-type="people" style="display: none">
+              더보기
+            </button>
+>>>>>>> 9a4aaace81ba518684f9f7989c50f66c86418793
           </div>
 
           <!-- 게시글 섹션 -->
           <div id="post-results">
+<<<<<<< HEAD
             <h4>게시글</h4><span id="post-count"></span></span>
             <ul></ul>
             <button id="post-load-more" style="display: none">더보기</button>
@@ -79,11 +474,26 @@
       </div>
     </div>
 
+=======
+            <h3>게시글 <span id="post-count"></span></h3>
+            <ul data-type="posts"></ul>
+            <p class="empty-message" id="post-empty">검색결과가 없습니다</p>
+            <button class="load-more" data-type="posts" style="display: none">
+              더보기
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Swiper JS -->
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+>>>>>>> 9a4aaace81ba518684f9f7989c50f66c86418793
     <script>
       $(document).ready(function () {
         const offsets = { movies: 0, people: 0, posts: 0 };
         const limit = 4;
 
+<<<<<<< HEAD
         $('#search-button').on('click', function () {
           const keyword = $('#search-input').val().trim();
           if (!keyword) return alert('검색어를 입력하세요.');
@@ -96,22 +506,90 @@
         $('#people-load-more').on('click', () => loadMore('people'));
         $('#post-load-more').on('click', () => loadMore('posts'));
 
+=======
+        $('.recommend-wrap').show();
+
+        // 추천 Swiper 초기화
+        const recommendSwiper = new Swiper('.recommend-swiper', {
+          slidesPerView: 3,
+          spaceBetween: 16,
+          loop: false,
+
+          pagination: {
+            el: '.recommend-swiper .swiper-pagination',
+            clickable: true,
+          },
+          breakpoints: {
+            768: {
+              slidesPerView: 3,
+              spaceBetween: 16,
+            },
+            1024: {
+              slidesPerView: 4,
+              spaceBetween: 16,
+            },
+          },
+        });
+
+        // ajax 초기화
+>>>>>>> 9a4aaace81ba518684f9f7989c50f66c86418793
         function resetResults() {
           offsets.movies = 0;
           offsets.people = 0;
           offsets.posts = 0;
+<<<<<<< HEAD
           $('#movie-results ul, #people-results ul, #post-results ul').empty();
           $('#movie-load-more, #people-load-more, #post-load-more').hide();
           $('#movie-results, #people-results, #post-results').show();
         }
 
+=======
+          $('.results-section ul').empty();
+          $('.load-more').hide();
+          $('.empty-message').hide();
+          $('.results-section > div').hide();
+          $('#no-results').show(); // 검색 결과 없음 메시지 표시
+        }
+
+        $('#search-input').on('keypress', function (e) {
+          if (e.key === 'Enter') {
+            const keyword = $('#search-input').val().trim();
+            if (keyword.length < 2) {
+              alert('검색어는 최소 2글자 이상 입력해야 합니다.');
+              return;
+            }
+
+            // 검색 이벤트 시작 시 recommend-wrap 숨김
+            $('.recommend-wrap').hide();
+            resetResults();
+            fetchResults(keyword);
+          }
+        });
+
+>>>>>>> 9a4aaace81ba518684f9f7989c50f66c86418793
         function fetchResults(keyword) {
           $.ajax({
             type: 'GET',
             url: '/search/results',
             data: { keyword, limit },
+<<<<<<< HEAD
             success: (response) => handleResponse(response, 'all'),
             error: () => alert('검색 요청 중 오류가 발생했습니다.')
+=======
+            success: (response) => {
+              handleResponse(response, 'all');
+
+              // 검색 결과가 없을 때 recommend-wrap 다시 표시
+              if (
+                (!response.movies || response.movies.totalCount === 0) &&
+                (!response.people || response.people.totalCount === 0) &&
+                (!response.posts || response.posts.totalCount === 0)
+              ) {
+                $('.recommend-wrap').show();
+              }
+            },
+            error: () => alert('검색 요청 중 오류가 발생했습니다.'),
+>>>>>>> 9a4aaace81ba518684f9f7989c50f66c86418793
           });
         }
 
@@ -122,17 +600,36 @@
           $.ajax({
             type: 'GET',
             url: '/search/results',
+<<<<<<< HEAD
             data: { keyword, [`${type}-offset`]: offsets[type], limit },
             success: (response) => handleResponse(response, type),
             error: () => alert(`${type} 데이터를 불러오는 중 오류가 발생했습니다.`)
           });
         }
 
+=======
+            data: { keyword, offset: offsets[type], limit },
+            success: (response) => {
+              handleResponse(response, type);
+              offsets[type] += limit;
+            },
+            error: () =>
+              alert(`${type} 데이터를 불러오는 중 오류가 발생했습니다.`),
+          });
+        }
+
+        $('.load-more').on('click', function () {
+          const type = $(this).data('type');
+          loadMore(type);
+        });
+
+>>>>>>> 9a4aaace81ba518684f9f7989c50f66c86418793
         function handleResponse(response, type) {
           const movieResults = response.movies?.results || [];
           const peopleResults = response.people?.results || [];
           const postResults = response.posts?.results || [];
 
+<<<<<<< HEAD
           $('#movie-count').text(response.movies?.totalCount || 0);
           $('#people-count').text(response.people?.totalCount || 0);
           $('#post-count').text(response.posts?.totalCount || 0);
@@ -162,11 +659,86 @@
             renderResults('#post-results ul', postResults, 'post');
             toggleLoadMore('#post-load-more', offsets.posts, response.posts?.totalCount);
           }
+=======
+          // 전체 검색 결과 개수 설정
+          $('#movie-count').text(`${response.movies?.totalCount || 0}`);
+          $('#people-count').text(`${response.people?.totalCount || 0}`);
+          $('#post-count').text(`${response.posts?.totalCount || 0}`);
+
+          let isAllEmpty = true;
+
+          // 영화 결과 처리
+          if (type === 'movies' || type === 'all') {
+            if (movieResults.length > 0) {
+              isAllEmpty = false;
+              offsets.movies += movieResults.length;
+              renderResults(
+                '.results-section ul[data-type="movies"]',
+                movieResults,
+                'movie'
+              );
+              $('#movie-results').show();
+              toggleLoadMore(
+                '.load-more[data-type="movies"]',
+                offsets.movies,
+                response.movies?.totalCount
+              );
+            } else {
+              $('#movie-empty').show();
+            }
+          }
+
+          // 인물 결과 처리
+          if (type === 'people' || type === 'all') {
+            if (peopleResults.length > 0) {
+              isAllEmpty = false;
+              offsets.people += peopleResults.length;
+              renderResults(
+                '.results-section ul[data-type="people"]',
+                peopleResults,
+                'people'
+              );
+              $('#people-results').show();
+              toggleLoadMore(
+                '.load-more[data-type="people"]',
+                offsets.people,
+                response.people?.totalCount
+              );
+            } else {
+              $('#people-empty').show();
+            }
+          }
+
+          // 게시글 결과 처리
+          if (type === 'posts' || type === 'all') {
+            if (postResults.length > 0) {
+              isAllEmpty = false;
+              offsets.posts += postResults.length;
+              renderResults(
+                '.results-section ul[data-type="posts"]',
+                postResults,
+                'post'
+              );
+              $('#post-results').show();
+              toggleLoadMore(
+                '.load-more[data-type="posts"]',
+                offsets.posts,
+                response.posts?.totalCount
+              );
+            } else {
+              $('#post-empty').show();
+            }
+          }
+
+          // 검색 결과 없음 메시지 처리
+          $('#no-results').toggle(isAllEmpty);
+>>>>>>> 9a4aaace81ba518684f9f7989c50f66c86418793
         }
 
         function renderResults(container, results, type) {
           results.forEach((item) => {
             const html = {
+<<<<<<< HEAD
               movie: `<li>
                   <img src="${item.moviePoster || '/img/placeholder-poster.svg'}" style="width: 100px; height: 150px; object-fit: cover;" />
                   <div>
@@ -189,13 +761,74 @@
                 </li>`
             }[type];
 
+=======
+              movie: `<li class="list-item">
+        <div class="list-item-img">
+          <img src="${
+            item.moviePoster || '/img/placeholder-poster.svg'
+          }" alt="영화 포스터">
+        </div>
+        <div class="list-item-info">
+          <strong>
+            <a href="/title/${item.movieId}">${item.movieNm}</a>
+          </strong>
+          ${item.movieRlsYear}<br>
+          ${item.movieGenre}<br>
+          평점: ${item.movieScoreAvg}
+        </div>
+      </li>`,
+              people: `<li class="list-item">
+        <div class="list-item-img">
+          <img src="${
+            item.peopleProfileUrl || '/img/placeholder-people.svg'
+          }" alt="${item.peopleNm}">
+        </div>
+        <div class="list-item-info">
+          <strong>
+            <a href="/person/${item.peopleId}/filmography">${item.peopleNm}</a>
+          </strong>
+        </div>
+      </li>`,
+              post: `<li class="list-item">
+        <div class="list-item-info">
+          <strong>
+            <a href="/postDetail/${item.postId}">${item.postTitle}</a>
+          </strong>
+          조회수: ${item.postViews}, 추천수: ${item.postLikeCnt}, 댓글수: ${item.commentCnt}
+        </div>
+      </li>`,
+            }[type];
+>>>>>>> 9a4aaace81ba518684f9f7989c50f66c86418793
             $(container).append(html);
           });
         }
 
+<<<<<<< HEAD
         function toggleLoadMore(button, offset, total) {
           $(button).toggle(offset < total);
         }
+=======
+        // 99개 이상 검색시 99+로 표시
+        function formatCount(count) {
+          return count > 99 ? '99+' : count;
+        }
+
+        $('#movie-count').text(
+          `(${formatCount(response.movies?.totalCount || 0)})`
+        );
+        $('#people-count').text(
+          `(${formatCount(response.people?.totalCount || 0)})`
+        );
+        $('#post-count').text(
+          `(${formatCount(response.posts?.totalCount || 0)})`
+        );
+
+        function toggleLoadMore(button, offset, total) {
+          $(button).toggle(offset < total);
+        }
+
+        resetResults(); // 최초 로드 시 초기화
+>>>>>>> 9a4aaace81ba518684f9f7989c50f66c86418793
       });
     </script>
   </body>
