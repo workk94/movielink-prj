@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<<<<<<< HEAD
+<head>
+    <meta charset="UTF-8">
+    <title>Ranking List</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+    <style>
+        .rank-list{
+            height: 80%;
+            width: 60%;
+            margin: 0 auto;
+
+        }
+        .ranking-item {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border-top: 1px solid #EBEEF1;
+        }
+
+        .rank-num img {
+            width: 24px;
+            height: 24px;
+        }
+
+        .info-poster img {
+            width: 48px;
+            height: 72px;
+            object-fit: cover;
+            margin-right: 12px;
+        }
+
+        .info-title {
+            font-size: 16px;
+            font-weight: bold;
+            margin: 0;
+        }
+
+        .info-rating {
+            font-size: 14px;
+            color: #888;
+            margin-left: 8px;
+        }
+
+        .ranking-option {
+            margin-left: auto;
+        }
+
+        .movie-like-button {
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .movie-like-button img {
+            width: 24px;
+            height: 24px;
+        }
+        .rank-num{
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+<div th:replace="~{fragments/header :: headerFragment}"></div>
+<ul class="rank-list">
+    <li class="ranking-item" th:each="movie, iterStat : ${ranklist}">
+        <!-- 순위 -->
+        <div class="rank-num">
+            <div class="rank-num" th:text="${iterStat.index + 1}"></div>
+=======
+  <head>
+    <meta charset="UTF-8" />
+    <title>Ranking List</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+    <style>
+      .rank-title {
+        width: 700px;
+        margin: 0 auto;
+        padding: 10px;
+        color: #efefef;
+        font-size: 18px;
+        font-weight: 700;
+        line-height: 23px;
+      }
+      .rank-list {
+        height: 80%;
+        width: 700px;
+        margin: 0 auto;
+      }
+      .ranking-item {
+        display: flex;
+        align-items: center;
+        padding: 10px;
+        margin-bottom: 20px;
+        border-bottom: 1px solid #ebeef1;
+      }
+
+      .rank-num {
+        font-size: 36px;
+        font-weight: 900;
+      }
+
+      .rank-num img {
+        width: 24px;
+        height: 24px;
+      }
+
+      .info-poster img {
+        width: 48px;
+        height: 72px;
+        object-fit: cover;
+        margin-right: 12px;
+      }
+
+      .info-title {
+        padding: 5px;
+        font-size: 16px;
+        font-weight: bold;
+        margin: 0;
+      }
+
+      .info-rating {
+        padding: 5px;
+        font-size: 14px;
+        color: #888;
+        /* margin-left: 8px; */
+      }
+
+      .ranking-option {
+        margin-left: auto;
+      }
+
+      .movie-like-button {
+        background: none;
+        border: none;
+        cursor: pointer;
+      }
+
+      .movie-like-button img {
+        width: 24px;
+        height: 24px;
+      }
+      .rank-num {
+        padding: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div th:replace="~{fragments/header :: headerFragment}"></div>
+    <div class="rank-title">오늘의 영화 순위</div>
+    <ul class="rank-list">
+      <li class="ranking-item" th:each="movie, iterStat : ${ranklist}">
+        <!-- 순위 -->
+        <div class="rank-num">
+          <div class="rank-num" th:text="${iterStat.index + 1}"></div>
+>>>>>>> 9a4aaace81ba518684f9f7989c50f66c86418793
+        </div>
+
+        <!-- 포스터 -->
+        <div class="info-poster">
+<<<<<<< HEAD
+            <img alt="Movie Poster" th:src="${movie.moviePosterUrl}"/>
+=======
+          <img alt="Movie Poster" th:src="${movie.moviePosterUrl}" />
+>>>>>>> 9a4aaace81ba518684f9f7989c50f66c86418793
+        </div>
+
+        <!-- 영화 제목 및 평균 평점 -->
+        <div class="info-details">
+<<<<<<< HEAD
+            <p class="info-title" th:text="${movie.movieNm}">영화 제목</p>
+            <span class="info-rating" th:text="'평균 평점: ' + ${movie.getCombinedScore()}">평균 평점: 0.0</span>
+=======
+          <a th:href="@{/title/{id}(id=${movie.movieId})}"
+            ><p class="info-title" th:text="${movie.movieNm}">영화 제목</p></a
+          ><span
+            class="info-rating"
+            th:text="'평균 평점: ' + ${movie.getCombinedScore()}"
+            >평균 평점: 0.0</span
+          >
+>>>>>>> 9a4aaace81ba518684f9f7989c50f66c86418793
+        </div>
+
+        <!-- 좋아요 버튼 -->
+        <div class="ranking-option">
+<<<<<<< HEAD
+            <button class="movie-like-button" type="button">
+                <img alt="Add" th:src="@{/img/add.svg}"/>
+            </button>
+        </div>
+    </li>
+</ul>
+
+</body>
+=======
+          <button class="movie-like-button" type="button">
+            <img alt="Add" th:src="@{/img/add.svg}" />
+          </button>
+        </div>
+      </li>
+    </ul>
+  </body>
+>>>>>>> 9a4aaace81ba518684f9f7989c50f66c86418793
+</html>

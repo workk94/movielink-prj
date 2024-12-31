@@ -1,4 +1,4 @@
-package com.acorn.movielink.youtube;
+package com.acorn.movielink.youtube.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;

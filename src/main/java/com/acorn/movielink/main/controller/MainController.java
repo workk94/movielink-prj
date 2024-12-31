@@ -2,14 +2,13 @@ package com.acorn.movielink.main.controller;
 
 import com.acorn.movielink.data.dto.MovieDTO;
 import com.acorn.movielink.login.dto.Member;
-import com.acorn.movielink.login.dto.Movie;
 import com.acorn.movielink.login.dto.Notice;
 import com.acorn.movielink.login.dto.Review;
 import com.acorn.movielink.login.service.MemberService;
 import com.acorn.movielink.login.service.MovieService;
 import com.acorn.movielink.login.service.NoticeService;
 import com.acorn.movielink.login.service.ReviewService;
-import com.acorn.movielink.youtube.YouTubeService;
+import com.acorn.movielink.youtube.service.YouTubeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -27,7 +26,7 @@ public class MainController {
     private final ReviewService reviewService;
     private final MovieService movieService;
     private final NoticeService noticeService;
-//실시간 동접자
+    //실시간 동접자
 //    @Autowired
 //    private ActiveUserService activeUserService;
     private final YouTubeService youTubeService;
@@ -51,8 +50,8 @@ public class MainController {
         List<MovieDTO> bestMovies = movieService.getTopBestMovies(3);
         model.addAttribute("bestMovies", bestMovies);
 
-        List<String> youtubeost = youTubeService.searchMovieMusicVideos("ost");
-        model.addAttribute("youtubeost", youtubeost);
+//        List<String> youtubeost = youTubeService.searchMovieMusicVideos("ost");
+//        model.addAttribute("youtubeost", youtubeost);
 
         // 현재 로그인한 사용자 ID 가져오기
         Integer memId = null;
@@ -62,7 +61,7 @@ public class MainController {
                     .map(Member::getMemId)
                     .orElse(null);
         }
-        List<Movie> recommendedMovies;
+        List<MovieDTO> recommendedMovies;
         if (memId != null) {
             // 추천 영화 10개 조회
             recommendedMovies = memberService.getRecommendedMovies(memId);
@@ -71,13 +70,13 @@ public class MainController {
             List<MovieDTO> latestMovies = movieService.getLatestMoviesByOpenDateDesc();
             recommendedMovies = new ArrayList<>();
             for (MovieDTO dto : latestMovies) {
-                Movie movie = new Movie();
+                MovieDTO moviedto = new MovieDTO();
                 // DTO 필드 → Movie 필드
-                movie.setMovieId(dto.getMovieId());
-                movie.setMovieNm(dto.getMovieNm());
-                movie.setMoviePosterUrl(dto.getMoviePosterUrl());
+                moviedto.setMovieId(dto.getMovieId());
+                moviedto.setMovieNm(dto.getMovieNm());
+                moviedto.setMoviePosterUrl(dto.getMoviePosterUrl());
 
-                recommendedMovies.add(movie);
+                recommendedMovies.add(moviedto);
             }
         }
         model.addAttribute("recommendedMovies", recommendedMovies);

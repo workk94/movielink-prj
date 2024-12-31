@@ -177,7 +177,7 @@ footer nav .route-item .route-name {
 
 .error {
     color: red;
-    margin-left: 150px;
+font-size:12px;
 }
 
 .success {

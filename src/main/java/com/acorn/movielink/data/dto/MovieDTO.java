@@ -1,8 +1,11 @@
 package com.acorn.movielink.data.dto;
 
+import com.acorn.movielink.people_detail.dto.People;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -23,9 +26,10 @@ public class MovieDTO {
     private String moviePosterUrl; // 10. 영화 대표 포스터
     private double movieImdbScore; // 11. 영화 IMDB점수
     private double movieTMDBScore; // 12. 영화 TMDB 점수
-   
+    private List<People> peopleList; // 출연진 정보
 
     public double getCombinedScore() {
         return ((this.movieImdbScore * 10) + this.movieTMDBScore) / 2;
     }
+
 }
