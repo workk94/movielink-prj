@@ -214,6 +214,7 @@
                 $.ajaxSetup({
                     beforeSend: function(xhr) {
                         xhr.setRequestHeader(csrfHeader, csrfToken);
+                        xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest'); // Ensure AJAX header is set
                     }
                 });
 
@@ -238,7 +239,14 @@
                             },
                             error: function (xhr, status, error) {
                                 console.error(`좋아요 취소 실패:`, xhr.responseText, status, error);
-                                alert(`좋아요 취소 실패: ${xhr.responseText}`);
+                                if (xhr.status === 401) { // 인증되지 않음
+                                    const proceedToLogin = confirm("좋아요를 누르려면 로그인이 필요합니다. 로그인 페이지로 이동하시겠습니까?");
+                                    if (proceedToLogin) {
+                                        window.location.href = '/login'; // 로그인 페이지 URL로 변경
+                                    }
+                                } else {
+                                    alert(`좋아요 취소 실패: ${xhr.responseText}`);
+                                }
                             }
                         });
                     } else {
@@ -294,7 +302,6 @@
                 });
             });
         </script>
-
     </div>
 </div>
 </body>
