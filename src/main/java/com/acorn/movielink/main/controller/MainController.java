@@ -50,8 +50,8 @@ public class MainController {
         List<MovieDTO> bestMovies = movieService.getTopBestMovies(3);
         model.addAttribute("bestMovies", bestMovies);
 
-        List<String> youtubeost = youTubeService.searchMovieMusicVideos("ost");
-        model.addAttribute("youtubeost", youtubeost);
+//        List<String> youtubeost = youTubeService.searchMovieMusicVideos("ost");
+//        model.addAttribute("youtubeost", youtubeost);
 
         // 현재 로그인한 사용자 ID 가져오기
         Integer memId = null;
