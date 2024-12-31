@@ -37,17 +37,17 @@
 
     <!-- 이메일로 회원 찾기 -->
     <select id="findByMemEmail" parameterType="String" resultMap="memberResultMap">
-        SELECT * FROM MEMBER WHERE mem_email = #{memEmail}
+        SELECT * FROM member WHERE mem_email = #{memEmail}
     </select>
 
 
     <!-- 모든 회원 조회 -->
     <select id="findAllMembers" parameterType="map" resultMap="memberResultMap">
-        SELECT * FROM MEMBER
+        SELECT * FROM member
     </select>
 
     <delete id="deleteMember" parameterType="int">
-        DELETE FROM MEMBER WHERE mem_id = #{memId}
+        DELETE FROM member WHERE mem_id = #{memId}
     </delete>
 
     <!-- SNS ID로 회원 찾기 -->
@@ -182,7 +182,7 @@
     </select>
 
     <!-- 사용자 장르에 맞는 10개 영화 추천 -->
-    <select id="findRecommendedMovies" parameterType="int" resultType="com.acorn.movielink.login.dto.Movie">
+    <select id="findRecommendedMovies" parameterType="int" resultType="com.acorn.movielink.data.dto.MovieDTO">
         SELECT DISTINCT
         m.movie_id,
         m.movie_nm,
@@ -193,14 +193,14 @@
         m.movie_country,
         m.movie_plot,
         m.movie_trailer,
-        m.movie_poster,
+        m.movie_poster AS moviePosterUrl,
         m.movie_imdb_score,
         m.movie_tmdb_score,
         m.movie_reg_at
         FROM
         movie m
         JOIN
-        GENRE g ON m.genre_id = g.genre_id
+        genre g ON m.genre_id = g.genre_id
         JOIN
         member_genre mg ON g.genre_id = mg.genre_id
         WHERE
@@ -212,7 +212,7 @@
 
     <!-- 페이징 및 필터링된 회원 목록 조회 -->
     <select id="findMembers" parameterType="map" resultMap="memberResultMap">
-        SELECT * FROM MEMBER
+        SELECT * FROM member
         <where>
             <if test="email != null and email != ''">
                 AND mem_email LIKE CONCAT('%', #{email}, '%')
@@ -241,7 +241,7 @@
 
     <!-- 필터링된 전체 회원 수 조회 -->
     <select id="countMembers" parameterType="map" resultType="int">
-        SELECT COUNT(*) FROM MEMBER
+        SELECT COUNT(*) FROM member
         <where>
             <if test="email != null and email != ''">
                 AND mem_email LIKE CONCAT('%', #{email}, '%')
@@ -253,5 +253,10 @@
                 AND mem_type = #{type}
             </if>
         </where>
+    </select>
+
+    <!-- 닉네임으로 회원 찾기 -->
+    <select id="findByMemNn" parameterType="String" resultMap="memberResultMap">
+        SELECT * FROM member WHERE mem_nn = #{memNn}
     </select>
 </mapper>
