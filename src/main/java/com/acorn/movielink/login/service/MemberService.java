@@ -1,6 +1,10 @@
 package com.acorn.movielink.login.service;
 
 import com.acorn.movielink.config.PasswordUtil;
+<<<<<<< HEAD
+=======
+import com.acorn.movielink.data.dto.MovieDTO;
+>>>>>>> 9a4aaace81ba518684f9f7989c50f66c86418793
 import com.acorn.movielink.login.dto.Member;
 import com.acorn.movielink.login.dto.Movie;
 import com.acorn.movielink.login.dto.Person;
@@ -262,9 +266,9 @@ public class MemberService {
 
 
     // 사용자 장르에 맞는 10개 영화 추천
-    public List<Movie> getRecommendedMovies(Integer memId) {
+    public List<MovieDTO> getRecommendedMovies(Integer memId) {
         logger.debug("사용자 장르에 맞는 추천 영화 10개 조회 요청 for 회원 ID: {}", memId);
-        List<Movie> recommendedMovies = memberMapper.findRecommendedMovies(memId);
+        List<MovieDTO> recommendedMovies = memberMapper.findRecommendedMovies(memId);
         logger.debug("쿼리 결과: {}", recommendedMovies);
         return recommendedMovies;
     }
@@ -279,4 +283,21 @@ public class MemberService {
     public int countMembers(String sort, String type, String email, String nickname) {
         return memberMapper.countMembers(sort, type, email, nickname);
     }
+<<<<<<< HEAD
+=======
+
+    // 닉네임으로 회원 찾기
+    public Optional<Member> findByNickname(String nickname) {
+        logger.debug("닉네임으로 회원 검색 요청: {}", nickname);
+        Optional<Member> member = memberMapper.findByMemNn(nickname);
+        logger.debug("findByMemNn 쿼리 결과: {}", member);
+        if (member.isPresent()) {
+            logger.info("회원 검색 성공: {}", nickname);
+        } else {
+            logger.warn("회원 검색 실패: {}", nickname);
+        }
+        return member;
+    }
+
+>>>>>>> 9a4aaace81ba518684f9f7989c50f66c86418793
 }

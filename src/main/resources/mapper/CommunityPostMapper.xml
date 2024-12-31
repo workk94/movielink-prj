@@ -25,7 +25,11 @@
     <!--전체 게시글 조회 (최신등록순)-->
     <select id="selectAllList" resultMap="PostResultMap">
         SELECT *
+<<<<<<< HEAD
         FROM   post
+=======
+        FROM post
+>>>>>>> 9a4aaace81ba518684f9f7989c50f66c86418793
         ORDER BY
         GREATEST(COALESCE(post_updated_at, post_created_at), post_created_at)
         DESC
@@ -33,23 +37,39 @@
 
     <!--좋아요가 많은 게시글 TOP 10-->
     <select id="selectTopTenPosts" resultMap="PostResultMap">
+<<<<<<< HEAD
         SELECT   *
         FROM     POST
         ORDER BY post_like_cnt DESC
         LIMIT    10
+=======
+        SELECT *
+        FROM post
+        ORDER BY post_like_cnt DESC
+        LIMIT 10
+>>>>>>> 9a4aaace81ba518684f9f7989c50f66c86418793
     </select>
 
 
     <!--게시글 상세조회    -->
     <select id="selectPostById" resultMap="PostResultMap">
         SELECT *
+<<<<<<< HEAD
         FROM   POST
         WHERE  post_id = #{postId}
+=======
+        FROM post
+        WHERE post_id = #{postId}
+>>>>>>> 9a4aaace81ba518684f9f7989c50f66c86418793
     </select>
 
     <!-- 조회수 증가 -->
     <update id="updatePostViews">
+<<<<<<< HEAD
         UPDATE POST
+=======
+        UPDATE post
+>>>>>>> 9a4aaace81ba518684f9f7989c50f66c86418793
         SET post_views = post_views + 1
         WHERE post_id = #{postId};
     </update>
@@ -57,28 +77,48 @@
 
     <!--게시글 수정하기 -->
     <update id="updatePost">
+<<<<<<< HEAD
         UPDATE  POST
         SET     post_title = #{postTitle},
         content = #{content},
         post_updated_at = NOW()
         WHERE   post_id = #{postId}
+=======
+        UPDATE post
+        SET post_title = #{postTitle},
+        content = #{content},
+        post_updated_at = NOW()
+        WHERE post_id = #{postId}
+>>>>>>> 9a4aaace81ba518684f9f7989c50f66c86418793
     </update>
 
 
     <!--게시글 삭제하기    -->
     <delete id="deletePost">
         DELETE
+<<<<<<< HEAD
         FROM   POST
         WHERE  post_id = #{postId}
     </delete>
 
 
 
+=======
+        FROM post
+        WHERE post_id = #{postId}
+    </delete>
+
+
+>>>>>>> 9a4aaace81ba518684f9f7989c50f66c86418793
     <!--    위젯 -->
     <!--좋아요 많은 유저 랭킹 -->
     <select id="selectTop7Member" resultMap="PostResultMap">
         SELECT p.post_id, p.mem_id, m.mem_nn, SUM(COALESCE(p.post_like_cnt, 0)) AS total_likes
+<<<<<<< HEAD
         FROM POST p
+=======
+        FROM post p
+>>>>>>> 9a4aaace81ba518684f9f7989c50f66c86418793
         LEFT OUTER JOIN member m ON p.mem_id = m.mem_id
         GROUP BY p.post_id, p.mem_id, m.mem_nn
         ORDER BY total_likes DESC
@@ -90,6 +130,7 @@
     <!--회원 1명의 작성 게시글 목록-->
     <select id="selectOneMemberPostList" resultMap="PostResultMap">
         SELECT *
+<<<<<<< HEAD
         FROM   POST
         WHERE  mem_id = #{memId}
         ORDER  BY post_created_at DESC
@@ -103,6 +144,19 @@
     <insert id="insertPost" parameterType="com.acorn.movielink.comunity.dto.PostDTO" useGeneratedKeys="true" keyProperty="postId" keyColumn="post_id">
         INSERT INTO
         POST   (mem_id,     post_title,    content,    post_created_at, post_views, post_like_cnt)
+=======
+        FROM post
+        WHERE mem_id = #{memId}
+        ORDER BY post_created_at DESC
+    </select>
+
+
+    <!--게시글 작성하기    -->
+    <insert id="insertPost" parameterType="com.acorn.movielink.comunity.dto.PostDTO" useGeneratedKeys="true"
+            keyProperty="postId" keyColumn="post_id">
+        INSERT INTO
+        post (mem_id, post_title, content, post_created_at, post_views, post_like_cnt)
+>>>>>>> 9a4aaace81ba518684f9f7989c50f66c86418793
         VALUES (#{memId} , #{postTitle}, #{content}, NOW(), 0, 0)
     </insert>
 </mapper>

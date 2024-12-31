@@ -182,7 +182,11 @@
     </select>
 
     <!-- 사용자 장르에 맞는 10개 영화 추천 -->
+<<<<<<< HEAD
     <select id="findRecommendedMovies" parameterType="int" resultType="com.acorn.movielink.login.dto.Movie">
+=======
+    <select id="findRecommendedMovies" parameterType="int" resultType="com.acorn.movielink.data.dto.MovieDTO">
+>>>>>>> 9a4aaace81ba518684f9f7989c50f66c86418793
         SELECT DISTINCT
         m.movie_id,
         m.movie_nm,
@@ -193,14 +197,22 @@
         m.movie_country,
         m.movie_plot,
         m.movie_trailer,
+<<<<<<< HEAD
         m.movie_poster,
+=======
+        m.movie_poster AS moviePosterUrl,
+>>>>>>> 9a4aaace81ba518684f9f7989c50f66c86418793
         m.movie_imdb_score,
         m.movie_tmdb_score,
         m.movie_reg_at
         FROM
         movie m
         JOIN
+<<<<<<< HEAD
         GENRE g ON m.genre_id = g.genre_id
+=======
+        genre g ON m.genre_id = g.genre_id
+>>>>>>> 9a4aaace81ba518684f9f7989c50f66c86418793
         JOIN
         member_genre mg ON g.genre_id = mg.genre_id
         WHERE
@@ -254,4 +266,12 @@
             </if>
         </where>
     </select>
+<<<<<<< HEAD
+=======
+
+    <!-- 닉네임으로 회원 찾기 -->
+    <select id="findByMemNn" parameterType="String" resultMap="memberResultMap">
+        SELECT * FROM member WHERE mem_nn = #{memNn}
+    </select>
+>>>>>>> 9a4aaace81ba518684f9f7989c50f66c86418793
 </mapper>
