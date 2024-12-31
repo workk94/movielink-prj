@@ -2,10 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.acorn.movielink.data.MovieBoxOfficeMapper">
     <resultMap id="MovieDailyStatsResultMap" type="com.acorn.movielink.data.dto.MovieDailyStatsDTO">
-        <result property="movie_nm" column="movie_nm"/>
-        <result property="sales_share" column="sales_share" />
-        <result property="audi_cnt" column="audi_cnt" />
-        <result property="open_dt" column="open_dt" />
+        <result property="movie_nm" column="bo_movie_nm"/>
+        <result property="sales_share" column="bo_sales_share" />
+        <result property="audi_cnt" column="bo_audi_cnt" />
+        <result property="open_dt" column="bo_open_dt" />
     </resultMap>
 
     <resultMap id="BoxOfficeMovieResultMap" type="com.acorn.movielink.data.dto.BoxOfficeMovieDTO">
@@ -15,10 +15,10 @@
     </resultMap>
 
     <select id="findDailyMovieStats" parameterType="String" resultMap="MovieDailyStatsResultMap">
-        SELECT movie_nm, sales_share, audi_cnt , open_dt
-        FROM raw_data_test
-        WHERE box_office_dt = #{boxOfficeDate}
-        ORDER BY rnum ASC
+        SELECT bo_movie_nm, bo_sales_share, bo_audi_cnt , bo_open_dt
+        FROM boxoffice_data
+        WHERE bo_open_dt = #{boxOfficeDate}
+        ORDER BY bo_rnum ASC
     </select>
 
 
