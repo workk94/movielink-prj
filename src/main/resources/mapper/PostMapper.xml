@@ -14,7 +14,6 @@
         <result property="postViews" column="post_views"/>
         <result property="postLikeCnt" column="post_like_cnt"/>
 
-        <result property="postImgConvertedFileNm" column="post_img_converted_file_nm"/>
 
         <collection property="tags" ofType="com.acorn.movielink.people_detail.dto.Tag">
             <result property="tagId" column="tag_id"/>
@@ -33,13 +32,13 @@
         p.post_created_at,
         p.post_views,
         p.post_like_cnt,
-        pimg.post_img_converted_file_nm,
+
         t.tag_id,
         t.tag_name
         FROM post p
         JOIN post_tag pt ON p.post_id = pt.post_id
         JOIN tag t ON pt.tag_id = t.tag_id
-        JOIN post_image pimg ON p.post_id = pimg.post_id
+
         WHERE t.tag_name = #{tagName}
     </select>
 
