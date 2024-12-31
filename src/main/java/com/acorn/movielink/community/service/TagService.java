@@ -1,7 +1,7 @@
-package com.acorn.movielink.comunity.service;
+package com.acorn.movielink.community.service;
 
-import com.acorn.movielink.comunity.dto.TagDTO;
-import com.acorn.movielink.comunity.repository.TagMapper;
+import com.acorn.movielink.community.dto.TagDTO;
+import com.acorn.movielink.community.repository.TagMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;

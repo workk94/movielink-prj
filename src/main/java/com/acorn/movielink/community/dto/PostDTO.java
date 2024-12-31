@@ -1,4 +1,4 @@
-package com.acorn.movielink.comunity.dto;
+package com.acorn.movielink.community.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -21,7 +21,7 @@ public class PostDTO {
     private int postViews;
     private int postLikeCnt;
     private int postReport;
-    private String mem_nn;
+    private String memNn;
 
     private List<TagDTO> tags; // 유지 (DTO 기반 처리로 일관성 유지)
 

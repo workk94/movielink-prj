@@ -1,13 +1,13 @@
-package com.acorn.movielink.comunity.controller;
+package com.acorn.movielink.community.controller;
 
-import com.acorn.movielink.comunity.dto.CommentDTO;
-import com.acorn.movielink.comunity.dto.LikeDTO;
-import com.acorn.movielink.comunity.service.CommentService;
-import com.acorn.movielink.comunity.service.CommunityLikeService;
-import com.acorn.movielink.comunity.service.CommunityPostService;
-import com.acorn.movielink.comunity.service.TagService;
-import com.acorn.movielink.comunity.dto.PostDTO;
-import com.acorn.movielink.comunity.dto.TagDTO;
+import com.acorn.movielink.community.dto.CommentDTO;
+import com.acorn.movielink.community.dto.LikeDTO;
+import com.acorn.movielink.community.service.CommentService;
+import com.acorn.movielink.community.service.CommunityLikeService;
+import com.acorn.movielink.community.service.CommunityPostService;
+import com.acorn.movielink.community.service.TagService;
+import com.acorn.movielink.community.dto.PostDTO;
+import com.acorn.movielink.community.dto.TagDTO;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -33,6 +33,9 @@ public class PostController {
 
     @Autowired
     private CommentService commentService;
+
+    @Autowired
+    private AuthenticationUtil authenticationUtil;
 
     //    좋아요 많은 유저 Top7
     @ModelAttribute("topSevenMem")
@@ -122,24 +125,28 @@ public class PostController {
 
 
     @GetMapping("/postDetail/{postId}")
-    public ResponseEntity<?> getPostOne(@PathVariable int postId, HttpSession session) {
-        Integer memId = (Integer) session.getAttribute("memId");
-        boolean isLiked = memId != null && likeService.isLikedByUser(postId, memId);
+    public String getPostOne(@PathVariable("postId") int postId, Model model) {
+        // 시큐리티 기반 memId 조회
+        Integer memId;
+        try {
+            memId = authenticationUtil.getCurrentUserId();
+        } catch (SecurityException e) {
+            memId = null; // 로그인하지 않은 경우 null 처리
+        }        boolean isLiked = memId != null && likeService.isLikedByUser(postId, memId);
 
         // 게시글 조회
         PostDTO postOne = postService.selectPostById(postId);
         List<TagDTO> tags = tagService.selectTagsByPostId(postId);
         List<CommentDTO> comments = commentService.getCommentsByPostId(postId);
 
-        // JSON 응답
-        Map<String, Object> response = new HashMap<>();
-        response.put("postOne", postOne);
-        response.put("tags", tags);
-        response.put("isLiked", isLiked);
-        response.put("memId", memId);
-        response.put("comments", comments);
+        // 모델에 데이터 추가
+        model.addAttribute("postOne", postOne);
+        model.addAttribute("tags", tags);
+        model.addAttribute("isLiked", isLiked);
+        model.addAttribute("memId", memId);
+        model.addAttribute("comments", comments);
 
-        return ResponseEntity.ok(response);
+        return "postOneDetail"; // 반환할 뷰의 이름
     }
 
 
