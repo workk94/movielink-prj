@@ -1,15 +1,14 @@
 package com.acorn.movielink.movie_detail.controller;
 
 import com.acorn.movielink.data.dto.MovieDTO;
-import com.acorn.movielink.login.dto.Member;
 import com.acorn.movielink.login.service.MemberService;
+import com.acorn.movielink.movie_detail.dto.MovieReview;
 import com.acorn.movielink.movie_detail.service.MovieDetailServiceImpl;
 import com.acorn.movielink.movie_detail.service.MovieLikeServiceImpl;
 import com.acorn.movielink.movie_detail.service.MovieReviewServiceImpl;
 import com.acorn.movielink.people_detail.dto.Post;
 import com.acorn.movielink.people_detail.service.PostService;
 import com.acorn.movielink.movie_detail.service.UserService;
-import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,9 +17,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.Inet4Address;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 @Controller
 @RequestMapping("/title")
@@ -51,6 +50,7 @@ public class MovieDetailController {
             Authentication authentication,
             Model model) {
 
+        // 영화 정보 가져오기
         MovieDTO movie = movieDetailService.getMovieById(movieId);
         model.addAttribute("movie", movie);
         model.addAttribute("movieId", movieId);
@@ -64,99 +64,101 @@ public class MovieDetailController {
         model.addAttribute("actors", actors);
         model.addAttribute("staffs", staffs);
 
-        // 리뷰 데이터 추가
-        List<Map<String, Object>> review = movieReviewService.getReview(movieId);
-        model.addAttribute("reviews", review);
-
-        // 로그인 여부 확인
-        boolean isLoggedIn = authentication != null && authentication.isAuthenticated();
+        // 로그인 여부 및 사용자 정보 확인
+        Integer memId = userService.getMemberIdFromAuthentication(authentication, memberService);
+        boolean isLoggedIn = memId != null;
         model.addAttribute("isLoggedIn", isLoggedIn);
 
-        // 로그인한 사용자의 리뷰 확인
-        boolean reviewExists = false;
-        if (isLoggedIn) {
-            String email = userService.getUserEmailFromPrincipal(authentication);
-            if (email != null) {
-                Optional<Member> memberOpt = memberService.findByEmail(email);
-                if (memberOpt.isPresent()) {
-                    Integer memId = memberOpt.get().getMemId();
-                    reviewExists = movieReviewService.isMovieReviewed(movieId, memId);
-                }
-            }
-        }
+        // 사용자 리뷰 확인
+        boolean reviewExists = isLoggedIn && movieReviewService.isMovieReviewed(movieId, memId);
         model.addAttribute("reviewExists", reviewExists);
 
+        if (memId != null) {
+            MovieReview userReview = movieReviewService.getUserReview(movieId, memId);
+            model.addAttribute("userReview", userReview);
+        }
 
+        List<MovieReview> reviews = movieReviewService.getReview(movieId);
+        model.addAttribute("reviews", reviews);
+
+        // 커뮤니티 게시글 조회
         if (movie != null) {
             String tagName = movie.getMovieNm();
             List<Post> communityPosts = postService.getPostsByTagName(tagName);
             model.addAttribute("communityPosts", communityPosts);
         }
 
-        return "MovieDetail"; // MovieDetail.html
+        return "MovieDetail";
     }
 
-    @PostMapping("/{movieId}/review")
+    @PostMapping("/{movieId}/review/register")
     @ResponseBody
-    public ResponseEntity<?> addOrEditReview(
+    public ResponseEntity<?> addReview(
             @PathVariable("movieId") Integer movieId,
             @RequestBody Map<String, Object> reviewData,
-            Authentication authentication,
-            HttpServletRequest request) {
+            Authentication authentication) {
 
         // 로그인 여부 확인
-        if (authentication == null || !authentication.isAuthenticated()) {
-            // 현재 요청 URL을 세션에 저장
-            String currentUrl = request.getRequestURI() + "?" + request.getQueryString();
-            request.getSession().setAttribute("redirectUrl", currentUrl);
-
-            // 로그인 페이지로 이동하도록 응답
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("/login");
+        Integer memId = userService.getMemberIdFromAuthentication(authentication, memberService);
+        if (memId == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인이 필요합니다.");
         }
 
         try {
-            String reviewTitle = (String) reviewData.get("reviewTitle");
             String reviewContent = (String) reviewData.get("reviewContent");
             double reviewRating = (double) reviewData.get("reviewRating");
 
-            // 사용자 ID 가져오기
-            String email = authentication.getName();
-            Optional<Member> memberOpt = memberService.findByEmail(email);
-            if (memberOpt.isEmpty()) {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("사용자 정보를 찾을 수 없습니다.");
-            }
-
-            Integer memId = memberOpt.get().getMemId();
-            Integer reviewId = reviewData.containsKey("reviewId") ? (Integer) reviewData.get("reviewId") : null;
-
-            if (reviewId == null) {
-                // 리뷰 저장 (새 리뷰 작성)
-                movieReviewService.addReview(movieId, reviewTitle, reviewContent, reviewRating, authentication);
-                return ResponseEntity.ok("리뷰가 성공적으로 등록되었습니다.");
-            } else {
-                // 기존 리뷰 수정
-                movieReviewService.updateReview(reviewId, reviewContent, reviewRating);
-                return ResponseEntity.ok("리뷰가 성공적으로 수정되었습니다.");
-            }
+            // 리뷰 저장 서비스 호출
+            movieReviewService.addReview(movieId, reviewContent, reviewRating, authentication);
+            return ResponseEntity.ok("리뷰가 성공적으로 등록되었습니다.");
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("리뷰 처리 중 오류가 발생했습니다.");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("리뷰 작성 중 오류가 발생했습니다.");
         }
     }
 
-    @PostMapping("/{movieId}/review/delete")
+    @PutMapping("/{movieId}/{reviewId}/edit")
+    @ResponseBody
+    public ResponseEntity<?> editReview(
+            @PathVariable("movieId") Integer movieId,
+            @PathVariable("reviewId") Integer reviewId,
+            @RequestBody Map<String, Object> reviewData,
+            Authentication authentication) {
+
+        Integer memId = userService.getMemberIdFromAuthentication(authentication, memberService);
+        if (memId == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인이 필요합니다.");
+        }
+
+        try {
+            String reviewContent = (String) reviewData.get("reviewContent");
+            double reviewRating = (double) reviewData.get("reviewRating");
+
+            movieReviewService.updateReview(reviewId, reviewContent, reviewRating);
+            return ResponseEntity.ok("리뷰가 성공적으로 수정되었습니다.");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("리뷰 수정 중 오류가 발생했습니다.");
+        }
+    }
+
+    @DeleteMapping("/{movieId}/{reviewId}/delete")
     @ResponseBody
     public ResponseEntity<?> deleteReview(
             @PathVariable("movieId") Integer movieId,
-            @RequestBody Map<String, Object> reviewData) {
+            @PathVariable("reviewId") Integer reviewId,
+            Authentication authentication) {
+
+        Integer memId = userService.getMemberIdFromAuthentication(authentication, memberService);
+        if (memId == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인이 필요합니다.");
+        }
+
         try {
-            Integer reviewId = (Integer) reviewData.get("reviewId");
-    
             movieReviewService.deleteReview(reviewId);
             return ResponseEntity.ok("리뷰가 성공적으로 삭제되었습니다.");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("리뷰 삭제 중 오류가 발생했습니다.");
         }
-    }    
+    }
 
     @PostMapping("/{movieId}/like")
     @ResponseBody
@@ -164,65 +166,25 @@ public class MovieDetailController {
             @PathVariable("movieId") Integer movieId,
             Authentication authentication) {
 
-        if (authentication == null) {
+        Integer memId = userService.getMemberIdFromAuthentication(authentication, memberService);
+        if (memId == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인이 필요합니다.");
         }
 
-        String email = userService.getUserEmailFromPrincipal(authentication);
-        if (email == null || email.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인이 필요합니다.");
+        try {
+            boolean alreadyLiked = movieLikeService.isMovieLikedByUser(movieId, memId);
+
+            if (alreadyLiked) {
+                movieLikeService.unlikeMovie(movieId, memId);
+                int likeCount = movieLikeService.getLikeCount(movieId);
+                return ResponseEntity.ok("좋아요가 해제되었습니다.");
+            } else {
+                movieLikeService.likeMovie(movieId, memId);
+                int likeCount = movieLikeService.getLikeCount(movieId);
+                return ResponseEntity.ok(likeCount);
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("좋아요 처리 중 오류가 발생했습니다.");
         }
-
-        Optional<Member> memberOpt = memberService.findByEmail(email);
-        if (memberOpt.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("회원 정보를 찾을 수 없습니다.");
-        }
-
-        Integer memId = memberOpt.get().getMemId();
-        boolean alreadyLiked = movieLikeService.isMovieLikedByUser(movieId, memId);
-
-        if (alreadyLiked) {
-            movieLikeService.unlikeMovie(movieId, memId);
-            int likeCount = movieLikeService.getLikeCount(movieId);
-            return ResponseEntity.ok("좋아요가 해제되었어요!");
-        }
-
-        movieLikeService.likeMovie(movieId, memId);
-        int likeCount = movieLikeService.getLikeCount(movieId);
-
-        return ResponseEntity.ok(likeCount);
-    }
-
-    @DeleteMapping("/{movieId}/like")
-    @ResponseBody
-    public ResponseEntity<?> unlikeMovie(
-            @PathVariable("movieId") Integer movieId,
-            Authentication authentication) {
-
-        if (authentication == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인이 필요합니다.");
-        }
-
-        String email = userService.getUserEmailFromPrincipal(authentication);
-        if (email == null || email.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인이 필요합니다.");
-        }
-
-        Optional<Member> memberOpt = memberService.findByEmail(email);
-        if (memberOpt.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("회원 정보를 찾을 수 없습니다.");
-        }
-
-        Integer memId = memberOpt.get().getMemId();
-        boolean alreadyLiked = movieLikeService.isMovieLikedByUser(movieId, memId);
-
-        if (!alreadyLiked) {
-            return ResponseEntity.badRequest().body("좋아요를 하지 않았습니다.");
-        }
-
-        movieLikeService.unlikeMovie(movieId, memId);
-        int likeCount = movieLikeService.getLikeCount(movieId);
-
-        return ResponseEntity.ok(likeCount);
     }
 }

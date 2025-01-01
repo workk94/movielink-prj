@@ -3,15 +3,16 @@
 
   <style>
     /* category-mvreview */
+    .hidden {
+      display: none;
+    }
+
     .mvreview {
       padding: 16px;
     }
 
-    .mvreview-review {
+    .mvreview-rating {
       padding: 16px 0 16px 0;
-    }
-
-    .review-rating {
       margin: 16px 0;
       height: 200px;
       display: flex;
@@ -49,7 +50,7 @@
       visibility: hidden;
     }
 
-    .stars {
+    .rating-stars {
       display: flex;
       gap: 4px;
     }
@@ -76,7 +77,7 @@
       border-style: none;
     }
 
-    .review-wrote {
+    .mvreview-wrote {
       margin: 16px 0;
       padding: 16px;
       height: 200px;
@@ -128,6 +129,7 @@
       padding: 16px;
       height: 200px;
       display: flex;
+      border-radius: 8px;
       flex-direction: column;
       justify-content: center;
       border: 1px solid #25304a;
@@ -158,7 +160,8 @@
       border-radius: 4px;
       display: flex;
       justify-self: flex-end;
-      text-align: center;
+      justify-content: center;
+      align-items: center;
     }
 
     .mvreview-userReview {
@@ -270,48 +273,57 @@
 
     <h4>내가 쓴 리뷰</h4>
 
-    <!-- 내가 쓴 리뷰 -->
-    <div class="mvreview-review" id="mvreview-review" th:if="${!reviewExists}">
-      <div class="review-rating">
-        <h4>이 작품 어떠셨나요?</h4>
-        <div class="stars" id="stars-container">
-          <span class="star" th:each="i : ${#numbers.sequence(1, 5)}" th:data-full-rating="${i}">
-            <svg viewBox="0 0 24 24">
-              <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
-            </svg>
-          </span>
-        </div>
-        <button class="rating-button" id="rating-button">리뷰 작성 하기</button>
+    <!-- 평점 선택 -->
+    <div class="mvreview-rating" id="mvreview-rating" th:classappend="${reviewExists} ? 'hidden' : ''">
+      <h4>이 작품 어떠셨나요?</h4>
+      <div class="rating-stars" id="rating-stars">
+        <span class="star-half" th:data-half-rating="${0.5}">
+          <svg class="star-svg" width="0" height="0">
+            <defs>
+              <linearGradient id="half-gradient" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="50%" stop-color="#637dea"></stop>
+                <stop offset="50%" stop-color="none"></stop>
+              </linearGradient>
+            </defs>
+          </svg>
+        </span>
+        <span class="star" th:each="i : ${#numbers.sequence(1, 5)}" th:data-full-rating="${i}">
+          <svg viewBox="0 0 24 24">
+            <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
+          </svg>
+        </span>
       </div>
+      <button class="rating-button" id="rating-button">리뷰 작성 하기</button>
     </div>
 
     <!-- 리뷰 작성 -->
-    <div class="mvreview-writing" id="mvreview-writing" style="display: none;">
+    <div class="mvreview-writing hidden" id="mvreview-writing">
       <div class="writing-title">
         <div class="sub-font7">리뷰 한줄평</div>
         <div class="sub-font7" id="review-char-count">0/100</div>
       </div>
       <textarea class="writing-body" id="reviewContent" placeholder="내 생각을 짧게 기록해보세요."></textarea>
-      <button class="writing-button" id="submitReviewButton">저장</button>
+      <button class="writing-button" id="submitButton">저장</button>
     </div>
 
     <!-- 내가 남긴 리뷰 표시 -->
-    <div class="review-wrote" th:each="review : ${reviews}" th:data-review-id="${review.reviewId}" id="review-wrote" th:if="${reviewExists}">
+    <div class="mvreview-wrote" th:data-review-id="${userReview != null ? userReview.reviewId : '-'}"
+      id="mvreview-wrote" th:classappend="${!reviewExists} ? 'hidden' : ''">
       <div class="wrote-rating">
         <div>내 별점 평가</div>
         <div class="rating-star">
           <svg viewBox="0 0 24 24" width="18px" height="18px" style="stroke: #efefef; fill: #efefef;">
             <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
           </svg>
-          <span th:each="review : ${reviews}" th:text="${review?.reviewRating ?: '-'}">rating</span>
+          <span th:text="${userReview != null ? userReview.reviewRating : '-'}">rating</span>
         </div>
       </div>
       <div class="wrote-body">
-        <span th:each="review : ${reviews}" th:text="${review.reviewContent ?: '-' }">리뷰 내용</span>
+        <span th:text="${userReview != null ? userReview.reviewContent : '-'}">리뷰 내용</span>
       </div>
       <div class="wrote-buttons">
-        <button class="buttons-edit">수정</button>
-        <button class="buttons-delete">삭제</button>
+        <button class="buttons-edit" th:data-review-id="${userReview != null ? userReview.reviewId : ''}">수정</button>
+        <button class="buttons-delete" th:data-review-id="${userReview != null ? userReview.reviewId : ''}">삭제</button>
       </div>
     </div>
 
@@ -331,10 +343,10 @@
           <div class="users-profile">
             <div class="profile-left">
               <span class="left-img">
-                <img th:src="${review['memProfileFilePath'] ?: '/img/placeholder-people.svg'}" alt="프로필 이미지">
+                <img th:src="${review.memProfileFilePath ?: '/img/placeholder-people.svg'}" alt="프로필 이미지">
               </span>
               <div class="profile-id">
-                <span th:text="${review['memNn']}">id</span>
+                <span th:text="${review.memNn ?: '-' }">id</span>
                 <span th:text="${review.reviewRegAt ?: '-'}">hours ago</span>
               </div>
             </div>
@@ -342,7 +354,7 @@
               <svg viewBox="0 0 24 24" width="20px" height="20px" style="stroke: #efefef; fill: #efefef;">
                 <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
               </svg>
-              <span  th:text="${review.reviewRating}">rating</span>
+              <span th:text="${review.reviewRating ?: '-' }">rating</span>
             </div>
           </div>
           <div class="users-content" th:text="${review.reviewContent ?: '-' }">리뷰 내용</div>
@@ -350,8 +362,8 @@
         <div class="list-likes">
           <svg class="heart" width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path
-                    d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"
-                    fill="none" stroke="#bdc6d5" stroke-width="2" class="heart-path" />
+              d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"
+              fill="none" stroke="#bdc6d5" stroke-width="2" class="heart-path" />
           </svg>
         </div>
       </div>
@@ -361,109 +373,168 @@
 
   <script>
     document.addEventListener("DOMContentLoaded", () => {
-        const writingContainer = document.getElementById("mvreview-writing");
-        const ratingButton = document.getElementById("rating-button");
-        const submitButton = document.getElementById("submitReviewButton");
-        const reviewContentElement = document.getElementById("reviewContent");
-        const starsContainer = document.getElementById("stars-container");
-        const movieId = document.querySelector(".mvreview").dataset.movieId;
-        let selectedRating = 0;
+      const ratingContainer = document.getElementById("mvreview-rating");
+      const writingContainer = document.getElementById("mvreview-writing");
+      const wroteContainer = document.getElementById("mvreview-wrote");
+      const reviewContentElement = document.getElementById("reviewContent");
+      const ratingButton = document.getElementById("rating-button");
+      const submitButton = document.getElementById("submitButton");
+      const editButtons = document.querySelectorAll(".buttons-edit");
+      const deleteButtons = document.querySelectorAll(".buttons-delete");
+      const stars = document.getElementById("rating-stars");
 
-        // 로그인 여부 확인
-        const isLoggedIn = document.querySelector(".mvreview").dataset.loggedIn === "true";
+      const movieId = document.querySelector(".mvreview").dataset.movieId;
+      let selectedRating = 0;
 
-        const handleStarClick = (event) => {
-            if (!isLoggedIn) {
-                const currentUrl = window.location.href;
-                alert("로그인하고 모든 기능을 자유롭게 이용해보세요!");
-                window.location.href = `/login?redirectUrl=${encodeURIComponent(window.location.href)}`;
-                return;
-            }
+      // 로그인 여부 확인
+      const isLoggedIn = document.querySelector(".mvreview").dataset.loggedIn === "true";
 
-            const star = event.target.closest(".star");
-            if (!star) return;
+      // 별점 클릭 이벤트
+      stars.addEventListener("click", (event) => {
+        if (!isLoggedIn) {
+          alert("로그인하고 모든 기능을 자유롭게 이용해보세요!");
+          window.location.href = `/login?redirectUrl=${encodeURIComponent(window.location.href)}`;
+          return;
+        }
 
-            const fullRating = parseFloat(star.getAttribute("data-full-rating"));
-            const rect = star.getBoundingClientRect();
-            const mouseX = event.clientX - rect.left;
+        const star = event.target.closest(".star");
+        if (!star) return;
 
-            selectedRating = mouseX < rect.width / 2 ? fullRating - 0.5 : fullRating;
-            updateStars(selectedRating);
-            alert(`별점 ${selectedRating}점이 입력되었어요!`);
-        };
+        const fullRating = parseFloat(star.getAttribute("data-full-rating"));
+        const rect = star.getBoundingClientRect();
+        const mouseX = event.clientX - rect.left;
 
-        const updateStars = (rating) => {
-            document.querySelectorAll(".star").forEach((star) => {
-                const fullRating = parseFloat(star.getAttribute("data-full-rating"));
-                const svg = star.querySelector("svg");
+        selectedRating = mouseX < rect.width / 2 ? fullRating - 0.5 : fullRating;
+        updateStars(selectedRating);
+      });
 
-                if (rating >= fullRating) {
-                    svg.classList.add("filled");
-                    svg.classList.remove("half-filled");
-                } else if (rating >= fullRating - 0.5) {
-                    svg.classList.add("half-filled");
-                    svg.classList.remove("filled");
-                } else {
-                    svg.classList.remove("filled", "half-filled");
-                }
-            });
-        };
+      // 별점 UI 업데이트
+      const updateStars = (rating) => {
+        document.querySelectorAll(".star").forEach((star) => {
+          const fullRating = parseFloat(star.getAttribute("data-full-rating"));
+          const svg = star.querySelector("svg");
 
-        const showWritingContainer = () => {
-            if (!selectedRating) { // 별점 미선택 체크
-                alert("별점을 선택해주세요!");
-                return;
-            }
-        };
+          if (rating >= fullRating) {
+            svg.classList.add("filled");
+            svg.classList.remove("half-filled");
+          } else if (rating >= fullRating - 0.5) {
+            svg.classList.add("half-filled");
+            svg.classList.remove("filled");
+          } else {
+            svg.classList.remove("filled", "half-filled");
+          }
+        });
+      };
 
-        const submitReview = async () => {
-            const reviewContent = reviewContentElement.value.trim();
+      // 리뷰 등록 버튼 클릭 이벤트
+      ratingButton.addEventListener("click", () => {
+        if (!selectedRating) {
+          alert("별점을 선택해주세요!");
+          return;
+        } else {
+          writingContainer.classList.remove("hidden");
+        }
+      });
 
-            if (!reviewContent) {
-                alert("리뷰 내용을 입력해주세요.");
-                return;
-            }
+      // 리뷰 등록 및 수정
+      submitButton.addEventListener("click", async () => {
+        const reviewContent = reviewContentElement.value.trim();
+        const reviewId = wroteContainer.dataset.reviewId || null;
 
+        if (!reviewContent) {
+          alert("리뷰 내용을 입력해주세요.");
+          return;
+        }
+
+        try {
+          const url = reviewId
+            ? `/title/${movieId}/${reviewId}/edit`
+            : `/title/${movieId}/review/register`; // 리뷰 등록 경로
+          const method = reviewId ? "PUT" : "POST";
+
+          const response = await fetch(url, {
+            method,
+            headers: {
+              "Content-Type": "application/json",
+              "X-CSRF-TOKEN": document.querySelector('meta[name="_csrf"]').getAttribute("content"),
+            },
+            body: JSON.stringify({
+              reviewContent,
+              reviewRating: selectedRating,
+            }),
+          });
+
+          if (response.ok) {
+            alert("리뷰가 성공적으로 저장되었습니다!");
+            location.reload();
+          } else {
+            alert("리뷰 저장에 실패했습니다.");
+          }
+        } catch (error) {
+          console.error("오류 발생:", error);
+          alert("오류가 발생했습니다. 다시 시도해주세요.");
+        }
+      });
+
+      // 리뷰 수정 버튼 클릭 이벤트
+      editButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+          const reviewId = button.dataset.reviewId;
+
+          if (!reviewId) {
+            alert("리뷰 ID를 찾을 수 없습니다.");
+            return;
+          }
+
+          const existingContent = wroteContainer.querySelector(".wrote-body span").innerText;
+          const existingRating = parseFloat(wroteContainer.querySelector(".rating-star span").innerText);
+
+          reviewContentElement.value = existingContent;
+          selectedRating = existingRating;
+
+          ratingContainer.classList.remove("hidden");
+          wroteContainer.classList.add("hidden");
+
+          updateStars(existingRating);
+        });
+      });
+
+      // 리뷰 삭제 버튼 클릭 이벤트
+      deleteButtons.forEach((button) => {
+        button.addEventListener("click", async () => {
+          const reviewId = button.dataset.reviewId;
+
+          if (!reviewId) {
+            alert("리뷰 ID를 찾을 수 없습니다.");
+            return;
+          }
+
+          if (confirm("정말로 이 리뷰를 삭제하시겠습니까?")) {
             try {
-                const url = `/title/${movieId}/review`;
-                const bodyData = {
-                    reviewContent,
-                    reviewRating: selectedRating,
-                };
+              const url = `/title/${movieId}/${reviewId}/delete`;
 
-                const response = await fetch(url, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                        "X-CSRF-TOKEN": document.querySelector('meta[name="_csrf"]').getAttribute("content"),
-                    },
-                    body: JSON.stringify(bodyData),
-                });
+              const response = await fetch(url, {
+                method: "DELETE",
+                headers: {
+                  "X-CSRF-TOKEN": document.querySelector('meta[name="_csrf"]').getAttribute("content"),
+                },
+              });
 
-                if (response.ok) {
-                    alert("리뷰가 저장되었습니다!");
-                    location.reload();
-                } else {
-                    alert("리뷰 처리에 실패했습니다.");
-                }
+              if (response.ok) {
+                alert("리뷰가 성공적으로 삭제되었습니다!");
+                location.reload();
+              } else {
+                alert("리뷰 삭제에 실패했습니다.");
+              }
             } catch (error) {
-                alert("오류가 발생했습니다. 다시 시도해주세요.");
+              console.error("오류 발생:", error);
+              alert("오류가 발생했습니다. 다시 시도해주세요.");
             }
-        };
-
-        const handleEditClick = (event) => {
-            // .buttons-edit 클릭 시 ratingButton 함수 실행
-            showWritingContainer();
-        };
-
-        starsContainer.addEventListener("click", handleStarClick);
-        ratingButton.addEventListener("click", showWritingContainer);
-        submitButton.addEventListener("click", submitReview);
-
-        document.querySelectorAll(".buttons-edit").forEach((button) =>
-            button.addEventListener("click", handleEditClick)
-        );
+          }
+        });
+      });
     });
   </script>
+
 
 </div>
