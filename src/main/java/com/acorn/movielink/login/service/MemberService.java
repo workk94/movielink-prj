@@ -39,7 +39,7 @@ public class MemberService {
     private final EmailService emailService;
     private final GenreService genreService;
 
-    @Value("${file.upload-dir}")
+    @Value("${file.base-dir}")
     private String uploadDir;
 
     @Autowired
@@ -198,7 +198,7 @@ public class MemberService {
         String newFileName = "profile_" + memId + "_" + System.currentTimeMillis() + "." + fileExtension;
 
         // 파일 저장 경로 설정
-        Path uploadPath = Paths.get(uploadDir);
+        Path uploadPath = Paths.get(uploadDir + "profile-images/");
         if (!Files.exists(uploadPath)) {
             Files.createDirectories(uploadPath);
         }
@@ -209,7 +209,7 @@ public class MemberService {
 
         logger.info("프로필 이미지 업로드 성공: {}", newFileName);
         // 웹 접근 가능한 URL 경로 반환
-        return "/uploads/" + newFileName;
+        return "/upload/profile-images/" + newFileName;
     }
 
     // 파일 삭제 메서드 추가

@@ -5,13 +5,9 @@
     <meta name="_csrf" th:content="${_csrf.token}"/>
     <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
 
-
-    <title>Person Detail</title>
+    <title>무비링크 인물</title>
     <link rel="stylesheet" th:href="@{/css/style.css}"/>
-    <link rel="stylesheet" th:href="@{/css/person-detail.css}">
-    <style>
-
-    </style>
+    <link rel="stylesheet" th:href="@{/css/person-detail.css}"/>
 </head>
 <body>
 <div class="root">
@@ -20,23 +16,18 @@
 
     <!-- content: person-detail -->
     <div th:fragment="content">
-
-
         <!-- 인물 정보 및 탭 -->
         <div class="mvperson">
             <div class="mvperson-top">
-<<<<<<< HEAD
                 <div class="actor-profile">
-                    <span><img alt="Profile Image" th:src="@{${peopleInfo.peopleProfileUrl}}"></span>
-=======
-                <div class="actor-profile"
-                     th:style="'background-image: url(' + ${peopleInfo.peopleProfileUrl} + ');'">
->>>>>>> 9a4aaace81ba518684f9f7989c50f66c86418793
+                    <img alt="Profile Image" th:src="@{${peopleInfo.peopleProfileUrl}}"/>
                 </div>
+
                 <div class="actor-name">
                     <span class="actor-name-main" th:text="${peopleInfo.peopleNm}"></span>
                     <span class="actor-name-sub" th:text="${peopleInfo.peopleNmEn}"></span>
                 </div>
+
                 <div class="button-likes" th:data-people-id="${peopleInfo.peopleId}">
                     <button class="like-button" th:classappend="${isLiked} ? ' filled' : ''">
                         <svg class="heart" fill="none" height="22" viewBox="0 0 24 24" width="22"
@@ -44,9 +35,9 @@
                             <path
                                     class="heart-path"
                                     d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5
-                       2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09
-                       C13.09 3.81 14.76 3 16.5 3
-                       19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"
+                                       2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09
+                                       C13.09 3.81 14.76 3 16.5 3
+                                       19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"
                                     fill="none"
                                     stroke="#bdc6d5"
                                     stroke-width="2"
@@ -55,7 +46,6 @@
                         <p class="like-count">[[${likeCount}]]</p>
                     </button>
                 </div>
-
             </div>
 
             <div class="mvperson-bottom">
@@ -78,7 +68,7 @@
             <div th:if="${selectedTab == 'filmography'}">
                 <ul class="filmography-list">
                     <li class="movie-item" th:each="movie : ${filmography}">
-                        <a href="">
+                        <a th:href="@{'/movie/' + ${movie.movieId}}">
                             <div class="poster-container">
                                 <img alt="mvposter" th:src="@{${movie.moviePosterUrl}}">
                             </div>
@@ -94,7 +84,7 @@
                                     </div>
                                 </div>
                                 <button class="like-button">
-                                    <img alt="" th:src="@{/img/ic_plus.svg}">
+                                    <img alt="Add to Watchlist" th:src="@{/img/ic_plus.svg}">
                                 </button>
                             </div>
                         </div>
@@ -110,7 +100,7 @@
                             <a class="title" href="">
                                 <span>인기글</span>
                                 <div class="arrow-img">
-                                    <img alt="" th:src="@{/img/arrow-right.svg}"/>
+                                    <img alt="Arrow Right" th:src="@{/img/arrow-right.svg}"/>
                                 </div>
                             </a>
                         </div>
@@ -131,7 +121,7 @@
                                     <span class="totalPost-count">총 [[${communityPosts.size()}]]개</span>
                                 </div>
                                 <div class="arrow-img">
-                                    <img alt="" th:src="@{/img/arrow-right.svg}"/>
+                                    <img alt="Arrow Right" th:src="@{/img/arrow-right.svg}"/>
                                 </div>
                             </a>
                         </div>
@@ -141,7 +131,7 @@
                                 <section class="post-container">
                                     <div class="post-info-header">
                                         <div class="post-writer">
-                                            <!--                                            <span class="writer-nickname" th:text="${post.writerNickname}"></span>-->
+                                            <!-- <span class="writer-nickname" th:text="${post.writerNickname}"></span> -->
                                         </div>
                                         <div class="time"
                                              th:text="${#temporals.format(post.postCreatedAt, 'yyyy-MM-dd HH:mm')}">
@@ -154,36 +144,37 @@
                                         <span class="post-content-des" th:text="${post.content}">content</span>
                                     </div>
                                     <span class="post-thumbnail">
-                                         <img alt="thumbnail"
-                                              th:src="@{'/uploads/' + ${post.postImgConvertedFileNm}}">
-                                     </span>
+                                             <img alt="thumbnail"
+                                                  th:src="@{'/uploads/' + ${post.postImgConvertedFileNm}}">
+                                         </span>
                                     <ul class="post-interact">
                                         <li>
-                                            <span>
-                                                <img alt="icon-watching" height="18px" src="/img/watching.png"
-                                                     width="18px">
-                                                <span th:text="${post.postViews}">views</span>
-                                            </span>
+                                                <span>
+                                                    <img alt="Watching Icon" height="18px" src="/img/watching.png"
+                                                         width="18px">
+                                                    <span th:text="${post.postViews}">views</span>
+                                                </span>
                                         </li>
 
                                         <li class="review-likes">
-                                            <span>
-                                                <svg class="heart" fill="none" height="18" style="margin-right: 8px;"
-                                                     viewBox="0 0 24 24" width="18"
-                                                     xmlns="http://www.w3.org/2000/svg">
-                                                    <path
-                                                            class="heart-path"
-                                                            d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5
+                                                <span>
+                                                    <svg class="heart" fill="none" height="18"
+                                                         style="margin-right: 8px;"
+                                                         viewBox="0 0 24 24" width="18"
+                                                         xmlns="http://www.w3.org/2000/svg">
+                                                        <path
+                                                                class="heart-path"
+                                                                d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5
                                                                2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09
                                                                C13.09 3.81 14.76 3 16.5 3
                                                                19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"
-                                                            fill="none"
-                                                            stroke="#bdc6d5"
-                                                            stroke-width="2"
-                                                    />
-                                                </svg>
-                                                <p th:text="${post.postLikeCnt}">likes</p>
-                                            </span>
+                                                                fill="none"
+                                                                stroke="#bdc6d5"
+                                                                stroke-width="2"
+                                                        />
+                                                    </svg>
+                                                    <p th:text="${post.postLikeCnt}">likes</p>
+                                                </span>
                                         </li>
                                     </ul>
 
@@ -200,7 +191,7 @@
                     </div>
                 </div>
                 <button class="write">
-                    <img th:src="@{/img/write.svg}">
+                    <img alt="Write" th:src="@{/img/write.svg}">
                 </button>
             </div>
 

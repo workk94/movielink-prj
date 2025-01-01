@@ -9,6 +9,7 @@ import com.acorn.movielink.movie_detail.service.MovieReviewServiceImpl;
 import com.acorn.movielink.people_detail.dto.Post;
 import com.acorn.movielink.people_detail.service.PostService;
 import com.acorn.movielink.movie_detail.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,23 +26,28 @@ import java.util.Map;
 @RequestMapping("/title")
 public class MovieDetailController {
 
-    @Autowired
+
     private MovieDetailServiceImpl movieDetailService;
-
-    @Autowired
     private MovieLikeServiceImpl movieLikeService;
-
-    @Autowired
     private PostService postService;
-
-    @Autowired
     private MovieReviewServiceImpl movieReviewService;
-
-    @Autowired
     private MemberService memberService;
+    private UserService userService;
 
     @Autowired
-    private UserService userService;
+    MovieDetailController(MovieDetailServiceImpl movieDetailService,
+                          MovieLikeServiceImpl movieLikeService,
+                          PostService postService,
+                          MovieReviewServiceImpl movieReviewService,
+                          MemberService memberService,
+                          UserService userService) {
+        this.movieDetailService = movieDetailService;
+        this.movieLikeService = movieLikeService;
+        this.postService = postService;
+        this.movieReviewService = movieReviewService;
+        this.memberService = memberService;
+        this.userService = userService;
+    }
 
     @GetMapping("/{movieId}")
     public String fetchMovieDetails(

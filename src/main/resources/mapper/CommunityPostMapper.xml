@@ -7,6 +7,7 @@
     <resultMap id="PostResultMap" type="com.acorn.movielink.comunity.dto.PostDTO">
         <id property="postId" column="post_id"/>
         <result property="memId" column="mem_id"/>
+        <result property="memNn" column="mem_nn"/>
         <result property="postTitle" column="post_title"/>
         <result property="content" column="content"/>
         <result property="postCreatedAt" column="post_created_at"/>
@@ -82,7 +83,6 @@
         GROUP BY p.post_id, p.mem_id, m.mem_nn
         ORDER BY total_likes DESC
         LIMIT 7
-
     </select>
 
 
@@ -102,4 +102,16 @@
         post (mem_id, post_title, content, post_created_at, post_views, post_like_cnt)
         VALUES (#{memId} , #{postTitle}, #{content}, NOW(), 0, 0)
     </insert>
+
+    <select id="countById" resultType="int">
+        SELECT COUNT(*)
+        FROM post
+        WHERE post_id = #{postId}
+    </select>
+
+    <select id="countPostById" parameterType="int" resultType="int">
+        SELECT COUNT(*)
+        FROM post
+        WHERE post_id = #{postId}
+    </select>
 </mapper>

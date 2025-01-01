@@ -1,5 +1,4 @@
 .mvperson {
-<<<<<<< HEAD
     height: 414px;
 }
 
@@ -12,16 +11,7 @@
     align-items: center;
 }
 
-.actor-profile {
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    border: 1px solid #25304a;
-    margin: 16px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
+
 
 .actor-name {
     padding: 8px;
@@ -436,11 +426,7 @@ button {
     stroke: #e0245e;
 }
 
-.button-likes .filled p {
-    color: #e0245e;
-=======
-  height: 414px;
-}
+
 
 .mvperson-top {
   height: 350px;
@@ -452,19 +438,25 @@ button {
 }
 
 .actor-profile {
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  border: 1px solid #25304a;
-  margin: 16px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  /* 백그라운드로 변경 */
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: 1px solid #25304a;
+    margin: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden; /* 이미지가 컨테이너를 벗어나지 않도록 */
+    background-color: #000; /* 이미지가 로드되지 않았을 때 배경색 */
 }
+
+.actor-profile img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* 이미지가 비율을 유지하면서 컨테이너에 맞게 크기 조절 */
+    border-radius: 50%; /* 이미지도 원형으로 표시 */
+}
+
 
 .actor-name {
   padding: 8px;
@@ -891,5 +883,4 @@ button {
 
 .button-likes .filled p {
   color: #e0245e;
->>>>>>> 9a4aaace81ba518684f9f7989c50f66c86418793
 }
