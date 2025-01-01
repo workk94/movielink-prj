@@ -112,13 +112,13 @@
     <update id="updateComment" parameterType="com.acorn.movielink.comunity.dto.CommentDTO">
         UPDATE comment
         SET content = #{content}, comment_updated_at = NOW()
-        WHERE comment_id = #{commentId} AND comment_deleted_at IS NULL
+        WHERE comment_id = #{commentId}
     </update>
 
     <select id="countCommentByPostAndId" resultType="int">
         SELECT COUNT(*)
         FROM comment
-        WHERE post_id = #{postId} AND comment_id = #{commentId} AND comment_deleted_at IS NULL
+        WHERE post_id = #{postId} AND comment_id = #{commentId}
     </select>
 
 

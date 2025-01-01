@@ -107,7 +107,7 @@ public class CommentService {
     public CommentDTO addComment(CommentDTO commentDTO, Integer memId, int postId) {
         // 로그인 검증
         checkLogin(memId);
-//        validatePostExists(postId);
+        validatePostExists(postId);
 
         // 댓글 추가
         Map<String, Object> params = new HashMap<>();
@@ -181,9 +181,16 @@ public class CommentService {
     }
 
     // 댓글 존재 여부 검증 메서드 수정
+    @Transactional
     public boolean validateCommentExists2(int postId, int commentId) {
-        // 매퍼 호출
+        System.out.println("postId: " + postId);
+        System.out.println("@@@commentId: " + commentId);
         int count = commentMapper.countCommentByPostAndId(postId, commentId);
+        System.out.println("@@@@@@댓글 존재 여부 확인: " + count); // 디버깅 로그
+
+        if (count <= 0) {
+            System.out.println("@@@@@댓글이 존재하지 않음!");
+        }
         return count > 0; // 결과가 0보다 크면 존재
     }
 
