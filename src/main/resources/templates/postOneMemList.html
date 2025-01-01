@@ -55,6 +55,8 @@
                 </div>
             </div>
 
+
+
 <!--            <h1 class="community_list_h2" th:text="${postOneMem.memId} + ' 님의 게시글 목록'">회원의 게시글 목록 </h1>-->
             <h1 class="community_list_h2" th:text="${memId} + ' 님의 게시글 목록'">회원의 게시글 목록 </h1>
 
@@ -122,9 +124,6 @@
 
                     <ul>
                         <li th:each="topSevenMem : ${topSevenMem}">
-                            <div class="tag_icon">
-                                <img th:src="@{/img/tag_icon.svg}" alt="#">
-                            </div>
                         <a th:href="@{/postOneMember/{memId}(memId=${topSevenMem.memId})}" th:text="${topSevenMem.memNn}">유저 게시글 보기</a>
                         </li>
                     </ul>

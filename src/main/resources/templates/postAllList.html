@@ -98,9 +98,6 @@
 
                     <ul>
                         <li th:each="topSevenMem : ${topSevenMem}">
-                            <div class="tag_icon">
-                                <img th:src="@{/img/tag_icon.svg}" alt="#">
-                            </div>
                           <a th:href="@{/postOneMember/{memId}(memId=${topSevenMem.memId})}" th:text="${topSevenMem.memNn}">유저 게시글 보기</a>
                         </li>
                     </ul>
