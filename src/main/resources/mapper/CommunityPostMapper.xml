@@ -2,9 +2,9 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.acorn.movielink.community.repository.CommunityPostMapper">
+<mapper namespace="com.acorn.movielink.comunity.repository.CommunityPostMapper">
 
-    <resultMap id="PostResultMap" type="com.acorn.movielink.community.dto.PostDTO">
+    <resultMap id="PostResultMap" type="com.acorn.movielink.comunity.dto.PostDTO">
         <id property="postId" column="post_id"/>
         <result property="memId" column="mem_id"/>
         <result property="memNn" column="mem_nn"/>
@@ -17,7 +17,7 @@
 
         <result property="postImgConvertedFileNm" column="post_img_converted_file_nm"/>
 
-        <collection property="tags" ofType="com.acorn.movielink.community.dto.TagDTO">
+        <collection property="tags" ofType="com.acorn.movielink.comunity.dto.TagDTO">
             <result property="tagId" column="tag_id"/>
             <result property="tagName" column="tag_name"/>
         </collection>
@@ -96,7 +96,7 @@
 
 
     <!--게시글 작성하기    -->
-    <insert id="insertPost" parameterType="com.acorn.movielink.community.dto.PostDTO" useGeneratedKeys="true"
+    <insert id="insertPost" parameterType="com.acorn.movielink.comunity.dto.PostDTO" useGeneratedKeys="true"
             keyProperty="postId" keyColumn="post_id">
         INSERT INTO
         post (mem_id, post_title, content, post_created_at, post_views, post_like_cnt)

@@ -1,8 +1,8 @@
-package com.acorn.movielink.community.controller;
+package com.acorn.movielink.comunity.controller;
 
-import com.acorn.movielink.community.dto.CommentDTO;
-import com.acorn.movielink.community.service.CommentService;
-import com.acorn.movielink.community.service.CommunityPostService;
+import com.acorn.movielink.comunity.dto.CommentDTO;
+import com.acorn.movielink.comunity.service.CommentService;
+import com.acorn.movielink.comunity.service.CommunityPostService;
 import com.acorn.movielink.login.service.MemberService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;

@@ -1,6 +1,6 @@
-package com.acorn.movielink.community.repository;
+package com.acorn.movielink.comunity.repository;
 
-import com.acorn.movielink.community.dto.CommentDTO;
+import com.acorn.movielink.comunity.dto.CommentDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -40,6 +40,10 @@ public interface CommunityCommentMapper {
 
     // 댓글 존재 여부 검증
     int countCommentById(@Param("commentId") int commentId);
+
+    // 특정 게시글의 댓글 수 조회
+    int countCommentsByPostId(@Param("postId") int postId);
+
     // 댓글 작성자 검증
     Integer getAuthorByCommentId(@Param("commentId") int commentId);
 

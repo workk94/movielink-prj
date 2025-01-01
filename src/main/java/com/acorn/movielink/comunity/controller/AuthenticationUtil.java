@@ -1,4 +1,4 @@
-package com.acorn.movielink.community.controller;
+package com.acorn.movielink.comunity.controller;
 
 import com.acorn.movielink.login.dto.Member;
 import com.acorn.movielink.login.service.MemberService;
