@@ -47,12 +47,16 @@ public interface CommunityCommentMapper {
     // 댓글 작성자 검증
     Integer getAuthorByCommentId(@Param("commentId") int commentId);
 
-//    특정 댓글의 대댓글 수를 조회
+    //    특정 댓글의 대댓글 수를 조회
     int getReplyCountByCommentId(@Param("parentId") int parentId);
 
 
     // 댓글 수정
     int updateComment(CommentDTO commentDTO);
+
+    int countCommentByPostAndId(@Param("postId") int postId, @Param("commentId") int commentId);
+
+
 
     // 대댓글 수정
     int updateReply(CommentDTO commentDTO);
