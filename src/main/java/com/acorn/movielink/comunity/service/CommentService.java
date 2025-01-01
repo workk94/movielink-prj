@@ -8,8 +8,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.List;
@@ -35,12 +37,13 @@ public class CommentService {
     }
 
     // 게시글 존재 여부 검증
-     @Transactional
-    private void validatePostExists(int postId) {
+    @Transactional
+    public boolean validatePostExists(int postId) {
         int count = postMapper.countPostById(postId);
         if (count == 0) {
             throw new IllegalArgumentException("존재하지 않는 게시글입니다.");
         }
+        return false;
     }
 
     // 댓글 존재 여부 검증
@@ -53,6 +56,7 @@ public class CommentService {
         }
         return true; // 존재하는 경우 true 반환
     }
+
 
 
     @Transactional(readOnly = true)
@@ -99,7 +103,7 @@ public class CommentService {
     }
 
     // 댓글 작성
-    @Transactional
+    @Transactional(propagation = Propagation.REQUIRED)
     public CommentDTO addComment(CommentDTO commentDTO, Integer memId, int postId) {
         // 로그인 검증
         checkLogin(memId);
@@ -111,37 +115,35 @@ public class CommentService {
         params.put("memId", memId);
         params.put("content", commentDTO.getContent());
 
-//        commentDTO.setMemId(memId); // 로그인 사용자 ID 설정
-//        commentMapper.addComment(params); // 직접 DTO 사용
-//        // BigInteger로 반환될 가능성 처리
-//        Object generatedId = params.get("commentId");
-//        Integer newCommentId;
-//        if (generatedId instanceof BigInteger) {
-//            newCommentId = ((BigInteger) generatedId).intValue(); // 명시적 변환
-//        } else {
-//            newCommentId = (Integer) generatedId; // Integer라면 바로 할당
-//        }
-//
-//        commentDTO.setCommentId(newCommentId); // DTO에 설정
-//        return commentMapper.getCommentById(newCommentId); // ID 기반으로 새 댓글 반환
-        // 댓글 삽입 및 자동 키 반환 처리
-        commentMapper.addComment(params);
-        Integer newCommentId = (Integer) params.get("commentId");
+        commentDTO.setMemId(memId); // 로그인 사용자 ID 설정
+        commentMapper.addComment(params); // 직접 DTO 사용
 
-        // 삽입된 데이터 그대로 반환
-//        commentDTO.setCommentId(newCommentId);
-        commentDTO.setCommentId(((Number) newCommentId).intValue()); // 숫자 타입 안전 변환
+        // commentId 반환 처리 (안전한 변환)
+        Object generatedId = params.get("commentId");
+        Integer newCommentId = null;
 
-        commentDTO.setMemId(memId);
-        commentDTO.setPostId(postId);
-        return commentDTO; // 별도 조회 없이 DTO 반환
+        if (generatedId != null) { // null 처리
+            if (generatedId instanceof BigInteger) {
+                newCommentId = ((BigInteger) generatedId).intValue();
+            } else if (generatedId instanceof Integer) {
+                newCommentId = (Integer) generatedId;
+            } else {
+                throw new IllegalArgumentException("Invalid commentId type: " + generatedId.getClass());
+            }
+        } else {
+            throw new IllegalStateException("Failed to retrieve generated comment ID.");
+        }
+
+        // DTO 설정 및 반환
+        commentDTO.setCommentId(newCommentId);
+        return commentMapper.getCommentById(newCommentId); // ID 기반 댓글 조회
     }
 
 
 
 
 
-        // 대댓글 작성
+    // 대댓글 작성
     @Transactional
     public CommentDTO addReply(CommentDTO commentDTO, Integer memId) {
         checkLogin(memId); // 로그인 검증
@@ -170,12 +172,20 @@ public class CommentService {
         checkLogin(memId); // 로그인 검증
         validateCommentExists(commentDTO.getCommentId()); // 댓글 존재 검증
         validateAuthor(commentDTO.getCommentId(), memId); // 작성자 검증
-
-        // 댓글 수정
-        commentMapper.updateComment(commentDTO);
+// 댓글 수정 실행
+        int updatedRows = commentMapper.updateComment(commentDTO);
+        if (updatedRows == 0) {
+            throw new IllegalArgumentException("댓글 수정 실패: 업데이트된 행이 없습니다.");
+        }
         return commentMapper.getCommentById(commentDTO.getCommentId());
     }
 
+    // 댓글 존재 여부 검증 메서드 수정
+    public boolean validateCommentExists2(int postId, int commentId) {
+        // 매퍼 호출
+        int count = commentMapper.countCommentByPostAndId(postId, commentId);
+        return count > 0; // 결과가 0보다 크면 존재
+    }
 
 
 

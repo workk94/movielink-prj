@@ -13,6 +13,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
@@ -47,7 +49,8 @@ public class CommentController {
     // 댓글 작성
     @PostMapping("/{postId}/add")
     public ResponseEntity<?> addComment( @PathVariable("postId") int postId,
-                                         @RequestBody CommentDTO commentDTO) {
+                                         @RequestBody CommentDTO commentDTO,
+                                         Principal principal) {
         // 1. postId 유효성 검사
         if (postId <= 0 || !communityPostService.existsById(postId)) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("존재하지 않는 게시글입니다.");
@@ -126,8 +129,9 @@ public class CommentController {
 
 
     // 댓글 수정
-    @PutMapping("/{commentId}/update")
-    public ResponseEntity<?> updateComment(@PathVariable("commentId") int commentId,
+    @PutMapping("/{postId}/{commentId}/update")
+    public ResponseEntity<?> updateComment(@PathVariable("postId") int postId,
+                                           @PathVariable("commentId") int commentId,
                                            @RequestBody CommentDTO commentDTO) {
         try {
             // 로그인 여부 검증
@@ -136,8 +140,13 @@ public class CommentController {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인이 필요합니다.");
             }
 
+            // 게시글 ID 검증
+            if (!commentService.validatePostExists(postId)) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("존재하지 않는 게시글입니다.");
+            }
+
             // 댓글 존재 여부 검증
-            if (!commentService.validateCommentExists(commentId)) {
+            if (!commentService.validateCommentExists2(postId, commentId)) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("존재하지 않는 댓글입니다.");
             }
 

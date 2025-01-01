@@ -1,18 +1,13 @@
 package com.acorn.movielink.comunity.service;
 
-<<<<<<< HEAD
-import com.acorn.movielink.community.dto.PostDTO;
-import com.acorn.movielink.community.dto.TagDTO;
-import com.acorn.movielink.community.repository.CommunityPostMapper;
-import com.acorn.movielink.community.repository.TagMapper;
-=======
+
 import com.acorn.movielink.comunity.dto.PostDTO;
 import com.acorn.movielink.comunity.dto.PostImageDTO;
 import com.acorn.movielink.comunity.dto.TagDTO;
 import com.acorn.movielink.comunity.repository.CommunityPostMapper;
 import com.acorn.movielink.comunity.repository.PostImageMapper;
 import com.acorn.movielink.comunity.repository.TagMapper;
->>>>>>> b407024674dff7eb7ef75317555c070c41c130a5
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
