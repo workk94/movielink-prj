@@ -13,20 +13,22 @@ import java.util.List;
 @Service
 public class YouTubeService {
     private final String API_KEY;
+    private final String API_KEY2;
     private static final String SEARCH_URL = "https://www.googleapis.com/youtube/v3/search";
     private static final String VIDEOS_URL = "https://www.googleapis.com/youtube/v3/videos";
 
     private final RestTemplate restTemplate;
 
-    public YouTubeService(@Value("${youtube-api-key}")String api_key) {
+    public YouTubeService(@Value("${youtube-api-key}")String api_key, @Value("${youtube-api-key2}")String api_key2) {
         this.API_KEY = api_key;
+        this.API_KEY2 = api_key2;
         this.restTemplate = new RestTemplate();
     }
 
     // Step 1: 영화 관련 동영상 검색
     public List<String> searchMovieVideos(String query) {
         String url = UriComponentsBuilder.fromUriString(SEARCH_URL)
-                .queryParam("key", API_KEY)
+                .queryParam("key", API_KEY2)
                 .queryParam("q", query)
                 .queryParam("part", "snippet")
                 .queryParam("type", "video")
@@ -90,14 +92,14 @@ public class YouTubeService {
 
     public List<String> searchMovieMusicVideos(String query) {
         String url = UriComponentsBuilder.fromUriString(SEARCH_URL)
-                .queryParam("key", API_KEY)
+                .queryParam("key", API_KEY2)
                 .queryParam("q", query) // 영화 관련 음악 검색
                 .queryParam("part", "snippet")
                 .queryParam("type", "video")
                 .queryParam("videoCategoryId", "10") // 음악 카테고리
                 .queryParam("regionCode", "KR") // 한국 지역
                 .queryParam("relevanceLanguage", "ko") // 한국어 우선
-                .queryParam("maxResults", 50) // 결과 제한
+                .queryParam("maxResults", 10) // 결과 제한
                 .queryParam("safeSearch", "moderate")
                 .queryParam("videoEmbeddable", "true")
                 .queryParam("order", "viewCount")

@@ -50,6 +50,7 @@ public class MainController {
         List<MovieDTO> bestMovies = movieService.getTopBestMovies(3);
         model.addAttribute("bestMovies", bestMovies);
 
+        // 랜덤 OST 조회
         List<String> youtubeost = youTubeService.searchMovieMusicVideos("ost");
         model.addAttribute("youtubeost", youtubeost);
 
