@@ -46,7 +46,7 @@
                         <!-- bestMovies 반복 -->
                         <li class="ranking-item" th:each="movie, iterStat : ${bestMovies}">
                             <div class="ranking">
-                                <a class="ranking-info" th:href="@{/movies/{id}(id=${movie.movieId})}">
+                                <a class="ranking-info" th:href="@{/title/{id}(id=${movie.movieId})}">
                                     <div class="rank-num">
                                         <img alt=""
                                              th:src="@{'/img/chart_number_' + (${iterStat.index} + 1) + '.svg'}"/>
@@ -132,7 +132,7 @@
 
         <section class="recommend-wrap">
             <div class="title-wrap">
-                <a class="title" href="/movies">
+                <a class="title" th:href="@{/}">
                     <span>취향과 비슷한 영화</span>
                     <div class="arrow-img">
                         <img alt="더보기" th:src="@{/img/arrow-right.svg}"/>
@@ -166,32 +166,36 @@
                 <!-- 추천(또는 최신) 영화가 없을 경우 빈 메시지 표시 -->
                 <div class="empty-content-wrap" th:if="${#lists.isEmpty(recommendedMovies)}">
                     <span class="empty-content-description">추천 영화가 없습니다.</span>
-                    <a class="empty-content-button" th:href="@{/movies/search}">영화 검색하기</a>
+                    <a class="empty-content-button" th:href="@{/search}">영화 검색하기</a>
                 </div>
             </div>
         </section>
 
+
                 <section class="ost-wrap">
                     <div class="title-wrap">
-                        <a class="title" href="">
+                        <a class="title" th:href="@{/}">
                             <span>영화 OST 랜덤 추천!</span>
                             <div class="arrow-img">
                                 <img alt="" th:src="@{/img/arrow-right.svg}"/>
                             </div>
                         </a>
                     </div>
-                    <div class="ost-container">
-                        <div class="ost-content">
-                            <iframe id="randomOstPlayer" src="" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                        </div>
-                        <div class="random-button">
-                            <button id="randomButton">
-                                <span>랜덤</span>
-                                <img alt="" th:src="@{/img/refresh.svg}"/>
-                            </button>
-                        </div>
-                    </div>
-                </section>
+            </div>
+            <div class="ost-container">
+                <div class="ost-content">
+                    <iframe id="randomOstPlayer" src="" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+                <div class="random-button">
+                    <button id="randomButton">
+                        <span>랜덤</span>
+                        <img alt="" th:src="@{/img/refresh.svg}"/>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+                   
     </div>
 </div>
 <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>

@@ -37,11 +37,19 @@ out/
 .vscode/
 
 # application.properties
+
 src/main/resources/application.properties
+
+/src/main/resources/application.properties
+
+# test
+/src/test/
+
+# logs
+/logs/
 
 # test
 src/test/
 
 # logs
 logs/
-

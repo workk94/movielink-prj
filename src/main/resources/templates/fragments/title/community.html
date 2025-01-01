@@ -1,0 +1,274 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:fragment="content">
+
+  <style>
+     /* category-community */
+    .community {
+      padding: 16px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .community-list {
+      padding: 16px 16px 16px 0;
+      width: 510px;
+    }
+
+    .list-popular {
+      padding: 0 0 16px 0;
+    }
+
+    .popular-nav {
+      padding: 0 0 16px 0;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .popular-title {
+      background-color: #25304a;
+      height: 120px;
+      border-radius: 12px;
+    }
+
+    .popular-title>li {
+      padding: 8px;
+      border-bottom: 1px solid #586a85;
+    }
+
+    .popular-title>li>span {
+      font-size: 15px;
+      color: #d4d9e1;
+    }
+
+    .all-nav {
+      display: flex;
+      justify-content: space-between;
+      padding: 16px 0;
+    }
+
+    .all-post {
+      padding: 16px;
+      background-color: #25304a;
+      border-radius: 20px;
+      margin-bottom: 16px;
+    }
+
+    .post-users {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .users-profile {
+      display: flex;
+      align-items: center;
+    }
+
+    .profile-img{
+      width: 20px; 
+      height: 20px; 
+      border-radius: 50%; 
+      border: 1px solid #3b4869;
+    }
+
+    .users-body {
+      display: flex;
+      flex-direction: column;
+      padding: 16px 0 8px 0;
+      border-radius: 8px; 
+      width: 445px; 
+      height: 240px; 
+      border: 1px solid #3b4869;
+    }
+
+    .body-thumbnail {
+      margin: 16px 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .body-tag {
+      display: flex;
+      padding: 8px 0;
+    }
+
+    .post-tag>li {
+      padding: 6px 12px 6px 8px;
+      display: flex;
+      align-items: center;
+      margin-right: 8px;
+      border-radius: 30px;
+      border: 1px solid #3b4869;
+    }
+
+    .body-interact {
+      display: flex;
+      padding: 8px 0;
+    }
+
+    .post-interact>li {
+      padding: 6px 12px 6px 8px;
+      display: flex;
+      align-items: center;
+      margin-right: 8px;
+      border-radius: 30px;
+      border: 1px solid #3b4869;
+      background-color: #3b4869;
+    }
+
+    .post-interact>li>span {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+
+
+    .review-likes {
+      cursor: pointer;
+    }
+
+    .review-likes.filled {
+      border: 1px solid #637dea;
+      /* 테두리 색상이 바뀌도록 설정 */
+      transition: border 0.3s ease;
+      /* 부드러운 전환 효과 */
+    }
+
+    .review-likes.filled>span>p {
+      color: #efefef;
+      /* 클릭된 버튼의 텍스트 색상 */
+      font-weight: bolder;
+      /* 텍스트 굵기 */
+      transition: color 0.3s ease, font-weight 0.3s ease;
+      /* 부드러운 전환 */
+    }
+
+    .heart.filled .heart-path {
+      fill: #637dea;
+      /* 채워진 하트 색상 */
+      stroke: #637dea;
+      /* 테두리도 같은 색 */
+    }
+
+    .community-button {
+      margin-top: 16px;
+      width: 166px;
+      height: 48px;
+      background-color: #637dea;
+      border-radius: 10px;
+      border-style: none;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    @media screen and (max-width: 500px) {
+      .community {
+        flex-direction: column;
+      }
+
+      .community-button {
+        order: -1;
+        margin-top: 0;
+        margin-bottom: 16px;
+        margin-left: auto;
+      }
+    }
+  </style>
+
+  <!-- content: community -->
+  <div class="community">
+
+    <div class="community-list">
+      <div class="list-popular">
+        <div class="popular-nav">
+          <h3>인기글</h3>
+          <a>
+            <svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="none"
+              stroke="#98a4b7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="8 4 16 12 8 20"></polyline>
+            </svg>
+          </a>
+        </div>
+        <ul class="popular-title">
+          <li th:each="post, iterStat : ${popularPosts}" th:if="${iterStat.index < 3}">
+            <span th:text="${post.title}">Post Title</span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="list-all">
+        <div class="all-nav">
+          <h3>전체글</h3>
+          <a>
+            <svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="none"
+              stroke="#98a4b7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="8 4 16 12 8 20"></polyline>
+            </svg>
+          </a>
+        </div>
+
+        <!-- 전체글 목록 반복 -->
+        <div class="all-post" th:each="post : ${allPosts}">
+          <div class="post-users">
+            <div class="users-profile">
+              <span class="profile-img">
+                <img th:src="${post.userProfileImageUrl}" alt="프로필 이미지">
+              </span>
+              <span th:text="${post.username}">User ID</span>
+            </div>
+            <span class="sub-font5" th:text="${#dates.format(post.createdAt, 'yyyy-MM-dd HH:mm')}">Time</span>
+          </div>
+          <div class="users-body">
+            <span class="list-body" th:text="${post.title}">Title</span>
+            <span class="sub-font" th:text="${post.content}">Content</span>
+            <span class="body-thumbnail">
+              <img th:src="${post.thumbnailUrl}" alt="Thumbnail">
+            </span>
+            <ul class="body-tag">
+              <li th:each="tag : ${post.tags}">
+                <span>
+                  <a class="sub-font7" th:text="'#' + ${tag.tagName}">Tag</a>
+                </span>
+              </li>
+            </ul>
+            <ul class="body-interact">
+              <li>
+                <span> 
+                  <img class="icon3" src="/img/watching.png" alt="icon-watching">
+                  <p class="sub-font7" th:text="${post.viewCount}">views</p>
+                </span>
+              </li>
+              <li>
+                <span> 
+                  <img class="icon3" src="/img/reply.png" alt="icon-reply">
+                  <p class="sub-font7" th:text="${post.commentCount}">replis</p>
+                </span>
+              </li>
+              <li class="review-likes" th:classappend="${post.isLiked ? 'filled' : ''}">
+                <span>
+                  <svg class="heart" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                    xmlns="http://www.w3.org/2000/svg" style="margin-right: 8px;">
+                    <path
+                      d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"
+                      fill="none" stroke="#bdc6d5" stroke-width="2" class="heart-path" />
+                  </svg>
+                  <span class="sub-font7" th:text="${post.likeCount}">Likes</span>
+                </span>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <button class="community-button">
+      <h4>글 작성하기</h4>
+      <img class="icon3" src="/img/writing.png" alt="icon-writing">
+    </button>
+  </div>
+
+</div>

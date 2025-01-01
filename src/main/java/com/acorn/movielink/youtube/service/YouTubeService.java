@@ -99,7 +99,7 @@ public class YouTubeService {
                 .queryParam("videoCategoryId", "10") // 음악 카테고리
                 .queryParam("regionCode", "KR") // 한국 지역
                 .queryParam("relevanceLanguage", "ko") // 한국어 우선
-                .queryParam("maxResults", 10) // 결과 제한
+                .queryParam("maxResults", 50) // 결과 제한
                 .queryParam("safeSearch", "moderate")
                 .queryParam("videoEmbeddable", "true")
                 .queryParam("order", "viewCount")

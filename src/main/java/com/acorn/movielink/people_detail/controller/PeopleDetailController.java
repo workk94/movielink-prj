@@ -9,6 +9,8 @@ import com.acorn.movielink.people_detail.dto.Post;
 import com.acorn.movielink.people_detail.service.PeopleLikeService;
 import com.acorn.movielink.people_detail.service.PeopleService;
 import com.acorn.movielink.people_detail.service.PostService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,6 +28,7 @@ import java.util.Optional;
 @Controller
 @RequestMapping("/person")
 public class PeopleDetailController {
+    private static final Logger logger = LoggerFactory.getLogger(PeopleDetailController.class);
 
     @Autowired
     private PeopleService peopleService;
@@ -141,29 +144,40 @@ public class PeopleDetailController {
         return ResponseEntity.ok(likeCount);
     }
 
-    /**
-     * Principal 객체로부터 실제 사용자 id추출
-     */
     private Integer getMemIdFromPrincipal(Principal principal) {
         if (principal instanceof Authentication authentication) {
             Object principalObj = authentication.getPrincipal();
 
             // OAuth2User
             if (principalObj instanceof OAuth2User oauth2User) {
-                // KakaoOAuth2User가 Member 정보를 포함하고 있다고 가정
-                Object memberObj = oauth2User.getAttribute("member");
-                if (memberObj instanceof Member member) {
-                    return member.getMemId();
+                String email = oauth2User.getAttribute("email");
+                logger.debug("OAuth2User email: {}", email);
+                if (email != null) {
+                    Optional<Member> memberOpt = memberService.findByEmail(email);
+                    if (memberOpt.isPresent()) {
+                        logger.debug("Found Member with memId: {}", memberOpt.get().getMemId());
+                    } else {
+                        logger.warn("No Member found with email: {}", email);
+                    }
+                    return memberOpt.map(Member::getMemId).orElse(null);
                 }
             }
 
             // UserDetails (일반 로그인 사용자)
             if (principalObj instanceof UserDetails userDetails) {
                 String email = userDetails.getUsername();
+                logger.debug("UserDetails email: {}", email);
                 Optional<Member> memberOpt = memberService.findByEmail(email);
+                if (memberOpt.isPresent()) {
+                    logger.debug("Found Member with memId: {}", memberOpt.get().getMemId());
+                } else {
+                    logger.warn("No Member found with email: {}", email);
+                }
                 return memberOpt.map(Member::getMemId).orElse(null);
             }
         }
+        logger.warn("Principal is not an instance of Authentication or no memId found.");
         return null;
     }
+
 }

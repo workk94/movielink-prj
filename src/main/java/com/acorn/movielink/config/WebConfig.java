@@ -8,12 +8,17 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
-    @Value("${file.upload-dir}")
+    @Value("${file.base-dir}")
     private String uploadDir;
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/uploads/**")
-                .addResourceLocations("file:///" + uploadDir);
+        // profile-images 경로 처리
+        registry.addResourceHandler("/upload/profile-images/**")
+                .addResourceLocations("file:///" + uploadDir + "profile-images/");
+
+        // post-images 경로 처리
+        registry.addResourceHandler("/upload/post-images/**")
+                .addResourceLocations("file:///" + uploadDir + "post-images/");
     }
 }

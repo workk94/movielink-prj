@@ -1,6 +1,5 @@
 package com.acorn.movielink.config;
 
-import com.acorn.movielink.login.dto.Member;
 import com.acorn.movielink.login.service.CustomAuthenticationSuccessHandler;
 import com.acorn.movielink.login.service.CustomOAuth2UserService;
 import com.acorn.movielink.login.service.CustomUserDetailsService;
@@ -10,11 +9,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
@@ -28,18 +25,21 @@ public class SecurityConfig {
     private final PasswordEncoder passwordEncoder;
     private final CustomAuthenticationSuccessHandler successHandler;
     private final MemberService memberService;
+    private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
 
     @Autowired
     public SecurityConfig(CustomUserDetailsService userDetailsService,
                           CustomOAuth2UserService customOAuth2UserService,
                           PasswordEncoder passwordEncoder,
                           CustomAuthenticationSuccessHandler successHandler,
-                          MemberService memberService) {
+                          MemberService memberService,
+                          CustomAuthenticationEntryPoint customAuthenticationEntryPoint) {
         this.userDetailsService = userDetailsService;
         this.customOAuth2UserService = customOAuth2UserService;
         this.passwordEncoder = passwordEncoder;
         this.successHandler = successHandler;
         this.memberService = memberService;
+        this.customAuthenticationEntryPoint = customAuthenticationEntryPoint;
     }
 
     @Bean
@@ -54,13 +54,8 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http, DaoAuthenticationProvider authenticationProvider) throws Exception {
         http
                 .authenticationProvider(authenticationProvider)
-                //실시간 동접자
-//                .sessionManagement(session -> session
-//                        .maximumSessions(-1)
-//                        .sessionRegistry(sessionRegistry())
-//                )
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/uploads/**", "/img/**", "/css/**", "/js/**", "/webjars/**", "/fonts/**").permitAll()
+                        .requestMatchers("/upload/**", "/img/**", "/css/**", "/js/**", "/webjars/**", "/fonts/**").permitAll()
                         .requestMatchers("/signup", "/forgot_password", "/reset_password").permitAll()
                         .requestMatchers(HttpMethod.POST, "/person/**").authenticated()
                         .requestMatchers(HttpMethod.DELETE, "/person/**").authenticated()
@@ -84,44 +79,34 @@ public class SecurityConfig {
                         .successHandler(successHandler) // OAuth2 로그인 성공 시에도 동일한 핸들러 사용
                 )
                 .logout(logout -> logout
-                                .logoutSuccessUrl("/")
-                                .invalidateHttpSession(true)
-                                .addLogoutHandler((request, response, authentication) -> {
-                                    if (authentication != null) {
-                                        Object principal = authentication.getPrincipal();
-                                        Integer memId = null;
-                                        if (principal instanceof com.acorn.movielink.login.dto.Member) {
-                                            memId = ((com.acorn.movielink.login.dto.Member) principal).getMemId();
-                                        } else if (principal instanceof UserDetails) {
-                                            String email = ((UserDetails) principal).getUsername();
-                                            memId = memberService.findByEmail(email)
-                                                    .map(Member::getMemId)
-                                                    .orElse(null);
-                                        }
-                                        //실시간 동접자
-//                                if (memId != null) {
-//                                    SessionListener.removeUser(memId);
-//                                    logger.info("로그아웃 성공: 사용자 ID - {}", memId);
-//                                }
-                                    }
-                                })
-                                .permitAll()
+                        .logoutSuccessUrl("/")
+                        .invalidateHttpSession(true)
+                        .addLogoutHandler((request, response, authentication) -> {
+                            if (authentication != null) {
+                                Object principal = authentication.getPrincipal();
+                                Integer memId = null;
+                                if (principal instanceof com.acorn.movielink.login.dto.Member) {
+                                    memId = ((com.acorn.movielink.login.dto.Member) principal).getMemId();
+                                } else if (principal instanceof org.springframework.security.core.userdetails.UserDetails) {
+                                    String email = ((org.springframework.security.core.userdetails.UserDetails) principal).getUsername();
+                                    memId = memberService.findByEmail(email)
+                                            .map(com.acorn.movielink.login.dto.Member::getMemId)
+                                            .orElse(null);
+                                }
+                                //실시간 동접자 관리 로직 (주석 처리됨)
+                                // if (memId != null) {
+                                //     SessionListener.removeUser(memId);
+                                //     logger.info("로그아웃 성공: 사용자 ID - {}", memId);
+                                // }
+                            }
+                        })
+                        .permitAll()
                 )
-        ;
-
+                .exceptionHandling(exception -> exception
+                        .authenticationEntryPoint(customAuthenticationEntryPoint) // Custom Entry Point 설정
+                );
 
         logger.debug("SecurityFilterChain 초기화 완료");
         return http.build();
     }
-
-    //실시간 동접자
-//    @Bean
-//    public SessionRegistry sessionRegistry() {
-//        return new SessionRegistryImpl();
-//    }
-//
-//    @Bean
-//    public HttpSessionListener httpSessionListener() {
-//        return new SessionListener();
-//    }
 }
