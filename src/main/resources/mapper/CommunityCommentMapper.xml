@@ -85,6 +85,13 @@
         WHERE post_id = #{postId} AND parent_id IS NULL AND comment_deleted_at IS NULL
     </select>
 
+    <!-- 특정 게시글에 대한 댓글 수 조회 -->
+    <select id="getcountCommentsByPostId" resultType="int" parameterType="int">
+        SELECT COUNT(*)
+        FROM comment
+        WHERE post_id = #{postId} AND comment_deleted_at IS NULL
+    </select>
+
     <!-- 특정 댓글에 대한 대댓글 수 조회 -->
     <select id="getReplyCountByCommentId" resultType="int" parameterType="int">
         SELECT COUNT(*)

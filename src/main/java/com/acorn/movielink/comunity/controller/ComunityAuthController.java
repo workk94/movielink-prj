@@ -10,7 +10,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/community/auth")
-public class CommunityAuthController {
+public class ComunityAuthController {
     @Autowired
     private AuthenticationUtil authenticationUtil;
 

@@ -15,7 +15,7 @@ import java.util.List;
 @Controller
 public class PostController {
 
-    private CommunityPostService postService;
+    private com.acorn.movielink.comunity.service.CommunityPostService postService;
     private TagService tagService;
     private PostImageService postImageService;
     private CommunityLikeService likeService;
@@ -23,7 +23,7 @@ public class PostController {
     private FileStore fileStore;
 
     @Autowired
-    PostController(CommunityPostService postService,
+    PostController(com.acorn.movielink.comunity.service.CommunityPostService postService,
                    TagService tagService,
                    PostImageService postImageService,
                    CommunityLikeService likeService,

@@ -94,7 +94,9 @@ public class CommentService {
         return commentMapper.countById(commentId) > 0;
     }
 
-
+    public int getCommentCountByPostId(int postId) {
+        return commentMapper.countCommentsByPostId(postId);
+    }
 
     // 댓글 작성
     @Transactional
