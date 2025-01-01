@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 @NoArgsConstructor
@@ -17,13 +18,13 @@ public class CommentDTO {
     private Integer memId;
     private Integer parentId;  // 대댓글일 경우 부모 댓글의 ID
     private String content;
-    private LocalDateTime commentRegAt;
-    private LocalDateTime commentUpdatedAt;
-    private LocalDateTime commentDeletedAt;
+    private Date commentRegAt;
+    private Date commentUpdatedAt;
+    private Date commentDeletedAt;
     private int commentLikeCnt;
 
     // 조회 시 표시할 최종 시간 (등록/수정/삭제 중 하나)
-    private LocalDateTime displayTime;
+    private Date displayTime;
 
     // 작성자 닉네임 (조회 전용)
     private String memNn;

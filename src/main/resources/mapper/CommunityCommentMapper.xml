@@ -86,7 +86,7 @@
     </select>
 
     <!-- 특정 게시글에 대한 댓글 수 조회 -->
-    <select id="getcountCommentsByPostId" resultType="int" parameterType="int">
+    <select id="countCommentsByPostId" resultType="int" parameterType="int">
         SELECT COUNT(*)
         FROM comment
         WHERE post_id = #{postId} AND comment_deleted_at IS NULL
@@ -114,6 +114,14 @@
         SET content = #{content}, comment_updated_at = NOW()
         WHERE comment_id = #{commentId} AND comment_deleted_at IS NULL
     </update>
+
+    <select id="countCommentByPostAndId" resultType="int">
+        SELECT COUNT(*)
+        FROM comment
+        WHERE post_id = #{postId} AND comment_id = #{commentId} AND comment_deleted_at IS NULL
+    </select>
+
+
 
     <!-- 대댓글 수정 -->
     <update id="updateReply" parameterType="com.acorn.movielink.comunity.dto.CommentDTO">

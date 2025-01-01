@@ -54,6 +54,10 @@ public interface CommunityCommentMapper {
     // 댓글 수정
     int updateComment(CommentDTO commentDTO);
 
+    int countCommentByPostAndId(@Param("postId") int postId, @Param("commentId") int commentId);
+
+
+
     // 대댓글 수정
     int updateReply(CommentDTO commentDTO);
 
