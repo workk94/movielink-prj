@@ -1,8 +1,8 @@
-package com.acorn.movielink.community.service;
+package com.acorn.movielink.comunity.service;
 
 
-import com.acorn.movielink.community.dto.LikeDTO;
-import com.acorn.movielink.community.repository.CommunityLikeMapper;
+import com.acorn.movielink.comunity.dto.LikeDTO;
+import com.acorn.movielink.comunity.repository.CommunityLikeMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

@@ -1,4 +1,4 @@
-package com.acorn.movielink.community.dto;
+package com.acorn.movielink.comunity.dto;
 
 import com.acorn.movielink.login.dto.Person;
 import lombok.AllArgsConstructor;

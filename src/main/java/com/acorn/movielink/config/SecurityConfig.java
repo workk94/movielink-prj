@@ -55,7 +55,7 @@ public class SecurityConfig {
         http
                 .authenticationProvider(authenticationProvider)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/uploads/**", "/img/**", "/css/**", "/js/**", "/webjars/**", "/fonts/**").permitAll()
+                        .requestMatchers("/upload/**", "/img/**", "/css/**", "/js/**", "/webjars/**", "/fonts/**").permitAll()
                         .requestMatchers("/signup", "/forgot_password", "/reset_password").permitAll()
                         .requestMatchers(HttpMethod.POST, "/person/**").authenticated()
                         .requestMatchers(HttpMethod.DELETE, "/person/**").authenticated()

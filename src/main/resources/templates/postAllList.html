@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>무비링크 커뮤니티</title>
     <link rel="stylesheet" href="/css/postAllListCss.css">
     <link rel="stylesheet" th:href="@{/css/style.css}"/>
 </head>
@@ -59,7 +59,8 @@
                             </a>
                         </div>
                         <div class="community_imgbox">
-                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQF5muH6piXfKA2yUyMkJwm0mJq6O4lU-1mFA&s" alt="게시글썸네일">
+                            <img th:src="${post.thumbnailUrl != null ? post.thumbnailUrl : '/img/placeholder-thumbnail.svg'}"
+                                 alt="게시글 썸네일">
                         </div>
                     </div>
                     <div class="cut_line"></div>

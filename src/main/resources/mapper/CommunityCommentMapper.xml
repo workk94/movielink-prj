@@ -3,9 +3,9 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.acorn.movielink.community.repository.CommunityCommentMapper">
+<mapper namespace="com.acorn.movielink.comunity.repository.CommunityCommentMapper">
 
-    <resultMap id="commentResultMap" type="com.acorn.movielink.community.dto.CommentDTO">
+    <resultMap id="commentResultMap" type="com.acorn.movielink.comunity.dto.CommentDTO">
         <result column="comment_id" property="commentId" jdbcType="INTEGER"/>
         <result column="post_id" property="postId" jdbcType="INTEGER"/>
         <result column="mem_id" property="memId"/>
@@ -64,7 +64,7 @@
 
 
     <!-- 대댓글 작성 -->
-    <insert id="addReply" parameterType="com.acorn.movielink.community.dto.CommentDTO">
+    <insert id="addReply" parameterType="com.acorn.movielink.comunity.dto.CommentDTO">
         INSERT INTO comment (post_id, mem_id, content, parent_id, comment_reg_at)
         VALUES (#{postId}, #{memId}, #{content}, #{parentId}, NOW())
     </insert>
@@ -102,14 +102,14 @@
 
 
     <!-- 댓글 수정 -->
-    <update id="updateComment" parameterType="com.acorn.movielink.community.dto.CommentDTO">
+    <update id="updateComment" parameterType="com.acorn.movielink.comunity.dto.CommentDTO">
         UPDATE comment
         SET content = #{content}, comment_updated_at = NOW()
         WHERE comment_id = #{commentId} AND comment_deleted_at IS NULL
     </update>
 
     <!-- 대댓글 수정 -->
-    <update id="updateReply" parameterType="com.acorn.movielink.community.dto.CommentDTO">
+    <update id="updateReply" parameterType="com.acorn.movielink.comunity.dto.CommentDTO">
         UPDATE comment
         SET content = #{content}, comment_updated_at = NOW()
         WHERE comment_id = #{commentId} AND parent_id IS NOT NULL AND comment_deleted_at IS NULL

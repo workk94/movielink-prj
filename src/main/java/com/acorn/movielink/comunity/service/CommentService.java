@@ -1,16 +1,15 @@
-package com.acorn.movielink.community.service;
+package com.acorn.movielink.comunity.service;
 
 
-import com.acorn.movielink.community.dto.CommentDTO;
-import com.acorn.movielink.community.repository.CommunityCommentMapper;
-import com.acorn.movielink.community.repository.CommunityPostMapper;
+import com.acorn.movielink.comunity.dto.CommentDTO;
+import com.acorn.movielink.comunity.repository.CommunityCommentMapper;
+import com.acorn.movielink.comunity.repository.CommunityPostMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.List;

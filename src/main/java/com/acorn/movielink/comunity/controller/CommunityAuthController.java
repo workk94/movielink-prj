@@ -1,4 +1,4 @@
-package com.acorn.movielink.community.controller;
+package com.acorn.movielink.comunity.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
