@@ -138,26 +138,17 @@
         m.movie_open_dt AS movieOpenDt,
         m.movie_age_rating AS movieAgeRating,
         m.movie_running_time AS movieRunningTime,
-        m.movie_country AS movieCountry,
+        m.movie_country  AS movieNation,
+        g.genre_nm AS genre,
         m.movie_plot AS moviePlot,
-        m.movie_trailer AS movieTrailer,
-        m.movie_poster AS moviePoster,
-        m.genre_id AS genreId,
-        m.movie_score_avg AS movieScoreAvg,
+        m.movie_trailer AS movieTrailerUrl,
+        m.movie_poster AS moviePosterUrl,
         m.movie_imdb_score AS movieImdbScore,
-        m.movie_tmdb_score AS movieTmdbScore,
-        p.people_id AS peopleId,
-        p.people_nm AS peopleNm,
-        p.people_role_nm AS peopleRoleNm,
-        p.people_profile_url AS peopleProfileUrl,
-        p.people_type AS peopleType
-        FROM
-        movie m
-        LEFT JOIN
-        people p ON m.movie_id = p.movie_id
-        WHERE
-        m.movie_id = #{movieId}
-        LIMIT 1
+        m.movie_tmdb_score AS movieTMDBScore
+        FROM movie m
+        LEFT JOIN genre g ON m.genre_id = g.genre_id
+        WHERE m.movie_id = #{movieId}
+        GROUP BY m.movie_id;
     </select>
 
     <select id="selectPeopleById" parameterType="map" resultType="com.acorn.movielink.people_detail.dto.People">
