@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.acorn.movielink.movie_detail.repository.MovieDetailMapper2">
+
+    <resultMap id="movieDetailResultMap" type="com.acorn.movielink.movie_detail.dto.MovieDTO">
+        <result property="movieId" column="movieId" />
+        <result property="movieNm" column="movieNm" />
+        <result property="movieNmEn" column="movieNmEn" />
+        <result property="movieOpenDt" column="movieOpenDt" />
+        <result property="movieAgeRating" column="movieAgeRating" />
+        <result property="movieRunningTime" column="movieRunningTime" />
+        <result property="movieCountry" column="movieCountry" />
+        <result property="moviePlot" column="moviePlot" />
+        <result property="movieTrailer" column="movieTrailer" />
+        <result property="moviePoster" column="moviePoster" />
+        <result property="genreId" column="genreId" />
+        <result property="genreNm" column="genreNm" />
+        <result property="movieScoreAvg" column="movieScoreAvg" />
+        <result property="movieImdbScore" column="movieImdbScore" />
+        <result property="movieTmdbScore" column="movieTmdbScore" />
+
+        <!-- 감독 -->
+        <collection property="directors" ofType="com.acorn.movielink.movie_detail.dto.PeopleDTO">
+            <result property="peopleId" column="peopleId" />
+            <result property="peopleNm" column="peopleNm" />
+            <result property="peopleRoleNm" column="peopleRoleNm" />
+            <result property="peopleProfileUrl" column="peopleProfileUrl" />
+            <result property="peopleType" column="peopleType" />
+        </collection>
+
+        <!-- 배우 -->
+        <collection property="actors" ofType="com.acorn.movielink.movie_detail.dto.PeopleDTO">
+            <result property="peopleId" column="peopleId" />
+            <result property="peopleNm" column="peopleNm" />
+            <result property="peopleRoleNm" column="peopleRoleNm" />
+            <result property="peopleProfileUrl" column="peopleProfileUrl" />
+            <result property="peopleType" column="peopleType" />
+        </collection>
+    </resultMap>
+
+    <select id="getMovieDetail" resultMap="movieDetailResultMap" parameterType="int">
+        SELECT
+            m.movie_id AS movieId,
+            m.movie_nm AS movieNm,
+            m.movie_nm_en AS movieNmEn,
+            m.movie_open_dt AS movieOpenDt,
+            m.movie_age_rating AS movieAgeRating,
+            m.movie_running_time AS movieRunningTime,
+            m.movie_country AS movieCountry,
+            m.movie_plot AS moviePlot,
+            m.movie_trailer AS movieTrailer,
+            m.movie_poster AS moviePoster,
+            m.genre_id AS genreId,
+            g.genre_nm AS genreNm,
+            m.movie_score_avg AS movieScoreAvg,
+            m.movie_imdb_score AS movieImdbScore,
+            m.movie_tmdb_score AS movieTmdbScore,
+            p.people_id AS peopleId,
+            p.people_nm AS peopleNm,
+            p.people_role_nm AS peopleRoleNm,
+            p.people_profile_url AS peopleProfileUrl,
+            p.people_type AS peopleType
+        FROM movie m
+                 JOIN genre g ON m.genre_id = g.genre_id
+                 LEFT JOIN people p ON p.movie_id = m.movie_id
+        WHERE m.movie_id = #{movieId};
+    </select>
+</mapper>
