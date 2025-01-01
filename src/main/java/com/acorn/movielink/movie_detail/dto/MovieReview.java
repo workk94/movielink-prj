@@ -16,9 +16,11 @@ public class MovieReview {
     private int movieId;             // 영화 ID
     private int memId;               // 사용자 ID
     private int reviewLikeCnt;
-    private String reviewTitle;      // 리뷰 제목
     private String reviewContent;    // 리뷰 내용
     private double reviewRating;     // 리뷰 점수
     private LocalDateTime reviewRegAt;  // 리뷰 작성 시간
     private LocalDateTime reviewUpdatedAt;  // 리뷰 수정 시간
+
+    private String memNn;
+    private String memProfileFilePath;
 }
