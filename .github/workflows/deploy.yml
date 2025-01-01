@@ -55,7 +55,7 @@ jobs:
           key: ${{ secrets.EC2_PRIVATE_KEY }}
           script_stop: true
           script: |
-            docker stop  acorn-server || true
-            docker rm acorn-server || true
+            docker stop  movie-link-server || true
+            docker rm movie-link-server || true
             docker pull ${{ steps.login-ecr.outputs.registry }}/movie-link-server:latest
             docker run -d --name acorn-server -p 8080:8080 ${{ steps.login-ecr.outputs.registry }}/movie-link-server:latest
