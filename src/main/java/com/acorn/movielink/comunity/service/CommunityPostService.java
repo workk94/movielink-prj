@@ -57,6 +57,19 @@ public class CommunityPostService {
         return postOne;
     }
 
+    @Transactional(readOnly = true)
+    public boolean existsById(int postId) {
+        return postMapper.countById(postId) > 0;
+    }
+
+
+    public boolean existsPostById(int postId) {
+        PostDTO post = postMapper.selectPostById(postId); // 게시글 조회
+        return post != null; // 게시글 존재 여부 반환
+    }
+
+
+
     // 게시글 수정
     public void updatePost(PostDTO postDTO) {
         postMapper.updatePost(postDTO);
