@@ -2,16 +2,19 @@
 <div th:fragment="content">
 
   <style>
-     /* category-community */
+    /* category-community */
     .community {
       padding: 16px;
       display: flex;
-      justify-content: space-between;
+      justify-content:space-between;
     }
 
-    .community-list {
-      padding: 16px 16px 16px 0;
-      width: 510px;
+    .community-post{
+      flex: 3;
+    }
+
+    .post-list {
+      padding: 16px 0;
     }
 
     .list-popular {
@@ -19,9 +22,9 @@
     }
 
     .popular-nav {
-      padding: 0 0 16px 0;
       display: flex;
       justify-content: space-between;
+      padding: 16px 16px 16px 0;
     }
 
     .popular-title {
@@ -43,7 +46,7 @@
     .all-nav {
       display: flex;
       justify-content: space-between;
-      padding: 16px 0;
+      padding: 16px 16px 16px 0;
     }
 
     .all-post {
@@ -64,10 +67,10 @@
       align-items: center;
     }
 
-    .profile-img{
-      width: 20px; 
-      height: 20px; 
-      border-radius: 50%; 
+    .profile-img {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
       border: 1px solid #3b4869;
     }
 
@@ -75,9 +78,8 @@
       display: flex;
       flex-direction: column;
       padding: 16px 0 8px 0;
-      border-radius: 8px; 
-      width: 445px; 
-      height: 240px; 
+      border-radius: 8px;
+      height: 240px;
       border: 1px solid #3b4869;
     }
 
@@ -123,8 +125,6 @@
       align-items: center;
     }
 
-
-
     .review-likes {
       cursor: pointer;
     }
@@ -153,15 +153,19 @@
     }
 
     .community-button {
-      margin-top: 16px;
+      flex: 1;
+      margin-top: 24px;
       width: 166px;
       height: 48px;
       background-color: #637dea;
       border-radius: 10px;
-      border-style: none;
       display: flex;
       justify-content: center;
       align-items: center;
+    }
+
+    .community-button>a {
+      display: flex;
       gap: 8px;
     }
 
@@ -172,8 +176,6 @@
 
       .community-button {
         order: -1;
-        margin-top: 0;
-        margin-bottom: 16px;
         margin-left: auto;
       }
     }
@@ -182,27 +184,29 @@
   <!-- content: community -->
   <div class="community">
 
-    <div class="community-list" >
-      <div class="list-popular">
-        <div class="popular-nav">
-          <h3>인기글</h3>
-          <a th:href="@{/communityMain}">
-            <svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="none"
-              stroke="#98a4b7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="8 4 16 12 8 20"></polyline>
-            </svg>
-          </a>
+    <div class="community-post">
+      <div class="post-list">
+        <div class="list-popular">
+          <div class="popular-nav">
+            <h4>인기글</h4>
+            <a th:href="@{/communityMain}">
+              <svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="none"
+                stroke="#98a4b7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="8 4 16 12 8 20"></polyline>
+              </svg>
+            </a>
+          </div>
         </div>
         <ul class="popular-title" th:each="post : ${communityPosts}">
           <li th:each="post, iterStat : ${popularPosts}" th:if="${iterStat.index < 3}">
-            <span  th:text="${post.postTitle}">Post Title</span>
+            <span th:text="${post.postTitle}">Post Title</span>
           </li>
         </ul>
       </div>
-
+  
       <div class="list-all">
         <div class="all-nav">
-          <h3>전체글 [[${communityPosts.size()}]]개</h3>
+          <h4>전체글 [[${communityPosts.size()}]]개</h4>
           <a th:href="@{/postAll}">
             <svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="none"
               stroke="#98a4b7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -210,13 +214,13 @@
             </svg>
           </a>
         </div>
-
+  
         <!-- 전체글 목록 반복 -->
         <div class="all-post" th:each="post : ${communityPosts}">
           <div class="post-users">
             <div class="users-profile">
               <span class="profile-img">
-                <img th:src="${post.postImgConvertedFileNm}" alt="프로필 이미지">
+                <img th:src="${post.postImgConvertedFileNm ?: '/img/placeholder-people.svg'}" alt="프로필 이미지">
               </span>
               <span th:text="${post.memId}">User ID</span>
             </div>
@@ -237,18 +241,18 @@
             </ul>
             <ul class="body-interact">
               <li>
-                <span> 
+                <span>
                   <img class="icon3" src="/img/watching.png" alt="icon-watching">
                   <p class="sub-font7" th:text="${post.postViews}">views</p>
                 </span>
               </li>
               <li>
-                <span> 
+                <span>
                   <img class="icon3" src="/img/reply.png" alt="icon-reply">
-                  <p class="sub-font7" >replis</p>
+                  <p class="sub-font7">replis</p>
                 </span>
               </li>
-              <li class="review-likes" >
+              <li class="review-likes">
                 <span>
                   <svg class="heart" width="18" height="18" viewBox="0 0 24 24" fill="none"
                     xmlns="http://www.w3.org/2000/svg" style="margin-right: 8px;">
@@ -262,14 +266,15 @@
             </ul>
           </div>
         </div>
-
       </div>
     </div>
 
-    <a th:href="@{/postCreate}" class="community-button">
-      <h4>글 작성하기</h4>
-      <img class="icon3" th:src="@{/img/write.svg}" alt="icon-writing">
-    </a>
+    <div class="community-button">
+      <a th:href="@{/postCreate}">
+        <h4>글 작성하기</h4>
+        <img class="icon3" th:src="@{/img/write.svg}" alt="icon-writing">
+      </a>
+    </div>
   </div>
 
 </div>
