@@ -324,22 +324,31 @@
   let audi_cnt_chart;
 
   $(document).ready(function() {
-    initializeSwiper();
-    const datePicker = $('#datePicker');
-    const today = new Date();
-    const maxDate = today.toISOString().split('T')[0];
-    datePicker.attr('max', maxDate);
+      initializeSwiper();
+      const datePicker = $('#datePicker');
+      const today = new Date();
+      const maxDate = today.toISOString().split('T')[0];
+      datePicker.attr('max', maxDate);
 
-    datePicker.change(function() {
-        const selectedDate = $(this).val();
-        fetchData(selectedDate);
-    });
+      datePicker.change(function() {
+          const selectedDate = $(this).val();
+          fetchData(selectedDate);
+      });
 
-    const initialDate = new Date();
-    initialDate.setDate(initialDate.getDate() - 1);
-    const formattedDate = initialDate.toISOString().split('T')[0];
-    datePicker.val(formattedDate);
-    fetchData(formattedDate);
+      const initialDate = new Date();
+      initialDate.setDate(initialDate.getDate() - 1);
+      const formattedDate = initialDate.toISOString().split('T')[0];
+
+      datePicker.val("2024-12-18");
+      fetchData("2024-12-18");
+  });
+
+  window.addEventListener("load", function() {
+      const datePicker = $('#datePicker');
+      const initialDate = new Date();
+      initialDate.setDate(initialDate.getDate() - 1);
+      const formattedDate = initialDate.toISOString().split('T')[0];
+      datePicker.val("2024-12-18");
   });
 
 </script>
