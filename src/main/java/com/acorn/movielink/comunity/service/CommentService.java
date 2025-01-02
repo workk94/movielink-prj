@@ -1,6 +1,7 @@
 package com.acorn.movielink.comunity.service;
 
 
+import com.acorn.movielink.comunity.controller.AuthenticationUtil;
 import com.acorn.movielink.comunity.dto.CommentDTO;
 import com.acorn.movielink.comunity.repository.CommunityCommentMapper;
 import com.acorn.movielink.comunity.repository.CommunityPostMapper;
@@ -25,6 +26,9 @@ public class CommentService {
     @Autowired
     private CommunityPostMapper postMapper;
 
+    @Autowired
+    private AuthenticationUtil authenticationUtil;
+
     private static final Logger logger = LoggerFactory.getLogger(CommentService.class);
 
 
@@ -39,11 +43,7 @@ public class CommentService {
     // 게시글 존재 여부 검증
     @Transactional
     public boolean validatePostExists(int postId) {
-        int count = postMapper.countPostById(postId);
-        if (count == 0) {
-            throw new IllegalArgumentException("존재하지 않는 게시글입니다.");
-        }
-        return false;
+        return postMapper.countPostById(postId) > 0;
     }
 
     // 댓글 존재 여부 검증
@@ -141,115 +141,42 @@ public class CommentService {
 
 
 
-
-
-    // 대댓글 작성
-    @Transactional
-    public CommentDTO addReply(CommentDTO commentDTO, Integer memId) {
-        checkLogin(memId); // 로그인 검증
-        validatePostExists(commentDTO.getPostId()); // 게시글 검증
-        validateCommentExists(commentDTO.getParentId()); // 부모 댓글 존재 검증
-
-
-        // 부모 댓글 삭제 여부 검증
-        CommentDTO parentComment = commentMapper.getCommentById(commentDTO.getParentId());
-        if (parentComment.getCommentDeletedAt() != null) {
-            throw new IllegalStateException("삭제된 댓글에는 대댓글을 작성할 수 없습니다.");
-        }
-        commentDTO.setMemId(memId); // 로그인 사용자 ID 설정
-
-        commentMapper.addReply(commentDTO); // 대댓글 작성
-        return commentMapper.getCommentById(commentDTO.getCommentId()); // 작성된 대댓글 즉시 반환
-    }
-
-
-
-
     // 댓글 수정
-    @Transactional
-    public CommentDTO updateComment(CommentDTO commentDTO, Integer memId) {
-        // 검증 처리
-        checkLogin(memId); // 로그인 검증
-        validateCommentExists(commentDTO.getCommentId()); // 댓글 존재 검증
-        validateAuthor(commentDTO.getCommentId(), memId); // 작성자 검증
-// 댓글 수정 실행
-        int updatedRows = commentMapper.updateComment(commentDTO);
-        if (updatedRows == 0) {
-            throw new IllegalArgumentException("댓글 수정 실패: 업데이트된 행이 없습니다.");
-        }
-        return commentMapper.getCommentById(commentDTO.getCommentId());
+@Transactional(propagation = Propagation.REQUIRED)
+public CommentDTO updateComment(CommentDTO commentDTO, int postId, int memId) {
+    memId = authenticationUtil.getCurrentUserId();
+
+    System.out.println("@@@@작성자 검증: " + memId);
+
+    // 댓글 ID가 null인 경우 예외 처리
+    if (commentDTO.getCommentId() == null) {
+        throw new IllegalArgumentException("댓글 ID가 누락되었습니다.");
+    }
+    // 댓글-게시글 관계 확인
+    int commentCount = commentMapper.countCommentByPostAndId(postId, commentDTO.getCommentId());
+    System.out.println("댓글-게시글 관계 확인: " + commentCount);
+    if (commentCount == 0) {
+        throw new IllegalArgumentException("댓글이 존재하지 않거나 잘못된 요청입니다 요청입니다.");
+    }
+    // 작성자 검증
+    int commentOwner = commentMapper.checkCommentOwner(commentDTO.getCommentId(), memId);
+    System.out.println("작성자 검증: " + commentOwner);
+    if (commentOwner == 0) {
+        throw new SecurityException("댓글 수정 권한이 없습니다.");
     }
 
-    // 댓글 존재 여부 검증 메서드 수정
-    @Transactional
-    public boolean validateCommentExists2(int postId, int commentId) {
-        System.out.println("postId: " + postId);
-        System.out.println("@@@commentId: " + commentId);
-        int count = commentMapper.countCommentByPostAndId(postId, commentId);
-        System.out.println("@@@@@@댓글 존재 여부 확인: " + count); // 디버깅 로그
+    // 댓글 수정 실행
+    int updatedRows = commentMapper.updateComment(commentDTO);
+    System.out.println("댓글 수정된 행 수: " + updatedRows);
 
-        if (count <= 0) {
-            System.out.println("@@@@@댓글이 존재하지 않음!");
-        }
-        return count > 0; // 결과가 0보다 크면 존재
+    if (updatedRows == 0) {
+        throw new IllegalStateException("댓글 수정에 실패했습니다.");
     }
+    System.out.println("댓글 수정 결과: " + updatedRows);
 
-
-
-    // 대댓글 수정
-    @Transactional
-    public void updateReply(CommentDTO commentDTO, Integer memId) {
-        // 로그인 및 작성자 검증
-        checkLogin(memId); // 로그인 검증
-        validateCommentExists(commentDTO.getCommentId()); // 댓글 존재 검증
-        validateAuthor(commentDTO.getCommentId(), memId); // 작성자 검증
-
-
-        // 대댓글 수정
-        commentMapper.updateReply(commentDTO);
-    }
-
-    // 댓글 삭제
-    @Transactional
-    public void deleteComment(int commentId, Integer memId) {
-        checkLogin(memId); // 로그인 검증
-        validateCommentExists(commentId); // 존재 여부 검증
-        validateAuthor(commentId, memId); // 작성자 검증
-
-        commentMapper.deleteComment(commentId, memId); // 댓글 삭제
-    }
-
-    // 대댓글 삭제
-    @Transactional
-    public void deleteReply(int commentId, Integer memId) {
-        checkLogin(memId); // 로그인 검증
-        validateCommentExists(commentId); // 존재 여부 검증
-        validateAuthor(commentId, memId); // 작성자 검증
-
-        commentMapper.deleteReply(commentId, memId); // 대댓글 삭제
-    }
-
-
-
-    // 좋아요 증가
-    @Transactional
-    public void increaseLikeCount(int commentId, Integer memId) {
-        checkLogin(memId); // 로그인 검증
-        validateCommentExists(commentId); // 댓글 존재 여부 검증
-
-        commentMapper.increaseLikeCount(commentId); // 좋아요 증가 쿼리 실행
-    }
-
-    // 좋아요 감소
-    @Transactional
-    public void decreaseLikeCount(int commentId, Integer memId) {
-        checkLogin(memId); // 로그인 검증
-        validateCommentExists(commentId); // 댓글 존재 여부 검증
-
-        commentMapper.decreaseLikeCount(commentId); // 좋아요 감소 쿼리 실행
-    }
-
-
+    // 5. 수정된 댓글 반환
+    return commentMapper.getCommentById(commentDTO.getCommentId());
+}
 
 
 }

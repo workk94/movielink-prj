@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link rel="stylesheet" href="/css/postAllListCss.css">
-
+    <link href="/css/postAllListCss.css" rel="stylesheet">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 </head>
 <body>
 
 <div th:fragment="headerFragment" xmlns:sec="http://www.w3.org/1999/xhtml" xmlns:th="http://www.w3.org/1999/xhtml">
     <div class="header">
         <div class="header-logo">
-            <img alt="시네링크 로고" th:src="@{/img/cine_link_logo.svg}" />
+            <img alt="시네링크 로고" th:src="@{/img/cine_link_logo.svg}"/>
         </div>
         <div class="header-util">
             <div class="route-nav">
@@ -21,10 +21,10 @@
                     <li class="route-item"><a th:href="@{/communityMain}">커뮤니티</a></li>
                     <li class="route-item"><a href="#">작품</a></li>
                     <li class="route-item">
-                        <img alt="검색 아이콘" th:src="@{/img/search.svg}" />
+                        <img alt="검색 아이콘" th:src="@{/img/search.svg}"/>
                     </li>
                     <li class="route-item">
-                        <img alt="벨 아이콘" th:src="@{/img/bell.svg}" />
+                        <img alt="벨 아이콘" th:src="@{/img/bell.svg}"/>
                     </li>
                 </ul>
             </div>
@@ -39,13 +39,12 @@
     </div>
 
 
-
     <section class="community_main">
         <div class="community_item">
             <div class="community_header">
                 <div class="community_search">
                     <h2>커뮤니티</h2>
-                    <img th:src="@{/img/search.svg}" alt="검색">
+                    <img alt="검색" th:src="@{/img/search.svg}">
                 </div>
                 <div class="community_search_infoBox">
                     <p>검색어를 입력하세요</p>
@@ -55,7 +54,7 @@
                 </div>
             </div>
 
-            <h1 class="community_list_h2">좋아요 많은 순서 게시글 리스트  </h1>
+            <h1 class="community_list_h2">좋아요 많은 순서 게시글 리스트 </h1>
 
             <div class="community_post_list_All">
 
@@ -86,7 +85,8 @@
                             </a>
                         </div>
                         <div class="community_imgbox">
-                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQF5muH6piXfKA2yUyMkJwm0mJq6O4lU-1mFA&s" alt="게시글썸네일">
+                            <img alt="게시글썸네일"
+                                 src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQF5muH6piXfKA2yUyMkJwm0mJq6O4lU-1mFA&s">
                         </div>
                     </div>
                     <div class="cut_line"></div>
@@ -94,7 +94,7 @@
 
                 <div class="community_more">
                     <a href="/postAll">
-                    <button class="community_more_btn">더보기</button>
+                        <button class="community_more_btn">더보기</button>
                     </a>
                 </div>
             </div>
@@ -124,12 +124,13 @@
                 <div class="aside_header">유저랭킹 TOP 7</div>
                 <div class="ranking_list" th:each="topSevenMem : ${topSevenMem}">
                     <div class="tag_icon">
-                        <img th:src="@{/img/tag_icon.svg}" alt="#">
+                        <img alt="#" th:src="@{/img/tag_icon.svg}">
                     </div>
                     <ul>
                         <li th:each="topSevenMem : ${topSevenMem}">
                             <span th:text="${topSevenMem.memId}"></span>
-                            <a th:href="@{/postOneMember/{memId}(memId=${topSevenMem.memId})}" th:text="${topSevenMem.mem_nn}">유저 게시글 보기</a>
+                            <a th:href="@{/postOneMember/{memId}(memId=${topSevenMem.memId})}"
+                               th:text="${topSevenMem.mem_nn}">유저 게시글 보기</a>
                         </li>
                     </ul>
                 </div>
@@ -141,43 +142,43 @@
         <nav class="footer-util">
             <a class="route-item" href="#">
                 <div class="route-img">
-                    <img alt="홈 아이콘" th:src="@{/img/home.svg}" />
+                    <img alt="홈 아이콘" th:src="@{/img/home.svg}"/>
                 </div>
                 <div class="route-name">홈</div>
             </a>
             <a class="route-item" href="#">
                 <div class="route-img">
-                    <img alt="발견 아이콘" th:src="@{/img/search.svg}" />
+                    <img alt="발견 아이콘" th:src="@{/img/search.svg}"/>
                 </div>
                 <div class="route-name">발견</div>
             </a>
             <a class="route-item" href="#">
                 <div class="route-img">
-                    <img alt="콘텐츠 아이콘" th:src="@{/img/list.svg}" />
+                    <img alt="콘텐츠 아이콘" th:src="@{/img/list.svg}"/>
                 </div>
                 <div class="route-name">콘텐츠</div>
             </a>
             <a class="route-item" href="#">
                 <div class="route-img">
-                    <img alt="숏폼 아이콘" th:src="@{/img/shortform.svg}" />
+                    <img alt="숏폼 아이콘" th:src="@{/img/shortform.svg}"/>
                 </div>
                 <div class="route-name">숏폼</div>
             </a>
             <a class="route-item" href="#">
                 <div class="route-img">
-                    <img alt="커뮤니티 아이콘" th:src="@{/img/community.svg}" />
+                    <img alt="커뮤니티 아이콘" th:src="@{/img/community.svg}"/>
                 </div>
                 <div class="route-name">커뮤니티</div>
             </a>
             <a class="route-item" href="#">
                 <div class="route-img">
-                    <img alt="마이페이지 아이콘" th:src="@{/img/mypage.svg}" />
+                    <img alt="마이페이지 아이콘" th:src="@{/img/mypage.svg}"/>
                 </div>
                 <div class="route-name">마이페이지</div>
             </a>
             <a class="route-item" href="#">
                 <div class="route-img">
-                    <img alt="알림 아이콘" th:src="@{/img/bell.svg}" />
+                    <img alt="알림 아이콘" th:src="@{/img/bell.svg}"/>
                 </div>
                 <div class="route-name">알림</div>
             </a>

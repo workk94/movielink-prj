@@ -4,7 +4,7 @@
 <head>
     <!-- jQuery 추가 -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <meta charset="UTF-8">
     <meta name="_csrf" th:content="${_csrf.token}" />
     <meta name="_csrf_header" th:content="${_csrf.headerName}" />
@@ -118,10 +118,18 @@
         // 좋아요 버튼 상태 업데이트
         function updateLikeButton(data) {
             const likeButton = document.getElementById('likeButton');
+            const likeIcon = document.getElementById('likeIcon'); // 이미지 선택
+
             const likeCount = document.getElementById('likeCount');
 
             const isLiked = data.likeId === 1;
-            likeButton.textContent = isLiked ? '좋아요 취소' : '좋아요';
+
+
+            // 이미지 변경
+            likeIcon.src = isLiked ? '/img/pink-heart.svg' : '/img/gray-heart.svg';
+            likeButton.title = isLiked ? '좋아요 취소' : '좋아요';
+
+            /*          likeButton.textContent = isLiked ? '좋아요오 취소' : '좋아요우'; */
             likeCount.textContent = data.likeCount || 0;
         }
 
@@ -194,7 +202,7 @@
                 console.log('서버 응답:', data);
 
                 // 성공 처리
-                if (data.commentId) { // 'success' 대신 'commentId' 존재 여부로 성공 판단
+                if (data.commentId) {
                     appendCommentToDOM(data); // 댓글 동적 추가
                     document.getElementById('commentContent').value = ''; // 입력창 초기화
                     alert('댓글이 작성되었습니다.');
@@ -232,25 +240,7 @@
         }
 
 
-        //대댓글 계층 구조 표현
-        // 대댓글 렌더링 함수
-        function renderReplies(replies, parentElement) {
-            replies.forEach(reply => {
-                const replyElement = document.createElement('div');
-                replyElement.classList.add('reply-item');
-                replyElement.style.marginLeft = '30px'; // 들여쓰기
-
-                replyElement.innerHTML = `
-                    <p>${reply.content}</p>
-                    <button class="edit-reply-btn" data-id="${reply.commentId}">수정</button>
-                    <button class="delete-reply-btn" data-id="${reply.commentId}">삭제</button>
-                    `;
-                parentElement.appendChild(replyElement);
-            });
-        }
-
-
-
+       
         //댓글 수정
         async function editComment(postId, commentId) {
             const loggedIn = await requireLogin();
@@ -270,7 +260,7 @@
                 commentId,
                 '수정할 내용을 입력하세요',
                 () => submitEdit(postId, commentId), // postId 추가
-                contentElement
+                contentText
             );
         }
 
@@ -290,100 +280,37 @@
                 const response = await fetch(`/comments/${postId}/${commentId}/update`, {
                     method: 'PUT',
                     headers: getCsrfHeaders(),
-                    body: JSON.stringify({ content: content })
+                    body: JSON.stringify({ content: content, commentId: commentId })
                 });
 
                 // 응답 처리
-                const responseText = await response.text();
-                let data;
-                try {
-                    data = JSON.parse(responseText); // JSON 파싱 시도
-                } catch (e) {
-                    throw new Error(responseText); // JSON 실패 시 텍스트 오류 반환
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    throw new Error(`서버 오류: ${errorText}`);
                 }
 
-                if (!response.ok || !data.success) {
-                    throw new Error(data.message || '수정 실패');
-                }
+                const data = await response.json();
+                console.log('서버 응답:', data); // 디버깅용
 
-                alert('댓글이 수정되었습니다.');
-                location.reload(); // 동적 업데이트 필요 시 변경
+                if (data.success) {
+
+                    const contentElement = document.querySelector(`[data-id="${commentId}"] p`);
+                    if (contentElement) {
+                        contentElement.textContent = content; // 댓글 내용만 갱신
+                    }
+                    // 수정된 댓글 내용을 서버에서 받은 데이터로 갱신
+                    const updatedComment = data.updatedComment;
+                    if (updatedComment) {
+                        contentElement.textContent = updatedComment.content;
+                    }
+                } else {
+                    throw new Error(data.message || '댓글 수정 실패');
+                }
             } catch (err) {
                 console.error('수정 오류:', err);
                 alert('수정 중 오류가 발생했습니다.');
             }
         }
-
-
-
-
-
-        // 댓글 삭제
-        function deleteComment(commentId) {
-            if (!requireLogin()) return;
-
-            if (!confirm('댓글을 삭제하시겠습니까?')) return;
-            handleRequest(`/comments/${commentId}`, 'DELETE', {}, '댓글이 삭제되었습니다.', '삭제 실패.');
-        }
-
-
-
-
-
-        // 대댓글 작성
-        function addReply(parentId) {
-            if (!requireLogin()) return;
-
-            createInputBox(
-                'reply',
-                parentId,
-                '대댓글을 입력하세요',
-                submitReply
-            );
-        }
-
-        async function submitReply(parentId) {
-            const replyContent = document.getElementById(`replyContent-${parentId}`).value.trim();
-            if (!replyContent) return alert('내용을 입력해주세요.');
-
-            try {
-                const response = await fetch(`/comments/${parentId}/replyAdd`, {
-                    method: 'POST',
-                    headers: getCsrfHeaders(),
-                    body: JSON.stringify({ content: replyContent })
-                });
-
-                if (!response.ok) throw new Error('서버 오류 발생');
-                const data = await response.json();
-
-                if (data.success) {
-                    alert('대댓글이 추가되었습니다.');
-                    appendReplyToDOM(parentId, data.reply); // DOM에 즉시 추가
-                } else {
-                    alert('대댓글 작성 실패.');
-                }
-            } catch (err) {
-                console.error('대댓글 작성 오류:', err);
-                alert('대댓글 작성 중 오류가 발생했습니다.');
-            }
-        }
-
-        // 대댓글 DOM 추가
-        function appendReplyToDOM(parentId, reply) {
-            const parentElement = document.querySelector(`[data-id="${parentId}"] .replies`);
-            const replyElement = document.createElement('div');
-            replyElement.classList.add('reply-item');
-            replyElement.setAttribute('data-id', reply.commentId);
-
-            replyElement.innerHTML = `
-        <p>${reply.content}</p>
-        <button class="edit-reply-btn" data-id="${reply.commentId}">수정</button>
-        <button class="delete-reply-btn" data-id="${reply.commentId}">삭제</button>
-    `;
-            parentElement.appendChild(replyElement); // 즉시 화면에 추가
-        }
-
-
 
 
         async function handleRequest(url, method, body, successMessage, errorMessage) {
@@ -411,11 +338,6 @@
             }
         }
 
-
-
-
-
-
         async function fetchWithRetry(url, method, body, retries = 3) {
             try {
                 const response = await fetch(url, {
@@ -438,6 +360,15 @@
 
 
         document.addEventListener('DOMContentLoaded', () => {
+            const postIdElement = document.getElementById('postId');
+            if (postIdElement) {
+                postId = postIdElement.value; // 숨겨진 필드에서 postId 설정
+                console.log('postId:', postId); // 디버깅 출력
+            } else {
+                console.error('postId 요소를 찾을 수 없습니다!');
+                alert('게시글 정보를 불러올 수 없습니다. 다시 시도해주세요.');
+                return; // 코드 중단
+            }
             const likeButton = document.getElementById('likeButton');
             const submitCommentBtn = document.getElementById('submitCommentBtn');
             const commentList = document.getElementById('comments-list');
@@ -445,8 +376,6 @@
 
 
             if (likeButton) {
-                postId = likeButton.getAttribute('data-post-id');
-                console.log('postId:', postId); // 디버깅용 출력
                 likeButton.addEventListener('click', async () => {
 
                     const loggedIn = await requireLogin(); // 비동기 함수 처리
@@ -502,146 +431,138 @@
         <div th:replace="~{fragments/header :: headerFragment}"></div>
 
 
-
-        <body>
-            <div class="post_detail_main">
-                <section class="post_main">
-                    <div class="post_header">
-                        <div class="post_mem_info">
-                            <div class="post_mem_profile">
-                                <!-- 사용자 프로필 -->
-                                <!--                                <p th:text="${postOne.memId}">여기에사용자프로필 사진 들어가야함@@@@@</p>-->
-                                <p><span th:text="${#strings.substring(postOne.memNn, 0, 1)}"></span></p>
+        <div class="post_detail_main">
+            <section class="post_main">
+                <div class="post_header">
+                    <div class="post_mem_info">
+                        <div class="post_mem_profile">
+                            <div th:if="${postOne.memProfileFilePath == null}">
+                                <p th:text="${#strings.substring(postOne.memNn, 0, 1)}"> 닉네임</p>
                             </div>
-                            <div class="post_mem_nickname">
-                                <!-- 사용자 닉네임 -->
-                                <p th:text="${postOne.memNn}">사용자 닉네임!!!!!!!!!!</p>
+                            <div th:if="${postOne.memProfileFilePath != null}">
+                                <img th:src="${postOne.memProfileFilePath}" alt="회원프로필이미지">
                             </div>
                         </div>
-                        <div class="post_time">
-                            <p>
-                                작성일:
-                                <span th:if="${postOne.postUpdatedAt == null}"
-                                    th:text="${#dates.format(postOne.postCreatedAt, 'yyyy-MM-dd')}">작성일</span>
-                                <span th:if="${postOne.postUpdatedAt != null}"
-                                    th:text="${#dates.format(postOne.postUpdatedAt, 'yyyy-MM-dd')}">수정일</span>
-                            </p>
+                        <div class="post_mem_nickname">
+                            <!-- 사용자 닉네임 -->
+                            <p th:text="${postOne.memNn}">사용자 닉네임!!!!!!!!!!</p>
                         </div>
                     </div>
 
-                    <div class="post_body">
-                        <div class="post_title">
-                            <p th:text="${postOne.postTitle}">드라마 시사회</p>
+                    <div class="post_time">
+                        <p>
+                            작성일:
+                            <span th:if="${postOne.postUpdatedAt == null}"
+                                th:text="${#dates.format(postOne.postCreatedAt, 'yyyy-MM-dd')}">작성일</span>
+                            <span th:if="${postOne.postUpdatedAt != null}"
+                                th:text="${#dates.format(postOne.postUpdatedAt, 'yyyy-MM-dd')}">수정일</span>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="post_body">
+                    <input type="hidden" id="postId" th:value="${postOne.postId}" />
+                    <div class="post_title">
+                        <p th:text="${postOne.postTitle}">드라마 시사회</p>
+                    </div>
+                    <div th:if="${thumbnail!= null}" class="post_thumbnail">
+                        <img th:src="${thumbnail}" alt="게시글 썸네일">
+                    </div>
+
+                    <div class="post_info_box">
+                        <div class="post_info">
+                            <p th:text="${postOne.content}">드라마 시사회에서 배우님들이 싸인해주시나요??...</p>
                         </div>
-
-                        <div class="post_info_box">
-                            <div class="post_info">
-                                <p th:text="${postOne.content}">드라마 시사회에서 배우님들이 싸인해주시나요??...</p>
-                            </div>
-
-                            <div class="post_tag_box">
-                                <div id="tag-container">
-                                    <!-- 태그가 없는 경우 -->
-                                    <div th:if="${#lists.isEmpty(tags)}">
-                                        <p>태그가 없습니다.</p>
-                                    </div>
-                                    <!-- 태그가 있는 경우 -->
-                                    <div th:unless="${#lists.isEmpty(tags)}">
-                                        <div th:each="tag : ${tags}">
-                                            <span class="tag" th:text="'#' + ${tag.tagName}"></span>
-                                        </div>
+<!-- 태그-->
+                        <div class="post_tag_box">
+                            <div id="tag-container">
+                                <!-- 태그가 없는 경우 -->
+                                <div class="post_tag" th:if="${#lists.isEmpty(tags)}">
+                                    <p>태그가 없습니다.</p>
+                                </div>
+                                <!-- 태그가 있는 경우 -->
+                                <div th:unless="${#lists.isEmpty(tags)}">
+                                    <div class="post_tag" th:each="tag : ${tags}">
+                                        <p class="tag" th:text="'#' + ${tag.tagName}"></p>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                </div>
+<!--조회수와 좋아요-->
+                <div class="view_info">
+                    <div class="view_cnt">
+                     <img th:src="@{/img/Vector.svg}" alt="조회수">
+                        <p th:text="${postOne.postViews}">232</p>
+                    </div>
+                    <div class="like_cnt">
 
+                        <button class="like-btn" id="likeButton" th:classappend="${isLiked ? 'liked' : 'unliked'}"
+                            th:data-post-id="${postOne.postId}" th:title="${memId == 0 ? '로그인이 필요합니다.' : ''}">
+                            <img id="likeIcon" th:src="${isLiked ? '/img/pink-heart.svg' : '/img/gray-heart.svg'}"
+                                alt="좋아요 아이콘">
+                        </button>
 
-                    <div class="view_info">
-                        <div class="view_cnt">
-                            <!--                <img th:src="@{/img/Vector.svg}" alt="조회수">-->
-                            <p th:text="${postOne.postViews}">232</p>
-                        </div>
-                        <div class="like_cnt">
-                            <!--                <img th:src="@{/img/twemoji_growing-heart.svg}" alt="좋아요">-->
-                            <button class="like-btn" id="likeButton" th:classappend="${isLiked ? 'liked' : 'unliked'}"
-                                th:data-post-id="${postOne.postId}" th:text="${isLiked ? '좋아요 취소' : '좋아요'}"
-                                th:title="${memId == 0 ? '로그인이 필요합니다.' : ''}">
-                                좋아요
-                            </button>
-
-                            <p id="likeCount" th:text="${postOne.postLikeCnt}">11</p> <!-- 좋아요 수 동적으로 출력 -->
+                        <p id="likeCount" th:text="${postOne.postLikeCnt}">11</p> <!-- 좋아요 수 동적으로 출력 -->
+                    </div>
+                </div>
+                <div class="cut_line"></div>
+<!--댓글-->
+                <div class="comment">
+                    <div class="comment-section">
+                        <div class="comment-input-box">
+                            <textarea class="commentContent" id="commentContent" spellcheck="false"
+                                placeholder="댓글을 입력하세요"></textarea>
+                            <button id="submitCommentBtn">댓글 작성</button>
                         </div>
                     </div>
-
                     <div class="cut_line"></div>
+                    <h2>댓글 목록</h2>
 
-                    <div class="comment">
+                    <!-- 댓글 목록 -->
+                    <div id="comments-list">
+                        <div class="comment-item" th:data-id="${comment.commentId}" th:each="comment : ${comments}">
+                            <div class="comment-header">
+                                <div class="community_mem_info">
+<!--                                    <div class="community_mem_profile">-->
+<!--                                        <div th:if="${comment.memProfileFilePath == null}">-->
+<!--                                            <p th:text="${#strings.substring(comment.memNn, 0, 1)}"> 닉네임</p></div>-->
+<!--                                        <div th:if="${comment.memProfileFilePath != null}">-->
+<!--                                            <img alt="회원프로필이미지" th:src="${comment.memProfileFilePath}"></div>-->
+<!--                                    </div>-->
 
-                        <!--                        <h2>댓글 목록</h2>-->
-
-                        <!-- 댓글 목록 -->
-                        <div id="comments-list">
-                            <div class="comment-item" th:data-id="${comment.commentId}" th:each="comment : ${comments}">
-                                <div class="comment-header">
-                                    <div class="comment-author" th:text="${comment.memNn}">작성자 닉네임</div>
-                                    <div class="comment-time">
-                                        <span th:if="${comment.commentUpdatedAt == null}"
-                                            th:text="${#dates.format(comment.commentRegAt, 'yyyy-MM-dd')}"
-                                            class="time-right">작성시간</span>
-                                        <span th:if="${comment.commentUpdatedAt != null}"
-                                            th:text="${#dates.format(comment.commentUpdatedAt, 'yyyy-MM-dd')}"
-                                            class="time-right">수정시간</span>
+                                    <div class="community_mem_nickname">
+                                        <p th:text="${comment.memNn}">화가난_김태희_149314</p>
                                     </div>
                                 </div>
-                                <!-- 댓글 본문 -->
-                                <div class="comment-body">
-                                    <p th:text="${comment.content}">댓글내용</p>
-                                </div>
-                                <div class="comment-actions">
-                                    <button class="edit-btn" th:data-id="${comment.commentId}">수정</button>
-                                    <button class="delete-btn" th:data-id="${comment.commentId}">삭제</button>
-                                    <button class="reply-btn" th:data-id="${comment.commentId}">답글</button>
-                                </div>
-                                <!-- 대댓글 목록 -->
-                                <div class="replies" th:each="reply : ${comment.replies}"
-                                    th:data-id="${reply.commentId}">
-                                    <div class="reply-item">
-                                        <!-- 대댓글 헤더 -->
-                                        <div class="reply-header">
-                                            <div class="reply-author" th:text="${reply.author}">대댓글 작성자</div>
-                                            <div class="reply-time time-right">
-                                                <span th:if="${reply.commentUpdatedAt == null}"
-                                                    th:text="${#dates.format(reply.commentRegAt, 'yyyy-MM-dd')}">작성시간</span>
-                                                <span th:if="${reply.commentUpdatedAt != null}"
-                                                    th:text="${#dates.format(reply.commentUpdatedAt, 'yyyy-MM-dd')}">수정시간</span>
-                                            </div>
-                                        </div>
-                                        <!-- 대댓글 본문 -->
-                                        <div class="reply-body">
-                                            <p th:text="${reply.content}"></p>
-                                        </div>
-                                        <!-- 대댓글 액션 -->
-                                        <div class="reply-actions">
-                                            <button class="edit-reply-btn" th:data-id="${reply.commentId}">수정</button>
-                                            <button class="delete-reply-btn" th:data-id="${reply.commentId}">삭제</button>
-                                        </div>
-                                    </div>
+<!--                                <div class="comment-author" th:text="${comment.memNn}">작성자 닉네임</div>-->
+                                <div class="comment-time">
+                                    <span th:if="${comment.commentUpdatedAt == null}"
+                                        th:text="${#dates.format(comment.commentRegAt, 'yyyy-MM-dd')}"
+                                        class="time-right">작성시간</span>
+                                    <span th:if="${comment.commentUpdatedAt != null}"
+                                        th:text="${#dates.format(comment.commentUpdatedAt, 'yyyy-MM-dd')}"
+                                        class="time-right">수정시간</span>
                                 </div>
                             </div>
-                        </div>
-                        <div class="cut_line"></div>
-                        <div class="comment-section">
-                            <!-- 댓글 입력 폼 -->
-                            <div class="comment-input-box">
-                                <textarea id="commentContent" placeholder="댓글을 입력하세요"></textarea>
-                                <button id="submitCommentBtn">댓글 작성</button>
+                            <!-- 댓글 본문 -->
+                            <div class="comment-body">
+                                <p th:text="${comment.content}">댓글내용</p>
+                            </div>
+                            <div class="comment-actions">
+                                <button class="edit-btn" th:if="${comment.memId == memId}"
+                                    th:data-id="${comment.commentId}">수정</button>
+                                <button class="delete-btn" th:if="${comment.memId == memId}"
+                                    th:data-id="${comment.commentId}">삭제</button>
+                                <button class="reply-btn" th:data-id="${comment.commentId}">답글</button>
                             </div>
                         </div>
                     </div>
-                </section>
-            </div>
-        </body>
+                </div>
+            </section>
+        </div>
+
     </div>
 </body>
 </div>

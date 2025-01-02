@@ -2,14 +2,14 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
     <title>Title</title>
-    <link rel="stylesheet" href="/css/postAllListCss.css">
+    <link href="/css/postAllListCss.css" rel="stylesheet">
 </head>
 <body>
 
-<div th:fragment="headerFragment" xmlns:sec="http://www.w3.org/1999/xhtml" xmlns:th="http://www.w3.org/1999/xhtml">
+<div th:fragment="headerFragment" xmlns:th="http://www.w3.org/1999/xhtml">
     <div th:replace="~{fragments/header :: headerFragment}"></div>
-
 
 
     <section class="community_main">
@@ -17,7 +17,7 @@
             <div class="community_header">
                 <div class="community_search">
                     <h2>커뮤니티</h2>
-                    <img th:src="@{/img/search.svg}" alt="검색">
+                    <img alt="검색" th:src="@{/img/search.svg}">
                 </div>
                 <div class="community_search_infoBox">
                     <p>검색어를 입력하세요</p>
@@ -58,7 +58,8 @@
                             </a>
                         </div>
                         <div class="community_imgbox">
-                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQF5muH6piXfKA2yUyMkJwm0mJq6O4lU-1mFA&s" alt="게시글썸네일">
+                            <img alt="게시글썸네일"
+                                 src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQF5muH6piXfKA2yUyMkJwm0mJq6O4lU-1mFA&s">
                         </div>
                     </div>
                     <div class="cut_line"></div>
@@ -79,13 +80,13 @@
 
             <div class="tag_top">
                 <div class="aside_header">인기태그 TOP 7</div>
-                    <div class="tag">
-                        <div class="tag_list">
-                       <ul>
-                        <th:block th:each="tag : ${topTags}">
-                            <li th:text="'#' + ${tag}"></li>
-                        </th:block>
-                       </ul>
+                <div class="tag">
+                    <div class="tag_list">
+                        <ul>
+                            <th:block th:each="tag : ${topTags}">
+                                <li th:text="'#' + ${tag}"></li>
+                            </th:block>
+                        </ul>
                     </div>
                 </div>
             </div>
@@ -94,12 +95,13 @@
                 <div class="aside_header">유저랭킹 TOP 7</div>
                 <div class="ranking_list" th:each="topSevenMem : ${topSevenMem}">
                     <div class="tag_icon">
-                        <img th:src="@{/img/tag_icon.svg}" alt="#">
+                        <img alt="#" th:src="@{/img/tag_icon.svg}">
                     </div>
                     <ul>
                         <li>
                             <span th:text="${topSevenMem.memId}"></span>
-                            <a th:href="@{/postOneMember/{memId}(memId=${topSevenMem.memId})}" th:text="${topSevenMem.mem_nn}">유저 게시글 보기</a>
+                            <a th:href="@{/postOneMember/{memId}(memId=${topSevenMem.memId})}"
+                               th:text="${topSevenMem.mem_nn}">유저 게시글 보기</a>
                         </li>
                     </ul>
                 </div>

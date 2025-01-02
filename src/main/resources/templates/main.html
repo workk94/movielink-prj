@@ -10,10 +10,12 @@
 <body>
 <div class="root">
     <div th:replace="~{fragments/header :: headerFragment}"></div>
-    <!--    실시간 동접자-->
-    <!--    <div class="active-user-display">-->
-    <!--        현재 활성 사용자 수: <span th:text="${activeUserCount}">0</span>-->
-    <!--    </div>-->
+    <!-- 활성 사용자 수를 표시하려면 주석을 해제하세요 -->
+    <!--
+    <div class="active-user-display">
+        현재 활성 사용자 수: <span id="activeUserCount">0</span>
+    </div>
+    -->
 
 
     <!-- 팝업 오버레이: latestNotice가 존재할 때만 표시 -->
@@ -28,7 +30,6 @@
             </div>
         </div>
     </div>
-
 
     <div class="main-content">
         <section class="rank-wrap">
@@ -51,7 +52,6 @@
                                         <img alt=""
                                              th:src="@{'/img/chart_number_' + (${iterStat.index} + 1) + '.svg'}"/>
                                     </div>
-
 
                                     <div class="info-poster">
                                         <img alt="" th:src="${movie.moviePosterUrl}"/>
@@ -91,7 +91,6 @@
                                        th:text="${review != null ? review.movieNm : '영화 제목 없음'}">영화 제목</p>
                                     <p class="review-item__review-title"
                                        th:text="${review != null ? review.reviewContent : '리뷰 내용 없음'}">
-
                                     </p>
                                     <div class="review-item__user">
                                         <span class="rating red"
@@ -129,7 +128,6 @@
             </div>
         </section>
 
-
         <section class="recommend-wrap">
             <div class="title-wrap">
                 <a class="title" th:href="@{/}">
@@ -146,12 +144,13 @@
                         <div class="swiper-wrapper">
                             <!-- 추천 영화 아이템 반복 -->
                             <div class="swiper-slide" th:each="movie : ${recommendedMovies}">
-                                <!-- movie이 null이 아닌지 확인 -->
                                 <div class="movie-item" th:if="${movie != null}">
-                                    <img alt="영화 포스터"
-                                         class="movie-poster"
-                                         th:src="${movie.moviePosterUrl}"/>
-                                    <p class="movie-title" th:text="${movie.movieNm}">영화 제목</p>
+                                    <a th:href="@{/title/{id}(id=${movie.movieId})}">
+                                        <img alt="영화 포스터"
+                                             class="movie-poster"
+                                             th:src="${movie.moviePosterUrl}"/>
+                                        <p class="movie-title" th:text="${movie.movieNm}">영화 제목</p>
+                                    </a>
                                 </div>
                                 <!-- movie이 null일 경우 대체 콘텐츠 -->
                                 <div class="movie-item" th:if="${movie == null}">
@@ -171,20 +170,21 @@
             </div>
         </section>
 
-
-                <section class="ost-wrap">
-                    <div class="title-wrap">
-                        <a class="title" th:href="@{/}">
-                            <span>영화 OST 랜덤 추천!</span>
-                            <div class="arrow-img">
-                                <img alt="" th:src="@{/img/arrow-right.svg}"/>
-                            </div>
-                        </a>
+        <section class="ost-wrap">
+            <div class="title-wrap">
+                <a class="title" th:href="@{/}">
+                    <span>영화 OST 랜덤 추천!</span>
+                    <div class="arrow-img">
+                        <img alt="" th:src="@{/img/arrow-right.svg}"/>
                     </div>
+                </a>
             </div>
             <div class="ost-container">
                 <div class="ost-content">
-                    <iframe id="randomOstPlayer" src="" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    <iframe allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen frameborder="0"
+                            id="randomOstPlayer"
+                            src=""></iframe>
                 </div>
                 <div class="random-button">
                     <button id="randomButton">
@@ -194,111 +194,112 @@
                 </div>
             </div>
         </section>
-
-                   
     </div>
 </div>
 <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-       // 리뷰 Swiper 초기화
-       const reviewsSwiper = new Swiper(".reviews-swiper", {
-           slidesPerView: 2,
-           spaceBetween: 12,
-           loop: false,
-           navigation: {
-               nextEl: ".swiper-button-next",
-               prevEl: ".swiper-button-prev",
-           },
-           pagination: {
-               el: ".swiper-pagination",
-               clickable: true,
-           },
-           breakpoints: {
-               450: {
-                   slidesPerView: 1,
-                   spaceBetween: 16,
-               },
-               700: {
-                   slidesPerView: 3,
-                   spaceBetween: 16,
-               },
-           },
-       });
+        // 리뷰 Swiper 초기화
+        const reviewsSwiper = new Swiper(".reviews-swiper", {
+            slidesPerView: 2,
+            spaceBetween: 12,
+            loop: false,
+            navigation: {
+                nextEl: ".swiper-button-next",
+                prevEl: ".swiper-button-prev",
+            },
+            pagination: {
+                el: ".swiper-pagination",
+                clickable: true,
+            },
+            breakpoints: {
+                450: {
+                    slidesPerView: 1,
+                    spaceBetween: 16,
+                },
+                700: {
+                    slidesPerView: 3,
+                    spaceBetween: 16,
+                },
+            },
+        });
 
-       // 추천 Swiper 초기화
-       const recommendSwiper = new Swiper(".recommend-swiper", {
-           slidesPerView: 3,
-           spaceBetween: 16, // CSS와 일치
-           loop: false,
+        // 추천 Swiper 초기화
+        const recommendSwiper = new Swiper(".recommend-swiper", {
+            slidesPerView: 3,
+            spaceBetween: 16, // CSS와 일치
+            loop: false,
 
-           pagination: {
-               el: ".recommend-swiper .swiper-pagination",
-               clickable: true,
-           },
-           breakpoints: {
-               768: {
-                   slidesPerView: 3,
-                   spaceBetween: 16,
-               },
-               1024: {
-                   slidesPerView: 4,
-                   spaceBetween: 16,
-               },
-           },
-       });
+            pagination: {
+                el: ".recommend-swiper .swiper-pagination",
+                clickable: true,
+            },
+            breakpoints: {
+                768: {
+                    slidesPerView: 3,
+                    spaceBetween: 16,
+                },
+                1024: {
+                    slidesPerView: 4,
+                    spaceBetween: 16,
+                },
+            },
+        });
 
-       // 팝업을 보여줄지 여부를 확인하는 함수
-       function shouldShowPopup() {
-           const hidePopup = localStorage.getItem('hideNoticePopup');
-           if (hidePopup) {
-               const hideUntil = new Date(hidePopup);
-               const now = new Date();
-               return now > hideUntil;
-           }
-           return true;
-       }
+        // 팝업을 보여줄지 여부를 확인하는 함수
+        function shouldShowPopup() {
+            const hidePopup = localStorage.getItem('hideNoticePopup');
+            if (hidePopup) {
+                const hideUntil = new Date(hidePopup);
+                const now = new Date();
+                return now > hideUntil;
+            }
+            return true;
+        }
 
-       /* Thymeleaf 인라인 자바스크립트로 hasNotice 변수 설정 */
-       var hasNotice = [[${latestNotice != null}]];
+        /* Thymeleaf 인라인 자바스크립트로 hasNotice 변수 설정 */
+        var hasNotice = [[${latestNotice != null}]];
 
-       // 최신 공지가 있고 팝업을 보여줘야 하는지 확인
-       if (hasNotice && shouldShowPopup()) {
-           var popup = document.getElementById('noticePopup');
-           popup.style.display = 'flex';
-       }
+        // 최신 공지가 있고 팝업을 보여줘야 하는지 확인
+        if (hasNotice && shouldShowPopup()) {
+            var popup = document.getElementById('noticePopup');
+            popup.style.display = 'flex';
+        }
 
-       // 팝업 닫기 핸들러
-       document.getElementById('closePopup').addEventListener('click', function () {
-           var popup = document.getElementById('noticePopup');
-           popup.style.display = 'none';
-       });
+        // 팝업 닫기 핸들러
+        document.getElementById('closePopup').addEventListener('click', function () {
+            var popup = document.getElementById('noticePopup');
+            popup.style.display = 'none';
+        });
 
-       // "오늘 하루 보지 않기" 체크박스 핸들러
-       document.getElementById('doNotShowToday').addEventListener('change', function (e) {
-           if (e.target.checked) {
-               const hideUntil = new Date();
-               hideUntil.setHours(hideUntil.getHours() + 24);
-               localStorage.setItem('hideNoticePopup', hideUntil);
-           }
-       });
+        // "오늘 하루 보지 않기" 체크박스 핸들러
+        document.getElementById('doNotShowToday').addEventListener('change', function (e) {
+            if (e.target.checked) {
+                const hideUntil = new Date();
+                hideUntil.setHours(hideUntil.getHours() + 24);
+                localStorage.setItem('hideNoticePopup', hideUntil);
+            }
+        });
 
-       // 활성 사용자 수를 업데이트하는 함수
-       function updateActiveUserCount() {
-           fetch('/active-user-count') // 활성 사용자 수를 반환하는 엔드포인트
-               .then(response => response.json())
-               .then(data => {
-                   document.getElementById('activeUserCount').innerText = data.activeUserCount;
-               })
-               .catch(error => console.error('Error fetching active user count:', error));
-       }
+        // 활성 사용자 수를 업데이트하는 함수
+        function updateActiveUserCount() {
+            fetch('/active-user-count') // 활성 사용자 수를 반환하는 엔드포인트
+                .then(response => response.json())
+                .then(data => {
+                    const activeUserElement = document.querySelector('.active-user-display span');
+                    if (activeUserElement) {
+                        activeUserElement.innerText = data.activeUserCount;
+                    }
+                })
+                .catch(error => console.error('Error fetching active user count:', error));
+        }
 
-       // 초기 활성 사용자 수 로드
-       updateActiveUserCount();
+        // 초기 활성 사용자 수 로드
+        updateActiveUserCount();
 
-       // 10초마다 활성 사용자 수 업데이트
-       setInterval(updateActiveUserCount, 10000);
-   });
+        // 10초마다 활성 사용자 수 업데이트
+        setInterval(updateActiveUserCount, 10000);
+    });
 </script>
 <script th:inline="javascript">
     /*<![CDATA[*/

@@ -2,6 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
     <title>오류 발생</title>
     <style>
         body {
@@ -38,7 +39,7 @@
 <body>
 <div>
     <p th:text="${error}">오류 메시지</p>
-    <img th:src="@{/img/error.png}" alt="오류 이미지" />
+    <img alt="오류 이미지" th:src="@{/img/error.png}"/>
     <p><a th:href="@{/}">메인으로</a></p>
 </div>
 </body>
