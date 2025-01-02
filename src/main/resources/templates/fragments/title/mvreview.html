@@ -307,7 +307,7 @@
     </div>
 
     <!-- 내가 남긴 리뷰 표시 -->
-    <div class="mvreview-wrote" th:data-review-id="${userReview != null ? userReview.reviewId : '-'}"
+    <div class="mvreview-wrote" th:data-review-id="${userReview != null ? userReview.reviewId : ''}"
       id="mvreview-wrote" th:classappend="${!reviewExists} ? 'hidden' : ''">
       <div class="wrote-rating">
         <div>내 별점 평가</div>
@@ -331,12 +331,12 @@
     <div class="mvreview-userReview">
       <h4>모든 리뷰</h4>
 
-      <ul class="userReview-tab">
-        <li>인기 많은 순</li>
-        <li>최근 작성 순</li>
-        <li>평가 높은 순</li>
-        <li>평가 낮은 순</li>
-      </ul>
+<!--      <ul class="userReview-tab">-->
+<!--        <li>인기 많은 순</li>-->
+<!--        <li>최근 작성 순</li>-->
+<!--        <li>평가 높은 순</li>-->
+<!--        <li>평가 낮은 순</li>-->
+<!--      </ul>-->
 
       <div class="userReview-list" th:each="review : ${reviews}">
         <div class="list-users">
@@ -441,6 +441,9 @@
         const reviewContent = reviewContentElement.value.trim();
         const reviewId = wroteContainer.dataset.reviewId || null;
 
+           console.log(   "reviewId" );
+           console.log(  reviewId );
+
         if (!reviewContent) {
           alert("리뷰 내용을 입력해주세요.");
           return;
@@ -464,6 +467,10 @@
             }),
           });
 
+
+          console.log( "response" +  response) ;
+
+       console.log(    response) ;
           if (response.ok) {
             alert("리뷰가 성공적으로 저장되었습니다!");
             location.reload();
