@@ -25,9 +25,6 @@ public class MovieReviewService {
 
     // 리뷰 수정
     public void updateReview(Integer reviewId, String reviewContent, double reviewRating) {
-        if (reviewId == null) {
-            throw new IllegalArgumentException("리뷰 ID가 null입니다.");
-        }
 
         movieReviewMapper.updateReview(reviewId, reviewContent, reviewRating);
     }

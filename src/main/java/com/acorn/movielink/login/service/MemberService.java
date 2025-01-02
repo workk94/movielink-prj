@@ -198,7 +198,7 @@ public class MemberService {
         String newFileName = "profile_" + memId + "_" + System.currentTimeMillis() + "." + fileExtension;
 
         // 파일 저장 경로 설정
-        Path uploadPath = Paths.get(uploadDir + "profile-images/");
+        Path uploadPath = Paths.get(uploadDir + "/profile-images/");
         if (!Files.exists(uploadPath)) {
             Files.createDirectories(uploadPath);
         }

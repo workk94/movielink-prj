@@ -40,7 +40,7 @@ public class PostImageService {
         PostImageDTO thumbnail = postImageMapper.selectPostImage(postId);
         if (thumbnail != null) {
             return thumbnail.getFilePath()
-                    .replace("c:/test/upload/post-images", "/upload/post-images")
+                    .replace("/app/upload/post-images", "/upload/post-images")
                     + thumbnail.getStoredFileNm();
         }
         return null;
