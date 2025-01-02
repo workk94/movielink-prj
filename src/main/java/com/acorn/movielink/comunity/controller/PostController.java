@@ -94,15 +94,18 @@ public class PostController {
     // 게시글 상세조회
     @GetMapping("/postDetail/{postId}")
     public String getPostOne(@PathVariable(name = "postId") int postId,
-                             Model model,
-                             HttpSession httpSession){
-        Integer memId = (Integer) httpSession.getAttribute("memId");
+                             Model model){
+        //Integer memId = (Integer) httpSession.getAttribute("memId");
+
         boolean isLiked = false;
-        if(memId != null){
-            isLiked = likeService.isLikedByUser(postId, memId);
-        }else {
-            memId = 0; // 또는 다른 기본값 설정
-        }
+
+
+//        if(memId != null){
+//            isLiked = likeService.isLikedByUser(postId, memId);
+//        }else {
+//            memId = 0; // 또는 다른 기본값 설정
+//        }
+
         // 게시글 조회
         PostDTO postOne = postService.selectPostById(postId);
 
@@ -111,21 +114,27 @@ public class PostController {
 
         // 댓글 조회
         List<CommentDTO> comments = commentService.getCommentsByPostId(postId);
+
+        // 게시글 사진조회
+        PostDTO dto = postService.selectPostById(postId);
+        String thumbnail = null;
+        if(dto != null) {
+            thumbnail = dto.getThumbnailUrl();
+        }
+
         // 게시글 상세 페이지에 댓글 개수도 전달
         int commentCount = commentService.getCommentCountByPostId(postId);
         model.addAttribute("commentCount", commentCount);
+
         // 모델에 데이터 추가
         model.addAttribute("tags", tagNames);
         model.addAttribute("postOne", postOne);
         model.addAttribute("isLiked", isLiked);  // 좋아요 상태 (로그인 여부에 따라)
-        model.addAttribute("memId", memId);  // 로그인한 사용자의 ID (로그인하지 않은 경우 null)
+//        model.addAttribute("memId", memId);  // 로그인한 사용자의 ID (로그인하지 않은 경우 null)
         model.addAttribute("comments", comments); // 댓글과 대댓글 리스트 추가
 
-
-        // 디버깅 출력
-        //System.out.println("해당게시글의 태그는 " + tagNames);
-        //System.out.println("해당게시글의 id는 " + postOne.getPostId());
-        //System.out.println("세션 memId: " + memId);
+        // 게시글 썸네일
+        model.addAttribute("thumbnail", thumbnail);
 
         return "postOneDetail";
     }

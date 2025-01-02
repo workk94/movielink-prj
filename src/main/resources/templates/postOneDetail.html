@@ -533,6 +533,9 @@
                         <div class="post_title">
                             <p th:text="${postOne.postTitle}">드라마 시사회</p>
                         </div>
+                        <div th:if="${thumbnail!= null}" class="post_thumbnail">
+                            <img th:src="${thumbnail}" alt="게시글 썸네일">
+                        </div>
 
                         <div class="post_info_box">
                             <div class="post_info">
