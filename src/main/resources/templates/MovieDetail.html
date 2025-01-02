@@ -3,11 +3,13 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
     <title>Movie Details</title>
-    <meta name="_csrf" th:content="${_csrf.token}"/>
-    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
-    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+    <meta name="_csrf" th:content="${_csrf.token}" />
+    <meta name="_csrf_header" th:content="${_csrf.headerName}" />
+    <meta name="_csrf" th:content="${_csrf.token}" />
+    <meta name="_csrf_header" th:content="${_csrf.headerName}" />
+
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
 
     <style>
         * {
@@ -15,49 +17,49 @@
             font-size: 14px;
             color: #efefef;
         }
-        
-        .sub-font5{
-            font-size: 12px; 
+
+        .sub-font5 {
+            font-size: 12px;
             color: #586a85;
         }
 
-        .sub-font7{
+        .sub-font7 {
             color: #bdc6d5;
         }
 
-        .spec-font{
+        .spec-font {
             color: #637dea;
         }
 
-        .list-title{
+        .list-title {
             color: #98a4b7;
         }
 
-        .list-body{
-          color: #d4d9e1;
+        .list-body {
+            color: #d4d9e1;
         }
-        
-        h1{
+
+        h1 {
             font-size: 32px;
         }
 
-        h2{
+        h2 {
             font-size: 24px;
         }
 
-        h3{
+        h3 {
             font-size: 19px;
         }
 
-        h4{
+        h4 {
             font-size: 16px;
         }
 
-        h5{
+        h5 {
             font-size: 12px;
         }
 
-        h6{
+        h6 {
             font-size: 10px;
         }
 
@@ -71,24 +73,24 @@
             cursor: pointer;
         }
 
-        img{
-          width: 100%;
-          height: 100%;
-          justify-content: center;
-          align-content: center;
+        img {
+            width: 100%;
+            height: 100%;
+            justify-content: center;
+            align-content: center;
         }
 
-        .icon2{
+        .icon2 {
             width: 24px;
             height: 24px;
         }
 
-        .icon3{
+        .icon3 {
             width: 19px;
             height: 19px;
         }
 
-       
+
         .content-section {
             display: none;
         }
@@ -180,14 +182,13 @@
             border-radius: 8px;
         }
 
-        .title-button {
+        .button-likes {
             display: flex;
             justify-content: center;
             padding: 16px 0;
         }
 
-         /* 스타일은 이전 내용 그대로 유지 */
-        .button-likes {
+        .like-button {
             height: 48px;
             width: 330px;
             border-radius: 30px;
@@ -201,25 +202,23 @@
             gap: 8px;
         }
 
-        .button-likes.filled {
-            border: 2px solid #637dea;
-            font-weight: bold;
-        }
-
         .heart {
             width: 22px;
             height: 22px;
         }
 
-        .heart-path {
-            fill: none;
-            stroke: #efefef;
+        .like-button.filled {
+            border: 2px solid #637dea;
+            /* 좋아요 상태의 테두리 색 */
+            font-weight: bold;
         }
 
         .heart.filled .heart-path {
-            fill: #efefef;
-            stroke: #efefef;
+            fill: #637dea;
+            /* 좋아요 상태의 하트 색 */
+            stroke: #637dea;
         }
+
 
         /*scroll-top*/
         .scroll-top {
@@ -269,134 +268,182 @@
     </style>
 </head>
 
-<body>
+<body th:data-logged-in="${isLoggedIn}">
 
-<div class="root">
-    <!-- 헤더 -->
-    <div th:replace="~{fragments/header :: headerFragment}"></div>
+    <div class="root">
+        <!-- 헤더 -->
+        <div th:replace="~{fragments/header :: headerFragment}"></div>
 
-    <!-- Content 영역 -->
-    <div class="movie-title">
-        <div class="title-content">
-            <div class="content-info">
-                <div class="info-title">
-                    <h3 th:text="${movie.movieNm ?: '-'}">영화 제목</h3>
-                    <span class="list-title" th:text="${movie.movieNmEn ?: '-'}">영화 제목(영문)</span>
-                </div>
-                <div class="info-rating">
+        <!-- Content 영역 -->
+        <div class="movie-title">
+            <div class="title-content">
+                <div class="content-info">
+                    <div class="info-title">
+                        <h3 th:text="${movie.movieNm ?: '-'}">영화 제목</h3>
+                        <span class="list-title" th:text="${movie.movieNmEn ?: '-'}">영화 제목(영문)</span>
+                    </div>
+                    <div class="info-rating">
                         <span class="rating-ours">
-                            <img alt="" class="icon2" src="">
+                            <img class="icon2" src="/img/cine_link_logo.svg" alt="outrating">
                             <h3 th:text="${movie.combinedScore ?: '-'}">자체평점</h3>
                         </span>
-                    <ul class="rating-otts">
-                        <li>
-                            <img alt="imdb" class="icon3" src="/img/ic-imdb.svg">
-                            <p th:text="${movie.movieImdbScore ?: '-'}">IMDB 평점</p>
-                        </li>
-                        <li>
-                            <img alt="tmdb" class="icon3" src="/img/ic-tmdb.svg">
-                            <p th:text="${movie.movieTMDBScore ?: '-'}">TMDB 평점</p>
-                        </li>
-                    </ul>
+                        <ul class="rating-otts">
+                            <li>
+                                <img class="icon3" src="/img/ic-imdb.svg" alt="imdb">
+                                <p th:text="${movie.movieImdbScore ?: '-'}">IMDB 평점</p>
+                            </li>
+                            <li>
+                                <img class="icon3" src="/img/ic-tmdb.svg" alt="tmdb">
+                                <p th:text="${movie.movieTMDBScore ?: '-'}">TMDB 평점</p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="content-trailer">
+                    <iframe th:src="${movie.movieTrailerUrl}" width="100%" height="100%" frameborder="0"
+                        allowfullscreen></iframe>
                 </div>
             </div>
-            <div class="content-trailer">
-                <iframe allowfullscreen frameborder="0" height="100%" th:src="${movie.movieTrailerUrl}"
-                        width="100%"></iframe>
+
+            <!-- 좋아요 버튼 -->
+            <div class="button-likes" th:data-movie-id="${movie.movieId}">
+                <button class="like-button" th:classappend="${isLiked} ? ' filled' : ''">
+                    <svg class="heart" fill="none" height="22" viewBox="0 0 24 24" width="22"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path class="heart-path" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5
+                   2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09
+                   C13.09 3.81 14.76 3 16.5 3
+                   19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" fill="none" stroke="#bdc6d5"
+                            stroke-width="2" />
+                    </svg>
+                    <p class="like-count">[[${likeCount}]]</p>
+                </button>
+            </div>
+
+        </div>
+
+        <!-- 탭 -->
+        <div class="tabs">
+            <div class="tab" th:classappend="${tab == 'mvinfo' ? 'active' : ''}"
+                onclick="window.location.href='?tab=mvinfo'">작품 정보</div>
+            <div class="tab" th:classappend="${tab == 'mvreview' ? 'active' : ''}"
+                onclick="window.location.href='?tab=mvreview'">리뷰</div>
+            <div class="tab" th:classappend="${tab == 'community' ? 'active' : ''}"
+                onclick="window.location.href='?tab=community'">커뮤니티</div>
+        </div>
+
+        <!-- 탭 콘텐츠 -->
+        <div th:switch="${tab}">
+            <div th:case="'mvinfo'" class="content-section active">
+                <div th:replace="~{fragments/title/mvinfo :: content}"></div>
+            </div>
+            <div th:case="'mvreview'" class="content-section active">
+                <div th:replace="~{fragments/title/mvreview :: content}"></div>
+            </div>
+            <div th:case="'community'" class="content-section active">
+                <div th:replace="~{fragments/title/community :: content}"></div>
             </div>
         </div>
 
-        <!-- 좋아요 버튼 -->
-        <div class="title-button">
-            <button class="button-likes" id="likeButton"
-                    th:classappend="${isLiked} ? 'filled' : ''"
-                    th:onclick="'toggleLike(' + ${movie.movieId} + ')'">
-                <svg class="heart" viewBox="0 0 24 24">
-                    <path class="heart-path"
-                          d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"></path>
+        <!-- 스크롤 탑 버튼 -->
+        <div class="scroll-top">
+            <button>
+                <svg class="scroll-up-icon" viewBox="0 0 32 32">
+                    <path fill-rule="evenodd" clip-rule="evenodd"
+                        d="M15.9054 26.376C15.1257 26.376 14.4937 25.7439 14.4937 24.9642V9.64711L9.40984 14.7309C8.85851 15.2823 7.96463 15.2823 7.4133 14.7309C6.86198 14.1796 6.86197 13.2857 7.4133 12.7344L14.7339 5.41375C14.959 5.18865 15.2412 5.05545 15.5339 5.01417C15.9582 4.9542 16.4045 5.08738 16.7309 5.4137L24.0515 12.7343C24.6028 13.2857 24.6028 14.1795 24.0515 14.7309C23.5002 15.2822 22.6063 15.2822 22.055 14.7309L17.3172 9.9931V24.9642C17.3172 25.7439 16.6851 26.376 15.9054 26.376Z"
+                        fill="#98A4B7"></path>
                 </svg>
-                <span id="likeText" th:text="${isLiked} ? '좋아요 취소' : '좋아요'">좋아요</span>
             </button>
         </div>
 
     </div>
 
-    <!-- 탭 -->
-    <div class="tabs">
-        <div class="tab" onclick="window.location.href='?tab=mvinfo'"
-             th:classappend="${tab == 'mvinfo' ? 'active' : ''}">작품 정보
-        </div>
-        <div class="tab" onclick="window.location.href='?tab=mvreview'"
-             th:classappend="${tab == 'mvreview' ? 'active' : ''}">리뷰
-        </div>
-        <div class="tab" onclick="window.location.href='?tab=community'"
-             th:classappend="${tab == 'community' ? 'active' : ''}">커뮤니티
-        </div>
-    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
 
-    <!-- 탭 콘텐츠 -->
-    <div th:switch="${tab}">
-        <div class="content-section active" th:case="'mvinfo'">
-            <div th:replace="fragments/title/mvinfo :: content"></div>
-        </div>
-        <div class="content-section active" th:case="'mvreview'">
-            <div th:replace="fragments/title/mvreview :: content"></div>
-        </div>
-        <div class="content-section active" th:case="'community'">
-            <div th:replace="fragments/title/community :: content"></div>
-        </div>
-    </div>
+            // CSRF 토큰 설정
+            const csrfToken = $('meta[name="_csrf"]').attr('content');
+            const csrfHeader = $('meta[name="_csrf_header"]').attr('content');
 
-    <!-- 스크롤 탑 버튼 -->
-    <div class="scroll-top">
-        <button>
-            <svg class="scroll-up-icon" viewBox="0 0 32 32">
-                <path clip-rule="evenodd" d="M15.9054 26.376C15.1257 26.376 14.4937 25.7439 14.4937 24.9642V9.64711L9.40984 14.7309C8.85851 15.2823 7.96463 15.2823 7.4133 14.7309C6.86198 14.1796 6.86197 13.2857 7.4133 12.7344L14.7339 5.41375C14.959 5.18865 15.2412 5.05545 15.5339 5.01417C15.9582 4.9542 16.4045 5.08738 16.7309 5.4137L24.0515 12.7343C24.6028 13.2857 24.6028 14.1795 24.0515 14.7309C23.5002 15.2822 22.6063 15.2822 22.055 14.7309L17.3172 9.9931V24.9642C17.3172 25.7439 16.6851 26.376 15.9054 26.376Z"
-                      fill="#98A4B7"
-                      fill-rule="evenodd"></path>
-            </svg>
-        </button>
-    </div>
-
-</div>
-
-<script>
-    function toggleLike(movieId) {
-        const likeButton = document.getElementById('likeButton');
-        const likeCountSpan = document.getElementById('likeCount');
-        const likeText = document.getElementById('likeText');
-        const isLiked = likeButton.classList.contains('filled');
-        const url = `/title/${movieId}/like`;
-        const method = isLiked ? 'DELETE' : 'POST';
-
-        fetch(url, {
-            method: method,
-            headers: { 'Content-Type': 'application/json' },
-        })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('좋아요 처리 중 오류가 발생했습니다.');
+            $.ajaxSetup({
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader(csrfHeader, csrfToken);
                 }
-                return response.json();
-            })
-            .then(newLikeCount => {
-                // 버튼 상태 업데이트
-                if (isLiked) {
-                    likeButton.classList.remove('filled');
-                    likeText.textContent = '좋아요';
-                } else {
-                    likeButton.classList.add('filled');
-                    likeText.textContent = '좋아요 취소';
-                }
-                // 좋아요 수 업데이트
-                likeCountSpan.textContent = newLikeCount;
-            })
-            .catch(error => {
-                console.error('Error:', error.message);
-                alert(error.message);
             });
-    }
-</script>
+
+            // 로그인 여부 확인
+            const isLoggedIn = document.querySelector("body").dataset.loggedIn === "true";
+            console.log("로그인 여부:", isLoggedIn); // 콘솔에 값 출력
+
+            $('.button-likes > button').on('click', function () {
+                if (!isLoggedIn) {
+                    alert("로그인하고 모든 기능을 자유롭게 이용해보세요!");
+                    window.location.href = "/login?redirectUrl=" + encodeURIComponent(window.location.href);
+                    return;
+                }
+
+                const button = $(this);
+                const movieId = button.closest('.button-likes').data('movie-id');
+                const isLiked = button.hasClass('filled');
+
+                if (isLiked) {
+                    // 좋아요 취소
+                    $.ajax({
+                        url: `/title/${movieId}/like`,
+                        type: 'DELETE',
+                        success: function (response) {
+                            button.removeClass('filled');
+                            button.find('.heart').removeClass('filled');
+                            updateLikeCount(button, response);
+                        },
+                        error: handleError
+                    });
+                } else {
+                    // 좋아요 추가
+                    $.ajax({
+                        url: `/title/${movieId}/like`,
+                        type: 'POST',
+                        success: function (response) {
+                            button.addClass('filled');
+                            button.find('.heart').addClass('filled');
+                            updateLikeCount(button, response);
+                        },
+                        error: handleError
+                    });
+                }
+            });
+
+            // 좋아요 수 업데이트 함수
+            function updateLikeCount(button, count) {
+                const likeCountElement = button.closest('.button-likes').find('.like-count');
+                if (likeCountElement.length) {
+                    likeCountElement.text(count);
+                }
+            }
+
+            // 오류 처리 함수
+            function handleError(xhr) {
+                console.error("오류 발생:", xhr.status, xhr.responseText);
+                alert("오류가 발생했습니다. 다시 시도해주세요.");
+            }
+
+            // 스크롤 탑 버튼 기능
+            const scrollTopButton = $(".scroll-top");
+            $(window).on('scroll', function () {
+                if ($(this).scrollTop() > 600) {
+                    scrollTopButton.css('display', 'flex');
+                } else {
+                    scrollTopButton.css('display', 'none');
+                }
+            });
+
+            scrollTopButton.find("button").on('click', function () {
+                $('html, body').animate({ scrollTop: 0 }, 'smooth');
+            });
+        });
+
+    </script>
 
 </body>
 

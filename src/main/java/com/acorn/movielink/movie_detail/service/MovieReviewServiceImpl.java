@@ -83,12 +83,6 @@ public class MovieReviewServiceImpl {
         if (reviewId == null) {
             throw new IllegalArgumentException("리뷰 ID가 null입니다.");
         }
-
-        System.out.println("service");
-        System.out.println(reviewId);
-        System.out.println(reviewContent);
-        System.out.println(reviewRating);
-
         movieReviewMapper.updateReview(reviewId, reviewContent, reviewRating);
 
     }

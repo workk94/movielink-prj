@@ -159,9 +159,9 @@
       color: #bdc6d5;
       border-radius: 4px;
       display: flex;
-      justify-self: flex-end;
       justify-content: center;
       align-items: center;
+      margin-left: auto;
     }
 
     .mvreview-userReview {
@@ -172,7 +172,7 @@
       display: flex;
     }
 
-    .bottom-bar>li {
+    .userReview-tab>li {
       margin: 8px 8px 8px 0;
       padding: 8px 16px;
       font-size: 15px;
@@ -307,8 +307,8 @@
     </div>
 
     <!-- 내가 남긴 리뷰 표시 -->
-    <div class="mvreview-wrote" th:data-review-id="${userReview != null ? userReview.reviewId : ''}"
-      id="mvreview-wrote" th:classappend="${!reviewExists} ? 'hidden' : ''">
+    <div class="mvreview-wrote" th:data-review-id="${userReview != null ? userReview.reviewId : ''}" id="mvreview-wrote"
+      th:classappend="${!reviewExists} ? 'hidden' : ''">
       <div class="wrote-rating">
         <div>내 별점 평가</div>
         <div class="rating-star">
@@ -331,15 +331,15 @@
     <div class="mvreview-userReview">
       <h4>모든 리뷰</h4>
 
-<!--      <ul class="userReview-tab">-->
-<!--        <li>인기 많은 순</li>-->
-<!--        <li>최근 작성 순</li>-->
-<!--        <li>평가 높은 순</li>-->
-<!--        <li>평가 낮은 순</li>-->
-<!--      </ul>-->
+      <ul class="userReview-tab">
+        <li data-sort="latest" class="active">최근 작성 순</li>
+        <li data-sort="highest">평가 높은 순</li>
+        <li data-sort="lowest">평가 낮은 순</li>
+      </ul>
 
-      <div class="userReview-list" th:each="review : ${reviews}">
-        <div class="list-users">
+      <div class="userReview-list" id="reviewList">
+        <div class="list-users" th:each="review : ${reviews}" th:data-rating="${review.reviewRating}"
+          th:data-date="${review.reviewRegAt}">
           <div class="users-profile">
             <div class="profile-left">
               <span class="left-img">
@@ -347,7 +347,7 @@
               </span>
               <div class="profile-id">
                 <span th:text="${review.memNn ?: '-' }">id</span>
-                <span th:text="${review.reviewRegAt ?: '-'}">hours ago</span>
+                <span th:text="${#temporals.format(review.reviewRegAt, 'yyyy-MM-dd HH:mm:ss')}">hours ago</span>
               </div>
             </div>
             <div class="profile-right">
@@ -357,14 +357,7 @@
               <span th:text="${review.reviewRating ?: '-' }">rating</span>
             </div>
           </div>
-          <div class="users-content" th:text="${review.reviewContent ?: '-' }">리뷰 내용</div>
-        </div>
-        <div class="list-likes">
-          <svg class="heart" width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path
-              d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"
-              fill="none" stroke="#bdc6d5" stroke-width="2" class="heart-path" />
-          </svg>
+          <div class="users-content" th:text="${review.reviewContent ?: '-'}">리뷰 내용</div>
         </div>
       </div>
       <!-- .userReview-list 반복 -->
@@ -373,6 +366,7 @@
 
   <script>
     document.addEventListener("DOMContentLoaded", () => {
+
       const ratingContainer = document.getElementById("mvreview-rating");
       const writingContainer = document.getElementById("mvreview-writing");
       const wroteContainer = document.getElementById("mvreview-wrote");
@@ -393,7 +387,7 @@
       stars.addEventListener("click", (event) => {
         if (!isLoggedIn) {
           alert("로그인하고 모든 기능을 자유롭게 이용해보세요!");
-          window.location.href = `/login?redirectUrl=${encodeURIComponent(window.location.href)}`;
+          window.location.href = "/login?redirectUrl=" + encodeURIComponent(window.location.href);
           return;
         }
 
@@ -441,8 +435,8 @@
         const reviewContent = reviewContentElement.value.trim();
         const reviewId = wroteContainer.dataset.reviewId || null;
 
-           console.log(   "reviewId" );
-           console.log(  reviewId );
+        console.log("reviewId");
+        console.log(reviewId);
 
         if (!reviewContent) {
           alert("리뷰 내용을 입력해주세요.");
@@ -452,7 +446,8 @@
         try {
           const url = reviewId
             ? `/title/${movieId}/${reviewId}/edit`
-            : `/title/${movieId}/review/register`; // 리뷰 등록 경로
+            : `/title/${movieId}/review/register`;
+
           const method = reviewId ? "PUT" : "POST";
 
           const response = await fetch(url, {
@@ -468,9 +463,9 @@
           });
 
 
-          console.log( "response" +  response) ;
+          console.log("response" + response);
 
-       console.log(    response) ;
+          console.log(response);
           if (response.ok) {
             alert("리뷰가 성공적으로 저장되었습니다!");
             location.reload();
@@ -539,7 +534,61 @@
             }
           }
         });
+
+
       });
+
+      const reviewTabs = document.querySelectorAll(".userReview-tab > li");
+      const reviewListContainer = document.getElementById("reviewList");
+
+      if (!reviewListContainer) {
+        console.error("리뷰 리스트 컨테이너를 찾을 수 없습니다.");
+        return;
+      }
+
+      // 정렬 함수
+      const sortReviews = (sortType) => {
+        const reviews = Array.from(reviewListContainer.children);
+
+        reviews.sort((a, b) => {
+          const ratingA = parseFloat(a.dataset.rating) || 0;
+          const ratingB = parseFloat(b.dataset.rating) || 0;
+          const dateA = new Date(a.dataset.date);
+          const dateB = new Date(b.dataset.date);
+
+          if (sortType === "latest") {
+            return dateB - dateA; // 최신순
+          } else if (sortType === "highest") {
+            return ratingB - ratingA || dateB - dateA; // 높은 평점 순
+          } else if (sortType === "lowest") {
+            return ratingA - ratingB || dateB - dateA; // 낮은 평점 순
+          }
+          return 0;
+        });
+
+        // 정렬된 리뷰를 DOM에 다시 추가
+        reviews.forEach((review) => reviewListContainer.appendChild(review));
+      };
+
+      // 탭 클릭 이벤트 처리
+      reviewTabs.forEach((tab) => {
+        tab.addEventListener("click", () => {
+          const sortType = tab.dataset.sort;
+
+          // 기존 활성화된 탭에서 active 클래스 제거
+          document.querySelector(".userReview-tab > li.active")?.classList.remove("active");
+
+          // 현재 클릭된 탭에 active 클래스 추가
+          tab.classList.add("active");
+
+          // 리뷰 정렬 실행
+          sortReviews(sortType);
+        });
+      });
+
+      // 페이지 로드 시 기본 정렬: 최신순
+      sortReviews("latest");
+
     });
   </script>
 
