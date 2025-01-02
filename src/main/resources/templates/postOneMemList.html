@@ -55,6 +55,8 @@
                 </div>
             </div>
 
+
+
 <!--            <h1 class="community_list_h2" th:text="${postOneMem.memId} + ' 님의 게시글 목록'">회원의 게시글 목록 </h1>-->
             <h1 class="community_list_h2" th:text="${memId} + ' 님의 게시글 목록'">회원의 게시글 목록 </h1>
 
@@ -82,7 +84,7 @@
                         <div class="community_post_title">
                             <a th:href="@{/postDetail/{postId}(postId=${post.postId})}">
                                 <p th:text="${post.postTitle}">게시글 제목</p>
-                                <p th:text="'좋아요: ' + ${post.postLikeCnt}">좋아요 수</p>
+                                <p class="post_content_p" th:text="${post.content}">[모이나2] 로튼 팝콘지수</p>
                             </a>
                         </div>
                         <div class="community_imgbox">
@@ -91,9 +93,6 @@
                     </div>
                     <div class="cut_line"></div>
 
-                    <div class="community_more">
-                        <a th:href="@{/postDetail/{postId}(postId=${post.postId})}">상세보기</a>
-                    </div>
                 </div>
 
             </div>
@@ -121,14 +120,11 @@
 
             <div class="mem_ranking_top">
                 <div class="aside_header">유저랭킹 TOP 7</div>
-                <div class="ranking_list" th:each="topSevenMem : ${topSevenMem}">
-                    <div class="tag_icon">
-                        <img th:src="@{/img/tag_icon.svg}" alt="#">
-                    </div>
+                <div class="ranking_list">
+
                     <ul>
                         <li th:each="topSevenMem : ${topSevenMem}">
-                            <span th:text="${topSevenMem.memId}"></span>
-                            <a th:href="@{/postOneMember/{memId}(memId=${topSevenMem.memId})}" th:text="${topSevenMem.mem_nn}">유저 게시글 보기</a>
+                        <a th:href="@{/postOneMember/{memId}(memId=${topSevenMem.memId})}" th:text="${topSevenMem.memNn}">유저 게시글 보기</a>
                         </li>
                     </ul>
                 </div>

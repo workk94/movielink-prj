@@ -14,8 +14,8 @@
 
     <!-- 리뷰 등록 -->
     <insert id="insertReview" parameterType="map">
-        INSERT INTO review (movie_id, mem_id, review_title, review_content, review_rating, review_reg_at)
-        VALUES (#{movieId}, #{memId}, #{reviewTitle}, #{reviewContent}, #{reviewRating}, NOW());
+        INSERT INTO review (movie_id, mem_id, review_content, review_rating, review_reg_at)
+        VALUES (#{movieId}, #{memId}, #{reviewContent}, #{reviewRating}, NOW());
     </insert>
 
     <!-- 리뷰 수정 -->
@@ -33,10 +33,10 @@
         WHERE review_id = #{reviewId};
     </delete>
 
+    <!-- 모든 유저 리뷰 -->
     <select id="getReview" parameterType="map">
         SELECT
         r.review_id AS reviewId,
-        r.review_title AS reviewTitle,
         r.review_content AS reviewContent,
         r.review_rating AS reviewRating,
         r.review_like_cnt AS reviewLikeCnt,
@@ -52,10 +52,30 @@
         r.mem_id = m.mem_id
         WHERE
         r.movie_id = #{movieId}
-        AND
-        r.review_deleted_at IS NULL
         ORDER BY
         r.review_reg_at DESC;
+    </select>
+
+    <!-- 특정 유저 리뷰 -->
+    <select id="getUserReview" parameterType="map">
+        SELECT
+        r.review_id AS reviewId,
+        r.review_content AS reviewContent,
+        r.review_rating AS reviewRating,
+        r.review_like_cnt AS reviewLikeCnt,
+        r.review_reg_at AS reviewRegAt,
+        r.review_updated_at AS reviewUpdatedAt,
+        m.mem_nn AS memNn,
+        m.mem_profile_file_path AS memProfileFilePath
+        FROM
+        review r
+        JOIN
+        member m
+        ON
+        r.mem_id = m.mem_id
+        WHERE
+        r.movie_id = #{movieId}
+        AND r.mem_id = #{memId};
     </select>
 
 </mapper>

@@ -94,19 +94,11 @@
 
             <div class="mem_ranking_top">
                 <div class="aside_header">유저랭킹 TOP 7</div>
-                <div class="ranking_list" th:each="topSevenMem : ${topSevenMem}">
-                    <div class="tag_icon">
-                        <img th:src="@{/img/tag_icon.svg}" alt="#">
-                    </div>
+                <div class="ranking_list">
+
                     <ul>
-                        <li>
-                            <span th:text="${topSevenMem.memId}"></span>
-
-
-
-                            <a th:href="@{/postOneMember/{memId}(memId=${topSevenMem.memId})}" th:text="${topSevenMem.mem_nn}">유저 게시글 보기</a>
-
-
+                        <li th:each="topSevenMem : ${topSevenMem}">
+                          <a th:href="@{/postOneMember/{memId}(memId=${topSevenMem.memId})}" th:text="${topSevenMem.memNn}">유저 게시글 보기</a>
                         </li>
                     </ul>
                 </div>

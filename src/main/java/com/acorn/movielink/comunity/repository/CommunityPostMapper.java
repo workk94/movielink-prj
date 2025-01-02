@@ -21,4 +21,8 @@ public interface CommunityPostMapper {
     List<PostDTO> selectOneMemberPostList(@Param("memId") int memId);
 
     void insertPost(PostDTO postDTO); // 태그 리스트 제거
+    // 게시글 존재 여부 검증
+    int countPostById(@Param("postId") int postId);
+
+    int countById(@Param("postId") int postId); // ID에 대한 게시글 수 조회
 }

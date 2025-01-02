@@ -67,7 +67,7 @@
 
                 <div class="community_more">
                     <a href="/postAll">
-                    <button class="community_more_btn">더보기</button>
+                        <button class="community_more_btn">더보기</button>
                     </a>
                 </div>
             </div>
@@ -95,18 +95,14 @@
 
             <div class="mem_ranking_top">
                 <div class="aside_header">유저랭킹 TOP 7</div>
-                <div class="ranking_list" th:each="topSevenMem : ${topSevenMem}">
-                    <div class="tag_icon">
-                        <img th:src="@{/img/tag_icon.svg}" alt="#">
-                    </div>
+                <div class="ranking_list">
+
                     <ul>
                         <li th:each="topSevenMem : ${topSevenMem}">
-                            <span th:text="${topSevenMem.memId}"></span>
-
-                            <a th:href="@{/postOneMember/{memId}(memId=${topSevenMem.memId})}" th:text="${topSevenMem.mem_nn}">유저 게시글 보기</a>
-
-
-
+                            <div class="tag_icon">
+                                <a th:href="@{/postOneMember/{memId}(memId=${topSevenMem.memId})}" th:text="${topSevenMem.memId}">유저 게시글 보기</a>
+                            </div>
+                            <a th:href="@{/postOneMember/{memId}(memId=${topSevenMem.memId})}" th:text="${topSevenMem.memNn}">유저 게시글 보기</a>
                         </li>
                     </ul>
                 </div>

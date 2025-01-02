@@ -403,6 +403,11 @@
       margin-bottom: 5px;
     }
 
+    .ranking_list ul li{
+      display: flex;
+      align-items: center;
+    }
+
     .tag_name{
       font-size: 13px;
       display: flex;
@@ -421,6 +426,8 @@
       align-items: center;
       margin-top: 6px;
     }
+
+
 
     .top_mem_nickname{
       font-size: 13px;
