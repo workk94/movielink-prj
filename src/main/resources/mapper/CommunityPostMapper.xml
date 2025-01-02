@@ -45,6 +45,12 @@
 
 
     <!--게시글 상세조회    -->
+<!--    <select id="selectPostById" resultMap="PostResultMap">-->
+<!--        SELECT *-->
+<!--        FROM post-->
+<!--        WHERE post_id = #{postId}-->
+<!--    </select>-->
+
     <select id="selectPostById" resultMap="PostResultMap">
         SELECT
         p.*,  -- 게시글 정보
