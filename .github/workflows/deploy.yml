@@ -58,4 +58,6 @@ jobs:
             docker stop movie-link-server || true
             docker rm movie-link-server || true
             docker pull ${{ steps.login-ecr.outputs.registry }}/movie-link-server:latest
-            docker run -d --name movie-link-server -p 8080:8080 ${{ steps.login-ecr.outputs.registry }}/movie-link-server:latest
+            docker run -d --name movie-link-server -p 8080:8080
+            -v /home/ubuntu/upload:/app/upload
+            ${{ steps.login-ecr.outputs.registry }}/movie-link-server:latest
