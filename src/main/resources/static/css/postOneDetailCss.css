@@ -137,7 +137,7 @@
       max-height: 400px; /* 게시글 내용의 최대 높이 설정 */
       overflow-y: auto; /* 내용이 넘칠 경우 스크롤 표시 */
   }
-  
+
 
     .post_header {
       display: flex;
@@ -197,8 +197,19 @@
       padding: 2px;
       padding-left: 6px;
       padding-right: 6px;
-      color: #637DEA;
+      color: #98A4B7;
     }
+
+    .post_tag span{
+          margin-right: 3px;
+          margin-left: 3px;
+          background-color: #637eea3a;
+          border-radius: 4px;
+          padding: 2px;
+          padding-left: 6px;
+          padding-right: 6px;
+          color: #98A4B7;
+        }
 
     .view_info{
       display: flex;
@@ -302,24 +313,25 @@
 }
 /*
 .comment h2{
-text-align: right; 
-  margin-top : 30px; 
+text-align: right;
+  margin-top : 30px;
   margin-right : 50px;
   color: #4F5F78;
 }
 */
 .comment-section {
-    position: sticky; /* 스크롤에 따라 위치 고정 */
-  bottom: 60px;       /* 하단 여백 없음 */
-  z-index: 1000;   /* 다른 요소보다 위에 배치 */
+/*
+    position: sticky;
+  bottom: 60px;
+  z-index: 1000;
    display: flex;
      align-items: center;
-    border-top: 1px solid #586A85; /* 상단 경계선 */
+    border-top: 1px solid #586A85;
      box-shadow: 0 -4px 16px rgba(16, 16, 16, 0.48);
        width: 600px;
+*/
 
-  
-    margin-top: 10px;
+    /*margin-top: 10px;*/
     padding: 10px;
     background-color: #3c4d7558;
     border-radius: 5px;
@@ -329,7 +341,6 @@ text-align: right;
 /* 댓글 작성 영역 */
 .comment-input-box {
     width: 100%; /* 부모 요소 기준 너비 맞춤 */
-    resize: none; /* 크기 조절 비활성화 */
 
 
 
@@ -342,13 +353,16 @@ text-align: right;
 
 .comment-input-box textarea {
     width: 100%; /* 부모 요소 기준 너비 맞춤 */
-
+    resize: none;
+    outline-style: none;
     padding: 10px;
     border: 1px solid #ddd;
     border-radius: 5px;
     margin-bottom: 10px;
     font-size: 14px;
     background-color: #13244d7d;
+    overflow: hidden;
+    box-sizing: border-box;
 }
 
 .comment-input-box button {

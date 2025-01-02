@@ -8,6 +8,9 @@
         <id property="postId" column="post_id"/>
         <result property="memId" column="mem_id"/>
         <result property="memNn" column="mem_nn"/>
+        <result property="memProfileOriginFileNm" column="mem_profile_origin_file_nm"/>
+        <result property="memProfileConvertedFileNm" column="mem_profile_converted_file_nm"/>
+        <result property="memProfileFilePath" column="mem_profile_file_path"/>
         <result property="postTitle" column="post_title"/>
         <result property="content" column="content"/>
         <result property="postCreatedAt" column="post_created_at"/>
@@ -43,9 +46,20 @@
 
     <!--게시글 상세조회    -->
     <select id="selectPostById" resultMap="PostResultMap">
-        SELECT *
-        FROM post
-        WHERE post_id = #{postId}
+        SELECT
+        p.*,  -- 게시글 정보
+        m.mem_id,
+        m.mem_email,
+        m.mem_nn,
+        m.mem_profile_origin_file_nm,
+        m.mem_profile_converted_file_nm,
+        m.mem_profile_file_path
+        FROM
+        post p
+        JOIN
+        member m ON p.mem_id = m.mem_id
+        WHERE
+        p.post_id = #{postId}
     </select>
 
     <!-- 조회수 증가 -->

@@ -498,151 +498,162 @@
 </head>
 
 <body>
-    <div th:fragment="headerFragment" xmlns:sec="http://www.w3.org/1999/xhtml" xmlns:th="http://www.w3.org/1999/xhtml">
-        <div th:replace="~{fragments/header :: headerFragment}"></div>
+<div th:fragment="headerFragment" xmlns:sec="http://www.w3.org/1999/xhtml" xmlns:th="http://www.w3.org/1999/xhtml">
+    <div th:replace="~{fragments/header :: headerFragment}"></div>
 
 
 
-        <body>
-            <div class="post_detail_main">
-                <section class="post_main">
-                    <div class="post_header">
-                        <div class="post_mem_info">
-                            <div class="post_mem_profile">
-                                <!-- 사용자 프로필 -->
-                                <!--                                <p th:text="${postOne.memId}">여기에사용자프로필 사진 들어가야함@@@@@</p>-->
-                                <p><span th:text="${#strings.substring(postOne.memNn, 0, 1)}"></span></p>
-                            </div>
-                            <div class="post_mem_nickname">
-                                <!-- 사용자 닉네임 -->
-                                <p th:text="${postOne.memNn}">사용자 닉네임!!!!!!!!!!</p>
-                            </div>
-                        </div>
-                        <div class="post_time">
-                            <p>
-                                작성일:
-                                <span th:if="${postOne.postUpdatedAt == null}"
-                                    th:text="${#dates.format(postOne.postCreatedAt, 'yyyy-MM-dd')}">작성일</span>
-                                <span th:if="${postOne.postUpdatedAt != null}"
-                                    th:text="${#dates.format(postOne.postUpdatedAt, 'yyyy-MM-dd')}">수정일</span>
-                            </p>
-                        </div>
+    <body>
+    <div class="post_detail_main">
+        <section class="post_main">
+            <div class="post_header">
+                <div class="post_mem_info">
+                    <div class="post_mem_profile">
+
+                        <div th:if="${postOne.memProfileFilePath == null}">
+                            <p  th:text="${#strings.substring(postOne.memNn, 0, 1)}"> 닉네임</p> </div>
+                        <div th:if="${postOne.memProfileFilePath != null}">
+                            <img th:src="${postOne.memProfileFilePath}" alt="회원프로필이미지"></div>
+
                     </div>
-
-                    <div class="post_body">
-                        <div class="post_title">
-                            <p th:text="${postOne.postTitle}">드라마 시사회</p>
-                        </div>
-
-                        <div class="post_info_box">
-                            <div class="post_info">
-                                <p th:text="${postOne.content}">드라마 시사회에서 배우님들이 싸인해주시나요??...</p>
-                            </div>
-
-                            <div class="post_tag_box">
-                                <div id="tag-container">
-                                    <!-- 태그가 없는 경우 -->
-                                    <div th:if="${#lists.isEmpty(tags)}">
-                                        <p>태그가 없습니다.</p>
-                                    </div>
-                                    <!-- 태그가 있는 경우 -->
-                                    <div th:unless="${#lists.isEmpty(tags)}">
-                                        <div th:each="tag : ${tags}">
-                                            <span class="tag" th:text="'#' + ${tag.tagName}"></span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="post_mem_nickname">
+                        <!-- 사용자 닉네임 -->
+                        <p th:text="${postOne.memNn}">사용자 닉네임!!!!!!!!!!</p>
                     </div>
-
-
-                    <div class="view_info">
-                        <div class="view_cnt">
-                            <!--                <img th:src="@{/img/Vector.svg}" alt="조회수">-->
-                            <p th:text="${postOne.postViews}">232</p>
-                        </div>
-                        <div class="like_cnt">
-                            <!--                <img th:src="@{/img/twemoji_growing-heart.svg}" alt="좋아요">-->
-                            <button class="like-btn" id="likeButton" th:classappend="${isLiked ? 'liked' : 'unliked'}"
-                                th:data-post-id="${postOne.postId}" th:text="${isLiked ? '좋아요 취소' : '좋아요'}"
-                                th:title="${memId == 0 ? '로그인이 필요합니다.' : ''}">
-                                좋아요
-                            </button>
-
-                            <p id="likeCount" th:text="${postOne.postLikeCnt}">11</p> <!-- 좋아요 수 동적으로 출력 -->
-                        </div>
-                    </div>
-
-                    <div class="cut_line"></div>
-
-                    <div class="comment">
-
-                        <!--                        <h2>댓글 목록</h2>-->
-
-                        <!-- 댓글 목록 -->
-                        <div id="comments-list">
-                            <div class="comment-item" th:data-id="${comment.commentId}" th:each="comment : ${comments}">
-                                <div class="comment-header">
-                                    <div class="comment-author" th:text="${comment.memNn}">작성자 닉네임</div>
-                                    <div class="comment-time">
-                                        <span th:if="${comment.commentUpdatedAt == null}"
-                                            th:text="${#dates.format(comment.commentRegAt, 'yyyy-MM-dd')}"
-                                            class="time-right">작성시간</span>
-                                        <span th:if="${comment.commentUpdatedAt != null}"
-                                            th:text="${#dates.format(comment.commentUpdatedAt, 'yyyy-MM-dd')}"
-                                            class="time-right">수정시간</span>
-                                    </div>
-                                </div>
-                                <!-- 댓글 본문 -->
-                                <div class="comment-body">
-                                    <p th:text="${comment.content}">댓글내용</p>
-                                </div>
-                                <div class="comment-actions">
-                                    <button class="edit-btn" th:data-id="${comment.commentId}">수정</button>
-                                    <button class="delete-btn" th:data-id="${comment.commentId}">삭제</button>
-                                    <button class="reply-btn" th:data-id="${comment.commentId}">답글</button>
-                                </div>
-                                <!-- 대댓글 목록 -->
-                                <div class="replies" th:each="reply : ${comment.replies}"
-                                    th:data-id="${reply.commentId}">
-                                    <div class="reply-item">
-                                        <!-- 대댓글 헤더 -->
-                                        <div class="reply-header">
-                                            <div class="reply-author" th:text="${reply.author}">대댓글 작성자</div>
-                                            <div class="reply-time time-right">
-                                                <span th:if="${reply.commentUpdatedAt == null}"
-                                                    th:text="${#dates.format(reply.commentRegAt, 'yyyy-MM-dd')}">작성시간</span>
-                                                <span th:if="${reply.commentUpdatedAt != null}"
-                                                    th:text="${#dates.format(reply.commentUpdatedAt, 'yyyy-MM-dd')}">수정시간</span>
-                                            </div>
-                                        </div>
-                                        <!-- 대댓글 본문 -->
-                                        <div class="reply-body">
-                                            <p th:text="${reply.content}"></p>
-                                        </div>
-                                        <!-- 대댓글 액션 -->
-                                        <div class="reply-actions">
-                                            <button class="edit-reply-btn" th:data-id="${reply.commentId}">수정</button>
-                                            <button class="delete-reply-btn" th:data-id="${reply.commentId}">삭제</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="cut_line"></div>
-                        <div class="comment-section">
-                            <!-- 댓글 입력 폼 -->
-                            <div class="comment-input-box">
-                                <textarea id="commentContent" placeholder="댓글을 입력하세요"></textarea>
-                                <button id="submitCommentBtn">댓글 작성</button>
-                            </div>
-                        </div>
-                    </div>
-                </section>
+                </div>
+                <div class="post_time">
+                    <p>
+                        작성일:
+                        <span th:if="${postOne.postUpdatedAt == null}"
+                              th:text="${#dates.format(postOne.postCreatedAt, 'yyyy-MM-dd')}">작성일</span>
+                        <span th:if="${postOne.postUpdatedAt != null}"
+                              th:text="${#dates.format(postOne.postUpdatedAt, 'yyyy-MM-dd')}">수정일</span>
+                    </p>
+                </div>
             </div>
-        </body>
+
+            <div class="post_body">
+                <div class="post_title">
+                    <p th:text="${postOne.postTitle}">드라마 시사회</p>
+                </div>
+
+                <div class="post_info_box">
+                    <div class="post_info">
+                        <p th:text="${postOne.content}">드라마 시사회에서 배우님들이 싸인해주시나요??...</p>
+                    </div>
+
+                    <div class="post_tag_box">
+                        <div id="tag-container">
+                            <!-- 태그가 없는 경우 -->
+                            <div class="post_tag" th:if="${#lists.isEmpty(tags)}">
+                                <p>태그가 없습니다.</p>
+                            </div>
+                            <!-- 태그가 있는 경우 -->
+                            <div class="post_tag" th:unless="${#lists.isEmpty(tags)}">
+                                <div th:each="tag : ${tags}">
+                                    <span class="tag" th:text="'#' + ${tag.tagName}"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="view_info">
+                <div class="view_cnt">
+                    <!--                <img th:src="@{/img/Vector.svg}" alt="조회수">-->
+                    <p th:text="${postOne.postViews}">232</p>
+                </div>s
+                <div class="like_cnt">
+                                    <img th:src="@{/img/heart.svg}" alt="좋아요">
+                    <button class="like-btn" id="likeButton" th:classappend="${isLiked ? 'liked' : 'unliked'}"
+                            th:data-post-id="${postOne.postId}" th:text="${isLiked ? '좋아요 취소' : '좋아요'}"
+                            th:title="${memId == 0 ? '로그인이 필요합니다.' : ''}">
+                        좋아요
+                    </button>
+
+                    <p id="likeCount" th:text="${postOne.postLikeCnt}">11</p> <!-- 좋아요 수 동적으로 출력 -->
+                </div>
+            </div>
+            <div class="cut_line"></div>
+
+
+
+
+
+
+            <div class="comment">
+                <div class="comment-section">
+                    <!-- 댓글 입력 폼 -->
+                    <div class="comment-input-box">
+                        <textarea
+                                spellcheck="false" id="commentContent" placeholder="댓글을 입력하세요"></textarea>
+                        <button id="submitCommentBtn">댓글 작성</button>
+                    </div>
+                </div>
+                <div class="cut_line"></div>
+                <h2>댓글 목록</h2>
+
+                <!-- 댓글 목록 -->
+                <div id="comments-list">
+                    <div class="comment-item" th:data-id="${comment.commentId}" th:each="comment : ${comments}">
+                        <div class="comment-header">
+                            <div class="comment-author" th:text="${comment.memNn}">작성자 닉네임</div>
+                            <div class="comment-time">
+                                        <span th:if="${comment.commentUpdatedAt == null}"
+                                              th:text="${#dates.format(comment.commentRegAt, 'yyyy-MM-dd')}"
+                                              class="time-right">작성시간</span>
+                                <span th:if="${comment.commentUpdatedAt != null}"
+                                      th:text="${#dates.format(comment.commentUpdatedAt, 'yyyy-MM-dd')}"
+                                      class="time-right">수정시간</span>
+                            </div>
+                        </div>
+                        <!-- 댓글 본문 -->
+                        <div class="comment-body">
+                            <p th:text="${comment.content}">댓글내용</p>
+                        </div>
+                        <div class="comment-actions">
+                            <button class="edit-btn" th:data-id="${comment.commentId}">수정</button>
+                            <button class="delete-btn" th:data-id="${comment.commentId}">삭제</button>
+                            <button class="reply-btn" th:data-id="${comment.commentId}">답글</button>
+                        </div>
+                        <!-- 대댓글 목록 -->
+                        <div class="replies" th:each="reply : ${comment.replies}"
+                             th:data-id="${reply.commentId}">
+                            <div class="reply-item">
+                                <!-- 대댓글 헤더 -->
+                                <div class="reply-header">
+                                    <div class="reply-author" th:text="${reply.author}">대댓글 작성자</div>
+                                    <div class="reply-time time-right">
+                                                <span th:if="${reply.commentUpdatedAt == null}"
+                                                      th:text="${#dates.format(reply.commentRegAt, 'yyyy-MM-dd')}">작성시간</span>
+                                        <span th:if="${reply.commentUpdatedAt != null}"
+                                              th:text="${#dates.format(reply.commentUpdatedAt, 'yyyy-MM-dd')}">수정시간</span>
+                                    </div>
+                                </div>
+                                <!-- 대댓글 본문 -->
+                                <div class="reply-body">
+                                    <p th:text="${reply.content}"></p>
+                                </div>
+                                <!-- 대댓글 액션 -->
+                                <div class="reply-actions">
+                                    <button class="edit-reply-btn" th:data-id="${reply.commentId}">수정</button>
+                                    <button class="delete-reply-btn" th:data-id="${reply.commentId}">삭제</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+            </div>
+        </section>
     </div>
+    </body>
+</div>
 </body>
 </div>
 
