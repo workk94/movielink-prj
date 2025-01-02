@@ -3,6 +3,7 @@ package com.acorn.movielink.movie_detail.service;
 import com.acorn.movielink.login.dto.Member;
 import com.acorn.movielink.login.service.MemberService;
 import com.acorn.movielink.movie_detail.dto.MovieReview;
+import com.acorn.movielink.movie_detail.repository.MovieReviewMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,10 @@ public class MovieReviewServiceImpl {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private MovieReviewMapper movieReviewMapper;
+
 
     /**
      * 리뷰 작성 여부 확인
@@ -74,16 +79,18 @@ public class MovieReviewServiceImpl {
      * @return 처리 결과 메시지
      */
     public void updateReview(Integer reviewId, String reviewContent, double reviewRating) {
+
         if (reviewId == null) {
             throw new IllegalArgumentException("리뷰 ID가 null입니다.");
         }
 
-        // 리뷰 업데이트 로직 (예: DB 업데이트)
-        try {
-            // 실제 DB 업데이트 로직 호출
-        } catch (Exception e) {
-            throw new RuntimeException("DB 업데이트 중 오류 발생", e);
-        }
+        System.out.println("service");
+        System.out.println(reviewId);
+        System.out.println(reviewContent);
+        System.out.println(reviewRating);
+
+        movieReviewMapper.updateReview(reviewId, reviewContent, reviewRating);
+
     }
 
 
