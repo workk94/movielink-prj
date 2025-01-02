@@ -2,10 +2,8 @@ package com.acorn.movielink.comunity.service;
 
 
 import com.acorn.movielink.comunity.dto.PostDTO;
-import com.acorn.movielink.comunity.dto.PostImageDTO;
 import com.acorn.movielink.comunity.dto.TagDTO;
 import com.acorn.movielink.comunity.repository.CommunityPostMapper;
-import com.acorn.movielink.comunity.repository.PostImageMapper;
 import com.acorn.movielink.comunity.repository.TagMapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +18,6 @@ public class CommunityPostService {
 
     @Autowired
     private CommunityPostMapper postMapper;
-
 
 
     @Autowired
@@ -42,20 +39,19 @@ public class CommunityPostService {
         postMapper.updatePostViews(postId);
         PostDTO postOne = postMapper.selectPostById(postId);
         System.out.println("좋아요 수: " + postOne.getPostLikeCnt());
-
         // 태그를 문자열 리스트로 조회 및 설정
         List<TagDTO> tags = tagMapper.selectTagsByPostId(postId);
         postOne.setTags(tags);
-
         return postOne;
     }
+
 
     @Transactional(readOnly = true)
     public boolean existsById(int postId) {
         return postMapper.countById(postId) > 0;
     }
 
-
+    @Transactional
     public boolean existsPostById(int postId) {
         PostDTO post = postMapper.selectPostById(postId); // 게시글 조회
         return post != null; // 게시글 존재 여부 반환
