@@ -309,15 +309,16 @@ text-align: right;
 }
 */
 .comment-section {
-    position: sticky; /* 스크롤에 따라 위치 고정 */
-  bottom: 60px;       /* 하단 여백 없음 */
-  z-index: 1000;   /* 다른 요소보다 위에 배치 */
+/*
+    position: sticky;
+  bottom: 60px;
+  z-index: 1000;
    display: flex;
      align-items: center;
-    border-top: 1px solid #586A85; /* 상단 경계선 */
+    border-top: 1px solid #586A85;
      box-shadow: 0 -4px 16px rgba(16, 16, 16, 0.48);
        width: 600px;
-
+*/
   
     margin-top: 10px;
     padding: 10px;

@@ -509,9 +509,12 @@
                     <div class="post_header">
                         <div class="post_mem_info">
                             <div class="post_mem_profile">
-                                <!-- 사용자 프로필 -->
-                                <!--                                <p th:text="${postOne.memId}">여기에사용자프로필 사진 들어가야함@@@@@</p>-->
-                                <p><span th:text="${#strings.substring(postOne.memNn, 0, 1)}"></span></p>
+
+                                    <div th:if="${postOne.memProfileFilePath == null}">
+                                        <p  th:text="${#strings.substring(postOne.memNn, 0, 1)}"> 닉네임</p> </div>
+                                    <div th:if="${postOne.memProfileFilePath != null}">
+                                    <img th:src="${postOne.memProfileFilePath}" alt="회원프로필이미지"></div>
+
                             </div>
                             <div class="post_mem_nickname">
                                 <!-- 사용자 닉네임 -->
@@ -573,12 +576,23 @@
                             <p id="likeCount" th:text="${postOne.postLikeCnt}">11</p> <!-- 좋아요 수 동적으로 출력 -->
                         </div>
                     </div>
-
                     <div class="cut_line"></div>
 
-                    <div class="comment">
 
-                        <!--                        <h2>댓글 목록</h2>-->
+
+
+
+
+                    <div class="comment">
+                        <div class="comment-section">
+                            <!-- 댓글 입력 폼 -->
+                            <div class="comment-input-box">
+                                <textarea id="commentContent" placeholder="댓글을 입력하세요"></textarea>
+                                <button id="submitCommentBtn">댓글 작성</button>
+                            </div>
+                        </div>
+                        <div class="cut_line"></div>
+                        <h2>댓글 목록</h2>
 
                         <!-- 댓글 목록 -->
                         <div id="comments-list">
@@ -630,14 +644,10 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="cut_line"></div>
-                        <div class="comment-section">
-                            <!-- 댓글 입력 폼 -->
-                            <div class="comment-input-box">
-                                <textarea id="commentContent" placeholder="댓글을 입력하세요"></textarea>
-                                <button id="submitCommentBtn">댓글 작성</button>
-                            </div>
-                        </div>
+
+
+
+
                     </div>
                 </section>
             </div>

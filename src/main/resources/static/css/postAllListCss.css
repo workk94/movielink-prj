@@ -211,6 +211,7 @@
         position: relative;
         left: 20px;
         margin-bottom: 10px;
+        margin-top: 20px;
       }
 
       .community_search img{
@@ -297,11 +298,18 @@
         font-weight: bold;
         color: #D4D9E1;
         margin-bottom: 5px;
+        -webkit-line-clamp: 2;
+        overflow: hidden;
       }
 
       .post_content_p{
         font-size: 16px;
         color: #D4D9E1;
+        display: -webkit-box;             /* 텍스트를 블록 형태로 표시 */
+        -webkit-line-clamp: 5;            /* 최대 5줄까지만 표시 */
+        -webkit-box-orient: vertical;     /* 세로 방향으로 텍스트 표시 */
+        overflow: hidden;                 /* 넘친 텍스트는 숨기기 */
+        text-overflow: ellipsis;
       }
 
       .community_post_title:hover{
