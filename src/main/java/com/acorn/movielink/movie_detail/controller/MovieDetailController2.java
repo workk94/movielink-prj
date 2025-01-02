@@ -20,7 +20,7 @@ public class MovieDetailController2 {
     }
 
 
-    @GetMapping("/title/{movieId}")
+    //@GetMapping("/title/{movieId}")
     public String getMovieDetail(@PathVariable("movieId") int movieId, Model model) {
         MovieDTO dto = service.getMovieDetail(movieId);
 
