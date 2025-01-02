@@ -3,7 +3,6 @@ package com.acorn.movielink.comunity.controller;
 import com.acorn.movielink.comunity.dto.*;
 import com.acorn.movielink.comunity.service.*;
 import jakarta.servlet.http.HttpSession;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -58,11 +57,6 @@ public class PostController {
         model.addAttribute("postOneMem", postOneMemList);
         return "postOneMemList";
     }
-
-
-
-
-
 
 
     //게시글 리스트 전체 조회
@@ -140,30 +134,6 @@ public class PostController {
     }
 
 
-//    @GetMapping("/postDetail/{postId}")
-//    public ResponseEntity<?> getPostOne(@PathVariable("postId") int postId, HttpSession session) {
-//        Integer memId = (Integer) session.getAttribute("memId");
-//        boolean isLiked = memId != null && likeService.isLikedByUser(postId, memId);
-//
-//        // 게시글 조회
-//        PostDTO postOne = postService.selectPostById(postId);
-//        List<TagDTO> tags = tagService.selectTagsByPostId(postId);
-//        List<CommentDTO> comments = commentService.getCommentsByPostId(postId);
-//
-//        // JSON 응답
-//        Map<String, Object> response = new HashMap<>();
-//        response.put("postOne", postOne);
-//        response.put("tags", tags);
-//        response.put("isLiked", isLiked);
-//        response.put("memId", memId);
-//        response.put("comments", comments);
-//
-//        return ResponseEntity.ok(response);
-//    }
-
-
-
-
 
 
 
@@ -171,7 +141,6 @@ public class PostController {
     @ResponseBody  // AJAX 요청을 처리하므로 JSON 형태로 응답
     public LikeDTO toggleLikePost(@PathVariable(name = "postId") int postId,
                                   HttpSession session) {
-
         // 로그인된 사용자 확인
         Integer memId = (Integer) session.getAttribute("memId");
 
@@ -204,12 +173,6 @@ public class PostController {
 
 
 
-
-
-
-
-
-
     //게시글 수정하기
     @GetMapping("/postEdit/{postId}")
     public String updatePostForm(@PathVariable("postId") int postId,
@@ -232,9 +195,6 @@ public class PostController {
         postService.deletePost(postId);
         return "redirect:/postAll";
     }
-
-
-
 
     //게시글 작성하기
     @GetMapping("/postCreate")
