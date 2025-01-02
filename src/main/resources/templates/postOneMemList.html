@@ -2,16 +2,16 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
     <title>Title</title>
-    <link rel="stylesheet" href="/css/postAllListCss.css">
+    <link href="/css/postAllListCss.css" rel="stylesheet">
     <link rel="stylesheet" th:href="@{/css/style.css}"/>
 
 </head>
 <body>
 
-<div th:fragment="headerFragment" xmlns:sec="http://www.w3.org/1999/xhtml" xmlns:th="http://www.w3.org/1999/xhtml">
+<div th:fragment="headerFragment" xmlns:th="http://www.w3.org/1999/xhtml">
     <div th:replace="~{fragments/header :: headerFragment}"></div>
-
 
 
     <section class="community_main">
@@ -20,20 +20,19 @@
                 <div class="community_search">
                     <h2>커뮤니티</h2>
                     <a th:href="@{/search}">
-                        <img th:src="@{/img/search.svg}" alt="검색">
+                        <img alt="검색" th:src="@{/img/search.svg}">
                     </a>
                 </div>
-<!--                <div class="community_search_infoBox">-->
-<!--                    <p>검색어를 입력하세요</p>-->
-<!--                    <p>(태그를 활용하여 검색하시면 관련 정보를-->
-<!--                        수월하게 찾을 수 있습니다. ex. #에이콘 #아이유)-->
-<!--                    </p>-->
-<!--                </div>-->
+                <!--                <div class="community_search_infoBox">-->
+                <!--                    <p>검색어를 입력하세요</p>-->
+                <!--                    <p>(태그를 활용하여 검색하시면 관련 정보를-->
+                <!--                        수월하게 찾을 수 있습니다. ex. #에이콘 #아이유)-->
+                <!--                    </p>-->
+                <!--                </div>-->
             </div>
 
 
-
-<!--            <h1 class="community_list_h2" th:text="${postOneMem.memId} + ' 님의 게시글 목록'">회원의 게시글 목록 </h1>-->
+            <!--            <h1 class="community_list_h2" th:text="${postOneMem.memId} + ' 님의 게시글 목록'">회원의 게시글 목록 </h1>-->
             <h1 class="community_list_h2" th:text="${memId} + ' 님의 게시글 목록'">회원의 게시글 목록 </h1>
 
             <div class="community_post_list_All">
@@ -44,9 +43,9 @@
                         <div class="community_mem_info">
                             <div class="community_mem_profile">
                                 <div th:if="${post.memProfileFilePath == null}">
-                                    <p  th:text="${#strings.substring(post.memNn, 0, 1)}"> 닉네임</p> </div>
+                                    <p th:text="${#strings.substring(post.memNn, 0, 1)}"> 닉네임</p></div>
                                 <div th:if="${post.memProfileFilePath != null}">
-                                    <img th:src="${post.memProfileFilePath}" alt="회원프로필이미지"></div>
+                                    <img alt="회원프로필이미지" th:src="${post.memProfileFilePath}"></div>
                             </div>
                             <div class="community_mem_nickname">
                                 <p th:text="${post.memNn}">화가난_김태희_149314</p>
@@ -67,7 +66,8 @@
                         </div>
                         <div class="community_imgbox">
                             <a th:href="@{/postDetail/{postId}(postId=${post.postId})}">
-                                <img th:src="@{${post.thumbnailUrl} != null ? ${post.imageUrl} : '/img/nullImg.png'}" alt="게시글썸네일">
+                                <img alt="게시글썸네일"
+                                     th:src="@{${post.thumbnailUrl} != null ? ${post.imageUrl} : '/img/nullImg.png'}">
                             </a>
                         </div>
                     </div>
@@ -106,11 +106,12 @@
                         <li th:each="topSevenMem : ${topSevenMem}">
                             <div class="tag_icon">
                                 <div th:if="${topSevenMem.memProfileFilePath == null}">
-                                    <p  th:text="${#strings.substring(topSevenMem.memNn, 0, 1)}"> 닉네임</p> </div>
+                                    <p th:text="${#strings.substring(topSevenMem.memNn, 0, 1)}"> 닉네임</p></div>
                                 <div th:if="${topSevenMem.memProfileFilePath != null}">
-                                    <img th:src="${topSevenMem.memProfileFilePath}" alt="회원프로필이미지"></div>
+                                    <img alt="회원프로필이미지" th:src="${topSevenMem.memProfileFilePath}"></div>
                             </div>
-                            <a th:href="@{/postOneMember/{memId}(memId=${topSevenMem.memId})}" th:text="${topSevenMem.memNn}">유저 게시글 보기</a>
+                            <a th:href="@{/postOneMember/{memId}(memId=${topSevenMem.memId})}"
+                               th:text="${topSevenMem.memNn}">유저 게시글 보기</a>
                         </li>
                     </ul>
                 </div>
@@ -120,11 +121,6 @@
 
 
 </div>
-
-
-
-
-
 
 
 </body>
