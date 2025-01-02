@@ -50,12 +50,12 @@ jobs:
       - name: SSH로 EC2에 접속하기
         uses: appleboy/ssh-action@v1.0.3
         with:
-          host: ${{ secrets.EC2_HOST }}
+          host: ${{ secrets.EC2_HOST_IP }}
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.EC2_PRIVATE_KEY }}
           script_stop: true
           script: |
-            docker stop  acorn-server || true
-            docker rm acorn-server || true
+            docker stop movie-link-server || true
+            docker rm movie-link-server || true
             docker pull ${{ steps.login-ecr.outputs.registry }}/movie-link-server:latest
-            docker run -d --name acorn-server -p 8080:8080 ${{ steps.login-ecr.outputs.registry }}/movie-link-server:latest
+            docker run -d --name movie-link-server -p 8080:8080 ${{ steps.login-ecr.outputs.registry }}/movie-link-server:latest
