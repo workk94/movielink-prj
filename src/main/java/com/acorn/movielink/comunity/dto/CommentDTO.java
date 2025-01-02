@@ -22,12 +22,12 @@ public class CommentDTO {
     private Date commentUpdatedAt;
     private Date commentDeletedAt;
     private int commentLikeCnt;
+    private String memNn;
+    private String memProfileFilePath;
 
     // 조회 시 표시할 최종 시간 (등록/수정/삭제 중 하나)
     private LocalDateTime displayTime;
 
-    // 작성자 닉네임 (조회 전용)
-    private String memNn;
 
     private List<CommentDTO> replies;  // 대댓글 목록을 저장할 필드
 

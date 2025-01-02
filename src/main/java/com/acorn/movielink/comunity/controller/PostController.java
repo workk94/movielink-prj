@@ -10,9 +10,13 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class PostController {
+
+    @Autowired
+    private AuthenticationUtil authenticationUtil;
 
     private com.acorn.movielink.comunity.service.CommunityPostService postService;
     private TagService tagService;
@@ -58,15 +62,12 @@ public class PostController {
         return "postOneMemList";
     }
 
-
     //게시글 리스트 전체 조회
     @GetMapping("/postAll")
     public String getAllPosts(Model model){
         List<PostDTO> posts = postService.selectAllList();
-
         for (PostDTO post : posts) {
             String thumbnailUrl = postImageService.getThumbnailUrl(post.getPostId());
-
             if (thumbnailUrl != null) {
                 post.setThumbnailUrl(thumbnailUrl);
             }
@@ -89,47 +90,32 @@ public class PostController {
     @GetMapping("/postDetail/{postId}")
     public String getPostOne(@PathVariable(name = "postId") int postId,
                              Model model){
-        //Integer memId = (Integer) httpSession.getAttribute("memId");
-
+        Map<String, Object> authInfo = authenticationUtil.checkAuthentication();
+        boolean isAuthenticated = (boolean) authInfo.get("authenticated");
+        int memId = (int) authInfo.getOrDefault("memId", 0); // 기본값 0 설정
         boolean isLiked = false;
 
-
-//        if(memId != null){
-//            isLiked = likeService.isLikedByUser(postId, memId);
-//        }else {
-//            memId = 0; // 또는 다른 기본값 설정
-//        }
-
-        // 게시글 조회
+        if (isAuthenticated && memId > 0) {
+            isLiked = likeService.isLikedByUser(postId, memId);
+        }
         PostDTO postOne = postService.selectPostById(postId);
-
-        // 태그는 이미 문자열 리스트로 설정되어 있음
         List<TagDTO> tagNames =tagService.selectTagsByPostId(postId);
-
-        // 댓글 조회
         List<CommentDTO> comments = commentService.getCommentsByPostId(postId);
 
-        // 게시글 사진조회
         PostDTO dto = postService.selectPostById(postId);
         String thumbnail = null;
         if(dto != null) {
             thumbnail = dto.getThumbnailUrl();
         }
-
         // 게시글 상세 페이지에 댓글 개수도 전달
         int commentCount = commentService.getCommentCountByPostId(postId);
         model.addAttribute("commentCount", commentCount);
-
-        // 모델에 데이터 추가
         model.addAttribute("tags", tagNames);
         model.addAttribute("postOne", postOne);
-        model.addAttribute("isLiked", isLiked);  // 좋아요 상태 (로그인 여부에 따라)
-//        model.addAttribute("memId", memId);  // 로그인한 사용자의 ID (로그인하지 않은 경우 null)
-        model.addAttribute("comments", comments); // 댓글과 대댓글 리스트 추가
-
-        // 게시글 썸네일
+        model.addAttribute("isLiked", isLiked);
+        model.addAttribute("memId", memId);
+        model.addAttribute("comments", comments);
         model.addAttribute("thumbnail", thumbnail);
-
         return "postOneDetail";
     }
 
@@ -139,34 +125,30 @@ public class PostController {
 
     @PostMapping("/like/{postId}")
     @ResponseBody  // AJAX 요청을 처리하므로 JSON 형태로 응답
-    public LikeDTO toggleLikePost(@PathVariable(name = "postId") int postId,
-                                  HttpSession session) {
-        // 로그인된 사용자 확인
-        Integer memId = (Integer) session.getAttribute("memId");
-
-        // 로그인하지 않은 경우에는 좋아요 상태 변경을 할 수 없으므로 false 반환
-        if (memId == null) {
-            LikeDTO likeDTO = new LikeDTO();
-            likeDTO.setTargetId(postId);  // 좋아요를 누른 게시글 ID
-            likeDTO.setMemId(memId); // null일 경우에도 처리
-            return likeDTO;
-        }
-
-        // 좋아요 상태를 토글 (추가 또는 제거)
-        boolean isLiked = likeService.togglePostLike(postId, memId);
-
-        // 게시글 정보 불러오기 (좋아요 수 포함)
-        PostDTO post = postService.selectPostById(postId);
-
-        // LikeDTO 객체에 응답 값 설정
+    public LikeDTO toggleLikePost(@PathVariable(name = "postId") int postId) {
         LikeDTO likeDTO = new LikeDTO();
-        likeDTO.setTargetId(postId);  // 좋아요가 적용된 게시글 ID
-        likeDTO.setMemId(memId);  // 사용자 ID
-        likeDTO.setTargetType("POST");  // 게시글 좋아요로 설정
 
-        // 좋아요 상태와 총합을 포함한 값 반환
-        likeDTO.setLikeId(isLiked ? 1 : 0);  // 상태가 추가되었으면 1, 취소되었으면 0
-        likeDTO.setLikeCount(post.getPostLikeCnt()); // 좋아요 수 추가
+        try {
+            // 사용자 ID 조회 (AuthenticationUtil 사용)
+            int memId = authenticationUtil.getCurrentUserId();
+
+            // 좋아요 상태 토글
+            boolean isLiked = likeService.togglePostLike(postId, memId);
+
+            // 게시글 좋아요 수 업데이트
+            PostDTO post = postService.selectPostById(postId);
+
+            // 결과 반환
+            likeDTO.setTargetId(postId);
+            likeDTO.setMemId(memId);
+            likeDTO.setTargetType("POST");
+            likeDTO.setLikeId(isLiked ? 1 : 0);
+            likeDTO.setLikeCount(post.getPostLikeCnt());
+        } catch (SecurityException e) {
+            // 로그인되지 않은 경우 처리
+            likeDTO.setTargetId(postId);
+            likeDTO.setMemId(0); // 비로그인 처리
+        }
 
         return likeDTO;
     }
