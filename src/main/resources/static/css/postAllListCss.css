@@ -265,6 +265,13 @@
       }
 
       .community_mem_profile{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .community_mem_profile p{
+        border: 1px solid black;
         border-radius: 25px;
         width: 25px;
         height: 25px;
@@ -273,8 +280,23 @@
         align-items: center;
         font-size: 14px;
         background-color: #3B4869;
+        color: #98A4B7;
         margin-right: 10px;
       }
+
+      .community_mem_profile img{
+          border: 1px solid black;
+          border-radius: 25px;
+          width: 25px;
+          height: 25px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          font-size: 14px;
+          background-color: #3B4869;
+          color: #98A4B7;
+          margin-right: 10px;
+            }
 
       .community_mem_nickname p{
         font-size: 16px;
@@ -399,16 +421,40 @@
     }
 
     .tag_icon{
-      background-color: #172036;
-      width: 30px;
-      height: 30px;
-      border-radius: 25px;
       display: flex;
       justify-content: center;
       align-items: center;
       margin-right: 5px;
       margin-top: 5px;
       margin-bottom: 5px;
+    }
+
+    .tag_icon p{
+        border: 1px solid black;
+        border-radius: 25px;
+        width: 25px;
+        height: 25px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 14px;
+        background-color: #3B4869;
+        color: #98A4B7;
+        margin-right: 10px;
+    }
+
+    .tag_icon img{
+        border: 1px solid black;
+        border-radius: 25px;
+        width: 25px;
+        height: 25px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 14px;
+        background-color: #3B4869;
+        color: #98A4B7;
+        margin-right: 10px;
     }
 
     .ranking_list ul li{

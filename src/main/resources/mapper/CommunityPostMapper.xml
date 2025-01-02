@@ -27,18 +27,40 @@
     </resultMap>
 
     <!--전체 게시글 조회 (최신등록순)-->
+<!--    <select id="selectAllList" resultMap="PostResultMap">-->
+<!--        SELECT *-->
+<!--        FROM post-->
+<!--        ORDER BY-->
+<!--        GREATEST(COALESCE(post_updated_at, post_created_at), post_created_at)-->
+<!--        DESC-->
+<!--    </select>-->
     <select id="selectAllList" resultMap="PostResultMap">
-        SELECT *
-        FROM post
+        SELECT
+        p.*,
+        m.mem_id,
+        m.mem_nn,
+        m.mem_profile_file_path
+        FROM
+        post p
+        JOIN
+        member m ON p.mem_id = m.mem_id
         ORDER BY
-        GREATEST(COALESCE(post_updated_at, post_created_at), post_created_at)
-        DESC
+        GREATEST(COALESCE(post_updated_at, post_created_at), post_created_at) DESC
     </select>
+
+
 
     <!--좋아요가 많은 게시글 TOP 10-->
     <select id="selectTopTenPosts" resultMap="PostResultMap">
-        SELECT *
-        FROM post
+        SELECT
+        p.*,  -- 게시글 정보
+        m.mem_id,
+        m.mem_nn,
+        m.mem_profile_file_path
+        FROM
+        post p
+        JOIN
+        member m ON p.mem_id = m.mem_id
         ORDER BY post_like_cnt DESC
         LIMIT 10
     </select>
@@ -57,8 +79,6 @@
         m.mem_id,
         m.mem_email,
         m.mem_nn,
-        m.mem_profile_origin_file_nm,
-        m.mem_profile_converted_file_nm,
         m.mem_profile_file_path
         FROM
         post p
@@ -97,7 +117,7 @@
     <!--    위젯 -->
     <!--좋아요 많은 유저 랭킹 -->
     <select id="selectTop7Member" resultMap="PostResultMap">
-        SELECT p.post_id, p.mem_id, m.mem_nn, SUM(COALESCE(p.post_like_cnt, 0)) AS total_likes
+        SELECT p.post_id, p.mem_id, m.mem_nn, m.mem_profile_file_path, SUM(COALESCE(p.post_like_cnt, 0)) AS total_likes
         FROM post p
         LEFT OUTER JOIN member m ON p.mem_id = m.mem_id
         GROUP BY p.post_id, p.mem_id, m.mem_nn
@@ -108,12 +128,21 @@
 
     <!--회원 1명의 작성 게시글 목록-->
     <select id="selectOneMemberPostList" resultMap="PostResultMap">
-        SELECT *
-        FROM post
-        WHERE mem_id = #{memId}
-        ORDER BY post_created_at DESC
+        SELECT
+        p.*,  -- 게시글 정보
+        m.mem_id,
+        m.mem_email,
+        m.mem_nn,
+        m.mem_profile_file_path
+        FROM
+        post p
+        JOIN
+        member m ON p.mem_id = m.mem_id
+        WHERE
+        p.mem_id = #{memId}
+        ORDER BY
+        p.post_created_at DESC
     </select>
-
 
     <!--게시글 작성하기    -->
     <insert id="insertPost" parameterType="com.acorn.movielink.comunity.dto.PostDTO" useGeneratedKeys="true"

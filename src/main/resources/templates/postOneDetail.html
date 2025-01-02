@@ -548,13 +548,13 @@
                             <div class="post_tag_box">
                                 <div id="tag-container">
                                     <!-- 태그가 없는 경우 -->
-                                    <div th:if="${#lists.isEmpty(tags)}">
+                                    <div class="post_tag" th:if="${#lists.isEmpty(tags)}">
                                         <p>태그가 없습니다.</p>
                                     </div>
                                     <!-- 태그가 있는 경우 -->
                                     <div th:unless="${#lists.isEmpty(tags)}">
-                                        <div th:each="tag : ${tags}">
-                                            <span class="tag" th:text="'#' + ${tag.tagName}"></span>
+                                        <div class="post_tag" th:each="tag : ${tags}">
+                                            <p class="tag" th:text="'#' + ${tag.tagName}"></p>
                                         </div>
                                     </div>
                                 </div>
@@ -569,7 +569,8 @@
                             <p th:text="${postOne.postViews}">232</p>
                         </div>
                         <div class="like_cnt">
-                            <!--                <img th:src="@{/img/twemoji_growing-heart.svg}" alt="좋아요">-->
+                            <img th:src="@{/img/pink-heart.svg}" alt="좋아요!">
+                            <img th:src="@{/img/gray-heart.svg}" alt="좋아요?">
                             <button class="like-btn" id="likeButton" th:classappend="${isLiked ? 'liked' : 'unliked'}"
                                 th:data-post-id="${postOne.postId}" th:text="${isLiked ? '좋아요 취소' : '좋아요'}"
                                 th:title="${memId == 0 ? '로그인이 필요합니다.' : ''}">
@@ -590,7 +591,8 @@
                         <div class="comment-section">
                             <!-- 댓글 입력 폼 -->
                             <div class="comment-input-box">
-                                <textarea id="commentContent" placeholder="댓글을 입력하세요"></textarea>
+                                <textarea class="commentContent" id="commentContent"
+                                          spellcheck="false" placeholder="댓글을 입력하세요"></textarea>
                                 <button id="submitCommentBtn">댓글 작성</button>
                             </div>
                         </div>

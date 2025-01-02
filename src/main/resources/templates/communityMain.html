@@ -39,11 +39,14 @@
                     <div class="community_list_one_header">
                         <div class="community_mem_info">
                             <div class="community_mem_profile">
-                                <p th:text="${post.memId}"> memId</p>
+                                <div th:if="${post.memProfileFilePath == null}">
+                                    <p  th:text="${#strings.substring(post.memNn, 0, 1)}"> 닉네임</p> </div>
+                                <div th:if="${post.memProfileFilePath != null}">
+                                    <img th:src="${post.memProfileFilePath}" alt="회원프로필이미지"></div>
                             </div>
 
                             <div class="community_mem_nickname">
-                                <p th:text="${post.memId}">화가난_김태희_149314</p>
+                                <p th:text="${post.memNn}">화가난_김태희_149314</p>
                             </div>
                         </div>
 
@@ -104,7 +107,10 @@
                     <ul>
                         <li th:each="topSevenMem : ${topSevenMem}">
                             <div class="tag_icon">
-                                <a th:href="@{/postOneMember/{memId}(memId=${topSevenMem.memId})}" th:text="${topSevenMem.memId}">유저 게시글 보기</a>
+                                <div th:if="${topSevenMem.memProfileFilePath == null}">
+                                    <p  th:text="${#strings.substring(topSevenMem.memNn, 0, 1)}"> 닉네임</p> </div>
+                                <div th:if="${topSevenMem.memProfileFilePath != null}">
+                                    <img th:src="${topSevenMem.memProfileFilePath}" alt="회원프로필이미지"></div>
                             </div>
                             <a th:href="@{/postOneMember/{memId}(memId=${topSevenMem.memId})}" th:text="${topSevenMem.memNn}">유저 게시글 보기</a>
                         </li>
