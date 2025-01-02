@@ -179,19 +179,43 @@ public class PostController {
     }
 
     //게시글 작성하기
+//    @GetMapping("/postCreate")
+//    public String createPostForm(HttpSession httpSession, Model model){
+//        Map<String, Object> authInfo = authenticationUtil.checkAuthentication();
+//        boolean isAuthenticated = (boolean) authInfo.get("authenticated");
+//        int memId = (int) authInfo.getOrDefault("memId", 0); // 기본값 0 설정
+//        // 로그인 여부 체크
+//        boolean loginChecking = httpSession.getAttribute("memId") != null;
+//        model.addAttribute("loginChecking", loginChecking);  // 로그인 상태를 뷰로 전달
+//        // 로그인되지 않았다면 로그인 페이지로 리디렉션
+//        if (!loginChecking) {
+//            return "redirect:/login";
+//        }
+//        //빈 객체를 모델에 추가하여 뷰에 전달
+//        model.addAttribute("post", new PostDTO());
+//        return "postCreateView";
+//    }
+
+
     @GetMapping("/postCreate")
-    public String createPostForm(HttpSession httpSession, Model model){
-        // 로그인 여부 체크
-        boolean loginChecking = httpSession.getAttribute("memId") != null;
-        model.addAttribute("loginChecking", loginChecking);  // 로그인 상태를 뷰로 전달
-        // 로그인되지 않았다면 로그인 페이지로 리디렉션
-        if (!loginChecking) {
+    public String createPostForm( Model model) {
+
+        // 인증 상태 체크
+        Map<String, Object> authInfo = authenticationUtil.checkAuthentication();
+        boolean isAuthenticated = (boolean) authInfo.get("authenticated");
+        if (!isAuthenticated) {
             return "redirect:/login";
         }
+
+        // 사용자 ID 추가
+        int memId = (int) authInfo.getOrDefault("memId", 0);
+        model.addAttribute("memId", memId);
+
         //빈 객체를 모델에 추가하여 뷰에 전달
         model.addAttribute("post", new PostDTO());
         return "postCreateView";
     }
+
 
 
     @PostMapping("/postCreate")
@@ -199,12 +223,11 @@ public class PostController {
                              @RequestParam(name = "content") String content,
                              @RequestParam(name = "images") List<MultipartFile> images, // 게시글 이미지 파일
                              @RequestParam(value = "tags", required = false) String tagsInput, // 폼 데이터 기반 태그 처리
-                             Model model,
-                             HttpSession httpSession) {
+                             Model model ) {
         try {
 
             // 로그인한 사용자 ID를 게시글에 설정
-            int memId = (int) httpSession.getAttribute("memId");
+            int memId = authenticationUtil.getCurrentUserId();
 
             // 1. 게시글 저장
             PostDTO postDTO = new PostDTO();
