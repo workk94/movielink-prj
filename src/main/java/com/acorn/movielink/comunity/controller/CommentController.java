@@ -4,8 +4,6 @@ import com.acorn.movielink.comunity.dto.CommentDTO;
 import com.acorn.movielink.comunity.service.CommentService;
 import com.acorn.movielink.comunity.service.CommunityPostService;
 import com.acorn.movielink.login.service.MemberService;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -83,51 +80,6 @@ public class CommentController {
 
 
 
-    // 대댓글 작성
-    @PostMapping("/{parentId}/replyAdd")
-    public CompletableFuture<ResponseEntity<?>> addReplyAsync(
-            @RequestBody CommentDTO commentDTO,
-            @PathVariable("parentId") int parentId, // int로 변경
-            HttpServletRequest request) {
-
-        return CompletableFuture.supplyAsync(() -> {
-            try {
-                // 로그인 여부 검증
-                int memId = authenticationUtil.getCurrentUserId();
-                if (memId <= 0) {
-                    throw new SecurityException("로그인이 필요합니다.");
-                }
-
-                // 부모 댓글(parentId) 검증
-                if (commentDTO.getParentId() == null ||
-                        !commentService.validateCommentExists(commentDTO.getParentId())) {
-                    throw new IllegalArgumentException("존재하지 않는 댓글입니다.");
-                }
-
-                // 댓글 내용 검증
-                if (commentDTO.getContent() == null || commentDTO.getContent().trim().isEmpty()) {
-                    throw new IllegalArgumentException("댓글 내용은 비어 있을 수 없습니다.");
-                }
-
-                // 대댓글 추가
-                CommentDTO savedReply = commentService.addReply(commentDTO, memId);
-                return ResponseEntity.ok(savedReply);
-
-            } catch (IllegalArgumentException e) {
-                return ResponseEntity.badRequest().body(e.getMessage());
-            } catch (SecurityException e) {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
-            } catch (Exception e) {
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                        .body("댓글 작성 중 오류가 발생했습니다.");
-            }
-        }, executor);
-    }
-
-
-
-
-
     // 댓글 수정
     @PutMapping("/{postId}/{commentId}/update")
     public ResponseEntity<?> updateComment(@PathVariable("postId") int postId,
@@ -139,25 +91,15 @@ public class CommentController {
             if (memId == null || memId <= 0) {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인이 필요합니다.");
             }
+            // 댓글 수정 처리
+            CommentDTO updatedComment = commentService.updateComment(commentDTO, postId, memId);
 
-            // 게시글 ID 검증
-            if (!commentService.validatePostExists(postId)) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("존재하지 않는 게시글입니다.");
-            }
-
-            // 댓글 존재 여부 검증
-            if (!commentService.validateCommentExists2(postId, commentId)) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("존재하지 않는 댓글입니다.");
-            }
-
-            // 수정 권한 검증
-            if (!commentService.isCommentOwner(commentId, memId)) {
-                return ResponseEntity.status(HttpStatus.FORBIDDEN).body("수정 권한이 없습니다.");
-            }
-
-            // 댓글 수정
-            CommentDTO updatedComment = commentService.updateComment(commentDTO, memId);
-            return ResponseEntity.ok(updatedComment); // 수정 후 반환
+            // 성공 응답
+            Map<String, Object> response = new HashMap<>();
+            response.put("status", "success");
+            response.put("message", "댓글이 수정되었습니다.");
+            response.put("data", updatedComment);
+            return ResponseEntity.ok(response);
 
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -166,157 +108,5 @@ public class CommentController {
                     .body("댓글 수정 중 오류가 발생했습니다.");
         }
     }
-
-
-    // 대댓글 수정
-    @PutMapping("/replyUpdate")
-    public ResponseEntity<?> updateReply(@RequestBody CommentDTO commentDTO) {
-        try {
-            // 로그인 여부 검증
-            Integer memId = authenticationUtil.getCurrentUserId();
-            if (memId == null || memId <= 0) {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인이 필요합니다.");
-            }
-
-            // 대댓글 존재 여부 검증
-            if (commentDTO.getCommentId() <= 0 || !commentService.validateCommentExists(commentDTO.getCommentId())) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("존재하지 않는 대댓글입니다.");
-            }
-
-            // 권한 검증
-            if (!commentService.isCommentOwner(commentDTO.getCommentId(), memId)) {
-                return ResponseEntity.status(HttpStatus.FORBIDDEN).body("수정 권한이 없습니다.");
-            }
-
-            // 대댓글 수정 처리
-            commentService.updateReply(commentDTO, memId);
-            return ResponseEntity.ok("대댓글 수정 성공");
-
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        } catch (SecurityException e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("대댓글 수정 중 오류가 발생했습니다.");
-        }
-    }
-
-
-    // 댓글 삭제
-    @DeleteMapping("/{commentId}")
-    public CompletableFuture<ResponseEntity<?>> deleteCommentAsync(
-            @PathVariable int postId,
-            @PathVariable int commentId) {
-
-        return CompletableFuture.supplyAsync(() -> {
-            try {
-                // 로그인 여부 검증
-                Integer memId = authenticationUtil.getCurrentUserId();
-                if (memId == null || memId <= 0) {
-                    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인이 필요합니다.");
-                }
-
-                // 댓글 존재 여부 검증
-                if (!commentService.validateCommentExists(commentId)) {
-                    return ResponseEntity.status(HttpStatus.NOT_FOUND).body("존재하지 않는 댓글입니다.");
-                }
-
-                // 권한 검증
-                if (!commentService.isCommentOwner(commentId, memId)) {
-                    return ResponseEntity.status(HttpStatus.FORBIDDEN).body("삭제 권한이 없습니다.");
-                }
-
-                // 댓글 삭제
-                commentService.deleteComment(commentId, memId);
-                return ResponseEntity.ok("댓글 삭제 완료");
-
-            } catch (IllegalArgumentException e) {
-                return ResponseEntity.badRequest().body(e.getMessage());
-            } catch (SecurityException e) {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
-            } catch (Exception e) {
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                        .body("댓글 삭제 중 오류가 발생했습니다.");
-            }
-        }, executor);
-    }
-
-
-    // 대댓글 삭제
-    @DeleteMapping("/posts/{postId}/comments/{commentId}/replies/{replyId}")
-    public CompletableFuture<ResponseEntity<?>> deleteReplyAsync(
-            @PathVariable int postId,
-            @PathVariable int commentId,
-            @PathVariable int replyId) {
-
-        return CompletableFuture.supplyAsync(() -> {
-            try {
-                // 로그인 여부 검증
-                Integer memId = authenticationUtil.getCurrentUserId();
-                if (memId == null || memId <= 0) {
-                    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인이 필요합니다.");
-                }
-
-                // 대댓글 존재 여부 검증
-                if (!commentService.validateCommentExists(replyId)) {
-                    return ResponseEntity.status(HttpStatus.NOT_FOUND).body("존재하지 않는 대댓글입니다.");
-                }
-
-                // 부모-자식 관계 검증
-                if (!commentService.isParentChildRelation(commentId, replyId)) {
-                    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("대댓글의 부모 댓글이 일치하지 않습니다.");
-                }
-
-                // 권한 검증
-                if (!commentService.isCommentOwner(replyId, memId)) {
-                    return ResponseEntity.status(HttpStatus.FORBIDDEN).body("삭제 권한이 없습니다.");
-                }
-
-                // 대댓글 삭제
-                commentService.deleteReply(replyId, memId);
-                return ResponseEntity.ok("대댓글 삭제 완료");
-
-            } catch (IllegalArgumentException e) {
-                return ResponseEntity.badRequest().body(e.getMessage());
-            } catch (SecurityException e) {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
-            } catch (Exception e) {
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                        .body("대댓글 삭제 중 오류가 발생했습니다.");
-            }
-        }, executor);
-    }
-
-
-
-    // 좋아요 증가
-    @PutMapping("/like/{commentId}")
-    public CompletableFuture<ResponseEntity<String>> increaseLike(
-            @PathVariable int commentId, HttpSession session) {
-        Integer memId =  authenticationUtil.getCurrentUserId();
-        return CompletableFuture.supplyAsync(() -> {
-            commentService.increaseLikeCount(commentId, memId);
-            return ResponseEntity.ok("좋아요 증가");
-        });
-    }
-
-    // 좋아요 감소
-    @PutMapping("/unlike/{commentId}")
-    public CompletableFuture<ResponseEntity<String>> decreaseLike(
-            @PathVariable int commentId, HttpSession session) {
-        Integer memId = authenticationUtil.getCurrentUserId();
-        return CompletableFuture.supplyAsync(() -> {
-            commentService.decreaseLikeCount(commentId, memId);
-            return ResponseEntity.ok("좋아요 감소");
-        });
-    }
-
-
-
-
-
-
-
 
 }

@@ -20,14 +20,14 @@ public class MovieDetailController2 {
     }
 
 
-    @GetMapping("/title/{movieId}")
-    public String getMovieDetail(@PathVariable("movieId") int movieId, Model model) {
-        MovieDTO dto = service.getMovieDetail(movieId);
-
-        if (dto != null){
-            model.addAttribute("movie", dto);
-        }
-
-        return "movie-detail";
-    }
+//    @GetMapping("/title/{movieId}")
+//    public String getMovieDetail(@PathVariable("movieId") int movieId, Model model) {
+//        MovieDTO dto = service.getMovieDetail(movieId);
+//
+//        if (dto != null){
+//            model.addAttribute("movie", dto);
+//        }
+//
+//        return "movie-detail";
+//    }
 }
