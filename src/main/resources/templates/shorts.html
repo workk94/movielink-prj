@@ -70,7 +70,8 @@
     <!--    <h1 class="login-header">영화 관련 YouTube Shorts</h1>-->
     <div class="slider-container">
         <div class="short" id="videoPlayer">
-            <iframe allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen frameborder="0"
+            <iframe allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen
+                    frameborder="0"
                     id="videoIframe"
                     src=""></iframe>
             <div class="button-container">
@@ -84,6 +85,8 @@
 
 
     </div>
+    <div th:replace="~{fragments/footer :: footerFragment}"></div>
+
 </div>
 
 <!-- Thymeleaf에서 shorts 리스트를 JSON 형식으로 전달 -->
