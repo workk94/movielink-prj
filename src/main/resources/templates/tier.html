@@ -4,9 +4,9 @@
     <meta charset="UTF-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
     <title>무비링크 나만의 티어리스트!!</title>
+    <!-- html2canvas 스크립트 제거 -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
     <link rel="stylesheet" th:href="@{/css/style.css}"/>
     <link rel="stylesheet" th:href="@{/css/tier.css}"/>
     <style></style>
@@ -74,18 +74,15 @@
             <button class="tier-settings">⚙️</button>
         </div>
     </div>
+
     <!-- 영화 목록 (드래그 가능) -->
     <div id="movieList" style="margin-top: 15px">
         <!-- AJAX로 가져온 데이터를 JS에서 동적으로 표시 -->
     </div>
 
-    <!-- 공유(화면 캡처) 버튼 -->
-    <div class="copy-button">
-        <button onclick="captureAndCopy()" type="button">
-            클립보드에 캡처 이미지 복사
-        </button>
-    </div>
+    <!-- html2canvas 캡처 버튼 제거 -->
 </div>
+
 <script>
     // 페이지 로드 시점에 droppable 초기화
     $(function () {
@@ -103,7 +100,7 @@
         const genreId = $("#genreId").val();
 
         $.ajax({
-            url: `/tier/movies?startYear=${startYear}&genreId=${genreId}`, // endYear 제거
+            url: `/tier/movies?startYear=${startYear}&genreId=${genreId}`,
             method: "GET",
             success: function (data) {
                 // data: [{ movieId, movieNm, moviePosterUrl, ... }, ...]
@@ -111,10 +108,10 @@
                 data.forEach(function (movie) {
                     html += `
                         <img src="${movie.moviePosterUrl}"
-                            data-movie-id="${movie.movieId}"
-                            class="movie-poster draggable"
-                            title="${movie.movieNm} (${movie.movieOpenDt})"
-                            crossOrigin="anonymous"/>
+                             data-movie-id="${movie.movieId}"
+                             class="movie-poster draggable"
+                             title="${movie.movieNm} (${movie.movieOpenDt})"
+                           />
                     `;
                 });
                 $("#movieList").html(html);
@@ -175,37 +172,9 @@
             });
     }
 
-    // 4) 화면 캡처 → 클립보드 복사
-    function captureAndCopy() {
-    const tierArea = document.getElementById("tierContainer");
+    // html2canvas 사용 코드(captureAndCopy 함수) 완전 제거
 
-    html2canvas(tierArea, { useCORS: true }).then((canvas) => { // useCORS 옵션 추가
-        canvas.toBlob(async (blob) => {
-            if (!blob) {
-                alert("Blob 생성에 실패했습니다.");
-                return;
-            }
-
-            if (!navigator.clipboard || !window.ClipboardItem) {
-                alert("이 브라우저에서는 클립보드 복사가 지원되지 않습니다.");
-                return;
-            }
-
-            const clipboardItem = new ClipboardItem({ "image/png": blob });
-            try {
-                await navigator.clipboard.write([clipboardItem]);
-                alert("클립보드에 이미지가 복사되었습니다!");
-            } catch (err) {
-                alert("클립보드 복사 중 오류: " + err);
-            }
-        }, "image/png");
-    }).catch((error) => {
-        console.error("html2canvas 오류:", error);
-        alert("캡처 중 오류가 발생했습니다.");
-    });
-}
-
-    // 수정된 openColorPicker 함수
+    // 색상 선택 함수
     function openColorPicker($tierTitle) {
         $(".color-picker-input").remove();
 
@@ -243,7 +212,7 @@
 
         // color picker 자체를 닫을 때 이벤트 리스너 제거
         $colorInput.on("blur", function () {
-            setTimeout(() => { // setTimeout을 사용하여 클릭 이벤트가 먼저 처리되도록 함
+            setTimeout(() => {
                 $colorInput.remove();
                 $(document).off('mousedown.colorPicker');
             }, 100);
