@@ -1,0 +1,49 @@
+<div th:fragment="footerFragment" xmlns:th="http://www.thymeleaf.org">
+    <footer>
+        <nav class="footer-util">
+            <a class="route-item" th:href="@{/}">
+                <div class="route-img">
+                    <img alt="홈 아이콘" th:src="@{/img/home.svg}"/>
+                </div>
+                <div class="route-name">홈</div>
+            </a>
+            <a class="route-item" th:href="@{/search}">
+                <div class="route-img">
+                    <img alt="발견 아이콘" th:src="@{/img/search.svg}"/>
+                </div>
+                <div class="route-name">발견</div>
+            </a>
+            <a class="route-item" th:href="@{/tier}">
+                <div class="route-img">
+                    <img alt="콘텐츠 아이콘" th:src="@{/img/list.svg}"/>
+                </div>
+                <div class="route-name">콘텐츠</div>
+            </a>
+
+            <a class="route-item" th:href="@{/shorts}">
+                <div class="route-img">
+                    <img alt="숏폼 아이콘" th:src="@{/img/shortform.svg}"/>
+                </div>
+                <div class="route-name">숏폼</div>
+            </a>
+            <a class="route-item" th:href="@{/communityMain}">
+                <div class="route-img">
+                    <img alt="커뮤니티 아이콘" th:src="@{/img/community.svg}"/>
+                </div>
+                <div class="route-name">커뮤니티</div>
+            </a>
+            <a class="route-item" th:href="@{/rank}">
+                <div class="route-img">
+                    <img alt="랭킹 아이콘" th:src="@{/img/ranking.svg}"/>
+                </div>
+                <div class="route-name">랭킹</div>
+            </a>
+            <a class="route-item" th:href="@{/mypage}">
+                <div class="route-img">
+                    <img alt="마이페이지 아이콘" th:src="@{/img/mypage.svg}"/>
+                </div>
+                <div class="route-name">마이페이지</div>
+            </a>
+        </nav>
+    </footer>
+</div>

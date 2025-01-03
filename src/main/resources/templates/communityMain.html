@@ -66,7 +66,7 @@
                         <div class="community_imgbox">
                             <a th:href="@{/postDetail/{postId}(postId=${post.postId})}">
                                 <img alt="게시글썸네일"
-                                     th:src="@{${post.thumbnailUrl} != null ? ${post.imageUrl} : '/img/nullImg.png'}">
+                                     th:src="@{${post.thumbnailUrl} != null ? ${post.thumbnailUrl} : '/img/nullImg.png'}">
                             </a>
                         </div>
                     </div>
@@ -121,7 +121,7 @@
             </div>
         </div>
     </section>
-
+    <div th:replace="~{fragments/footer :: footerFragment}"></div>
 
 </div>
 

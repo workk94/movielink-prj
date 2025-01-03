@@ -2,391 +2,412 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-  <meta charset="UTF-8">
-  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-  <title>Movie Details</title>
-  <meta name="_csrf" th:content="${_csrf.token}" />
-  <meta name="_csrf_header" th:content="${_csrf.headerName}" />
-  <link rel="stylesheet" th:href="@{/css/style.css}" />
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Movie Details</title>
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
 
-  <style>
-    /* 제목  */
-    .info-title h3 {
-      font-size: 28px;
-      font-weight: bold;
-      padding: 16px;
-      color: #d4d9e1;
-      display: inline-block;
-    }
+    <style>
+        /* 제목  */
+        .info-title h3 {
+          font-size: 28px;
+          font-weight: bold;
+          padding: 16px;
+          color: #d4d9e1;
+          display: inline-block;
+        }
 
-    .info-title .list-title {
-      font-size: 18px;
-      color: #98a4b7;
-    }
+        .info-title .list-title {
+          font-size: 18px;
+          color: #98a4b7;
+        }
 
-    /* 평점 영역  */
-    .info-rating {
-      display: flex;
-      flex-wrap: wrap;
-      padding: 0px 16px;
-      gap: 16px;
-      margin-bottom: 10px;
-    }
+        /* 평점 영역  */
+        .info-rating {
+          display: flex;
+          flex-wrap: wrap;
+          padding: 0px 16px;
+          gap: 16px;
+          margin-bottom: 10px;
+        }
 
-    .info-rating span {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 16px;
-    }
+        .info-rating span {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          font-size: 16px;
+        }
 
-    .info-rating img {
-      width: 24px;
-      height: 24px;
-      margin-right: 8px;
-    }
+        .info-rating img {
+          width: 24px;
+          height: 24px;
+          margin-right: 8px;
+        }
 
-    .info-rating .rating-value {
-      font-size: 18px;
-      font-weight: bold;
-      color: #d4d9e1;
-    }
+        .info-rating .rating-value {
+          font-size: 18px;
+          font-weight: bold;
+          color: #d4d9e1;
+        }
 
-    .info-rating .rating-text {
-      font-size: 18px;
-      color: #98a4b7;
-    }
+        .info-rating .rating-text {
+          font-size: 18px;
+          color: #98a4b7;
+        }
 
-    /* 평점 아이콘  */
-    .info-rating .icon2,
-    .info-rating .icon3 {
-      width: 20px;
-      height: 20px;
-    }
+        /* 평점 아이콘  */
+        .info-rating .icon2,
+        .info-rating .icon3 {
+          width: 20px;
+          height: 20px;
+        }
 
-    /* 자체평점  */
-    .info-rating .rating-ours {
-      font-size: 16px;
-      font-weight: bold;
-      color: #d4d9e1;
-    }
+        /* 자체평점  */
+        .info-rating .rating-ours {
+          font-size: 16px;
+          font-weight: bold;
+          color: #d4d9e1;
+        }
 
 
-    /* 영화 정보 */
-    .mvinfo {
-      padding: 16px;
-    }
+        /* 영화 정보 */
+        .mvinfo {
+          padding: 16px;
+        }
 
-    .mvinfo-storyline {
-      padding: 16px 0;
-      border-bottom: 1px solid #586a85;
-    }
+        .mvinfo-storyline {
+          padding: 16px 0;
+          border-bottom: 1px solid #586a85;
+        }
 
-    #togglePlot {
-      color: #586a85;
-      cursor: pointer;
-    }
+        #togglePlot {
+          color: #586a85;
+          cursor: pointer;
+        }
 
-    .mvinfo-detail {
-      padding: 16px 0;
-    }
+        .mvinfo-detail {
+          padding: 16px 0;
+        }
 
-    .detail-list {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      grid-gap: 16px;
-    }
+        .detail-list {
+          display: grid;
+          grid-template-columns: repeat(2, 1fr);
+          grid-gap: 16px;
+        }
 
-    .detail-list > li {
-      display: flex;
-    }
+        .detail-list > li {
+          display: flex;
+        }
 
-    .detail-list > li .list-title {
-      flex: 1;
-      font-weight: bold;
-    }
+        .detail-list > li .list-title {
+          flex: 1;
+          font-weight: bold;
+        }
 
-    .detail-list > li .list-body {
-      flex: 4;
-      color: #d4d9e1;
-    }
+        .detail-list > li .list-body {
+          flex: 4;
+          color: #d4d9e1;
+        }
 
-    .banner {
-      height: 100px;
-      margin: 16px 0;
-      background-color: #25304a;
-    }
+        .banner {
+          height: 100px;
+          margin: 16px 0;
+          background-color: #25304a;
+        }
 
-    .mvinfo-person {
-      padding: 0 0 16px 0;
-    }
+        .mvinfo-person {
+          padding: 0 0 16px 0;
+        }
 
-    .person-actor {
-      padding: 16px 0 8px 0;
-      border-bottom: 1px solid #586a85;
-      border-top: 1px solid #586a85;
-    }
+        .person-actor {
+          padding: 16px 0 8px 0;
+          border-bottom: 1px solid #586a85;
+          border-top: 1px solid #586a85;
+        }
 
-    .actor-list {
-      display: grid;
-      grid-template-columns: repeat(8, 1fr);
-      justify-content: center;
-      align-items: center;
-      padding: 8px;
-    }
+        .actor-list {
+          display: grid;
+          grid-template-columns: repeat(8, 1fr);
+          justify-content: center;
+          align-items: center;
+          padding: 8px;
+        }
 
-    .actor-list > li {
-      width: 81.25px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-    }
+        .actor-list > li {
+          width: 81.25px;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+        }
 
-    .actor-list > li .list-title {
-      font-size: 12px;
-    }
+        .actor-list > li .list-title {
+          font-size: 12px;
+        }
 
-    .actor-profile {
-      width: 70px;
-      height: 70px;
-      margin-bottom: 8px;
-      border-radius: 50%;
-      border: 1px solid #25304a;
-      overflow: hidden;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
+        .actor-profile {
+          width: 70px;
+          height: 70px;
+          margin-bottom: 8px;
+          border-radius: 50%;
+          border: 1px solid #25304a;
+          overflow: hidden;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
 
-    .actor-profile a {
-      display: block;
-      width: 100%;
-      height: 100%;
-    }
+        .actor-profile a {
+          display: block;
+          width: 100%;
+          height: 100%;
+        }
 
-    .actor-profile a img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
+        .actor-profile a img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
 
-    .staff-list > li {
-      display: flex;
-    }
+        .staff-list > li {
+          display: flex;
+        }
 
-    .staff-list > li .list-body {
-      flex: 3;
-    }
+        .staff-list > li .list-body {
+          flex: 3;
+        }
 
-    .staff-list > li .list-stringify {
-      flex: 25;
-    }
+        .staff-list > li .list-stringify {
+          flex: 25;
+        }
 
-    /* 탭 스타일 */
-    .tabs {
-      height: 50px;
-      display: flex;
-      justify-content: space-around;
-      border-bottom: 1px solid #586a85;
-      margin-top: 16px;
-    }
+        /* 탭 스타일 */
+        .tabs {
+          height: 50px;
+          display: flex;
+          justify-content: space-around;
+          border-bottom: 1px solid #586a85;
+          margin-top: 16px;
+        }
 
-    .tab {
-      height: 50px;
-      flex: 1;
-      text-align: center;
-      line-height: 50px;
-      cursor: pointer;
-      color: #98a4b7;
-      font-size: 16px;
-    }
+        .tab {
+          height: 50px;
+          flex: 1;
+          text-align: center;
+          line-height: 50px;
+          cursor: pointer;
+          color: #98a4b7;
+          font-size: 16px;
+        }
 
-    .tab.active {
-      font-weight: bold;
-      border-bottom: 2px solid #efefef;
-    }
+        .tab.active {
+          font-weight: bold;
+          border-bottom: 2px solid #efefef;
+        }
 
-    .content-section {
-      display: none;
-    }
+        .content-section {
+          display: none;
+        }
 
-    .content-section.active {
-      display: block;
-    }
+        .content-section.active {
+          display: block;
+        }
 
-    /* 좋아요 버튼 */
-    .title-button {
-      margin-top: 16px;
-    }
+        /* 좋아요 버튼 */
+        .title-button {
+          margin-top: 16px;
+        }
 
-    .button-likes {
-      height: 48px;
-      width: 330px;
-      border-radius: 30px;
-      background-color: #25304a;
-      color: #586a85;
-      border: 1px solid #25304a;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      cursor: pointer;
-      gap: 8px;
-    }
+        .button-likes {
+          height: 48px;
+          width: 330px;
+          border-radius: 30px;
+          background-color: #25304a;
+          color: #586a85;
+          border: 1px solid #25304a;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          cursor: pointer;
+          gap: 8px;
+        }
 
-    .button-likes.filled {
-      border: 2px solid #637dea;
-      font-weight: bold;
-    }
+        .button-likes.filled {
+          border: 2px solid #637dea;
+          font-weight: bold;
+        }
 
-    .heart {
-      width: 22px;
-      height: 22px;
-    }
+        .heart {
+          width: 22px;
+          height: 22px;
+        }
 
-    .heart-path {
-      fill: none;
-      stroke: #efefef;
-    }
+        .heart-path {
+          fill: none;
+          stroke: #efefef;
+        }
 
-    .heart.filled .heart-path {
-      fill: #efefef;
-      stroke: #efefef;
-    }
-  </style>
+        .heart.filled .heart-path {
+          fill: #efefef;
+          stroke: #efefef;
+        }
+    </style>
 </head>
 
 <body>
 
 <div class="root">
-  <!-- 헤더 -->
-  <div th:replace="~{fragments/header :: headerFragment}"></div>
+    <!-- 헤더 -->
+    <div th:replace="~{fragments/header :: headerFragment}"></div>
 
-  <!-- Content 영역 -->
-  <div class="movie-title">
-    <div class="title-content">
-      <div class="info-title">
-        <!-- 영화 제목 -->
-        <h3 th:text="${movie.movieNm}">영화 제목</h3>
-        <!-- 영어 제목 -->
-        <span class="list-title" th:text="${movie.movieNmEn}">영화 제목(영문)</span>
-      </div>
-      <div class="info-rating">
-        <!-- 자체 평점 -->
-        <span class="rating-ours">
+    <!-- Content 영역 -->
+    <div class="movie-title">
+        <div class="title-content">
+            <div class="info-title">
+                <!-- 영화 제목 -->
+                <h3 th:text="${movie.movieNm}">영화 제목</h3>
+                <!-- 영어 제목 -->
+                <span class="list-title" th:text="${movie.movieNmEn}">영화 제목(영문)</span>
+            </div>
+            <div class="info-rating">
+                <!-- 자체 평점 -->
+                <span class="rating-ours">
         <span class="rating-text">자체 평점:</span>
         <span class="rating-value" th:text="${movie.movieScoreAvg}">8.2</span>
     </span>
 
-        <!-- IMDB 평점 -->
-        <span class="rating-otts">
-        <img class="icon2" th:src="@{/img/ic-imdb.svg}" alt="IMDB Logo">
+                <!-- IMDB 평점 -->
+                <span class="rating-otts">
+        <img alt="IMDB Logo" class="icon2" th:src="@{/img/ic-imdb.svg}">
         <span class="rating-text">IMDB 평점:</span>
         <span class="rating-value" th:text="${movie.movieImdbScore}">7.8</span>
     </span>
 
-        <!-- TMDB 평점 -->
-        <span class="rating-otts">
-        <img class="icon3" th:src="@{/img/ic-tmdb.svg}" alt="TMDB Logo">
+                <!-- TMDB 평점 -->
+                <span class="rating-otts">
+        <img alt="TMDB Logo" class="icon3" th:src="@{/img/ic-tmdb.svg}">
         <span class="rating-text">TMDB 평점:</span>
         <span class="rating-value" th:text="${movie.movieTmdbScore}">7.5</span>
     </span>
-      </div>
+            </div>
 
+        </div>
+
+        <!-- 트레일러 -->
+        <div class="content-trailer" style="width: 100%; height: 400px;">
+            <iframe allowfullscreen
+                    frameborder="0" height="100%" style="max-width: 100%;"
+                    th:src="${movie.movieTrailer != null ? 'https://www.youtube.com/embed/' + movie.movieTrailer.split('v=')[1] : 'https://www.youtube.com/embed/EN1KhHulIJ0'}"
+                    width="100%"></iframe>
+        </div>
     </div>
 
-    <!-- 트레일러 -->
-    <div class="content-trailer" style="width: 100%; height: 400px;">
-      <iframe th:src="${movie.movieTrailer != null ? 'https://www.youtube.com/embed/' + movie.movieTrailer.split('v=')[1] : 'https://www.youtube.com/embed/EN1KhHulIJ0'}" width="100%" height="100%" frameborder="0" allowfullscreen style="max-width: 100%;"></iframe>
+    <!-- 탭 -->
+    <div class="tabs">
+        <div class="tab active" onclick="toggleTab('mvinfo')">작품 정보</div>
+        <div class="tab" onclick="toggleTab('mvreview')">리뷰</div>
     </div>
-  </div>
 
-  <!-- 탭 -->
-  <div class="tabs">
-    <div class="tab active" onclick="toggleTab('mvinfo')">작품 정보</div>
-    <div class="tab" onclick="toggleTab('mvreview')">리뷰</div>
-  </div>
-
-  <!-- 탭 콘텐츠 -->
-  <div class="content-section active" id="mvinfo">
-    <div class="mvinfo">
-      <div class="mvinfo-storyline">
+    <!-- 탭 콘텐츠 -->
+    <div class="content-section active" id="mvinfo">
+        <div class="mvinfo">
+            <div class="mvinfo-storyline">
                     <span class="list-body">
-                        <span id="shortPlot" th:text="${movie.moviePlot != null && movie.moviePlot.length() > 150 ? movie.moviePlot.substring(0, 150) + '...' : movie.moviePlot}"></span>
+                        <span id="shortPlot"
+                              th:text="${movie.moviePlot != null && movie.moviePlot.length() > 150 ? movie.moviePlot.substring(0, 150) + '...' : movie.moviePlot}"></span>
                         <span id="fullPlot" style="display: none;" th:text="${movie.moviePlot}"></span>
                         <a href="#" id="togglePlot" onclick="togglePlot(event)">더보기</a>
                     </span>
-      </div>
+            </div>
 
-      <div class="mvinfo-detail">
-        <ul class="detail-list">
-          <li><div class="list-title">장르</div><div class="list-body" th:text="${movie.genreNm ?: '-'}"></div></li>
-          <li><div class="list-title">개봉일</div><div class="list-body" th:text="${movie.movieOpenDt ?: '-'} + ' 개봉'"></div></li>
-          <li><div class="list-title">연령등급</div><div class="list-body" th:text="${movie.movieAgeRating ?: '-'}"></div></li>
-          <li><div class="list-title">러닝타임</div><div class="list-body" th:text="${movie.movieRunningTime ?: '-'} + '분'"></div></li>
-          <li><div class="list-title">제작국가</div><div class="list-body" th:text="${movie.movieCountry ?: '-'}"></div></li>
-        </ul>
-      </div>
+            <div class="mvinfo-detail">
+                <ul class="detail-list">
+                    <li>
+                        <div class="list-title">장르</div>
+                        <div class="list-body" th:text="${movie.genreNm ?: '-'}"></div>
+                    </li>
+                    <li>
+                        <div class="list-title">개봉일</div>
+                        <div class="list-body" th:text="${movie.movieOpenDt ?: '-'} + ' 개봉'"></div>
+                    </li>
+                    <li>
+                        <div class="list-title">연령등급</div>
+                        <div class="list-body" th:text="${movie.movieAgeRating ?: '-'}"></div>
+                    </li>
+                    <li>
+                        <div class="list-title">러닝타임</div>
+                        <div class="list-body" th:text="${movie.movieRunningTime ?: '-'} + '분'"></div>
+                    </li>
+                    <li>
+                        <div class="list-title">제작국가</div>
+                        <div class="list-body" th:text="${movie.movieCountry ?: '-'}"></div>
+                    </li>
+                </ul>
+            </div>
 
-      <div class="mvinfo-person">
-        <div class="person-actor">
-          <h4>출연진</h4>
-          <ul class="actor-list">
-            <li th:each="actor : ${movie.actors}">
-              <div class="actor-profile">
-                <a th:href="@{/person/{id}/filmography (id=${actor.peopleId})}">
-                <img th:src="${actor.peopleProfileUrl != null ? actor.peopleProfileUrl : '/img/placeholder-people.svg'}" alt="배우 프로필">
-                </a>
-              </div>
-              <div th:text="${actor.peopleNm ?: '-'}" class="list-body">배우 이름</div>
-              <div th:text="${actor.peopleRoleNm ?: '-'}" class="list-title">배역</div>
-            </li>
-          </ul>
+            <div class="mvinfo-person">
+                <div class="person-actor">
+                    <h4>출연진</h4>
+                    <ul class="actor-list">
+                        <li th:each="actor : ${movie.actors}">
+                            <div class="actor-profile">
+                                <a th:href="@{/person/{id}/filmography (id=${actor.peopleId})}">
+                                    <img alt="배우 프로필"
+                                         th:src="${actor.peopleProfileUrl != null ? actor.peopleProfileUrl : '/img/placeholder-people.svg'}">
+                                </a>
+                            </div>
+                            <div class="list-body" th:text="${actor.peopleNm ?: '-'}">배우 이름</div>
+                            <div class="list-title" th:text="${actor.peopleRoleNm ?: '-'}">배역</div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
 
-  <!-- Review Section -->
-  <div class="content-section" id="mvreview">
-    <h3>리뷰</h3>
-    <p>리뷰 내용이 여기에 표시됩니다.</p>
-  </div>
-
+    <!-- Review Section -->
+    <div class="content-section" id="mvreview">
+        <h3>리뷰</h3>
+        <p>리뷰 내용이 여기에 표시됩니다.</p>
+    </div>
+    <div th:replace="~{fragments/footer :: footerFragment}"></div>
+</div>
 <script>
-  function toggleTab(tabId) {
-    const allTabs = document.querySelectorAll('.content-section');
-    const allTabButtons = document.querySelectorAll('.tab');
+    function toggleTab(tabId) {
+      const allTabs = document.querySelectorAll('.content-section');
+      const allTabButtons = document.querySelectorAll('.tab');
 
-    allTabs.forEach(tab => {
-      tab.classList.remove('active');
-    });
-    allTabButtons.forEach(button => {
-      button.classList.remove('active');
-    });
+      allTabs.forEach(tab => {
+        tab.classList.remove('active');
+      });
+      allTabButtons.forEach(button => {
+        button.classList.remove('active');
+      });
 
-    document.getElementById(tabId).classList.add('active');
-    document.querySelector(`.tab[onclick="toggleTab('${tabId}')"]`).classList.add('active');
-  }
-
-  function togglePlot(event) {
-    event.preventDefault();
-    const shortPlot = document.getElementById('shortPlot');
-    const fullPlot = document.getElementById('fullPlot');
-    const toggleButton = document.getElementById('togglePlot');
-
-    if (shortPlot.style.display === 'none') {
-      shortPlot.style.display = '';
-      fullPlot.style.display = 'none';
-      toggleButton.textContent = '더보기';
-      toggleButton.style.color = '#586a85';
-    } else {
-      shortPlot.style.display = 'none';
-      fullPlot.style.display = '';
-      toggleButton.textContent = '줄이기';
-      toggleButton.style.color = '#586a85';
+      document.getElementById(tabId).classList.add('active');
+      document.querySelector(`.tab[onclick="toggleTab('${tabId}')"]`).classList.add('active');
     }
-  }
+
+    function togglePlot(event) {
+      event.preventDefault();
+      const shortPlot = document.getElementById('shortPlot');
+      const fullPlot = document.getElementById('fullPlot');
+      const toggleButton = document.getElementById('togglePlot');
+
+      if (shortPlot.style.display === 'none') {
+        shortPlot.style.display = '';
+        fullPlot.style.display = 'none';
+        toggleButton.textContent = '더보기';
+        toggleButton.style.color = '#586a85';
+      } else {
+        shortPlot.style.display = 'none';
+        fullPlot.style.display = '';
+        toggleButton.textContent = '줄이기';
+        toggleButton.style.color = '#586a85';
+      }
+    }
 </script>
 
 </body>
