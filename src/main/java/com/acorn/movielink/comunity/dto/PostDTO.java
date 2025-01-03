@@ -23,7 +23,7 @@ public class PostDTO {
     private int postReport;
     private String memNn;
     private String memProfileFilePath;
-
+    private String imageUrl; // 오류나서 추가
     private String thumbnailUrl; // 이미지 url
 
     private List<TagDTO> tags; // 유지 (DTO 기반 처리로 일관성 유지)

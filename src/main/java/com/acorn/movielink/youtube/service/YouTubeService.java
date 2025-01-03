@@ -66,7 +66,7 @@ public class YouTubeService {
     // Step 2: 동영상 길이 필터링
     public List<String> filterShorts(List<String> videoIds) {
         String url = UriComponentsBuilder.fromHttpUrl(VIDEOS_URL)
-                .queryParam("key", API_KEY)
+                .queryParam("key", API_KEY2) // API_KEY1 사용량 초과 이슈
                 .queryParam("id", String.join(",", videoIds))
                 .queryParam("part", "contentDetails")
                 .toUriString();

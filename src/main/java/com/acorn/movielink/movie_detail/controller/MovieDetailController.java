@@ -7,6 +7,7 @@ import com.acorn.movielink.movie_detail.service.MovieDetailServiceImpl;
 import com.acorn.movielink.movie_detail.service.MovieLikeServiceImpl;
 import com.acorn.movielink.movie_detail.service.MovieReviewServiceImpl;
 import com.acorn.movielink.people_detail.dto.Post;
+import com.acorn.movielink.people_detail.dto.Tag;
 import com.acorn.movielink.people_detail.service.PostService;
 import com.acorn.movielink.movie_detail.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Map;
 
@@ -55,9 +57,9 @@ public class MovieDetailController {
         model.addAttribute("movieId", movieId);
         model.addAttribute("tab", tab);
 
-        List<Map<String, Object>> actors = movieDetailService.getPeopleById(movieId, "actor");
-        List<Map<String, Object>> directors = movieDetailService.getPeopleById(movieId, "director");
-        List<Map<String, Object>> staffs = movieDetailService.getPeopleById(movieId, "staff");
+        List<Map<String, Object>> actors = movieDetailService.getPeopleById(movieId, "배우");
+        List<Map<String, Object>> directors = movieDetailService.getPeopleById(movieId, "감독");
+        List<Map<String, Object>> staffs = movieDetailService.getPeopleById(movieId, "스텝");
 
         model.addAttribute("directors", directors);
         model.addAttribute("actors", actors);
