@@ -404,6 +404,8 @@
         </form>
     </div>
     <p>이미 회원이신가요? <a th:href="@{/login}">로그인</a></p>
+    <div th:replace="~{fragments/footer :: footerFragment}"></div>
+
 </div>
 <script th:src="@{/js/signup.js}"></script>
 </body>

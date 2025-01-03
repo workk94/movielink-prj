@@ -27,6 +27,8 @@
         <button class="delete-button" th:data-mem-id="${member.memId}">삭제</button>
         <a th:href="@{/admin/dashboard}">목록으로 돌아가기</a>
     </div>
+    <div th:replace="~{fragments/footer :: footerFragment}"></div>
+
 </div>
 </body>
 </html>

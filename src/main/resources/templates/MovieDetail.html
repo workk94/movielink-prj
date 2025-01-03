@@ -4,12 +4,12 @@
 <head>
     <meta charset="UTF-8">
     <title>Movie Details</title>
-    <meta name="_csrf" th:content="${_csrf.token}" />
-    <meta name="_csrf_header" th:content="${_csrf.headerName}" />
-    <meta name="_csrf" th:content="${_csrf.token}" />
-    <meta name="_csrf_header" th:content="${_csrf.headerName}" />
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
 
-    <link rel="stylesheet" th:href="@{/css/style.css}" />
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
 
     <style>
         * {
@@ -296,183 +296,187 @@
 
 <body th:data-logged-in="${isLoggedIn}">
 
-    <div class="root">
-        <!-- 헤더 -->
-        <div th:replace="~{fragments/header :: headerFragment}"></div>
+<div class="root">
+    <!-- 헤더 -->
+    <div th:replace="~{fragments/header :: headerFragment}"></div>
 
-        <!-- Content 영역 -->
-        <div class="movie-title">
-            <div class="title-content">
-                <div class="content-info">
-                    <div class="info-title">
-                        <h3 th:text="${movie.movieNm ?: '-'}">영화 제목</h3>
-                        <span class="list-title" th:text="${movie.movieNmEn ?: '-'}">영화 제목(영문)</span>
-                    </div>
-                    <div class="info-rating">
+    <!-- Content 영역 -->
+    <div class="movie-title">
+        <div class="title-content">
+            <div class="content-info">
+                <div class="info-title">
+                    <h3 th:text="${movie.movieNm ?: '-'}">영화 제목</h3>
+                    <span class="list-title" th:text="${movie.movieNmEn ?: '-'}">영화 제목(영문)</span>
+                </div>
+                <div class="info-rating">
                         <span class="rating-ours">
-                            <img class="icon2" src="/img/cine_link_logo.svg" alt="outrating">
+                            <img alt="outrating" class="icon2" src="/img/cine_link_logo.svg">
                             <h3 th:text="${movie.combinedScore ?: '-'}">자체평점</h3>
                         </span>
-                        <ul class="rating-otts">
-                            <li>
-                                <img class="icon3" src="/img/ic-imdb.svg" alt="imdb">
-                                <p th:text="${movie.movieImdbScore ?: '-'}">IMDB 평점</p>
-                            </li>
-                            <li>
-                                <img class="icon3" src="/img/ic-tmdb.svg" alt="tmdb">
-                                <p th:text="${movie.movieTMDBScore ?: '-'}">TMDB 평점</p>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="content-trailer">
-                    <iframe th:src="'https://www.youtube.com/embed/' + ${#strings.substringAfter(movie.movieTrailerUrl, 'v=')}" width="100%" height="100%" frameborder="0" allowfullscreen></iframe>
-                </div>
-                <div class="content-poster">
-                    <img th:src="${movie.moviePosterUrl ?: '/img/placeholder-poster.svg'}" alt="poster">
+                    <ul class="rating-otts">
+                        <li>
+                            <img alt="imdb" class="icon3" src="/img/ic-imdb.svg">
+                            <p th:text="${movie.movieImdbScore ?: '-'}">IMDB 평점</p>
+                        </li>
+                        <li>
+                            <img alt="tmdb" class="icon3" src="/img/ic-tmdb.svg">
+                            <p th:text="${movie.movieTMDBScore ?: '-'}">TMDB 평점</p>
+                        </li>
+                    </ul>
                 </div>
             </div>
+            <div class="content-trailer">
+                <iframe allowfullscreen
+                        frameborder="0" height="100%" th:src="'https://www.youtube.com/embed/' + ${#strings.substringAfter(movie.movieTrailerUrl, 'v=')}" width="100%"></iframe>
+            </div>
+            <div class="content-poster">
+                <img alt="poster" th:src="${movie.moviePosterUrl ?: '/img/placeholder-poster.svg'}">
+            </div>
+        </div>
 
-            <!-- 좋아요 버튼 -->
-            <div class="button-likes" th:data-movie-id="${movie.movieId}">
-                <button class="like-button" th:classappend="${isLiked} ? ' filled' : ''">
-                    <svg class="heart" fill="none" height="22" viewBox="0 0 24 24" width="22"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <path class="heart-path" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5
+        <!-- 좋아요 버튼 -->
+        <div class="button-likes" th:data-movie-id="${movie.movieId}">
+            <button class="like-button" th:classappend="${isLiked} ? ' filled' : ''">
+                <svg class="heart" fill="none" height="22" viewBox="0 0 24 24" width="22"
+                     xmlns="http://www.w3.org/2000/svg">
+                    <path class="heart-path" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5
                    2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09
                    C13.09 3.81 14.76 3 16.5 3
                    19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" fill="none" stroke="#bdc6d5"
-                            stroke-width="2" />
-                    </svg>
-                    <p class="like-count">[[${updateLikeCount}]]</p>
-                </button>
-            </div>
-
-        </div>
-
-        <!-- 탭 -->
-        <div class="tabs">
-            <div class="tab" th:classappend="${tab == 'mvinfo' ? 'active' : ''}"
-                onclick="window.location.href='?tab=mvinfo'">작품 정보</div>
-            <div class="tab" th:classappend="${tab == 'mvreview' ? 'active' : ''}"
-                onclick="window.location.href='?tab=mvreview'">리뷰</div>
-            <div class="tab" th:classappend="${tab == 'community' ? 'active' : ''}"
-                onclick="window.location.href='?tab=community'">커뮤니티</div>
-        </div>
-
-        <!-- 탭 콘텐츠 -->
-        <div th:switch="${tab}">
-            <div th:case="'mvinfo'" class="content-section active">
-                <div th:replace="~{fragments/title/mvinfo :: content}"></div>
-            </div>
-            <div th:case="'mvreview'" class="content-section active">
-                <div th:replace="~{fragments/title/mvreview :: content}"></div>
-            </div>
-            <div th:case="'community'" class="content-section active">
-                <div th:replace="~{fragments/title/community :: content}"></div>
-            </div>
-        </div>
-
-        <!-- 스크롤 탑 버튼 -->
-        <div class="scroll-top">
-            <button>
-                <svg class="scroll-up-icon" viewBox="0 0 32 32">
-                    <path fill-rule="evenodd" clip-rule="evenodd"
-                        d="M15.9054 26.376C15.1257 26.376 14.4937 25.7439 14.4937 24.9642V9.64711L9.40984 14.7309C8.85851 15.2823 7.96463 15.2823 7.4133 14.7309C6.86198 14.1796 6.86197 13.2857 7.4133 12.7344L14.7339 5.41375C14.959 5.18865 15.2412 5.05545 15.5339 5.01417C15.9582 4.9542 16.4045 5.08738 16.7309 5.4137L24.0515 12.7343C24.6028 13.2857 24.6028 14.1795 24.0515 14.7309C23.5002 15.2822 22.6063 15.2822 22.055 14.7309L17.3172 9.9931V24.9642C17.3172 25.7439 16.6851 26.376 15.9054 26.376Z"
-                        fill="#98A4B7"></path>
+                          stroke-width="2"/>
                 </svg>
+                <p class="like-count">[[${updateLikeCount}]]</p>
             </button>
         </div>
 
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-        $(document).ready(function () {
+    <!-- 탭 -->
+    <div class="tabs">
+        <div class="tab" onclick="window.location.href='?tab=mvinfo'"
+             th:classappend="${tab == 'mvinfo' ? 'active' : ''}">작품 정보
+        </div>
+        <div class="tab" onclick="window.location.href='?tab=mvreview'"
+             th:classappend="${tab == 'mvreview' ? 'active' : ''}">리뷰
+        </div>
+        <div class="tab" onclick="window.location.href='?tab=community'"
+             th:classappend="${tab == 'community' ? 'active' : ''}">커뮤니티
+        </div>
+    </div>
 
-            // CSRF 토큰 설정
-            const csrfToken = $('meta[name="_csrf"]').attr('content');
-            const csrfHeader = $('meta[name="_csrf_header"]').attr('content');
+    <!-- 탭 콘텐츠 -->
+    <div th:switch="${tab}">
+        <div class="content-section active" th:case="'mvinfo'">
+            <div th:replace="~{fragments/title/mvinfo :: content}"></div>
+        </div>
+        <div class="content-section active" th:case="'mvreview'">
+            <div th:replace="~{fragments/title/mvreview :: content}"></div>
+        </div>
+        <div class="content-section active" th:case="'community'">
+            <div th:replace="~{fragments/title/community :: content}"></div>
+        </div>
+    </div>
 
-            $.ajaxSetup({
-                beforeSend: function (xhr) {
-                    xhr.setRequestHeader(csrfHeader, csrfToken);
-                }
-            });
+    <!-- 스크롤 탑 버튼 -->
+    <div class="scroll-top">
+        <button>
+            <svg class="scroll-up-icon" viewBox="0 0 32 32">
+                <path clip-rule="evenodd" d="M15.9054 26.376C15.1257 26.376 14.4937 25.7439 14.4937 24.9642V9.64711L9.40984 14.7309C8.85851 15.2823 7.96463 15.2823 7.4133 14.7309C6.86198 14.1796 6.86197 13.2857 7.4133 12.7344L14.7339 5.41375C14.959 5.18865 15.2412 5.05545 15.5339 5.01417C15.9582 4.9542 16.4045 5.08738 16.7309 5.4137L24.0515 12.7343C24.6028 13.2857 24.6028 14.1795 24.0515 14.7309C23.5002 15.2822 22.6063 15.2822 22.055 14.7309L17.3172 9.9931V24.9642C17.3172 25.7439 16.6851 26.376 15.9054 26.376Z"
+                      fill="#98A4B7"
+                      fill-rule="evenodd"></path>
+            </svg>
+        </button>
+    </div>
+    <div th:replace="~{fragments/footer :: footerFragment}"></div>
+</div>
 
-            // 로그인 여부 확인
-            const isLoggedIn = document.querySelector("body").dataset.loggedIn === "true";
-            console.log("로그인 여부:", isLoggedIn); // 콘솔에 값 출력
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
 
-            $('.button-likes > button').on('click', function () {
-                if (!isLoggedIn) {
-                    alert("로그인하고 모든 기능을 자유롭게 이용해보세요!");
-                    window.location.href = "/login?redirectUrl=" + encodeURIComponent(window.location.href);
-                    return;
-                }
+        // CSRF 토큰 설정
+        const csrfToken = $('meta[name="_csrf"]').attr('content');
+        const csrfHeader = $('meta[name="_csrf_header"]').attr('content');
 
-                const button = $(this);
-                const movieId = button.closest('.button-likes').data('movie-id');
-                const isLiked = button.hasClass('filled');
-
-                if (isLiked) {
-                    // 좋아요 취소
-                    $.ajax({
-                        url: `/title/${movieId}/like`,
-                        type: 'DELETE',
-                        success: function (response) {
-                            button.removeClass('filled');
-                            button.find('.heart').removeClass('filled');
-                            updateLikeCount(button, response);
-                        },
-                        error: handleError
-                    });
-                } else {
-                    // 좋아요 추가
-                    $.ajax({
-                        url: `/title/${movieId}/like`,
-                        type: 'POST',
-                        success: function (response) {
-                            button.addClass('filled');
-                            button.find('.heart').addClass('filled');
-                            updateLikeCount(button, response);
-                        },
-                        error: handleError
-                    });
-                }
-            });
-
-            // 좋아요 수 업데이트 함수
-            function updateLikeCount(button, count) {
-                const likeCountElement = button.find('.like-count'); // button 내부의 like-count 찾기
-                if (likeCountElement.length) {
-                    likeCountElement.text(count); // AJAX 응답으로 받은 count를 텍스트로 설정
-                }
+        $.ajaxSetup({
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader(csrfHeader, csrfToken);
             }
-
-
-            // 오류 처리 함수
-            function handleError(xhr) {
-                console.error("오류 발생:", xhr.status, xhr.responseText);
-                alert("오류가 발생했습니다. 다시 시도해주세요.");
-            }
-
-            // 스크롤 탑 버튼 기능
-            const scrollTopButton = $(".scroll-top");
-            $(window).on('scroll', function () {
-                if ($(this).scrollTop() > 600) {
-                    scrollTopButton.css('display', 'flex');
-                } else {
-                    scrollTopButton.css('display', 'none');
-                }
-            });
-
-            scrollTopButton.find("button").on('click', function () {
-                $('html, body').animate({ scrollTop: 0 }, 'smooth');
-            });
         });
 
-    </script>
+        // 로그인 여부 확인
+        const isLoggedIn = document.querySelector("body").dataset.loggedIn === "true";
+        console.log("로그인 여부:", isLoggedIn); // 콘솔에 값 출력
+
+        $('.button-likes > button').on('click', function () {
+            if (!isLoggedIn) {
+                alert("로그인하고 모든 기능을 자유롭게 이용해보세요!");
+                window.location.href = "/login?redirectUrl=" + encodeURIComponent(window.location.href);
+                return;
+            }
+
+            const button = $(this);
+            const movieId = button.closest('.button-likes').data('movie-id');
+            const isLiked = button.hasClass('filled');
+
+            if (isLiked) {
+                // 좋아요 취소
+                $.ajax({
+                    url: `/title/${movieId}/like`,
+                    type: 'DELETE',
+                    success: function (response) {
+                        button.removeClass('filled');
+                        button.find('.heart').removeClass('filled');
+                        updateLikeCount(button, response);
+                    },
+                    error: handleError
+                });
+            } else {
+                // 좋아요 추가
+                $.ajax({
+                    url: `/title/${movieId}/like`,
+                    type: 'POST',
+                    success: function (response) {
+                        button.addClass('filled');
+                        button.find('.heart').addClass('filled');
+                        updateLikeCount(button, response);
+                    },
+                    error: handleError
+                });
+            }
+        });
+
+        // 좋아요 수 업데이트 함수
+        function updateLikeCount(button, count) {
+            const likeCountElement = button.find('.like-count'); // button 내부의 like-count 찾기
+            if (likeCountElement.length) {
+                likeCountElement.text(count); // AJAX 응답으로 받은 count를 텍스트로 설정
+            }
+        }
+
+
+        // 오류 처리 함수
+        function handleError(xhr) {
+            console.error("오류 발생:", xhr.status, xhr.responseText);
+            alert("오류가 발생했습니다. 다시 시도해주세요.");
+        }
+
+        // 스크롤 탑 버튼 기능
+        const scrollTopButton = $(".scroll-top");
+        $(window).on('scroll', function () {
+            if ($(this).scrollTop() > 600) {
+                scrollTopButton.css('display', 'flex');
+            } else {
+                scrollTopButton.css('display', 'none');
+            }
+        });
+
+        scrollTopButton.find("button").on('click', function () {
+            $('html, body').animate({ scrollTop: 0 }, 'smooth');
+        });
+    });
+
+</script>
 
 </body>
 
