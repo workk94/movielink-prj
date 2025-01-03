@@ -65,5 +65,5 @@ jobs:
             # ecr 이미지 가져오기
             docker pull ${{ steps.login-ecr.outputs.registry }}/movie-link-server:latest
             # 컨테이너 실행, 볼륨 설정
-            #docker run -d --name movie-link-server -p 8080:8080 -v /home/ubuntu/upload:/app/upload ${{ steps.login-ecr.outputs.registry }}/movie-link-server:latest
+            docker run -d --name movie-link-server -p 8080:8080 -v /home/ubuntu/upload:/app/upload ${{ steps.login-ecr.outputs.registry }}/movie-link-server:latest
 
