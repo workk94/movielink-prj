@@ -11,7 +11,7 @@
       border-bottom: 1px solid #586a85;
     }
 
-    #togglePlot{
+    #togglePlot {
       color: #586a85;
     }
 
@@ -24,15 +24,15 @@
       grid-template-columns: repeat(2, 1fr);
     }
 
-    .detail-list>li{
+    .detail-list>li {
       display: flex;
     }
 
-    .detail-list>li>.list-title{
+    .detail-list>li>.list-title {
       flex: 1;
     }
 
-    .detail-list>li>.list-body{
+    .detail-list>li>.list-body {
       flex: 4;
     }
 
@@ -67,7 +67,7 @@
       align-items: center;
     }
 
-    .actor-list>li>.list-title{
+    .actor-list>li>.list-title {
       font-size: 12px;
     }
 
@@ -85,15 +85,15 @@
       padding: 8px 0;
     }
 
-    .staff-list>li{
+    .staff-list>li {
       display: flex;
     }
 
-    .staff-list>li>.list-body{
+    .staff-list>li>.list-body {
       flex: 3;
     }
 
-    .staff-list>li>.list-stringify{
+    .staff-list>li>.list-stringify {
       flex: 25;
     }
 
@@ -115,7 +115,7 @@
       flex-direction: column;
     }
 
-    .movie-poster{
+    .movie-poster {
       width: 140px;
       height: 200px;
     }
@@ -139,85 +139,106 @@
       border-radius: 50%;
       border-style: none;
     }
+
+    @media screen and (max-width: 500px) {
+      .detail-list {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .actor-list {
+        grid-template-columns: repeat(6, 1fr);
+      }
+    }
   </style>
 
   <!-- content: mvinfo -->
   <div class="mvinfo">
 
-      <div class="mvinfo-storyline">
-        <span class="list-body">
-          <span id="shortPlot" th:text="${movie.moviePlot != null && movie.moviePlot.length() > 150 ? movie.moviePlot.substring(0, 150) + '...' : movie.moviePlot}"></span>
-          <span id="fullPlot" style="display: none;" th:text="${movie.moviePlot}"></span>
-          <a href="#" id="togglePlot" onclick="togglePlot(event)">더보기</a>
-        </span>
-      </div>
+    <div class="mvinfo-storyline">
+      <span class="list-body">
+        <span id="shortPlot"
+          th:text="${movie.moviePlot != null && movie.moviePlot.length() > 150 ? movie.moviePlot.substring(0, 150) + '...' : movie.moviePlot}"></span>
+        <span id="fullPlot" style="display: none;" th:text="${movie.moviePlot}"></span>
+        <a href="#" id="togglePlot" onclick="togglePlot(event)">더보기</a>
+      </span>
+    </div>
 
-      <div class="mvinfo-detail">
-        <ul class="detail-list">
-          <li>
-            <div class="list-title">장르</div>
-            <div class="list-body" th:text="${movie.genre ?: '-'}"></div>
-          </li>
-          <li >
-            <div class="list-title">개봉일</div>
-            <div class="list-body" th:text="${#temporals.format(#temporals.createDate(movie.movieOpenDt), 'yyyy년 MM월 dd일') ?: '-'}+' 개봉'"></div>
-          </li>          
-          <li >
-            <div class="list-title">연령등급</div>
-            <div class="list-body" th:text="${movie.movieAgeRating ?: '-'}"></div>
-          </li>
-          <li >
-            <div class="list-title">러닝타임</div>
-            <div class="list-body"  th:text="${movie.movieRunningTime ?: '-'}+'분'"></div>
-          </li>
-          <li  >
-            <div class="list-title">제작국가</div>
-            <div class="list-body" th:text="${movie.movieNation ?: '-'}"></div>
+    <div class="mvinfo-detail">
+      <ul class="detail-list">
+        <li>
+          <div class="list-title">장르</div>
+          <div class="list-body" th:text="${movie.genre ?: '-'}"></div>
+        </li>
+        <li>
+          <div class="list-title">개봉일</div>
+          <div class="list-body"
+            th:text="${#temporals.format(#temporals.createDate(movie.movieOpenDt), 'yyyy년 MM월 dd일') ?: '-'}+' 개봉'">
+          </div>
+        </li>
+        <li>
+          <div class="list-title">연령등급</div>
+          <div class="list-body" th:text="${movie.movieAgeRating ?: '-'}"></div>
+        </li>
+        <li>
+          <div class="list-title">러닝타임</div>
+          <div class="list-body" th:text="${movie.movieRunningTime ?: '-'}+'분'"></div>
+        </li>
+        <li>
+          <div class="list-title">제작국가</div>
+          <div class="list-body" th:text="${movie.movieNation ?: '-'}"></div>
+        </li>
+      </ul>
+    </div>
+
+    <div class="banner">
+      <img id="bannerImage" src="" alt="banner">
+    </div>
+
+    <div class="mvinfo-person">
+      <div class="person-actor">
+        <h4>출연진</h4>
+        <ul class="actor-list">
+          <li th:each="actor : ${actors}">
+            <a th:href="@{/person/{peopleId}/filmography(peopleId=${actor.peopleId})}">
+              <div class="actor-profile">
+                <img
+                        th:src="${actor.peopleProfileUrl != null && actor.peopleProfileUrl != '' ? 'https://image.tmdb.org/t/p/w500' + actor.peopleProfileUrl : '/img/placeholder-people.svg'}"
+                        alt="배우 프로필">
+              </div>
+            </a>
+            <div th:text="${actor.peopleNm ?: '-'}" class="list-body">배우 이름</div>
+            <div th:text="${actor.peopleRoleNm ?: '-'}" class="list-title">배역</div>
           </li>
         </ul>
       </div>
 
-      <div class="banner">배너</div>
+      <div class="person-staff">
+        <ul class="staff-list">
+          <li>
+            <div class="list-body">감독</div>
+            <div class="list-stringify">
+              <span th:each="director, iterStat : ${directors}">
+                <span class="spec-font" th:text="${director.peopleNm}"></span>
+                <span th:if="${!iterStat.last}">, </span>
+              </span>
+            </div>
+          </li>
+          <li>
+            <div class="list-body">스텝</div>
+            <div class="list-stringify">
+              <span th:each="staff, iterStat : ${staffs}">
+                <span class="spec-font" th:text="${staff.peopleNm}"></span>
+                <span th:if="${!iterStat.last}">, </span>
+              </span>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
 
-      <div class="mvinfo-person">
-        <div class="person-actor">
-          <h4>출연진</h4>
-          <ul class="actor-list">
-            <li th:each="actor : ${actors}">
-              <div class="actor-profile">
-                <img th:src="${actor.peopleProfileUrl ?: '-'}" alt="배우 프로필">
-              </div>
-              <div th:text="${actor.peopleNm ?: '-'}" class="list-body">배우 이름</div>
-              <div th:text="${actor.peopleRoleNm ?: '-'}" class="list-title">배역</div>
-            </li>
-          </ul>
-        </div>
-
-        <div class="person-staff">
-          <ul class="staff-list">
-              <li>
-                <div class="list-body" >감독</div>
-                <div class="list-stringify">
-                  <span th:each="director, iterStat : ${directors}">
-                      <span class="spec-font" th:text="${director.peopleNm}"></span>
-                      <span th:if="${!iterStat.last}">, </span>
-                  </span>
-                </div>
-              </li>
-              <li>
-                <div class="list-body" >스텝</div>
-                <div class="list-stringify">
-                  <span th:each="staff, iterStat : ${staffs}">
-                      <span class="spec-font" th:text="${staff.peopleNm}"></span>
-                      <span th:if="${!iterStat.last}">, </span>
-                  </span>
-                </div>
-              </li>
-          </ul>
-        </div>
-      </div>  
-
-      <!-- <div class="mvinfo-recommended">
+    <!-- <div class="mvinfo-recommended">
         <h4>More like this</h4>
         <ul class="recommended-list" th:if="${#lists.isNotEmpty(recommendedMovies)}" th:each="recommended : ${recommendedMovies}">
           <li class="list-movie" >
@@ -231,7 +252,7 @@
           </li>
         </ul>
       </div> -->
-      
+
   </div>
   <script>
     function togglePlot(event) {
@@ -239,19 +260,44 @@
       const shortPlot = document.getElementById('shortPlot');
       const fullPlot = document.getElementById('fullPlot');
       const toggleButton = document.getElementById('togglePlot');
-  
+
       if (shortPlot.style.display === 'none') {
         shortPlot.style.display = '';
         fullPlot.style.display = 'none';
         toggleButton.textContent = '더보기';
-        toggleButton.style.color='#586a85';
+        toggleButton.style.color = '#586a85';
       } else {
         shortPlot.style.display = 'none';
         fullPlot.style.display = '';
         toggleButton.textContent = '줄이기';
-        toggleButton.style.color='#586a85';
+        toggleButton.style.color = '#586a85';
       }
     }
+
+    // 동적으로 이미지 경로 배열 생성
+    const bannerImages = [];
+    const totalImages = 6; // 배너 이미지 총 개수
+
+    for (let i = 1; i <= totalImages; i++) {
+      bannerImages.push(`/img/banner/banner${i}.png`); // 동적으로 경로 추가
+    }
+
+    // 랜덤 이미지를 선택하는 함수
+    function getRandomImage() {
+      const randomIndex = Math.floor(Math.random() * bannerImages.length); // 랜덤 인덱스 생성
+      return bannerImages[randomIndex];
+    }
+
+    // 이미지 업데이트
+    window.onload = function () {
+      const bannerImageElement = document.getElementById("bannerImage");
+      bannerImageElement.src = getRandomImage(); // 랜덤 이미지 설정
+    };
+
+    setInterval(() => {
+      document.getElementById("bannerImage").src = getRandomImage();
+    }, 20000); 
+
   </script>
-  
+
 </div>

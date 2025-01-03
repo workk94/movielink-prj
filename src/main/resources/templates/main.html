@@ -86,7 +86,7 @@
                         <div class="swiper-wrapper">
                             <!-- 리뷰 아이템 반복 -->
                             <div class="swiper-slide" th:each="review : ${latestReviews}">
-                                <a class="review-item" href="">
+                                <a class="review-item" th:href="@{/title/{id}(id=${review.movieId}, tab='mvreview')}">
                                     <p class="review-item__movie-title"
                                        th:text="${review != null ? review.movieNm : '영화 제목 없음'}">영화 제목</p>
                                     <p class="review-item__review-title"

@@ -324,7 +324,7 @@
 
         <section class="recommend-wrap">
             <div class="title-wrap">
-                <a class="title" th:href="@{/}">
+                <a class="title">
                     <span>신작 영화를 확인해보세요</span>
                     <div class="arrow-img">
                         <img alt="더보기" th:src="@{/img/arrow-right.svg}"/>
@@ -343,14 +343,16 @@
                             >
                                 <!-- movie이 null이 아닌지 확인 -->
                                 <div class="movie-item" th:if="${movie != null}">
-                                    <img
-                                            alt="영화 포스터"
-                                            class="movie-poster"
-                                            th:src="${movie.moviePosterUrl}"
-                                    />
-                                    <p class="movie-title" th:text="${movie.movieNm}">
-                                        영화 제목
-                                    </p>
+                                    <a th:href="@{/title/{id}(id=${movie.movieId})}">
+                                        <img
+                                                alt="영화 포스터"
+                                                class="movie-poster"
+                                                th:src="${movie.moviePosterUrl}"
+                                        />
+                                        <p class="movie-title" th:text="${movie.movieNm}">
+                                            영화 제목
+                                        </p>
+                                    </a>
                                 </div>
                                 <!-- movie이 null일 경우 대체 콘텐츠 -->
                                 <div class="movie-item" th:if="${movie == null}">

@@ -2,7 +2,6 @@ package com.acorn.movielink.comunity.controller;
 
 import com.acorn.movielink.comunity.dto.*;
 import com.acorn.movielink.comunity.service.*;
-import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,15 +14,14 @@ import java.util.Map;
 @Controller
 public class PostController {
 
+    private final com.acorn.movielink.comunity.service.CommunityPostService postService;
+    private final TagService tagService;
+    private final PostImageService postImageService;
+    private final CommunityLikeService likeService;
+    private final CommentService commentService;
+    private final FileStore fileStore;
     @Autowired
     private AuthenticationUtil authenticationUtil;
-
-    private com.acorn.movielink.comunity.service.CommunityPostService postService;
-    private TagService tagService;
-    private PostImageService postImageService;
-    private CommunityLikeService likeService;
-    private CommentService commentService;
-    private FileStore fileStore;
 
     @Autowired
     PostController(com.acorn.movielink.comunity.service.CommunityPostService postService,
@@ -31,7 +29,7 @@ public class PostController {
                    PostImageService postImageService,
                    CommunityLikeService likeService,
                    CommentService commentService,
-                   FileStore fileStore){
+                   FileStore fileStore) {
         this.postService = postService;
         this.tagService = tagService;
         this.postImageService = postImageService;
@@ -42,7 +40,7 @@ public class PostController {
 
     //    좋아요 많은 유저 Top7
     @ModelAttribute("topSevenMem")
-    public List<PostDTO> getTop7Member(){
+    public List<PostDTO> getTop7Member() {
         return postService.selectTop7Member();
     }
 
@@ -52,11 +50,10 @@ public class PostController {
     }
 
 
-
     //유저 1명이 작성한 게시글 목록
     @GetMapping("/postOneMember/{memId}")
     public String getOneMemPostList(@PathVariable("memId") String memId,
-                                    Model model){
+                                    Model model) {
         List<PostDTO> postOneMemList = postService.selectOneMemberPostList(Integer.parseInt(memId));
         model.addAttribute("postOneMem", postOneMemList);
         return "postOneMemList";
@@ -64,7 +61,7 @@ public class PostController {
 
     //게시글 리스트 전체 조회
     @GetMapping("/postAll")
-    public String getAllPosts(Model model){
+    public String getAllPosts(Model model) {
         List<PostDTO> posts = postService.selectAllList();
         for (PostDTO post : posts) {
             String thumbnailUrl = postImageService.getThumbnailUrl(post.getPostId());
@@ -78,7 +75,7 @@ public class PostController {
 
     //좋아요 많은 게시글 Top10
     @GetMapping("/communityMain")
-    public String getTopTenPosts(Model model){
+    public String getTopTenPosts(Model model) {
 
         List<PostDTO> postTopTen = postService.selectTopTenPosts();
         model.addAttribute("postTopTen", postTopTen);
@@ -89,7 +86,7 @@ public class PostController {
     // 게시글 상세조회
     @GetMapping("/postDetail/{postId}")
     public String getPostOne(@PathVariable(name = "postId") int postId,
-                             Model model){
+                             Model model) {
         Map<String, Object> authInfo = authenticationUtil.checkAuthentication();
         boolean isAuthenticated = (boolean) authInfo.get("authenticated");
         int memId = (int) authInfo.getOrDefault("memId", 0); // 기본값 0 설정
@@ -99,14 +96,10 @@ public class PostController {
             isLiked = likeService.isLikedByUser(postId, memId);
         }
         PostDTO postOne = postService.selectPostById(postId);
-        List<TagDTO> tagNames =tagService.selectTagsByPostId(postId);
+        List<TagDTO> tagNames = tagService.selectTagsByPostId(postId);
         List<CommentDTO> comments = commentService.getCommentsByPostId(postId);
 
-        PostDTO dto = postService.selectPostById(postId);
-        String thumbnail = null;
-        if(dto != null) {
-            thumbnail = dto.getThumbnailUrl();
-        }
+        String thumbnail = postOne.getThumbnailUrl();
         // 게시글 상세 페이지에 댓글 개수도 전달
         int commentCount = commentService.getCommentCountByPostId(postId);
         model.addAttribute("commentCount", commentCount);
@@ -118,9 +111,6 @@ public class PostController {
         model.addAttribute("thumbnail", thumbnail);
         return "postOneDetail";
     }
-
-
-
 
 
     @PostMapping("/like/{postId}")
@@ -154,26 +144,25 @@ public class PostController {
     }
 
 
-
     //게시글 수정하기
     @GetMapping("/postEdit/{postId}")
     public String updatePostForm(@PathVariable("postId") int postId,
-                                 Model model){
+                                 Model model) {
         PostDTO postEdit = postService.selectPostById(postId);
         model.addAttribute("post", postEdit);
         return "postEdit";
     }
 
     @PostMapping("/postEdit/update")
-    public String updatePost(@ModelAttribute("post") PostDTO post){
+    public String updatePost(@ModelAttribute("post") PostDTO post) {
         postService.updatePost(post);
-        return "redirect:/postDetail/" +post.getPostId();
+        return "redirect:/postDetail/" + post.getPostId();
     }
 
 
     //게시글 삭제하기
     @PostMapping("/postDelete/{postId}")
-    public String deletePost(@PathVariable("postId") int postId){
+    public String deletePost(@PathVariable("postId") int postId) {
         postService.deletePost(postId);
         return "redirect:/postAll";
     }
@@ -198,7 +187,7 @@ public class PostController {
 
 
     @GetMapping("/postCreate")
-    public String createPostForm( Model model) {
+    public String createPostForm(Model model) {
 
         // 인증 상태 체크
         Map<String, Object> authInfo = authenticationUtil.checkAuthentication();
@@ -217,13 +206,12 @@ public class PostController {
     }
 
 
-
     @PostMapping("/postCreate")
     public String createPost(@RequestParam(name = "postTitle") String postTitle,
                              @RequestParam(name = "content") String content,
                              @RequestParam(name = "images") List<MultipartFile> images, // 게시글 이미지 파일
                              @RequestParam(value = "tags", required = false) String tagsInput, // 폼 데이터 기반 태그 처리
-                             Model model ) {
+                             Model model) {
         try {
 
             // 로그인한 사용자 ID를 게시글에 설정
@@ -264,9 +252,6 @@ public class PostController {
             return "redirect:/postCreate"; // 게시글 작성 페이지로 리다이렉트
         }
     }
-
-
-
 
 
 }
