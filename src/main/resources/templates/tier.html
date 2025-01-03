@@ -4,14 +4,17 @@
     <meta charset="UTF-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
     <title>무비링크 나만의 티어리스트!!</title>
-    <!-- html2canvas 스크립트 제거 -->
+    <!-- jQuery 및 jQuery UI 스크립트 -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <!-- jQuery UI Touch Punch 스크립트 추가 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>
     <link rel="stylesheet" th:href="@{/css/style.css}"/>
     <link rel="stylesheet" th:href="@{/css/tier.css}"/>
     <style></style>
 </head>
 <body>
+<!-- 기존 내용 -->
 <div class="root">
     <div th:replace="~{fragments/header :: headerFragment}"></div>
 
@@ -80,9 +83,7 @@
         <!-- AJAX로 가져온 데이터를 JS에서 동적으로 표시 -->
     </div>
 
-    <!-- html2canvas 캡처 버튼 제거 -->
     <div th:replace="~{fragments/footer :: footerFragment}"></div>
-
 </div>
 
 <script>
@@ -174,8 +175,6 @@
             });
     }
 
-    // html2canvas 사용 코드(captureAndCopy 함수) 완전 제거
-
     // 색상 선택 함수
     function openColorPicker($tierTitle) {
         $(".color-picker-input").remove();
@@ -200,7 +199,7 @@
         });
 
         // 외부 클릭 시 color picker 닫기
-        $(document).on('mousedown.colorPicker', function (e) {
+        $(document).on('mousedown.colorPicker touchstart.colorPicker', function (e) {
             // color picker나 설정 버튼을 클릭하지 않았을 때만 닫기
             if (
                 !$(e.target).is($colorInput) &&
@@ -208,7 +207,7 @@
                 !$(e.target).is($tierTitle.siblings('.tier-settings'))
             ) {
                 $colorInput.remove();
-                $(document).off('mousedown.colorPicker');
+                $(document).off('mousedown.colorPicker touchstart.colorPicker');
             }
         });
 
@@ -216,7 +215,7 @@
         $colorInput.on("blur", function () {
             setTimeout(() => {
                 $colorInput.remove();
-                $(document).off('mousedown.colorPicker');
+                $(document).off('mousedown.colorPicker touchstart.colorPicker');
             }, 100);
         });
     }

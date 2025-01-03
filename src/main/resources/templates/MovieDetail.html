@@ -3,6 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
     <title>Movie Details</title>
     <meta name="_csrf" th:content="${_csrf.token}"/>
     <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
@@ -327,7 +328,9 @@
             </div>
             <div class="content-trailer">
                 <iframe allowfullscreen
-                        frameborder="0" height="100%" th:src="'https://www.youtube.com/embed/' + ${#strings.substringAfter(movie.movieTrailerUrl, 'v=')}" width="100%"></iframe>
+                        frameborder="0" height="100%"
+                        th:src="'https://www.youtube.com/embed/' + ${#strings.substringAfter(movie.movieTrailerUrl, 'v=')}"
+                        width="100%"></iframe>
             </div>
             <div class="content-poster">
                 <img alt="poster" th:src="${movie.moviePosterUrl ?: '/img/placeholder-poster.svg'}">
@@ -381,7 +384,8 @@
     <div class="scroll-top">
         <button>
             <svg class="scroll-up-icon" viewBox="0 0 32 32">
-                <path clip-rule="evenodd" d="M15.9054 26.376C15.1257 26.376 14.4937 25.7439 14.4937 24.9642V9.64711L9.40984 14.7309C8.85851 15.2823 7.96463 15.2823 7.4133 14.7309C6.86198 14.1796 6.86197 13.2857 7.4133 12.7344L14.7339 5.41375C14.959 5.18865 15.2412 5.05545 15.5339 5.01417C15.9582 4.9542 16.4045 5.08738 16.7309 5.4137L24.0515 12.7343C24.6028 13.2857 24.6028 14.1795 24.0515 14.7309C23.5002 15.2822 22.6063 15.2822 22.055 14.7309L17.3172 9.9931V24.9642C17.3172 25.7439 16.6851 26.376 15.9054 26.376Z"
+                <path clip-rule="evenodd"
+                      d="M15.9054 26.376C15.1257 26.376 14.4937 25.7439 14.4937 24.9642V9.64711L9.40984 14.7309C8.85851 15.2823 7.96463 15.2823 7.4133 14.7309C6.86198 14.1796 6.86197 13.2857 7.4133 12.7344L14.7339 5.41375C14.959 5.18865 15.2412 5.05545 15.5339 5.01417C15.9582 4.9542 16.4045 5.08738 16.7309 5.4137L24.0515 12.7343C24.6028 13.2857 24.6028 14.1795 24.0515 14.7309C23.5002 15.2822 22.6063 15.2822 22.055 14.7309L17.3172 9.9931V24.9642C17.3172 25.7439 16.6851 26.376 15.9054 26.376Z"
                       fill="#98A4B7"
                       fill-rule="evenodd"></path>
             </svg>
